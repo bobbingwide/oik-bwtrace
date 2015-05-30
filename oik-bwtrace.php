@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 1.22
+Version: 1.23
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
@@ -246,6 +246,8 @@ if ( function_exists( "is_admin" ) ) {
 
 /**
  * Trace the 'wp' action
+ *
+ * Note: Trace of wp_rewrite commented out.
  * 
  * @param object $WP_Environment_Instance
  *
@@ -260,6 +262,8 @@ function bw_trace_wp( $WP_Environment_Instance ) {
   bw_trace2( "show,page,posts", "$show_on_front,$page_on_front,$page_for_posts", false ); 
   bw_trace2( $home, "home", false );
   bw_trace2( $front, "front", false ); 
+  // global $wp_rewrite;
+  // bw_trace2( $wp_rewrite );
 }
 
 add_action( "oik_admin_menu", "oik_bwtrace_admin_menu" );

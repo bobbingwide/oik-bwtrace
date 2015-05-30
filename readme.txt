@@ -4,7 +4,7 @@ Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, immediate trace
 Requires at least: 3.9
 Tested up to: 4.1.1
-Stable tag: 1.22
+Stable tag: 1.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,9 @@ Yes - see above
  
 
 == Upgrade Notice ==
+= 1.23 = 
+Fixes warning message when tracing not active but action count tracing is.
+
 = 1.22 = 
 Now outputs a single summary record for each transaction. Required for oik-plugins.com analysis
 
@@ -102,6 +105,10 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 1.23 =
+* Fixed: Warning $wpdb->elapsed_query_time property missing
+* Changed: Documented the fields in the bwtrace.vt.mmdd log file; where vt is simply an abbreviation of value and text
+ 
 = 1.22 = 
 * Added: Automatically sets SAVEQUERIES if recording the total number of queries performed
 * Changed: bw_trace_saved_queries() formats the output in the trace log

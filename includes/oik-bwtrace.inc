@@ -255,10 +255,12 @@ function bw_trace_set_savequeries() {
  *   )
  *     
  */
-function bw_trace_saved_queries() { 
-  if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES == true ) {
+function bw_trace_saved_queries() {
     global $wpdb;
     $elapsed_query_time = 0;
+  if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES == true ) {
+
+
     bw_trace2( $wpdb, "saved queries", false ); 
     if ( count( $wpdb->queries ) ) {
       $count = 0;
@@ -280,8 +282,9 @@ function bw_trace_saved_queries() {
       $record .= "[/bw_csv]";
       bw_trace2( $record, "Queries: {$wpdb->num_queries} in $elapsed_query_time", false );
     }
+
+  }
     $wpdb->elapsed_query_time = $elapsed_query_time;
-  }  
 }
 
 /**
@@ -545,7 +548,10 @@ function bw_trace_status_report() {
   global $wpdb;
   
   $func( $wpdb->num_queries, "Queries", false );
-  $func( $wpdb->elapsed_query_time, "Query time", false ); 
+    if ( !property_exists( $wpdb, "elapsed_query_time" )) {
+        $wpdb->elapsed_query_time = "";
+    }
+   $func($wpdb->elapsed_query_time, "Query time", false);
   $func( $bw_trace_count, "Trace records", false );
   
   $elapsed = timer_stop( false, 6 );
@@ -615,20 +621,23 @@ function bw_trace_determine_request() {
  *
  * Note: The columns are dynamically created from the fields recorded by bw_trace_status_report()
  * 
- * - request
- * - elapsed ( final figure )
- * - PHP version
- * - PHP functions
- * - User functions
- * - Classes
- * - Plugins
- * - Files
- * - Registered Widgets
- * - Post types
- * - Taxonomies
- * - Queries
- * - Trace records
- * - Elapsed
+ * 0- request
+ * 1 - AJAX action
+ * 2 - elapsed ( final figure )
+ * 3 - PHP version
+ * 4 - PHP functions
+ * 5 - User functions
+ * 6 - Classes
+ * 7 - Plugins
+ * 8 - Files
+ * 9 - Registered Widgets
+ * 10 - Post types
+ * 11 - Taxonomies
+ * 12 - Queries
+ * 13 - Query time
+ * 14 - Trace records
+ * 15 - Elapsed
+ * 16 - Date - ISO 8601 date 
  */
 function bw_record_vt( $vnoisy=false ) {
   global $vt_values, $vt_text;
