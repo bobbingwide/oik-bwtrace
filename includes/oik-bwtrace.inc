@@ -204,18 +204,83 @@ function bw_trace_report_actions() {
  */
 function bw_trace_included_files() { 
   $included_files = get_included_files();
-  bw_trace( $included_files, __FUNCTION__, __LINE__, __FILE__, "included files" );
+  global $bw_trace_anonymous;
+  $anon = $bw_trace_anonymous;
+  $bw_trace_anonymous = true;
+  $files = "<h3>Files</h3>";
+  $lose = str_replace( "/", "\\", ABSPATH );
+  foreach ( $included_files as $file ) {
+    $file = str_replace( "/", "\\", $file );
+    $file = str_replace( $lose , '', $file );
+    $file = str_replace( "\\", "/", $file );
+    $file = str_replace( "wp-content/plugins/", "", $file );
+    $file = str_replace( "wp-content/themes/", "", $file );
+    // If it's wp-content then we need to strip the plugin name as well .... but that means we might not load the right file
+    // so oikai_get_file_byname() is wrong... and needs the plugin prefix.
+    // where are MU plugins and drop-ins? 
+    
+    $files .= PHP_EOL . "[file $file]";
+  }
+  $bw_trace_anonymous = $anon;
+  bw_trace( $files, __FUNCTION__, __LINE__, __FILE__, "included files" );
 }
+
+/**
+ * Set the SAVEQUERIES constant if possible 
+ *
+ * If we want to trace the queries then the SAVEQUERIES constant needs to be set to true.
+ * If it's already set then that MAY be hard lines; trace the value so that we know.
+ */
+function bw_trace_set_savequeries() {
+  if ( !defined( 'SAVEQUERIES' ) ) {
+    define( 'SAVEQUERIES', true );
+  } else {
+    bw_trace2( SAVEQUERIES, "SAVEQUERIES is already defined" );
+  }
+} 
 
 /**
  * At shutdown produce the SAVEQUERIES report
  * 
  * Only do this if SAVEQUERIES is defined 
+ *
+ * Note: If SAVEQUERIES was not defined in wp-config.php then we can miss the first query.
+ * The value of $wpdb->num_queries will be greater than the number of queries logged in the array.
+ * This first query is: 
+ *  [0] => Array
+ *    (
+ *     [0] => SELECT option_name, option_value FROM wp_options WHERE autoload = 'yes'
+ *     [1] => 0.028857946395874
+ *     [2] => require(wp-blog-header.php'), require_once('wp-load.php'), require_once('wp-config.php'), require_once('wp-settings.php'), wp_not_installed, is_blog_installed, wp_load_alloptions
+ *   )
+ *     
  */
 function bw_trace_saved_queries() { 
   if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES == true ) {
     global $wpdb;
-    bw_trace2( $wpdb->queries, "saved queries", false ); 
+    $elapsed_query_time = 0;
+    bw_trace2( $wpdb, "saved queries", false ); 
+    if ( count( $wpdb->queries ) ) {
+      $count = 0;
+      $record = "<h3>Queries</h3>" . PHP_EOL;
+      $record .= "[bw_csv]#,Elapsed,Query" . PHP_EOL;
+      foreach ( $wpdb->queries as $key => $query ) {
+        $count++;
+        $execution = $query[1];
+        $query_string = $query[0];
+        $record .= $count;
+        $record .= ',';
+        $record .= number_format( $execution, 6 ); 
+        $record .= ',';
+        $record .= str_replace( ",", "&comma;", $query_string);
+        $record .= PHP_EOL;
+        $elapsed_query_time += $execution;
+      }
+      $record .= $count . ',' . $elapsed_query_time . ",Total" . PHP_EOL;
+      $record .= "[/bw_csv]";
+      bw_trace2( $record, "Queries: {$wpdb->num_queries} in $elapsed_query_time", false );
+    }
+    $wpdb->elapsed_query_time = $elapsed_query_time;
   }  
 }
 
@@ -399,17 +464,30 @@ function bw_trace_trace2( $value, $text, $extra=false ) {
 /**
  * When tracing is inactive we write the output as a comment
  *
+ * But only when it's safe to do so.
+ *
+ * * When the request is not an AJAX request
+ * * When the request is not a aysnc-upload of a new file
+ * * and other situations we don't yet know about
+ *
  * Uses c()?  
  */ 
 function bw_trace_c3( $value, $text, $extra=false ) {
+  //  bw_trace2( DOING_AJAX, "doing_ajax?", false );
+  //bw_trace2( $_REQUEST, "request", false );  
   if ( defined('DOING_AJAX') && DOING_AJAX ) {
     // Not safe to echo here
   } else {
-    c( "$text:$value\n");
+    $short = bw_array_get( $_REQUEST, "short", null );
+    if ( $short ) {
+      // Not safe here either!
+    } else {
+      c( "$text:$value\n");
+    } 
+     
   }
+  bw_trace_vt( $value, $text );
 } 
-
- 
 
 function bw_trace_query_plugin_count( $plugins=null ) {
   if ( !$plugins ) {
@@ -467,6 +545,7 @@ function bw_trace_status_report() {
   global $wpdb;
   
   $func( $wpdb->num_queries, "Queries", false );
+  $func( $wpdb->elapsed_query_time, "Query time", false ); 
   $func( $bw_trace_count, "Trace records", false );
   
   $elapsed = timer_stop( false, 6 );
@@ -480,7 +559,95 @@ function bw_trace_status_report() {
   $func( $elapsed, "Elapsed (secs)", false );
   
   bw_flush();
+  bw_record_vt();
 }
 
-
+/**
+ * Define actions only available when trace is loaded
+ *
+ * Oh bugger: add_action() might not be available yet!
+ * 
+ *
+ */
+function bw_trace_oik_bwtrace_loaded() {
 }
+
+//bw_trace_oik_bwtrace_loaded();
+
+function bw_trace_vt( $value, $text ) {
+  global $vt_values, $vt_text;
+  $vt_values[] = $value;
+  $vt_text[] = $text;
+}
+
+/**
+ * Determine what to log as the request
+ * 
+ * $SERVER | DOING_AJAX | What to log 
+ * ------- | ---------- | ---------- 
+ *  yes    |  No        | REQUEST_URI,,
+ *  no     |  n/a       | parms,,
+ *  yes    |  Yes       | REQUEST_URI,action 
+ * 
+ */
+function bw_trace_determine_request() {
+  $request = $_SERVER['REQUEST_URI' ];
+  if ( !$request ) {
+    if ( PHP_SAPI == "cli" ) {
+      foreach ( $_SERVER['argv'] as $key => $arg ) {
+        if ( $key ) {
+          $request .= " ";
+        }
+        $request .= $arg; 
+      }
+    }
+  }        
+  $request .= ",";
+  if ( defined( 'DOING_AJAX') && DOING_AJAX ) {
+    $request .=  bw_array_get( $_REQUEST, 'action', null );
+  }
+  return( $request );
+} 
+
+
+/**
+ * Record the summary values for this transaction
+ *
+ * Note: The columns are dynamically created from the fields recorded by bw_trace_status_report()
+ * 
+ * - request
+ * - elapsed ( final figure )
+ * - PHP version
+ * - PHP functions
+ * - User functions
+ * - Classes
+ * - Plugins
+ * - Files
+ * - Registered Widgets
+ * - Post types
+ * - Taxonomies
+ * - Queries
+ * - Trace records
+ * - Elapsed
+ */
+function bw_record_vt( $vnoisy=false ) {
+  global $vt_values, $vt_text;
+  $line = bw_trace_determine_request();
+  $line .= ",";
+  $line .= timer_stop( false, 6 );
+  foreach ( $vt_values as $key=> $value ) {
+    $line .=  ",";
+    if ( $vnoisy ) {
+      $line .=   $vt_text[$key] . "=";
+    }   
+    $line .= $value ;
+  }
+  $line .= ",";
+  $line .= date( 'c' );
+  $line .= PHP_EOL;
+  $file = ABSPATH . "bwtrace.vt." .  date( "md" );
+  bw_write( $file, $line );
+}  
+
+
+} /* end of first if defined() */

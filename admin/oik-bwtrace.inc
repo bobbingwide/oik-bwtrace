@@ -1,7 +1,7 @@
 <?php 
 /*
 
-    Copyright 2012, 2013 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2014 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -20,13 +20,22 @@
 */
 
 
-// Init plugin options to white list our options
+/**
+ * Register bw_trace_options
+ *
+ * Init plugin options to white list our options
+ * 
+ */
 function bw_trace_options_init(){
-	register_setting( 'bw_trace_options_options', 'bw_trace_options', 'bw_trace_options_validate' );
+  register_setting( 'bw_trace_options_options', 'bw_trace_options', 'bw_trace_options_validate' );
 }
 
+/**
+ * Register bw_action_options
+ *
+ */
 function bw_action_options_init(){
-	register_setting( 'bw_action_options_options', 'bw_action_options', 'bw_action_options_validate' );
+  register_setting( 'bw_action_options_options', 'bw_action_options', 'bw_action_options_validate' );
 }
 
 // Add menu page
@@ -43,10 +52,7 @@ function bw_action_options_add_page() {
 /** 
  * Settings page for oik actions logging
  */
- 
 function bw_action_options_do_page() {
-
-
   oik_menu_header( "action options", "w70pc" );
   oik_box( null, null, "Options", "oik_action_options" ); 
   oik_box( null, null, "Notes about oik actions", "oik_action_notes" ); 
@@ -60,9 +66,11 @@ function bw_action_options_do_page() {
   oik_box( null, null, "Action summary", "oik_action_summary" ); 
   oik_menu_footer();
   bw_flush();
-
 }
 
+/**
+ * Display the action options form
+ */
 function oik_action_options() {  
   bw_form( "options.php" );
   $options = get_option('bw_action_options');     
@@ -73,6 +81,7 @@ function oik_action_options() {
   bw_textfield_arr( "bw_action_options", "Action file", $options, 'file', 60 );
   bw_checkbox_arr( "bw_action_options", "Trace actions", $options, 'actions' );
   bw_checkbox_arr( "bw_action_options", "Trace immediate actions", $options, 'immediate' );
+  bw_checkbox_arr( "bw_action_options", "Count immediate actions", $options, 'count' );
   
   bw_tablerow( array( "", "<input type=\"submit\" name=\"ok\" value=\"Save changes\" class=\"button-primary\"/>") ); 
 
@@ -182,6 +191,10 @@ function oik_trace_notes() {
 
 }
 
+/**
+ * Display trace reset
+ *
+ */
 function oik_trace_reset_notes() {
   oik_require( "includes/oik-sc-help.inc" );
   bw_invoke_shortcode( "bwtrace", null, "Use the [bwtrace] shortcode in a widget to provide an instant trace reset and page reload." );

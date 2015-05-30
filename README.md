@@ -2,9 +2,9 @@
 * Contributors: bobbingwide
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, immediate trace
-* Requires at least: 3.0.4
-* Tested up to: 3.9.1
-* Stable tag: 1.21
+* Requires at least: 3.9
+* Tested up to: 4.1.1
+* Stable tag: 1.22
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,9 @@ Yes - see above
 
 
 ## Upgrade Notice 
+# 1.22 
+Now outputs a single summary record for each transaction. Required for oik-plugins.com analysis
+
 # 1.21 
 Now outputs summary information in comments to the page, except during AJAX processing
 
@@ -99,6 +102,17 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 1.22 
+* Added: Automatically sets SAVEQUERIES if recording the total number of queries performed
+* Changed: bw_trace_saved_queries() formats the output in the trace log
+* Changed: bw_trace_included_files() formats the output in the trace log
+* Fixed: bw_trace_c3() now detects "short" parameter - set for async-upload of a new file
+* Added: bwtrace.vt file stores summary of all activity
+* Added: trace action counting - with "Count immediate actions" checkbox
+* Added: Responds to "plugins_loaded" to start trace count logic
+* Added: bw_trace_wp()
+* Added: bw_trace_add_shutdown_actions() to defer adding actions responding to "shutdown"
+
 # 1.21 
 * Added: Logic originally developed for oik-shortcodes to display summary information at shutdown
 * Added: Logic to trace included files: at startup and shutdown

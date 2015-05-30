@@ -1,7 +1,7 @@
 <?php
 /*
 
-    Copyright 2012,2013 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2014 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -19,6 +19,15 @@
 
 */
 
+/**
+ * Calculate an average
+ *
+ * If count is not 0 then we can calculate the average
+ * 
+ * @param number $elapsed
+ * @param integer $count
+ * @return float - average
+ */
 function bw_average( $elapsed, $count ) { 
   if ( $count ) {
     $average = $elapsed / $count ;

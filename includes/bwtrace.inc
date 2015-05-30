@@ -424,6 +424,13 @@ function bw_write( $file, $line ) {
 } 
 
 
+/**
+ * Perform a trace reset
+ *
+ * We shouldn't do this if we're not tracing the specific IP
+ *
+ * 
+ */
 function bw_trace_reset() {
   static $reset_done = false; 
   
@@ -433,8 +440,10 @@ function bw_trace_reset() {
     $file = bw_trace_file();
     // This file may not exist so we have two choices. 1. precede with an @, 2. test for it
     // but if $file is not set then we should test
-    if ( is_file($file) )
+    if ( is_file($file) ) {
       unlink( $file ); 
+      
+    }
     // echo( "<p>Attempted to unlink: $file</p>" );  
     //$bw_trace_options['reset_done'] = true; 
   } 

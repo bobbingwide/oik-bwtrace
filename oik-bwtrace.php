@@ -3,12 +3,12 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 1.21
+Version: 1.22
 Author: bobbingwide
-Author URI: http://www.bobbingwide.com
+Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
 
-    Copyright 2011-2014 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2011-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -93,6 +93,7 @@ function bw_trace_plugin_startup() {
   add_action("activated_plugin", "bw_this_plugin_first");
   $bw_trace_options = get_option( 'bw_trace_options' );
   $bw_trace_level = bw_torf( $bw_trace_options, 'trace' ); 
+  $bw_trace_ip = null;
   if ( $bw_trace_level ) { 
     $bw_trace_ip = bw_array_get( $bw_trace_options, "ip", null );
     if ( $bw_trace_ip ) {
@@ -103,27 +104,48 @@ function bw_trace_plugin_startup() {
   
   if ( $bw_trace_level ) {
     bw_trace_on();
-    global $bw_include_trace_count, $bw_include_trace_date, $bw_trace_anonymous, $bw_trace_memory, $bw_trace_post_id, $bw_trace_num_queries;
+    global $bw_include_trace_count, $bw_include_trace_date, $bw_trace_anonymous, $bw_trace_memory, $bw_trace_post_id, $bw_trace_num_queries, $bw_trace_savequeries;
     $bw_include_trace_count = bw_torf( $bw_trace_options, 'count' );
     $bw_include_trace_date = bw_torf( $bw_trace_options, 'date' );
     $bw_trace_anonymous = !bw_torf( $bw_trace_options, 'qualified' );
     $bw_trace_memory = bw_torf( $bw_trace_options, "memory" );
     $bw_trace_post_id = bw_torf( $bw_trace_options, "post_id" );
     $bw_trace_num_queries = bw_torf( $bw_trace_options, "num_queries" );
+    //$bw_trace_savequeries = bw_torf( $bw_trace_options, "savequeries" );
+    $bw_trace_savequeries = $bw_trace_num_queries;
+    
     
     oik_require2( "includes/oik-bwtrace.inc", "oik-bwtrace" );
     bw_trace_included_files();
+    if ( $bw_trace_savequeries ) {
+       bw_trace_set_savequeries();
+    }
     bw_trace_saved_queries();
     
     // We should only do this if we want to trace actions
     add_action( "init", "bw_trace_actions" );
+    // If we want to trace counting then we can start a little earlier
+    //
+    add_action( "plugins_loaded", "bw_trace_count_plugins_loaded" );
   } else {
-    bw_trace_off();  
+    if ( !$bw_trace_ip ) {
+      bw_trace_off();
+    }    
   } 
 
   // We can reset the trace file regardless of the value of tracing
-  $bw_trace_reset = bw_torf( $bw_trace_options, 'reset' );
+  // except when we're only tracing a specific IP
   
+  // $bw_trace_level | $bw_trace_ip | reset ?
+  // --------------- | ------------ | -----------
+  // 0               | set          | NO
+  // 0               | null         | YES
+  // 1               | either       | depends on option
+  if ( $bw_trace_ip && !$bw_trace_level ) { 
+    $bw_trace_reset = false ;
+  } else {
+    $bw_trace_reset = bw_torf( $bw_trace_options, 'reset' );
+  }
   if ( !empty( $_REQUEST['_bw_trace_reset'] ) ) {
     $bw_trace_reset = TRUE;
   } 
@@ -175,13 +197,40 @@ function bw_trace_actions() {
   $bw_action_options = get_option( 'bw_action_options' );
   $trace_actions = bw_array_get( $bw_action_options, "actions", false );
   bw_trace2( $bw_action_options, "bw_action_options" );
-  oik_require2( "includes/oik-bwtrace.inc", "oik-bwtrace" );
   if ( $trace_actions ) {
+    oik_require2( "includes/oik-bwtrace.inc", "oik-bwtrace" );
     bw_trace_actions_on();
     bw_lazy_trace_actions();
   } else {
-    bw_trace_actions_off();
-  }    
+    if ( is_callable( "bw_trace_actions_off" ) ) {
+      bw_trace_actions_off();
+    }
+  }  
+}
+
+/**
+ * Implement "plugins_loaded" for oik-bwtrace
+ * 
+ * Start the trace count logic if required
+ * 
+ * @TODO - it would be a lot nicer if we could start counting actions from the first time
+ * one is invoked. To achieve this we probably need to create an MU plugin
+ * and make it respond to 'muplugins_loaded'.
+ * The MU plugin should be responsible for loading the relevant parts of oik and oik-bwtrace 
+ * 
+ */
+function bw_trace_count_plugins_loaded() {
+  $bw_action_options = get_option( 'bw_action_options' );
+  $trace_count = bw_array_get( $bw_action_options, "count", false );
+  if ( $trace_count ) {
+    oik_require( "includes/oik-actions.php", "oik-bwtrace" );
+    bw_trace_count_on();
+    bw_lazy_trace_count();
+  } else {
+    if ( is_callable( "bw_trace_count_off" ) ) {
+      bw_trace_count_off();
+    }  
+  }
 }
 
 
@@ -195,15 +244,57 @@ if ( function_exists( "is_admin" ) ) {
   }
 }
 
+/**
+ * Trace the 'wp' action
+ * 
+ * @param object $WP_Environment_Instance
+ *
+ */
+function bw_trace_wp( $WP_Environment_Instance ) {
+  bw_trace2();
+  $home = is_home();
+  $front = is_front_page();
+  $show_on_front = get_option( "show_on_front" );
+  $page_on_front = get_option( "page_on_front" );
+  $page_for_posts = get_option( "page_for_posts" );
+  bw_trace2( "show,page,posts", "$show_on_front,$page_on_front,$page_for_posts", false ); 
+  bw_trace2( $home, "home", false );
+  bw_trace2( $front, "front", false ); 
+}
 
 add_action( "oik_admin_menu", "oik_bwtrace_admin_menu" );
-add_action( "shutdown", "bw_trace_included_files" );
-add_action( "shutdown", "bw_trace_saved_queries" );
-add_action( "shutdown", "bw_trace_status_report" );
-
+add_action( "wp", "bw_trace_wp" );
+// Moved shutdown actions to includes/oik-bwtrace.inc 
+bw_trace_add_shutdown_actions();
 
 /**
+ *
+ * At shutdown create a trace log of the following:
+ *
+ * - included files
+ * - saved queries
+ * - general status report
+ * 
+ * Note: The general status report should also be reportable back to the browser
+ * even when trace is not being run but when the trace plugin is activated.
+ * So it shouldn't be where it currently is. 
+ */
+function bw_trace_add_shutdown_actions() {
+  if ( function_exists( "bw_trace_included_files" ) ) {
+    add_action( "shutdown", "bw_trace_included_files" );
+  }
+  if ( function_exists( "bw_trace_saved_queries" ) ) { 
+    add_action( "shutdown", "bw_trace_saved_queries" );
+  }
+  if ( function_exists( "bw_trace_status_report" ) ) {
+    add_action( "shutdown", "bw_trace_status_report" );
+  }
+}
+/**
  * Relocate the plugin to become its own plugin and set the plugin server
+ *
+ * @TODO - check if this is still necessary
+ * 
  */
 function oik_bwtrace_admin_menu() {
   oik_register_plugin_server( __FILE__ );
