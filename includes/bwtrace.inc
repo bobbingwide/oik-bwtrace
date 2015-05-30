@@ -272,16 +272,27 @@ function bw_trace_context_all( $function=NULL, $line=NULL, $file=NULL ) {
 }
 
 
-/* Format required for the trace record is something like this
- 
-  C:\apache\htdocs\wordpress\wp-content\plugins\bwtrace\bwtrace.php(116:0)  1 2011-01-05T22:43:13+00:00
-
-  but this can be altered by the settings for:
-  - trace count
-  - trace date
-  - trace files part ( anonymous ) 
-
-*/
+/**
+ * Format the trace record
+ *
+ * Note: flf is an abbreviation for function, line, file or maybe file, line, function#
+ *
+ * This is the minimum output required over and above the text_label and value.
+ * If you don't have this information you may as well not have the trace output.
+ * 
+ *
+ * @TODO Complete the write up of these notes
+ * 
+ * The format required for the trace record is something like this
+ *
+ * C:\apache\htdocs\wordpress\wp-content\plugins\bwtrace\bwtrace.php(116:0)  1 2011-01-05T22:43:13+00:00
+ *
+ * but this can be altered by the settings for:
+ * - trace count
+ * - trace date
+ * - trace files part ( anonymous ) 
+ *
+ */
 function bw_flf( $function, $lineno, $file, $count,  $text, $text_label = NULL ) {
   $ref = bw_trace_file_part( $file );
   $ref .= '('.$lineno.':0) ';
@@ -312,6 +323,13 @@ function bw_flf( $function, $lineno, $file, $count,  $text, $text_label = NULL )
   return( $ref );
 } 
 
+/**
+ * Increment a value in an array
+ *
+ * @param array $array - the array to change
+ * @param string $index - the key of the value to increment
+ *
+ */
 function bw_array_inc( &$array, $index ) {
   if ( !isset($array) )
     $array = array();

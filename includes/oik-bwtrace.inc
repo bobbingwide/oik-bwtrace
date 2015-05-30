@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2014
+<?php // (C) Copyright Bobbing Wide 2012-2015
 if ( !defined( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED' ) ) {
 define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
 
@@ -20,11 +20,14 @@ function bw_trace_actions_off() {
 }
 
 /**  
- This is a poorly named file it should be really have been oik-actions.inc
-*/
+ This is a poorly named file it should be really have been oik-actions.inc. Well oik-actions.php! 
+ *
+ */
 bw_trace2( __FILE__, "file loaded" );
 
 /** 
+ * Add trace actions for this hook
+ * 
  * Test to see if we've added our action handler/filters
  * $wp_filter[$tag][$priority][$idx]
  * If not, then add them
@@ -480,8 +483,14 @@ function bw_trace_c3( $value, $text, $extra=false ) {
   //bw_trace2( $_REQUEST, "request", false );  
   if ( defined('DOING_AJAX') && DOING_AJAX ) {
     // Not safe to echo here
+  } elseif ( defined( 'JSON_REQUEST' ) && JSON_REQUEST ) {
+    // Nor here
+  } elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
   } else {
     $short = bw_array_get( $_REQUEST, "short", null );
+    if ( !$short ) {
+      $short = bw_array_get( $_REQUEST, "sgCacheCheck", null );
+    }
     if ( $short ) {
       // Not safe here either!
     } else {
@@ -552,9 +561,17 @@ function bw_trace_status_report() {
         $wpdb->elapsed_query_time = "";
     }
    $func($wpdb->elapsed_query_time, "Query time", false);
+  $func( bw_trace_file(), "Trace file", false );
   $func( $bw_trace_count, "Trace records", false );
-  
-  $elapsed = timer_stop( false, 6 );
+  $remote_addr = bw_array_get( $_SERVER, 'REMOTE_ADDR', false );
+  $func( $remote_addr, "Remote addr", false );
+
+  global $wp_locale;
+  if ( $wp_locale ) {
+    $elapsed = timer_stop( false, 6 );
+  } else {
+    $elapsed = null;
+  }  
   // Do this regardless 
   
   if ( $bw_trace_on ) { 
@@ -621,7 +638,7 @@ function bw_trace_determine_request() {
  *
  * Note: The columns are dynamically created from the fields recorded by bw_trace_status_report()
  * 
- * 0- request
+ * 0 - request
  * 1 - AJAX action
  * 2 - elapsed ( final figure )
  * 3 - PHP version
@@ -635,15 +652,21 @@ function bw_trace_determine_request() {
  * 11 - Taxonomies
  * 12 - Queries
  * 13 - Query time
- * 14 - Trace records
- * 15 - Elapsed
- * 16 - Date - ISO 8601 date 
+ * 14 - Trace file
+ * 15 - Trace records
+ * 16 - Remote address ( IP address )
+ * 17 - Elapsed
+ * 18 - Date - ISO 8601 date 
  */
 function bw_record_vt( $vnoisy=false ) {
   global $vt_values, $vt_text;
   $line = bw_trace_determine_request();
   $line .= ",";
-  $line .= timer_stop( false, 6 );
+  
+  global $wp_locale;
+  if ( $wp_locale ) {
+    $line .= timer_stop( false, 6 );
+  }  
   foreach ( $vt_values as $key=> $value ) {
     $line .=  ",";
     if ( $vnoisy ) {

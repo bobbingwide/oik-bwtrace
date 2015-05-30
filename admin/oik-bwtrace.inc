@@ -1,7 +1,7 @@
 <?php 
 /*
 
-    Copyright 2012-2014 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -38,9 +38,12 @@ function bw_action_options_init(){
   register_setting( 'bw_action_options_options', 'bw_action_options', 'bw_action_options_validate' );
 }
 
-// Add menu page
+/**
+ * Register the trace options page
+ *
+ */
 function bw_trace_options_add_page() {
-	add_options_page('oik trace options', 'oik trace options', 'manage_options', 'bw_trace_options', 'bw_trace_options_do_page');
+        add_options_page( __('oik trace options', 'oik-bwtrace' ), __( 'oik trace options', 'oik-bwtrace' ), 'manage_options', 'bw_trace_options', 'bw_trace_options_do_page');
 }
 
 
@@ -219,7 +222,7 @@ function bw_trace_options_validate($input) {
  * WordPress does not produce a warning message. 
  */ 
 function bw_action_options_validate( $input ) {
-  // bw_trace2( $input ); 
+  bw_trace2( $input ); 
   oik_require( "admin/oik-replace.inc", "oik-bwtrace" );
   $immediate = bw_array_get( $input, "immediate", false );
   $result = bw_enable_action_trace( $immediate ) ;

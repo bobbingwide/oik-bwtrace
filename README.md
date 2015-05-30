@@ -3,8 +3,8 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, immediate trace
 * Requires at least: 3.9
-* Tested up to: 4.1.1
-* Stable tag: 1.23
+* Tested up to: 4.2.2
+* Stable tag: 1.24
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,9 @@ Yes - see above
 
 
 ## Upgrade Notice 
+# 1.24 
+Upgrade to get remote IP address in the summary log
+
 # 1.23 
 Fixes warning message when tracing not active but action count tracing is.
 
@@ -105,6 +108,14 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 1.24 
+* Added: records the trace file name in the summary log file
+* Added: remote IP address included in the summary log file
+* Fixed: Doesn't write HTML comments for JSON or XMLRPC requests
+* Fixed: Doesn't write HTML comments for SiteGround cache check: sgCacheCheck
+* Changed: Commented out tracing of global wp_rewrite
+* Disabled: Disabled immediate action tracing... last WordPress version supported was 3.6
+
 # 1.23 
 * Fixed: Warning $wpdb->elapsed_query_time property missing
 * Changed: Documented the fields in the bwtrace.vt.mmdd log file; where vt is simply an abbreviation of value and text
