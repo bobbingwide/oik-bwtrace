@@ -3,12 +3,12 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 1.20
+Version: 1.21
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
 
-    Copyright 2011-2013 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2011-2014 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -42,14 +42,21 @@ if ( function_exists( "oik_require2" )) {
   oik_init();
   oik_require( "bwtrace_boot.inc" ); 
   oik_require2( "includes/bwtrace.inc", "oik-bwtrace" );
-}  
+} 
 
+/**
+ * Return the version of oik-bwtrace
+ *
+ * @return string - same as oik_version()
+ */ 
 function oik_bwtrace_version() {
   return oik_version();
 }
 
 /**
  * Arrange for this plugin to be loaded first
+ *
+ * 
  */
 function bw_this_plugin_first() {
 	// ensure path to this file is via main wp plugin path
@@ -103,6 +110,10 @@ function bw_trace_plugin_startup() {
     $bw_trace_memory = bw_torf( $bw_trace_options, "memory" );
     $bw_trace_post_id = bw_torf( $bw_trace_options, "post_id" );
     $bw_trace_num_queries = bw_torf( $bw_trace_options, "num_queries" );
+    
+    oik_require2( "includes/oik-bwtrace.inc", "oik-bwtrace" );
+    bw_trace_included_files();
+    bw_trace_saved_queries();
     
     // We should only do this if we want to trace actions
     add_action( "init", "bw_trace_actions" );
@@ -187,6 +198,8 @@ if ( function_exists( "is_admin" ) ) {
 
 add_action( "oik_admin_menu", "oik_bwtrace_admin_menu" );
 add_action( "shutdown", "bw_trace_included_files" );
+add_action( "shutdown", "bw_trace_saved_queries" );
+add_action( "shutdown", "bw_trace_status_report" );
 
 
 /**

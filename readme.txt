@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, immediate trace
 Requires at least: 3.0.4
-Tested up to: 3.7.1
-Stable tag: 1.20
+Tested up to: 3.9.1
+Stable tag: 1.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,9 @@ Yes - see above
  
 
 == Upgrade Notice ==
+= 1.21 =
+Now outputs summary information in comments to the page, except during AJAX processing
+
 = 1.20 = 
 Contains a couple of minor improvements for better analysis of page loading
 
@@ -96,6 +99,14 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 1.21 =
+* Added: Logic originally developed for oik-shortcodes to display summary information at shutdown
+* Added: Logic to trace included files: at startup and shutdown
+* Added: Logic to trace saved queries: at startup and shutdown
+* Added: Trace elapsed time - displayed after current timestamp
+* Added: Trace number of included files as F=nnnn
+* Changed: bw_lazy_backtrace() handles args which are arrays
+
 = 1.20 =
 * Fixed: oik action tracing is not invoked if oik action settings have not been defined
 * Added: Lists loaded files during shutdown processing

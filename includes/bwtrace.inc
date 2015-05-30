@@ -1,4 +1,5 @@
-<?php // (C) Copyright Bobbing Wide 2011-2013
+<?php // (C) Copyright Bobbing Wide 2011-2014
+
 if ( !defined( 'OIK_BWTRACE_INCLUDES_INCLUDED' ) )  {
 define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  
@@ -57,6 +58,28 @@ function bw_trace_file_part( $file ) {
   return( $fil );
 }
 
+/**
+ * Trace the elapsed time
+ * 
+ * On the first call the timer_start is set.
+ * 
+ * @return Elapsed time since timer_start first set. 
+ */
+function bw_trace_elapsed( ) {
+  static $timer_start, $timer_latest;
+  if ( !isset( $timer_start ) ) {
+    $timer_start = microtime( true );
+    $timer_latest = $timer_start;
+  } 
+  $timer_end = microtime( true );
+  $timetotal = $timer_end - $timer_start;
+  $elapsed = number_format( $timetotal, 6 ); 
+  $latest = number_format( $timer_end - $timer_latest, 6 );
+  $timer_latest = $timer_end;
+  return( "$elapsed $latest" );
+}
+
+
 
 /**
  * Return the date for the trace record
@@ -68,10 +91,13 @@ function bw_trace_file_part( $file ) {
 function bw_trace_date( $format=DATE_W3C ) {
   global $bw_include_trace_date;
   
-  if ( $bw_include_trace_date )
+  if ( $bw_include_trace_date ) {
     $ret = date( $format );
-  else
-    $ret = '';      
+    //$dt = new DateTime();
+    //$ret = $dt->format( "Y-m-d h:m:s.u" );
+  } else {
+    $ret = '';
+  }        
   return( $ret ) ;
 }
 
@@ -261,12 +287,16 @@ function bw_flf( $function, $lineno, $file, $count,  $text, $text_label = NULL )
   $ref .= '('.$lineno.':0) ';
   $ref .= bw_trace_date( DATE_W3C );
   $ref .= " ";
+  $ref .= bw_trace_elapsed();
+  $ref .= " ";
   $ref .= bw_trace_count( $count );
   $ref .= " "; 
   $ref .= bw_trace_context();
   $ref .= bw_get_num_queries();
   $ref .= bw_trace_post_id();
-  $ref .= bw_get_memory_usage(); 
+  $ref .= bw_get_memory_usage();
+  $ref .= " "; 
+  $ref .= "F=" . count( get_included_files() );
   $ref .= " ";
   $ref .= bw_trace_function( $function );
   $ref .= " ";
@@ -554,10 +584,13 @@ function bw_lazy_backtrace() {
           $targs = $args;
           $sep = '(';
           foreach ( $targs as $targ ) {
-            if ( is_object( $targ ) )
+            if ( is_object( $targ ) ) {
               $function .= $sep."object";
-            else  
+            } elseif ( is_array( $targ ) ) {
+              $function .= $sep."array";
+            } else { 
               $function .= $sep.$targ ;
+            }  
             $sep = ',';
           }
           $function .= ')';  

@@ -1,12 +1,19 @@
-<?php // (C) Copyright Bobbing Wide 2012, 2013
+<?php // (C) Copyright Bobbing Wide 2012-2014
 if ( !defined( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED' ) ) {
 define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
 
+
+/**
+ * Turn on action tracing
+ */
 function bw_trace_actions_on() {
   global $bw_actions_on;
   $bw_actions_on = true;
 }
 
+/**
+ * Turn off action tracing
+ */
 function bw_trace_actions_off() {
   global $bw_actions_on;
   $bw_actions_on = false;
@@ -121,6 +128,9 @@ function bw_lazy_trace_actions() {
   //bw_trace( $bw_filter_count, __FUNCTION__, __LINE__, __FILE__, "bw_filter_count" );
 }
 
+/**
+ * 
+ */
 function bw_action_inc_init() {   
   global $bw_action_options;   
   $bw_action_options = array( 'file' => "bwaction.loh", 'action' => 'on'  ); 
@@ -128,6 +138,7 @@ function bw_action_inc_init() {
 
 /**
  * Reset the trace actions file if this is the first time for this invocation
+ * 
  */
 function bw_actions_reset() {
   static $reset_done = false;
@@ -155,6 +166,7 @@ function bw_actions_reset() {
 
 /**
  * Trace anything left in the output buffer(s)
+ * 
  * Artisteer 4.0 saves information in $theme_ob_stack, so we trace that in case it contains Warnings or Fatal messages.
  *
  */
@@ -176,7 +188,10 @@ function bw_trace_output_buffer() {
 
 /** 
  * At shutdown produce a report of the actions performed.
- * Note: WordPress doesn't count the number of times each filter is invoked.
+ * 
+ * Note: WordPress doesn't count the number of times each filter is invoked. 
+ * @TODO Shame... but we could do it couldn't we?
+ *
  */
 function bw_trace_report_actions() { 
   global $wp_actions;
@@ -190,6 +205,18 @@ function bw_trace_report_actions() {
 function bw_trace_included_files() { 
   $included_files = get_included_files();
   bw_trace( $included_files, __FUNCTION__, __LINE__, __FILE__, "included files" );
+}
+
+/**
+ * At shutdown produce the SAVEQUERIES report
+ * 
+ * Only do this if SAVEQUERIES is defined 
+ */
+function bw_trace_saved_queries() { 
+  if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES == true ) {
+    global $wpdb;
+    bw_trace2( $wpdb->queries, "saved queries", false ); 
+  }  
 }
 
 /**
@@ -356,7 +383,104 @@ function bw_trace_action_immediate( $function, $storend="I!", $arg1=null, $arg2=
     return( $arg1 );
   }
 }
-}    
+} 
+
+   
+
+/**
+ * Trace the results and echo a comment?
+ *
+ */
+function bw_trace_trace2( $value, $text, $extra=false ) {
+  bw_trace2( $value, $text, $extra );
+  bw_trace_c3( $value, $text, $extra );
+}
+
+/**
+ * When tracing is inactive we write the output as a comment
+ *
+ * Uses c()?  
+ */ 
+function bw_trace_c3( $value, $text, $extra=false ) {
+  if ( defined('DOING_AJAX') && DOING_AJAX ) {
+    // Not safe to echo here
+  } else {
+    c( "$text:$value\n");
+  }
+} 
+
+ 
+
+function bw_trace_query_plugin_count( $plugins=null ) {
+  if ( !$plugins ) {
+    $plugins = bw_trace_query_plugins();
+  }   
+  $count = count( $plugins );
+  return( $count );
+}  
+
+function bw_trace_query_plugins() {
+  if ( PHP_SAPI == "cli" ) {
+    $plugins = array( "oik-batch" );
+  } elseif ( bw_is_wordpress() ) {  
+    oik_require( "admin/oik-depends.inc" );
+    $plugins = bw_get_active_plugins();
+  } else {
+    $plugins = array( "oik-batch" );
+  }
+  return( $plugins );
+}
+ 
+
+/** 
+ * Show some really basic stuff about the PHP version, and number of functions and classes implemented
+ * 
+ * This is in addition to other stuff produced by oik-bwtrace
+ * Not need to show number of db_queries as this is already (optionally) included in the trace record
+ * BUT we could sum the time spent in the DB
+ * AND we could sum the time spent tracing
+ * which 'could' give us the execution time doing other things
+ * 
+ */
+function bw_trace_status_report() {
+  global $bw_trace_on, $bw_trace_count;
+   // oik_require( "shortcodes/oik-api-status.php", "oik-shortcodes" );
+  $func = "bw_trace_c3";
+  $defined_functions = get_defined_functions(); 
+  //$count = count( $defined_functions ); 
+  $count_internal = count( $defined_functions["internal"] );
+  $count_user = count( $defined_functions["user"] );
+  $func( phpversion(), "PHP version", false ); 
+  $func( $count_internal, "PHP functions", false );
+  $func( $count_user, "User functions", false );
+  $declared_classes = get_declared_classes(); 
+  $count = count( $declared_classes );
+  $func( $count, "Classes", false ); 
+  // Don't trace $GLOBALS - there's far too much - approx 38K lines
+  //$func( $GLOBALS, "Globals", false );
+  $func( bw_trace_query_plugin_count(), "Plugins", false );
+  $func( count( get_included_files() ), "Files", false );
+  
+  $func( count( $GLOBALS['wp_registered_widgets'] ), "Registered widgets", false );
+  $func( count( $GLOBALS['wp_post_types'] ), "Post types", false );
+  $func( count( $GLOBALS['wp_taxonomies'] ), "Taxonomies", false );
+  global $wpdb;
+  
+  $func( $wpdb->num_queries, "Queries", false );
+  $func( $bw_trace_count, "Trace records", false );
+  
+  $elapsed = timer_stop( false, 6 );
+  // Do this regardless 
+  
+  if ( $bw_trace_on ) { 
+    $func = "bw_trace_trace2";
+  } else {
+    $func = "bw_trace_c3";
+  }
+  $func( $elapsed, "Elapsed (secs)", false );
+  
+  bw_flush();
+}
 
 
 }
