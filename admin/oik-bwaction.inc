@@ -1,7 +1,7 @@
 <?php
 /*
 
-    Copyright 2012-2014 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -52,10 +52,18 @@ function bw_array_add( &$array, $index, $amount ) {
 }
 }
 
+/**
+ * Return time as "secs msecs"
+ *
+ */
 function _bw_time( $ts, $msec ) {
   $time = strtotime( $ts );
   return( "$time $msec" );
 }
+
+/**
+ * Determine time difference in seconds.microseconds
+ */
 
 function _bw_time_diff( $endtime, $starttime ) {
 
@@ -184,15 +192,25 @@ function bw_format_action_csv( $action, $count, $elapsed, $average ) {
 }
 
 
-
+/**
+ * Summarize the actions in the action file
+ *
+ * Deprecated
+ */
 function bw_summarise_actions( $file="bwaction.loh", $html=true ) {
   $target = "bwaction.cpy" ;
   //$res = copy( $file, $target ); 
   //echo "copy $res\n";
   
+  $cwd = getcwd();
+  bw_trace2( $cwd, "cwd" );
+  
   $handle = fopen( $target, "r" );
+  bw_trace2( $handle, $target );
   // echo $handle;
-  while (($data = fgetcsv( $handle, 1000, " ")) !== FALSE) {
+  while ( ($data = fgetcsv( $handle, 1000, " ")) !== FALSE ) {
+    bw_trace2( $data );
+    gob();
     bw_handle_action( $data );
   }
   fclose($handle);
@@ -231,7 +249,7 @@ function bw_action_summary() {
     etag( "thead" );
     stag( "tbody" );
     
-    bw_summarise_actions( $file );
+    //bw_summarise_actions( $file );
     etag( "tbody" );
     etag( "table" );
     bw_action_reset_form();

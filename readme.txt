@@ -4,17 +4,19 @@ Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, immediate trace
 Requires at least: 3.9
 Tested up to: 4.2.2
-Stable tag: 1.24
+Stable tag: 1.25
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: oik-bwtrace
+Domain Path: /languages/
 
 == Description ==
 Debug trace for WordPress. 
 * The primary purpose of debug trace is to help in the development of PHP code: plugins or themes.
-* The primary purpose of action trace is to help you follow the sequence of events in the server.
+* The primary purpose of action trace is to help you understand the sequence of events in the server.
 * This plugin provides the admin interface to trace functions and action and filter tracing built into plugins that use the oik / bw APIs.
 
-Neither oik bwtrace nor oik action trace alters the output of your web pages.
+Except for HTML comments, neither oik bwtrace nor oik action trace alters the output of your web pages.
 They write their output to a file on the server which you can browse in a separate window.
 
 You can also use the oik trace facilities to assist in problem determination in a live site.
@@ -27,17 +29,16 @@ Features:
 * Dynamically activates trace functions
 * Implemented as lazy just-in-time code
 * Provides contextual information
-* Action trace helps you understand the sequence of actions and filters
+* Action trace counts help you understand the sequence of actions and filters
 * Action trace summary shows invocation counts and execution time
 * Can be used during regression testing
 * Traces ALL server functionality, including AJAX and other background requests
 * Minimum performance overhead when tracing is not enabled
-* Can be activated in wp-config.php to trace code before WordPress is fully loaded
+* Can be activated in wp-config.php and db.php to trace code before WordPress is fully loaded
 * Does not need to be activated if started programmatically or from wp-config.php
-* Action tracing can be used to trace known actions or filters
-* Immediate action tracing will trace ALL calls to do_action() and apply_filters()
-* Immediate action tracing helps you discover ALL the actions and filters 
+* Action tracing can be used to trace action hooks and filters
 * Ability to choose the IP address to trace, defaults to ALL requests
+* Writes summary trace record for each transaction into a daily log
 
 The trace record output can include:
 
@@ -79,6 +80,11 @@ Yes - see above
  
 
 == Upgrade Notice ==
+= 1.25 = 
+Improved support for action hooks and filters. 
+Now implements itself as a Must Use (MU) plugin if action counting is selected.
+Also contains logic that can be activated in db.php.
+
 = 1.24 =
 Upgrade to get remote IP address in the summary log  
 
@@ -108,13 +114,29 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 1.25 = 
+* Added: includes/deprecated.php for deprecated functions, excluding original immediate action tracing
+* Changed: Dependent upon oik v2.6-alpha.0525 for .php versions of include files
+* Changed: Deprecated some .inc files in favour of .php files. 
+* Changed: Moved bw_this_plugin_first() to admin/oik-bwtrace.inc
+* Changed: Relabelled 'Count immediate actions' to 'Count action hooks and filters'
+* Changed: Added options for specific action tracing functionality that was previously hardcoded
+* Changed: bw_summarise_actions() - deprecated; no longer called by bw_action_summary()
+* Changed: oik action options page rewrite; 
+* Changed: removed the slow action trace logic.
+* Disabled: Disabled immediate action tracing... the last WordPress version for which this logic was supported was 3.6
+* Changed: Improved some docblock comments
+* Added: includes/_oik-bwtrace-mu.php - implements the MU version of the plugin
+* Changed: Moved bw_lazy_trace_config_startup() to includes/bwtrace-config.php
+* Changed: bw_lazy_trace_config_startup() now supports BW_COUNT_ON constant. When true it loads the action hook and filter counting logic and 'activates' the MU version of the plugin
+* Changed: oik-bwtrace.php now uses oik_bwtrace_loaded() to perform startup processing  
+
 = 1.24 =
 * Added: records the trace file name in the summary log file
 * Added: remote IP address included in the summary log file
 * Fixed: Doesn't write HTML comments for JSON or XMLRPC requests
 * Fixed: Doesn't write HTML comments for SiteGround cache check: sgCacheCheck
 * Changed: Commented out tracing of global wp_rewrite
-* Disabled: Disabled immediate action tracing... last WordPress version supported was 3.6
 
 = 1.23 =
 * Fixed: Warning $wpdb->elapsed_query_time property missing
@@ -180,17 +202,18 @@ If you want to read more about the oik plugins then please visit the
 **"the oik plugin - for often included key-information"**
 
 If we want to include bw_trace(), bw_trace2() or bw_backtrace() calls in WordPress core 
-then we need to define the functions, so we include bwtrace.inc (which is part of the oik base plugin).
+then we need to define the functions, so we include bwtrace.php (which is part of the oik base plugin).
 
-If we want trace and actions to be enabled and reset at WordPress startup then we also need to define these as TRUE
+If we want trace and action count to be enabled and reset at WordPress startup then we also need to define these as TRUE
 Note: action tracing and resetting will be enabled by default. 
 
 `define( 'BW_TRACE_CONFIG_STARTUP', true );
 define( 'BW_TRACE_ON', true );
-define( 'BW_ACTIONS_ON', true );
+define( 'BW_ACTIONS_ON', false );
+define( 'BW_COUNT_ON', true );
 define( 'BW_TRACE_RESET', true );
 define( 'BW_ACTIONS_RESET', true );`
 
-require_once( ABSPATH . '/wp-content/plugins/oik/bwtrace.inc' );`
+require_once( ABSPATH . '/wp-content/plugins/oik/bwtrace.php' );`
 
 Don't forget to remove this code before deleting the plugin.

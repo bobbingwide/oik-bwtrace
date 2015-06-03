@@ -104,7 +104,7 @@ function bw_action_toggle( $enable, $mod, $tgt, $cpy ) {
  * When enabled the wp-includes/plugin.php is replaced by plugin.act
  * When disabled the wp-includes/plugin.php is reset to original
  * 
- * The logic in bw_action_toggle() not replace the file if there is a mismatch
+ * The logic in bw_action_toggle() does not replace the file if there is a mismatch
  * between the actual version of plugin.php and our local version.
  * 
  */
