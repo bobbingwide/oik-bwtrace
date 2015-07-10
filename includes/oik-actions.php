@@ -149,7 +149,17 @@ function bw_trace_saved_queries() {
     $wpdb->elapsed_query_time = $elapsed_query_time;
 }
 
-   
+
+/**
+ * Report trace function count on shutdown
+ * 
+ * Show the number of times each function was traced
+ *
+ */
+function bw_trace_functions_traced() {
+	global $bw_trace_functions;
+  bw_trace2( $bw_trace_functions, "functions traced", false ); 
+}
 
 /**
  * Trace the results and echo a comment?
@@ -192,16 +202,30 @@ function bw_trace_c3( $value, $text, $extra=false ) {
      
   }
   bw_trace_vt( $value, $text );
-} 
+}
 
+/** 
+ * Return the number of active plugins
+ *
+ * @param array $plugins may be null
+ * @return integer count of active plugins
+ */ 
 function bw_trace_query_plugin_count( $plugins=null ) {
   if ( !$plugins ) {
     $plugins = bw_trace_query_plugins();
   }   
   $count = count( $plugins );
   return( $count );
-}  
+} 
 
+/**
+ * Return the array of active plugins
+ *
+ * This function accounts for tracing in a simulated WordPress environment: oik-batch
+ *
+ * @return array plugin names array
+ * 
+ */ 
 function bw_trace_query_plugins() {
   if ( PHP_SAPI == "cli" ) {
     $plugins = array( "oik-batch" );

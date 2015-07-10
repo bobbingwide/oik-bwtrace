@@ -148,8 +148,7 @@ function bw_trace_count_report() {
 	bw_trace( $bw_action_counts_tree, __FUNCTION__, __LINE__, __FILE__, "action counts tree" );
 	
   bw_trace_create_hook_links( $bw_action_counts_tree, "bw_action_counts_tree" );
-	
-  
+ 
 }
 
 /**
@@ -172,7 +171,7 @@ function bw_trace_create_hook_links( $action_counts, $heading ) {
   bw_trace2( $hook_links, "hook_links", false ); 
 
 }
- 
+
 /**
  * Implement "plugins_loaded" for oik-bwtrace
  * 

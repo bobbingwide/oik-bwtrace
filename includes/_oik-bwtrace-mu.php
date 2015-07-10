@@ -4,7 +4,7 @@
 Plugin Name: _oik-bwtrace-MU 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress - Must Use version
-Version: 1.24
+Version: 1.27
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2

@@ -4,7 +4,7 @@ Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, immediate trace
 Requires at least: 3.9
 Tested up to: 4.2.2
-Stable tag: 1.25
+Stable tag: 1.27
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: oik-bwtrace
@@ -30,13 +30,11 @@ Features:
 * Implemented as lazy just-in-time code
 * Provides contextual information
 * Action trace counts help you understand the sequence of actions and filters
-* Action trace summary shows invocation counts and execution time
 * Can be used during regression testing
 * Traces ALL server functionality, including AJAX and other background requests
 * Minimum performance overhead when tracing is not enabled
 * Can be activated in wp-config.php and db.php to trace code before WordPress is fully loaded
 * Does not need to be activated if started programmatically or from wp-config.php
-* Action tracing can be used to trace action hooks and filters
 * Ability to choose the IP address to trace, defaults to ALL requests
 * Writes summary trace record for each transaction into a daily log
 
@@ -47,7 +45,10 @@ The trace record output can include:
 * Time stamp
 * Current post ID
 * Number of database queries that have been performed.
-* Current and peak memory usage (in bytes) 
+* Current and peak memory usage (in bytes)
+
+The summary daily log contains
+ information that can be used for performance analysis.
 
 
 See also:
@@ -64,22 +65,22 @@ See also:
 
 == Frequently Asked Questions ==
 = Where is the FAQ? =
-[oik FAQ](http://www.oik-plugins.com/oik/oik-faq)
-
-= Is there a support forum? =
-Yes - please use the standard WordPress forum - http://wordpress.org/tags/oik?forum_id=10
+[oik-bwtrace FAQ](http://www.oik-plugins.com/oik-plugins/oik-bwtrace-debug-trace-for-wordpress/?oik-tab=faq)
 
 = Can I get support? = 
-Yes - see above 
+Use the contact form on the oik-plugins website. 
 
 == Screenshots ==
 1. Trace options
-2. Action trace summary
+2. Action options
 3. Raw trace output (fully qualified file names unchecked )
-4. Raw action output
+4. Daily log ouput
  
 
 == Upgrade Notice ==
+= 1.27 =
+Current filter reporting and other minor improvements
+
 = 1.26 = 
 Improved logic for self implementation as an MU plugin 
 
@@ -117,6 +118,13 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 1.27 =
+* Changed: current filter now shows the full tree. No longer necessary to trace the array separately
+* Fixed: Trace function count no longer doubly incremented.
+* Added: Option to report the $bw_trace_functions array at shutdown. bw_trace_functions_traced()
+* Changed: Sequence of action hooks invokved for 'shutdown': included files, saved queries, output buffer, functions traced, status report
+* Changed: Improved more docblock comments and some programming style
+
 = 1.26 =
 * Changed: Improved activating/de-activating of the oik-bwtrace MU plugin when BW_COUNT_ON is not defined true
 * Deprecated: Moved more deprecated functions and logic related to the original action tracing and logging to includes/deprecated.php

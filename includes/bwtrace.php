@@ -5,13 +5,13 @@ define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  
 /**
  * Programmatically enable tracing
- * Note: bw_trace() and bw_trace2() are lazy functions that are not loaded until trace is first turned on.
- * **?** This code must be in the wrong place! since it tries to include itself. 
- * We'll leave it like this until we determine where this API should go **?**
+ * 
+ * Note: bw_trace(), bw_trace2() and bw_backtrace() call lazy functions that are not loaded until trace is first turned on.
+ * The global variable $bw_trace_on should not be set to true manually.
+ * 
  */
 function bw_trace_on( $default_options=false ) {
   global $bw_trace_on;
-  //oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
   $bw_trace_on = TRUE;
   if ( $default_options ) { 
     global $bw_include_trace_count, $bw_include_trace_date, $bw_trace_anonymous, $bw_trace_memory, $bw_trace_post_id, $bw_trace_num_queries;
@@ -26,6 +26,8 @@ function bw_trace_on( $default_options=false ) {
 
 /** 
  * Programmatically disable tracing
+ *
+ * Turn tracing off by setting the global $bw_trace_on to false
  */
 function bw_trace_off() {
   global $bw_trace_on;
@@ -34,6 +36,10 @@ function bw_trace_off() {
 
 /**
  * Initialise hardcoded trace options
+ *
+ * When trace is invoked during startup processing we can't access the wp_options table so we have to use hardcoded values.
+ * @TODO Use values of trace constants instead?
+ * 
  */ 
 function bw_trace_inc_init() {   
   global $bw_trace_options;   
@@ -54,6 +60,14 @@ function bw_getlocale( $category=LC_ALL ) {
   return setlocale( $category, NULL);
 }
 
+/**
+ * Return the part of the file to trace
+ *
+ * $bw_trace_anonymous is true if we're not tracing fully qualified file names 
+ *
+ * @param string $file Fully qualified file name
+ * @return string selected part of the file name to write  
+ */
 function bw_trace_file_part( $file ) {
   global $bw_trace_anonymous;
   
@@ -61,9 +75,9 @@ function bw_trace_file_part( $file ) {
     $lose = str_replace( "/", "\\", ABSPATH );
     $file = str_replace( "/", "\\", $file );
     $fil = str_replace( $lose , '', $file );
-  } 
-  else
-    $fil = $file; 
+  } else {
+    $fil = $file;
+	}		 
   return( $fil );
 }
 
@@ -129,22 +143,29 @@ function bw_trace_count( $count ) {
  */
 function bw_trace_function( $function ) {
   global $bw_trace_functions;
-  $bw_trace_functions[$function]++;
+	//$c = $bw_trace_functions[$function];
+  //$bw_trace_functions[$function]++;
+	//$d = $bw_trace_functions[$function];
   $ret = $function;
   $ret .= "(".$bw_trace_functions[$function].")";
   return( $ret );
 }
 
 /**
+ * Return the current filter summary
+ * 
  * Even if current_filter exists the global $wp_current_filter may not be set
- * which could cause end() to produce a warning.
- * So this is a workaround for the problem. 
+ * 
+ * @return string current filter array imploded with commas
  */
 function bw_current_filter() {
   global $wp_current_filter;
-  if ( is_array( $wp_current_filter ) ) 
-    return end( $wp_current_filter );
-  return( null );  
+  if ( is_array( $wp_current_filter ) ) { 
+	  $filters = implode( ",",  $wp_current_filter );
+	} else {
+	  $filters = null;
+	}		
+  return( $filters );  
 }
 
 /**
@@ -349,26 +370,34 @@ function bw_array_inc( &$array, $index ) {
     ++$array[$index];
 }
 
-  
+/**
+ * Implement bw_trace() to write a record to the trace log file
+ *
+ * @param string $text field value
+ * @param string $function the current function name
+ * @param string $lineno the current line number
+ * @param string $file the current file
+ * @param string $text_label a label for the string
+ */
 function bw_lazy_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=__FILE__, $text_label=NULL) {
   global $oktop, $bw_trace_on, $bw_trace_count, $bw_trace_functions;
   $oktop = TRUE;
   
-  if ($bw_trace_on)
-  {
+  if ( $bw_trace_on ) {
     if ( empty( $bw_trace_count ) ) {
       $bw_trace_count = 0;
       $bw_trace_functions = array();
     }  
     $bw_trace_count++;
-    // Note: This is NOT the actual count of the number of times that the function is called. 
-    // It's the number of times that bw_trace is called for the $function
+    /*
+		 * Note: $bw_trace_functions does not hold the number of times that the function is called. 
+     * It's the number of times that bw_trace() is called for the $function
+		 */
     bw_array_inc( $bw_trace_functions, $function );
     $line = bw_flf( $function, $lineno, $file, $bw_trace_count, $text, $text_label );  
     bw_trace_log( $line );  
       
-  }  
-  else { 
+  } else { 
     // echo "<!--bw_trace_on is off -->" ;   
   }  
 }  
@@ -697,10 +726,11 @@ function bw_lazy_trace2( $value=NULL, $text=NULL, $show_args=true ) {
       $function = "";
     }
            
-    if ( $value || $text ) 
+    if ( $value || $text ) {
       bw_lazy_trace( $value, $function, $line, $file, $text );
-    if ( $show_args )  
-      bw_trace_context_all( $function, $line, $file );  
+		}			
+    //if ( $show_args )  
+    //  bw_trace_context_all( $function, $line, $file );  
   } 
   //bw_bang(); 
   return( $value );
