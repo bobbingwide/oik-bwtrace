@@ -80,6 +80,9 @@ Yes - see above
  
 
 == Upgrade Notice ==
+= 1.26 = 
+Improved logic for self implementation as an MU plugin 
+
 = 1.25 = 
 Improved support for action hooks and filters. 
 Now implements itself as a Must Use (MU) plugin if action counting is selected.
@@ -114,6 +117,14 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 1.26 =
+* Changed: Improved activating/de-activating of the oik-bwtrace MU plugin when BW_COUNT_ON is not defined true
+* Deprecated: Moved more deprecated functions and logic related to the original action tracing and logging to includes/deprecated.php
+* Changed: bw_lazy_trace_config_startup() no longer references BW_ACTIONS_ON nor BW_ACTIONS_RESET; deprecated constants
+* Changed: bw_trace_plugin_startup() loads global $bw_action_options regardless of the $bw_trace_options settings.
+* Changed: bw_trace_count_plugins_loaded() now uses global $bw_action_options
+* Changed: bw_trace_output_buffer() checks the output buffer status
+
 = 1.25 = 
 * Added: includes/deprecated.php for deprecated functions, excluding original immediate action tracing
 * Changed: Dependent upon oik v2.6-alpha.0525 for .php versions of include files

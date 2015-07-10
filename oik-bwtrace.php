@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 1.25
+Version: 1.26
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
@@ -29,6 +29,7 @@ License: GPL2
 
 /**
  * Return TRUE if option is '1', FALSE otherwise 
+ * 
  */
 function bw_torf( $array, $option ) {
   $opt = bw_array_get( $array, $option );
@@ -42,10 +43,15 @@ function bw_torf( $array, $option ) {
  * Activate trace if the profile says so 
  * AND if the chosen IP address is being used
  * 
+ * Activate action hooks and filter counting or other action tracing if the profile says so
+ * 
+ * 
  */
 function bw_trace_plugin_startup() {
   global $bw_trace_options, $bw_action_options;
   $bw_trace_options = get_option( 'bw_trace_options' );
+  $bw_action_options = get_option( 'bw_action_options' );
+	
   $bw_trace_level = bw_torf( $bw_trace_options, 'trace' ); 
   $bw_trace_ip = null;
   if ( $bw_trace_level ) { 
@@ -76,7 +82,7 @@ function bw_trace_plugin_startup() {
   if ( $bw_trace_reset ) {
     oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
     bw_trace_reset();
-    $bw_action_reset = true;
+    //$bw_action_reset = true;
   } 
   
   if ( $bw_trace_level ) {
@@ -93,48 +99,40 @@ function bw_trace_plugin_startup() {
     
     
     oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
-		/*
-		 * @TODO Make this optional
-		 */
-    //bw_trace_included_files();
-    //if ( $bw_trace_savequeries ) {
-    //   bw_trace_set_savequeries();
-    //}
-    //bw_trace_saved_queries();
-    
-    // We should only do this if we want to trace actions
-    //add_action( "init", "bw_trace_actions" );
 		
-		/*
-		 * If we want to trace counting then we can start counting quite early
-		 */
-		if ( defined( "BW_COUNT_ON" ) && true == BW_COUNT_ON ) {
-		  bw_trace_count_plugins_loaded( true );
-		} else {
-		  oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
-		}
-    add_action( "plugins_loaded", "bw_trace_count_plugins_loaded" );
-		add_action( "muplugins_loaded", "bw_trace_count_plugins_loaded" );
   } else {
     if ( !$bw_trace_ip ) {
       bw_trace_off();
     }    
-  } 
-
- 
-  // Shouldn't this be moved so that it's only performed if trace actions is enabled?  **?** 
-  
-  $bw_action_options = get_option( 'bw_action_options' );
-  $bw_action_reset = bw_torf( $bw_action_options, 'reset' );
-  if ( !empty( $_REQUEST['_bw_action_reset'] ) ) {
-    $bw_action_reset = TRUE;
-  } 
-  
-  
-  if ( $bw_action_reset ) {
-    oik_require( "includes/oik-actions.php", "oik-bwtrace" );
-    bw_actions_reset();
   }
+	
+  /*
+	 * If we want to trace hook counting then we can start quite early
+	 */
+	if ( defined( "BW_COUNT_ON" ) && true == BW_COUNT_ON ) {
+	  bw_trace_count_plugins_loaded( true );
+		$count_hooks = true;
+	} else {
+	  oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
+		$count_hooks = bw_array_get( $bw_action_options, "count", false );
+		bw_trace_activate_mu( $count_hooks );
+		bw_trace_count_plugins_loaded( $count_hooks );
+	}
+	if ( $count_hooks ) {
+		add_action( "plugins_loaded", "bw_trace_count_plugins_loaded" );
+		add_action( "muplugins_loaded", "bw_trace_count_plugins_loaded" );
+	}
+ 
+  //$bw_action_reset = bw_torf( $bw_action_options, 'reset' );
+  //if ( !empty( $_REQUEST['_bw_action_reset'] ) ) {
+  //  $bw_action_reset = TRUE;
+  //} 
+  
+  
+  //if ( $bw_action_reset ) {
+  //  oik_require( "includes/oik-actions.php", "oik-bwtrace" );
+  //  bw_actions_reset();
+  //}
 
   if ( $bw_trace_level > '0' ) {
     bw_lazy_trace( ABSPATH . $bw_trace_options['file'], __FUNCTION__, __LINE__, __FILE__, 'tracelog' );
@@ -152,34 +150,6 @@ function bw_trace_plugin_startup() {
   add_action( 'admin_menu', 'bw_action_options_add_page');
 	
 }
-
-
-/** 
- * Start the trace action logic if required 
- *
- * Load the bw_action options and check to see if "actions" is set. 
- * If so then set action tracing on, else set it off.
- * 
- * @TODO - why load oik-bwtrace.inc when it's off? Maybe we should only call bw_trace_actions_off() when it's available.
- */ 
-function bw_trace_actions() {
-  global $bw_action_options; 
-	
-  $bw_action_options = get_option( 'bw_action_options' );
-  $trace_actions = bw_array_get( $bw_action_options, "actions", false );
-  //bw_trace2( $bw_action_options, "bw_action_options" );
-  if ( $trace_actions ) {
-    oik_require2( "includes/oik-actions.php", "oik-bwtrace" );
-    bw_trace_actions_on();
-    bw_lazy_trace_actions();
-  } else {
-    if ( is_callable( "bw_trace_actions_off" ) ) {
-      bw_trace_actions_off();
-    }
-  }  
-}
-
-
 
 /**
  * Add a selected trace action
@@ -205,7 +175,7 @@ function bw_trace_add_action( $action, $option, $file, $function ) {
 /**
  * Add actions to trace selected actions
  * 
- * For 'wp' we trace the WordPress instance passed
+ * For 'wp' we can trace the WordPress instance passed and/or the wp_rewrite structure
  * 
  * 
  * At shutdown create a trace log of the following:
@@ -249,7 +219,6 @@ function oik_bwtrace_admin_menu() {
   //bw_add_relocation( "oik/admin/oik-bwtrace.inc", "oik-bwtrace/admin/oik-bwtrace.inc" );
   //bw_add_relocation( "oik/admin/oik-bwaction.inc", "oik-bwtrace/admin/oik-bwaction.inc" );
 }
-
 										 
 /**
  * Logic invoked when oik-bwtrace is loaded
@@ -307,15 +276,11 @@ function oik_bwtrace_loaded() {
 	
   add_action( "oik_admin_menu", "oik_bwtrace_admin_menu" );
 	
-	
 	/*
-	 * Selected actions, such as shutdown actions are implemented on includes/oik-actions.php
+	 * Selected actions, such as shutdown actions are implemented in includes/oik-actions.php
 	 * 
 	 */
 	bw_trace_add_selected_actions();
-
-
-
 
 }
 

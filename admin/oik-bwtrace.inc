@@ -101,7 +101,7 @@ function oik_action_options() {
   bw_checkbox_arr( "bw_action_options", "Trace 'wp' global wp_rewrite ", $options, 'trace_wp_rewrite' );
   bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' included files", $options, 'trace_included_files' );
   bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' saved queries", $options, 'trace_saved_queries' );
-  bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' status report", $options, 'trace_status_report' );
+  bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' status report and log in summary file", $options, 'trace_status_report' );
   bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' output buffer", $options, 'trace_output_buffer' );
   
   //bw_tablerow( array( "", "<input type=\"submit\" name=\"ok\" value=\"Save changes\" class=\"button-primary\"/>") ); 

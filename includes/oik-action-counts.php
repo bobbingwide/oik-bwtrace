@@ -20,6 +20,8 @@ function bw_trace_activate_mu( $activate=true ) {
 		$target = ABSPATH . '/wp-content/mu-plugins';
 	}
 	bw_trace2( $target, "target dir" );
+	//var_dump( debug_backtrace() );
+	//echo "Target: $target";
 	if ( is_dir( $target ) ) {
 		$target .= "/_oik-bwtrace-mu.php";
 		if ( $activate ) {
@@ -34,11 +36,12 @@ function bw_trace_activate_mu( $activate=true ) {
 	} else {
 		// Do we need to make this ourselves?
 		bw_trace2( "Not a dir?" );
+    //gobang();
 	}
 }
 
 /**
- * Turn on action counting 
+ * Turn on action hook and filter counting 
  */
 function bw_trace_count_on() {
   global $bw_count_on;
@@ -51,7 +54,7 @@ function bw_trace_count_on() {
 }
 
 /**
- * Turn off action counting
+ * Turn off action hook and filter counting
  */
 function bw_trace_count_off() {
   global $bw_count_on;
@@ -72,11 +75,11 @@ function bw_lazy_trace_count() {
 /**
  * Count every action and filter hook
  * 
- * WordPress itself counts the number of times an action is performed
- * in order to be able to report true on did_action()
+ * WordPress itself counts the number of times an action is performed in order to be able to report true on did_action().
  * We want to know about filters as well.
  * 
  * This new logic ( Aug 2014 ) is significantly faster than the orignal action tracing, which wrote each action to the action log.
+ * The additional logic ( May/June 2015 ) helps us determine the nesting.
  * 
  */
 function bw_trace_count_all( $tag, $args2=null ) {
@@ -182,19 +185,23 @@ function bw_trace_create_hook_links( $action_counts, $heading ) {
  *
  * Functions that can be called when loading oik-bwtrace from wp-config AND you want to count ALL the actions hooks and filters
  *
- * db.php is the WordPress drop-in plugin that gets invoked primarily to alter or control the database access
+ * db.php is the WordPress drop-in plugin that gets invoked primarily to alter or control the database access.
  * But it's not until this stage in the processing that "add_action" is available.
  * So we have to defer the registration of our action hooks until here at least.
+ *
+ *
+ * @param bool $count_hooks true if counting is required, false otherwise
  */
-function bw_trace_count_plugins_loaded( $trace_count=false ) {
+function bw_trace_count_plugins_loaded( $count_hooks=false ) {
   //bw_backtrace();
-  //bw_trace2();
+	global $bw_action_options;
+  bw_trace2();
 	//bw_trace_count_report();
-  if ( !$trace_count ) {
-		$bw_action_options = get_option( 'bw_action_options' );
-		$trace_count = bw_array_get( $bw_action_options, "count", false );
+  if ( !$count_hooks ) {
+		//$bw_action_options = get_option( 'bw_action_options' );
+		$count_hooks = bw_array_get( $bw_action_options, "count", false );
 	}
-  if ( $trace_count ) {
+  if ( $count_hooks ) {
     //oik_require( "includes/oik-actions.php", "oik-bwtrace" );
     bw_trace_count_on();
     bw_lazy_trace_count();
