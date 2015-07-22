@@ -43,14 +43,19 @@ function bw_action_options_init(){
 /**
  * Register the trace options page
  *
+ * Only available if the "oik-admin" library is available.
+ *
  */
 function bw_trace_options_add_page() {
-        add_options_page( __('oik trace options', 'oik-bwtrace' ), __( 'oik trace options', 'oik-bwtrace' ), 'manage_options', 'bw_trace_options', 'bw_trace_options_do_page');
+	if ( oik_require_lib( "oik-admin" ) ) {
+		add_options_page( __('oik trace options', 'oik-bwtrace' ), __( 'oik trace options', 'oik-bwtrace' ), 'manage_options', 'bw_trace_options', 'bw_trace_options_do_page');
+	}
 }
 
 
 /**
  * Register the action options page
+ *
  */
 function bw_action_options_add_page() {
 	add_options_page( __('oik action options', 'oik-bwtrace') , __( 'oik action options', 'oik-bwtrace' ), 'manage_options', 'bw_action_options', 'bw_action_options_do_page');
@@ -66,13 +71,13 @@ function bw_action_options_do_page() {
   oik_menu_header( "action options", "w70pc" );
   oik_box( null, null, "Options", "oik_action_options" ); 
   //oik_box( null, null, "Notes about oik actions", "oik_action_notes" ); 
-  ecolumn();
-  scolumn( "w30pc" );
+  //ecolumn();
+  //scolumn( "w30pc" );
   //oik_box( null, null, "Action reset button", "oik_action_reset_notes" ); 
-  oik_box( NULL, NULL, "oik documentation", "oik_documentation" );
-  oik_box( NULL, NULL, "support oik", "oik_support" );
-  ecolumn();
-  scolumn();
+  //oik_box( NULL, NULL, "oik documentation", "oik_documentation" );
+  //oik_box( NULL, NULL, "support oik", "oik_support" );
+  //ecolumn();
+  // scolumn();
   //oik_box( null, null, "Action summary", "oik_action_summary" ); 
   //oik_box( null, null, "PHP Info", "phpinfo" );
   oik_menu_footer();
@@ -134,31 +139,29 @@ function oik_action_notes() {
   bw_flush();
 }
 
-function oik_action_reset_notes() {
- p(" to be written" );
-}
-
-function oik_action_summary() {  
-  oik_require2( "admin/oik-bwaction.inc", "oik-bwtrace" ); 
-  bw_action_summary();  
-}
-
-// Draw the menu page itself
+/**
+ * Display the oik trace options page
+ * 
+ */
 function bw_trace_options_do_page() { 
   oik_menu_header( "trace options" );
   oik_box( null, null, "Options", "oik_trace_options" ); 
   oik_box( null, null, "Notes about oik trace", "oik_trace_notes" ); 
-  ecolumn();
-  
-  scolumn( "w30pc" );
   oik_box( null, null, "Trace options and reset button", "oik_trace_reset_notes" ); 
-  oik_box( NULL, NULL, "oik documentation", "oik_documentation" );
-  oik_box( NULL, NULL, "support oik", "oik_support" );
+  //ecolumn();
+  
+  //scolumn( "w30pc" );
+  //oik_box( NULL, NULL, "oik documentation", "oik_documentation" );
+  //oik_box( NULL, NULL, "support oik", "oik_support" );
   oik_menu_footer();
   bw_flush();
 }
 
 
+/**
+ * Display the trace options box
+ *
+ */
 function oik_trace_options() {
   bw_form( "options.php" );
   
@@ -169,15 +172,17 @@ function oik_trace_options() {
   settings_fields('bw_trace_options_options'); 
   
   bw_textfield_arr( "bw_trace_options", "Trace file", $options, 'file', 60 );
+  bw_checkbox_arr( "bw_trace_options", "Reset trace file every transaction", $options, 'reset' );
   
   bw_checkbox_arr( "bw_trace_options", "Trace enabled", $options, 'trace' );
-  bw_checkbox_arr( "bw_trace_options", "Reset trace file every transaction", $options, 'reset' );
+  bw_checkbox_arr( "bw_trace_options", "Fully qualified file names", $options, 'qualified' );
   bw_checkbox_arr( "bw_trace_options", "Include trace record count", $options, 'count' );
   bw_checkbox_arr( "bw_trace_options", "Include timestamp", $options, 'date' );
-  bw_checkbox_arr( "bw_trace_options", "Fully qualified file names", $options, 'qualified' );
+  bw_checkbox_arr( "bw_trace_options", "Include current filter", $options, 'filters' );
   bw_checkbox_arr( "bw_trace_options", "Include number of queries", $options, "num_queries" );
   bw_checkbox_arr( "bw_trace_options", "Include post ID", $options, "post_id" );
   bw_checkbox_arr( "bw_trace_options", "Include memory/peak usage", $options, 'memory' );
+  bw_checkbox_arr( "bw_trace_options", "Include files loaded count", $options, 'files' );
   $current_ip = "<br />Current IP: ";
   $current_ip .= bw_array_get( $_SERVER, "REMOTE_ADDR", null );
   bw_textfield_arr( "bw_trace_options", "Trace specific IP $current_ip", $options, 'ip', 20 );
@@ -197,7 +202,7 @@ function oik_trace_options() {
  * Display trace notes
  */
 function oik_trace_notes() {
-  p( "The tracing output produced by " .bw_oik(). " trace can be used for problem determination.");
+  p( "The tracing output produced by oik-bwtrace can be used for problem determination.");
   p( "It's not for the faint hearted.");
   p( "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site.");
   p( "If you do need to activate it, only do so for a short period of time." );
@@ -223,8 +228,13 @@ function oik_trace_notes() {
  *
  */
 function oik_trace_reset_notes() {
-  oik_require( "includes/oik-sc-help.inc" );
-  bw_invoke_shortcode( "bwtrace", null, "Use the [bwtrace] shortcode in a widget to provide an instant trace reset and page reload." );
+
+	if ( oik_require_lib( "oik-sc-help" ) ) {
+  //oik_require( "includes/oik-sc-help.inc" );
+		bw_invoke_shortcode( "bwtrace", null, "Use the [bwtrace] shortcode in a widget to provide an instant trace reset and page reload." );
+	} else {
+		p( "Activate the oik base plugin to enable the [bwtrace] shortcode" );
+	}
 }
 
 /**

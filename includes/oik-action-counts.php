@@ -69,7 +69,22 @@ function bw_trace_count_off() {
 function bw_lazy_trace_count() {
   bw_trace2();
   add_action( "all", "bw_trace_count_all", 10, 2 );
+	//add_action( "wp", "bw_trace_wp_early" );
+	
   add_action( "shutdown", "bw_trace_count_report" ); 
+	//gobang();
+}
+
+/**
+ * Implement 'wp' hook to see if we should be tracing 'wp'
+ * 
+ * This wasn't necessary! 
+ */
+function bw_trace_wp_early( $WP_Environment_Instance ) {
+	oik_require( "includes/bwtrace-actions.php", "oik-bwtrace" );
+	bw_action_options();
+	bw_trace_add_selected_actions();
+	
 }
 
 /**

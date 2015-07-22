@@ -15,12 +15,16 @@ function bw_trace_on( $default_options=false ) {
   $bw_trace_on = TRUE;
   if ( $default_options ) { 
     global $bw_include_trace_count, $bw_include_trace_date, $bw_trace_anonymous, $bw_trace_memory, $bw_trace_post_id, $bw_trace_num_queries;
+		global $bw_trace_current_filter;
+		global $bw_trace_file_count;
     $bw_include_trace_count = true;
     $bw_include_trace_date = true; 
     $bw_trace_anonymous = false;
     $bw_trace_memory = false; 
     $bw_trace_post_id = false;
     $bw_trace_num_queries = false;
+		$bw_trace_current_filter = true;
+		$bw_trace_file_count = true;
   }  
 }
 
@@ -63,18 +67,23 @@ function bw_getlocale( $category=LC_ALL ) {
 /**
  * Return the part of the file to trace
  *
- * $bw_trace_anonymous is true if we're not tracing fully qualified file names 
+ * $bw_trace_anonymous is true if we're not tracing fully qualified file names.
+ * First we try to remove the ABSPATH.. If that fails we assume it's a symlinked file
+ *
+ * @TODO Decide on whether or not slashes should be backslashes or vice-versa  
  *
  * @param string $file Fully qualified file name
  * @return string selected part of the file name to write  
  */
 function bw_trace_file_part( $file ) {
   global $bw_trace_anonymous;
-  
   if ( $bw_trace_anonymous ) {
     $lose = str_replace( "/", "\\", ABSPATH );
     $file = str_replace( "/", "\\", $file );
     $fil = str_replace( $lose , '', $file );
+		if ( $fil == $file ) {
+		  $fil = bw_trace_anonymize_symlinked_file( $fil );
+		}
   } else {
     $fil = $file;
 	}		 
@@ -82,24 +91,62 @@ function bw_trace_file_part( $file ) {
 }
 
 /**
+ * Anonymize a symlinked file name
+ * 
+ * $wp_plugin_paths contains the mapping from the symlinked plugin to the real path for the plugin.
+ * We need to convert the real path back to the assumed path so that we can remove the ABSPATH,
+ * thereby anonymizing the file name.
+ *
+ * `
+ * $plugin => $real_plugin
+ * [C:/apache/htdocs/oikcom/wp-content/plugins/cookie-cat] => c:/apache/htdocs/wordpress/wp-content/plugins/cookie-cat
+ * `
+ * 
+ * @param string $file the real file
+ * @return string the anonymized file
+ */
+function bw_trace_anonymize_symlinked_file( $file ) {
+  $fil = str_replace( "\\", "/", $file );
+	$fil = strtolower( $fil );
+  global $wp_plugin_paths;
+	if ( count( $wp_plugin_paths ) ) {
+	  foreach ( $wp_plugin_paths as $plugin => $real_plugin ) {
+		  if ( 0 === strpos( $fil, $real_plugin ) ) {
+				$fil = str_replace( $real_plugin, $plugin, $fil );
+				$lose = str_replace( "\\", "/", ABSPATH );
+				$fil = str_replace( $lose , '', $fil );
+        break;
+			}
+		} 
+	}
+	return( $fil );			
+}			
+
+/**
  * Trace the elapsed time
  * 
  * On the first call the timer_start is set.
+ * If timing is not required we return a blank.
  * 
  * @return Elapsed time since timer_start first set. 
  */
 function bw_trace_elapsed( ) {
-  static $timer_start, $timer_latest;
-  if ( !isset( $timer_start ) ) {
-    $timer_start = microtime( true );
-    $timer_latest = $timer_start;
-  } 
-  $timer_end = microtime( true );
-  $timetotal = $timer_end - $timer_start;
-  $elapsed = number_format( $timetotal, 6 ); 
-  $latest = number_format( $timer_end - $timer_latest, 6 );
-  $timer_latest = $timer_end;
-  return( "$elapsed $latest" );
+	global $bw_include_trace_date;
+	if ( $bw_include_trace_date ) {
+		static $timer_start, $timer_latest;
+		if ( !isset( $timer_start ) ) {
+			$timer_start = microtime( true );
+			$timer_latest = $timer_start;
+		} 
+		$timer_end = microtime( true );
+		$timetotal = $timer_end - $timer_start;
+		$elapsed = number_format( $timetotal, 6 ); 
+		$latest = number_format( $timer_end - $timer_latest, 6 );
+		$timer_latest = $timer_end;
+	  return( "$elapsed $latest " );
+	} else {
+		return( null );
+	}	
 }
 
 /**
@@ -111,11 +158,11 @@ function bw_trace_elapsed( ) {
  */
 function bw_trace_date( $format=DATE_W3C ) {
   global $bw_include_trace_date;
+	$ret = null;
   if ( $bw_include_trace_date ) {
     $ret = date( $format );
-  } else {
-    $ret = '';
-  }        
+    $ret .= ' ';
+  }       
   return( $ret ) ;
 }
 
@@ -123,15 +170,17 @@ function bw_trace_date( $format=DATE_W3C ) {
  * Return the trace record count if required
  * 
  * Sometimes, when we want to compare trace output it helps if we eliminate the trace counter from the trace output
+ *
+ * @return string trace record count, if required
  */
 function bw_trace_count( $count ) {
-  global $bw_include_trace_count;
-  
- if ( $bw_include_trace_count )
-    $ret = $count;
-  else
-    $ret = '';      
-  return( $ret ) ;
+	global $bw_include_trace_count;
+	$ret = null;      
+	if ( $bw_include_trace_count ) {
+		$ret = $count;
+		$ret .= " ";
+	}
+	return( $ret ) ;
 }
 
 /**
@@ -148,6 +197,7 @@ function bw_trace_function( $function ) {
 	//$d = $bw_trace_functions[$function];
   $ret = $function;
   $ret .= "(".$bw_trace_functions[$function].")";
+	$ret .= " ";
   return( $ret );
 }
 
@@ -170,21 +220,45 @@ function bw_current_filter() {
 
 /**
  * Return the number of database queries performed so far
+ *
+ * @return string Number of queries performed, if required
  */
 function bw_get_num_queries() {
-  global $bw_trace_num_queries;
-  if ( $bw_trace_num_queries ) {
-    global $wpdb;
-    if ( $wpdb ) {
-      $num_queries = " " . $wpdb->num_queries;
-    } else {
-      $num_queries = " 0";   
-    } 
-  } else {
-    $num_queries = null;
-  }  
-  return( $num_queries ); 
+	global $bw_trace_num_queries;
+	$num_queries = null;
+	if ( $bw_trace_num_queries ) {
+		global $wpdb;
+		if ( $wpdb ) {
+			$num_queries = $wpdb->num_queries;
+		} else {
+		$num_queries = "0";   
+		} 
+		$num_queries .= " ";
+	}  
+	return( $num_queries ); 
 }
+
+/**
+ * Set the SAVEQUERIES constant if possible 
+ *
+ * If we want to trace the queries then the SAVEQUERIES constant needs to be set to true.
+ * If it's already set then that MAY be hard lines; trace the value so that we know.
+ * 
+ * Note: Just because SAVEQUERIES is defined doesn't mean we should be tracing the queries.
+ */
+function bw_trace_set_savequeries() {
+	global $bw_action_options;
+	global $bw_trace_savequeries;
+
+	$bw_trace_savequeries = bw_torf( $bw_action_options, 'trace_saved_queries' );
+	if ( $bw_trace_savequeries ) {
+		if ( !defined( 'SAVEQUERIES' ) ) {
+			define( 'SAVEQUERIES', true );
+		} else {
+			bw_trace2( SAVEQUERIES, "SAVEQUERIES is already defined" );
+		}
+	}
+} 
 
 /**
  * Return the global post_id and, if different global id, for tracing
@@ -210,39 +284,45 @@ function bw_get_post_id() {
 
 /**
  * Trace the post id, if required
+ *
+ * @return string post ID, if required
  */
 function bw_trace_post_id() {
-  global $bw_trace_post_id;
-  if ( $bw_trace_post_id ) {
-    $id = " ";
-    $id .= bw_get_post_id();
-  } else { 
-    $id = null;
-  }
-  return( $id );
+	global $bw_trace_post_id;
+	$id = null;
+	if ( $bw_trace_post_id ) {
+		$id .= bw_get_post_id();
+		$id .= " ";
+	}
+	return( $id );
 }
 
 /**
- * Trace the current memory/peak usage, if require
+ * Trace the current memory/peak usage, if required
  * 
  */
 function bw_get_memory_usage() {
-  global $bw_trace_memory;
-  if ( $bw_trace_memory ) {
-    $memory = " "; 
-    $memory .= memory_get_usage(); 
-    $peak = memory_get_peak_usage();
-    $memory .= "/$peak";
-  } else {
-    $memory = null;
-  }  
-  return( $memory );
+	global $bw_trace_memory;
+	$memory = null;
+	if ( $bw_trace_memory ) {
+		$memory .= memory_get_usage(); 
+		$peak = memory_get_peak_usage();
+		$memory .= "/$peak";
+		$memory .= " "; 
+	}
+	return( $memory );
 }  
 
 /**
  * Trace bwechos if required
  *
  * Produces nesting level, number of bw_echos() performed and current strlen
+ * followed by the current contents of $bwecho
+ *
+ * e.g.
+ * `
+ * @#:0 241 27<!--PHP version:5.5.18 -->
+ * `
  */
 function bw_trace_bwechos() {
   global $bwechos, $bwecho, $bwecho_array; 
@@ -259,34 +339,44 @@ function bw_trace_bwechos() {
   }   
   return( $ret );
 }  
- 
 
 /** 
  * Trace contextual information set using bw_set_context 
  *
  * If the context is "act" then we trace the number of times this has been processed
+ *
+ * @return string context - including the current filter tree
  */
 function bw_trace_context() {	
-  global $bw_context;
-  $context = bw_current_filter(); 
-  if ( $context ) {
-    $context = "cf=" . $context;
-  } else {
-    $context = "cf!";
-  }
-    
-  if ( is_array( $bw_context ) ) {
-    foreach ( $bw_context as $key => $value ) {
-      $context .= ",$key=$value";     
-      if ( $key == "act" ) {
-        global $wp_actions;
-        $context .= "(".$wp_actions[$value].")";
-      }  
-    }
-  } 
-  return( $context );
+	global $bw_trace_current_filter;
+	$context = null;
+	if ( $bw_trace_current_filter ) {
+		$context = bw_current_filter(); 
+		if ( $context ) {
+			$context = "cf=" . $context;
+		} else {
+			$context = "cf!";
+		}
+		$context .= " ";
+	}
+   
+	global $bw_context;
+	if ( is_array( $bw_context ) ) {
+		foreach ( $bw_context as $key => $value ) {
+			$context .= ",$key=$value";     
+			if ( $key == "act" ) {
+				global $wp_actions;
+				$context .= "(".$wp_actions[$value].")";
+			}  
+		}
+	} 
+	return( $context );
 } 
 
+/**
+ * Set some contextual information for tracing
+ *
+ */
 function bw_set_context( $key, $value=NULL ) {
   global $bw_context;
   if (!isset( $bw_context )) 
@@ -294,6 +384,12 @@ function bw_set_context( $key, $value=NULL ) {
   $bw_context[$key] = $value;
 } 
 
+/**
+ * Trace all contextual information
+ *
+ * @TODO Check if function still necessary
+ *
+ */
 function bw_trace_context_all( $function=NULL, $line=NULL, $file=NULL ) {	
   global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
   // bw_trace( $wp_filter, $function, $line, $file, "wp_filter" );
@@ -302,56 +398,85 @@ function bw_trace_context_all( $function=NULL, $line=NULL, $file=NULL ) {
   bw_trace( $wp_current_filter, $function, $line, $file, "current_filter" );
 }
 
+/**
+ * Return the files loaded count
+ *
+ */
+function bw_trace_file_count() {
+  global $bw_trace_file_count;
+	$filecount = null;
+	if ( $bw_trace_file_count ) {
+   $filecount .= "F=";
+	 $filecount .= count( get_included_files() );
+   $filecount .= " ";
+	} 
+	return( $filecount );
+}
+
 
 /**
  * Format the trace record
  *
- * Note: flf is an abbreviation for function, line, file or maybe file, line, function#
+ * Note: flf is an abbreviation for function, line, file 
+ * which become file(line) function in the trace record
  *
- * This is the minimum output required over and above the text_label and value.
+ * This is the minimum output required over and above the value of the field being traced. 
+ * 
  * If you don't have this information you may as well not have the trace output.
  * 
- *
- * @TODO Complete the write up of these notes
  * 
- * The format required for the trace record is something like this
+ * The format of the trace record is something like this:
  *
- * C:\apache\htdocs\wordpress\wp-content\plugins\bwtrace\bwtrace.php(116:0)  1 2011-01-05T22:43:13+00:00
+ * | Part                | Example
+ * |-------------------- | --------------
+ * | Filename(line)      | /wp-content/plugins/oik-bwtrace/oik-bwtrace.php(143:0)
+ * | function(count)     | bw_trace_plugin_startup(1) 
+ * | trace record count  | 7
+ * | timestamp           | 2015-06-04T13:53:35+00:00
+ * | elapsed						 | 0.011437
+ * | interval            | 0.001158 
+ * | context             | cf=admin_menu
+ * | number of queries   | 1
+ * | post ID             | 3667
+ * | memory/peak usage   | 14310144/14383168
+ * | files loaded        | F=80 
+ * | field               | tracelog
+ * | value               | C:\apache\htdocs\wordpress/bwtraces.loh
+ * | bwecho'd content    | see bw_trace_bwechos()
  *
- * but this can be altered by the settings for:
- * - trace count
- * - trace date
- * - trace files part ( anonymous ) 
+ * Most parts are controlled by trace option settings.
  *
+ * Each of the invoked functions should either return the value followed by a space OR a null string
+ *
+ * @param string $function the invoking function ( e.g. __FUNCTION__ )
+ * @param string $lineno the invoking file line number ( e.g. __LINE__ )
+ * @param string $file the invoking file normally ( e.g. __FILE__ )
+ * @param integer $count the trace record count
+ * @param string $text representing the information to trace
+ * @param string $text_label identifying text label  
  */
-function bw_flf( $function, $lineno, $file, $count,  $text, $text_label = NULL ) {
-  $ref = bw_trace_file_part( $file );
-  $ref .= '('.$lineno.':0) ';
-  $ref .= bw_trace_date( DATE_W3C );
-  $ref .= " ";
-  $ref .= bw_trace_elapsed();
-  $ref .= " ";
-  $ref .= bw_trace_count( $count );
-  $ref .= " "; 
-  $ref .= bw_trace_context();
-  $ref .= bw_get_num_queries();
-  $ref .= bw_trace_post_id();
-  $ref .= bw_get_memory_usage();
-  $ref .= " "; 
-  $ref .= "F=" . count( get_included_files() );
-  $ref .= " ";
-  $ref .= bw_trace_function( $function );
-  $ref .= " ";
-  $ref .= $text_label;
-  $ref .= " ";
-  if ( is_callable( "obsafe_print_r" ) ) {
-    $ref .= obsafe_print_r( $text, TRUE );
-  } else {  
-    $ref .= print_r( $text, TRUE) ; 
-  }
-  $ref .= bw_trace_bwechos();
-  $ref .= "\n";
-  return( $ref );
+function bw_flf( $function, $lineno, $file, $count, $text, $text_label = NULL ) {
+	$ref = bw_trace_file_part( $file );
+	$ref .= '('.$lineno.':0) ';
+	$ref .= bw_trace_function( $function );
+	$ref .= bw_trace_count( $count );
+	$ref .= bw_trace_date( DATE_W3C );
+	$ref .= bw_trace_elapsed();
+	$ref .= bw_trace_context();
+	$ref .= bw_get_num_queries();
+	$ref .= bw_trace_post_id();
+	$ref .= bw_get_memory_usage();
+	$ref .= bw_trace_file_count();
+	$ref .= $text_label;
+	$ref .= " ";
+	if ( is_callable( "obsafe_print_r" ) ) {
+		$ref .= obsafe_print_r( $text, TRUE );
+	} else {  
+		$ref .= print_r( $text, TRUE) ; 
+	}
+	$ref .= bw_trace_bwechos();
+	$ref .= "\n";
+	return( $ref );
 } 
 
 /**
@@ -362,12 +487,14 @@ function bw_flf( $function, $lineno, $file, $count,  $text, $text_label = NULL )
  *
  */
 function bw_array_inc( &$array, $index ) {
-  if ( !isset($array) )
-    $array = array();
-  if ( ! isset($array[$index]) )
-    $array[$index] = 1;
-  else
-    ++$array[$index];
+	if ( !isset($array) ) {
+		$array = array();
+	}
+	if ( !isset( $array[$index] ) ) {
+		$array[$index] = 1;
+	} else {
+		++$array[$index];
+	}
 }
 
 /**

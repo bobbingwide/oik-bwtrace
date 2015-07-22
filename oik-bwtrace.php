@@ -3,10 +3,13 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 1.27
+Version: 1.28
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
-License: GPL2
+Text Domain: oik-bwtrace
+Domain Path: /languages/
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
     Copyright 2011-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
@@ -29,7 +32,10 @@ License: GPL2
 
 /**
  * Return TRUE if option is '1', FALSE otherwise 
- * 
+ *
+ * @param array $array the option array
+ * @param string $option the option field
+ * @return bool true if the option field is set 
  */
 function bw_torf( $array, $option ) {
   $opt = bw_array_get( $array, $option );
@@ -50,7 +56,9 @@ function bw_torf( $array, $option ) {
 function bw_trace_plugin_startup() {
   global $bw_trace_options, $bw_action_options;
   $bw_trace_options = get_option( 'bw_trace_options' );
-  $bw_action_options = get_option( 'bw_action_options' );
+	if ( !isset( $bw_action_options ) ) {
+		$bw_action_options = get_option( 'bw_action_options' );
+	}
 	
   $bw_trace_level = bw_torf( $bw_trace_options, 'trace' ); 
   $bw_trace_ip = null;
@@ -87,15 +95,23 @@ function bw_trace_plugin_startup() {
   
   if ( $bw_trace_level ) {
     bw_trace_on();
-    global $bw_include_trace_count, $bw_include_trace_date, $bw_trace_anonymous, $bw_trace_memory, $bw_trace_post_id, $bw_trace_num_queries, $bw_trace_savequeries;
+    global $bw_include_trace_count
+				, $bw_include_trace_date
+				, $bw_trace_anonymous
+				, $bw_trace_memory
+				, $bw_trace_post_id
+				, $bw_trace_num_queries;
+		global $bw_trace_current_filter, $bw_trace_file_count;
     $bw_include_trace_count = bw_torf( $bw_trace_options, 'count' );
     $bw_include_trace_date = bw_torf( $bw_trace_options, 'date' );
     $bw_trace_anonymous = !bw_torf( $bw_trace_options, 'qualified' );
     $bw_trace_memory = bw_torf( $bw_trace_options, "memory" );
     $bw_trace_post_id = bw_torf( $bw_trace_options, "post_id" );
     $bw_trace_num_queries = bw_torf( $bw_trace_options, "num_queries" );
-    //$bw_trace_savequeries = bw_torf( $bw_trace_options, "savequeries" );
-    $bw_trace_savequeries = $bw_trace_num_queries;
+    bw_trace_set_savequeries();
+		
+		$bw_trace_current_filter = bw_torf( $bw_trace_options, "filters" );
+		$bw_trace_file_count = bw_torf( $bw_trace_options, "files" );
     
     
     oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
@@ -122,6 +138,7 @@ function bw_trace_plugin_startup() {
 		add_action( "plugins_loaded", "bw_trace_count_plugins_loaded" );
 		add_action( "muplugins_loaded", "bw_trace_count_plugins_loaded" );
 	}
+
  
   //$bw_action_reset = bw_torf( $bw_action_options, 'reset' );
   //if ( !empty( $_REQUEST['_bw_action_reset'] ) ) {
@@ -144,59 +161,50 @@ function bw_trace_plugin_startup() {
     bw_lazy_trace( $bw_action_options, __FUNCTION__, __LINE__, __FILE__, "bw_action_options" );
   } 
 
-  add_action( 'admin_init', 'bw_trace_options_init' );
-  add_action( 'admin_init', 'bw_action_options_init' );
-  add_action( 'admin_menu', 'bw_trace_options_add_page');
-  add_action( 'admin_menu', 'bw_action_options_add_page');
-	
-}
+	add_action( 'admin_init', 'bw_trace_options_init' );
+	add_action( 'admin_init', 'bw_action_options_init' );
 
-/**
- * Add a selected trace action
- * 
- * @param string $action the action hook e.g. 'wp'
- * @param string $option the option name e.g. 'trace_wp_rewrite'
- * @param string $file the implementing file e.g. 'includes/oik-actions.php'
- * @param string $function the implementing function e.g. 'bw_trace_wp_rewrite'
- */
-function bw_trace_add_action( $action, $option, $file, $function ) {
-	global $bw_action_options;
-	$bw_trace_action = bw_array_get( $bw_action_options, $option, false );
-	if ( $bw_trace_action ) {
-	  if ( !function_exists( $function ) ) {
-		  oik_require( $file, "oik-bwtrace" );
-		}
-		if ( function_exists( $function ) ) {
-		  add_action( $action, $function );
-		}
+	add_filter( "oik_query_libs", "oik_bwtrace_query_libs" );
+	
+	if ( oik_require_lib( "oik-admin" ) && oik_require_lib( "bobbforms" ) && oik_require_lib( "bobbfunc" )  ) {
+		add_action( 'admin_menu', 'bw_trace_options_add_page');
+		add_action( 'admin_menu', 'bw_action_options_add_page');
+	} else {
+		bw_trace2( "Unable to activate oik-bwtrace admin" );
 	}
 }
-	
+
+
 /**
- * Add actions to trace selected actions
- * 
- * For 'wp' we can trace the WordPress instance passed and/or the wp_rewrite structure
- * 
- * 
- * At shutdown create a trace log of the following:
+ * Implement "oik_query_libs" for oik-bwtrace
  *
- * - included files
- * - saved queries
- * - general status report
+ * In order for this function to have been invoked the oik-lib logic must be in place.
+ * So we can happily register the libraries in the libs folder using the available functions and methods
  * 
- * Note: The general status report should also be reportable back to the browser
- * even when trace is not being run but when the trace plugin is activated.
- * So it shouldn't be where it currently is. 
+ * Here we're determining the subset of oik functions that are actually used by oik-bwtrace.
+ * We may eventually determine that these really do need to be implemented as dependencies.
+ * Does this mean that we need to implement the bwtrace admin as a library with dependencies on "oik-admin"
+ * ... probably.
+ * In which case automatically building the libraries from files that are present is not a good idea 
+ *
  */
-function bw_trace_add_selected_actions() {
-	bw_trace_add_action( "wp", "trace_wp_action", "includes/oik-actions.php", "bw_trace_wp" );
-	bw_trace_add_action( "wp", "trace_wp_rewrite", "includes/oik-actions.php", "bw_trace_wp_rewrite" );
-	bw_trace_add_action( "shutdown", "trace_included_files", "includes/oik-actions.php", "bw_trace_included_files" );
-	bw_trace_add_action( "shutdown", "trace_saved_queries", "includes/oik-actions.php", "bw_trave_saved_queries" );
-	bw_trace_add_action( "shutdown", "trace_output_buffer", "includes/oik-actions.php", "bw_trace_output_buffer" );
-	bw_trace_add_action( "shutdown", "trace_functions", "includes/oik-actions.php", "bw_trace_functions_traced" );
-	bw_trace_add_action( "shutdown", "trace_status_report", "includes/oik-actions.php", "bw_trace_status_report" );
-}
+function oik_bwtrace_query_libs( $libraries ) {
+  // $libraries = oik_lib_query_libraries( $libraries, "oik-bwtrace" );
+	$lib_args = array();
+	$libs = array( "bobbfunc" => null, "bobbforms" => "bobbfunc", "oik-admin" => "bobbforms" );
+	foreach ( $libs as $library => $depends ) {
+		$lib_args['library'] = $library;
+		$lib_args['src'] = oik_path( "libs/$library.php", "oik-bwtrace" ); 
+		//if ( $depends ) {
+			$lib_args['deps'] = $depends;
+		//}
+		$lib = new OIK_lib( $lib_args );
+		$libraries[] = $lib;
+	}
+	bw_trace2();
+	return( $libraries );
+} 
+ 
 
 /**
  * 
@@ -228,8 +236,13 @@ function oik_bwtrace_admin_menu() {
  * Since its purpose is to enable tracing of WordPress core, plugins and themes
  * it's coded to be able to start up lazily and not expect the whole of WordPress to be up and running.
  * 
- * It is dependent on functions in the oik base plugin.
+ * Some parts of oik-bwtrace are dependent on functions in the oik base plugin.
  * If these functions are not available then it won't do anything.
+ * 
+ * For the run-time part we now make used of shared library logic, supported by the oik-lib plugin
+ * If this has been loaded before us then we can use its logic.
+ * Otherwise
+ * 
  *  
  */
 function oik_bwtrace_loaded() {
@@ -241,7 +254,7 @@ function oik_bwtrace_loaded() {
 	 */
 	if ( !function_exists( 'oik_require' ) ) {
 		// check that oik v2.6 (or higher) is available.
-		$oik_boot = dirname(dirname(__FILE__)) . "/oik/oik_boot.php";
+		$oik_boot = __DIR__ . "/libs/oik_boot.php";
 		if ( file_exists( $oik_boot ) ) { 
 			require_once( $oik_boot );
 		}
@@ -254,8 +267,9 @@ function oik_bwtrace_loaded() {
 	 * If oik really is backlevel then we may have a problem.
 	*/
 	if ( function_exists( "oik_require2" )) {
-		oik_init();
-		oik_require( "bwtrace_boot.php" ); 
+		oik_lib_fallback( __DIR__ . '/libs' );
+		oik_require( "libs/bwtrace.php", "oik-bwtrace" );
+		oik_require( "libs/bwtrace_boot.php", "oik-bwtrace" ); 
 		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
 	}
 	
@@ -281,6 +295,7 @@ function oik_bwtrace_loaded() {
 	 * Selected actions, such as shutdown actions are implemented in includes/oik-actions.php
 	 * 
 	 */
+	oik_require( "includes/bwtrace-actions.php", "oik-bwtrace" );
 	bw_trace_add_selected_actions();
 
 }

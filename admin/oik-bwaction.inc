@@ -19,6 +19,26 @@
 
 */
 
+
+/**
+ * 
+ * Deprecated: Yes
+ */
+function oik_action_summary() {  
+  oik_require2( "admin/oik-bwaction.inc", "oik-bwtrace" ); 
+  bw_action_summary();  
+}
+
+
+
+function oik_action_reset_notes() {
+ p(" to be written" );
+}
+
+
+
+
+
 /**
  * Calculate an average
  *

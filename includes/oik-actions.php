@@ -88,20 +88,6 @@ function bw_trace_included_files() {
 }
 
 /**
- * Set the SAVEQUERIES constant if possible 
- *
- * If we want to trace the queries then the SAVEQUERIES constant needs to be set to true.
- * If it's already set then that MAY be hard lines; trace the value so that we know.
- */
-function bw_trace_set_savequeries() {
-  if ( !defined( 'SAVEQUERIES' ) ) {
-    define( 'SAVEQUERIES', true );
-  } else {
-    bw_trace2( SAVEQUERIES, "SAVEQUERIES is already defined" );
-  }
-} 
-
-/**
  * At shutdown produce the SAVEQUERIES report
  * 
  * Only do this if SAVEQUERIES is defined 
@@ -222,19 +208,21 @@ function bw_trace_query_plugin_count( $plugins=null ) {
  * Return the array of active plugins
  *
  * This function accounts for tracing in a simulated WordPress environment: oik-batch
+ * It should also account for running under WP-CLI
+ *
  *
  * @return array plugin names array
  * 
  */ 
 function bw_trace_query_plugins() {
-  if ( PHP_SAPI == "cli" ) {
-    $plugins = array( "oik-batch" );
-  } elseif ( bw_is_wordpress() ) {  
-    oik_require( "admin/oik-depends.inc" );
-    $plugins = bw_get_active_plugins();
-  } else {
-    $plugins = array( "oik-batch" );
-  }
+	//bw_backtrace();
+	$plugins = array( "oik-batch" );
+  if ( oik_require_lib( "oik-depends" ) ) { 
+		$plugins = bw_get_active_plugins();
+	}
+  //if ( PHP_SAPI == "cli" ) {
+    //$plugins = array( "oik-batch" );
+	//}
   return( $plugins );
 }
  
@@ -333,6 +321,15 @@ function bw_trace_wp( $WP_Environment_Instance ) {
 function bw_trace_wp_rewrite( $WP_Environment_Instance ) {
   global $wp_rewrite;
   bw_trace2( $wp_rewrite, "wp_rewrite", false );
+}
+
+/**
+ * Trace the WordPress plugin paths	$wp_plugin_paths
+ *
+ */
+function bw_trace_plugin_paths() {
+	global $wp_plugin_paths;
+	bw_trace2( $wp_plugin_paths, "plugin paths", false );
 }
 
 /**

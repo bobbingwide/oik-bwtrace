@@ -4,14 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oik bwtrace 1.28\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2015-07-11 09:35:40+00:00\n"
+"POT-Creation-Date: 2015-07-22 12:12:46+00:00\n"
 "MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"Language: en_GB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-
 #: admin/oik-bwaction.inc:35
 msgid " to be written"
 msgstr ""
@@ -143,7 +144,7 @@ msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "http://www.oik-plugins.com/oik-plugins/oik-bwtrace"
-msgstr ""
+msgstr "http://www.oik-plugins.com/oik-plugins/oik-bwtrace"
 
 #. Description of the plugin/theme
 msgid "Debug trace for WordPress, including action and filter tracing"
@@ -155,4 +156,5 @@ msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "http://www.oik-plugins.com/author/bobbingwide"
-msgstr ""
+msgstr "http://www.oik-plugins.com/author/bobbingwide"
+
