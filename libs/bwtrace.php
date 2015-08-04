@@ -76,11 +76,10 @@ if ( !function_exists( "bw_backtrace" ) ) {
 
 /**
  * Start up tracing from the wp-config file if required
- *
  * 
+ * Only do this if the file is available from the current library
  */
 if ( defined( 'BW_TRACE_CONFIG_STARTUP' ) && BW_TRACE_CONFIG_STARTUP == true ) {
-	//require_once( dirname( __FILE__ ) . '/bwtrace_boot.php' );
 	$bwtrace_boot = __DIR__ . '/bwtrace_boot.php';
 	if ( file_exists( $bwtrace_boot ) ) {
 		require_once( $bwtrace_boot );

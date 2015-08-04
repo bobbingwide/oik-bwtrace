@@ -3,8 +3,8 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, immediate trace
 * Requires at least: 4.2
-* Tested up to: 4.3-beta3
-* Stable tag: 1.28
+* Tested up to: 4.3-beta4
+* Stable tag: 2.0.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 * Text Domain: oik-bwtrace
@@ -38,7 +38,8 @@ Features:
 * Does not need to be activated if started programmatically or from wp-config.php
 * Ability to choose the IP address to trace, defaults to ALL requests
 * Writes summary trace record for each transaction into a daily log
-* Now operates as a standalone plugin; independent of the oik base plugin.
+* Now operates as a standalone plugin; independent of the oik base plugin
+* Integrated with oik-lib shared library management
 
 The trace record output can include:
 
@@ -91,6 +92,9 @@ Use the contact form on the oik-plugins website.
 
 
 ## Upgrade Notice 
+# 2.0.0 
+Now works as a standalone plugin. Prior to upgrading oik-bwtrace please deactivate it and upgrade the oik base plugin to 2.6-alpha.0724 or higher.
+
 # 1.28 
 Now operates as a standalone plugin
 
@@ -134,6 +138,14 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.0.0 
+* Changed: Summary trace record doesn't show trace file name if 0 trace records produced
+* Changed: Merged shared libraries with oik-libs v0.0.1
+* Changed: Reversioned using semantic versioning, to reflect incompatibility with oik v2.5
+* Changed: Must Use plugin also version 2.0.0
+* Changed: Some docblock comment updates
+* Deleted: Some commented out code removed
+
 # 1.28 
 * Added: Shared library files in /libs folder to enable standalone operation
 * Added: includes/bwtrace_actions.php to register trace action processing

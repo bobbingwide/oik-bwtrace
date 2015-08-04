@@ -3,11 +3,9 @@ if ( !defined( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED' ) ) {
 define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
 
 
-/*  
- * This was a poorly named file. It was oik-bwtrace.inc
- * It should be really have been oik-actions.inc. 
- * Well oik-actions.php! 
- * It's OK now 
+/**
+ * oik-bwtrace action tracing
+ *  
  *
  */
 bw_trace2( __FILE__, "file loaded" );
@@ -95,13 +93,14 @@ function bw_trace_included_files() {
  * Note: If SAVEQUERIES was not defined in wp-config.php then we can miss the first query.
  * The value of $wpdb->num_queries will be greater than the number of queries logged in the array.
  * This first query is: 
+ * `
  *  [0] => Array
  *    (
  *     [0] => SELECT option_name, option_value FROM wp_options WHERE autoload = 'yes'
  *     [1] => 0.028857946395874
  *     [2] => require(wp-blog-header.php'), require_once('wp-load.php'), require_once('wp-config.php'), require_once('wp-settings.php'), wp_not_installed, is_blog_installed, wp_load_alloptions
  *   )
- *     
+ * `   
  */
 function bw_trace_saved_queries() {
     global $wpdb;
@@ -268,8 +267,13 @@ function bw_trace_status_report() {
         $wpdb->elapsed_query_time = "";
     }
    $func($wpdb->elapsed_query_time, "Query time", false);
-  $func( bw_trace_file(), "Trace file", false );
-  $func( $bw_trace_count, "Trace records", false );
+	if ( $bw_trace_count ) {
+		$func( bw_trace_file(), "Trace file", false );
+		$func( $bw_trace_count, "Trace records", false );
+	} else {
+		$func( null, "Trace file", false );
+		$func( null, "Trace records", false );
+	}	
   $remote_addr = bw_array_get( $_SERVER, 'REMOTE_ADDR', false );
   $func( $remote_addr, "Remote addr", false );
 	
@@ -342,8 +346,12 @@ function bw_trace_plugin_paths() {
 function bw_trace_oik_bwtrace_loaded() {
 }
 
-//bw_trace_oik_bwtrace_loaded();
-
+/**
+ * Record a trace value / text pair
+ *
+ * @param string $value the value 
+ * @param string $text the textual label for the value
+ */
 function bw_trace_vt( $value, $text ) {
   global $vt_values, $vt_text;
   $vt_values[] = $value;
@@ -359,9 +367,10 @@ function bw_trace_vt( $value, $text ) {
  *  no     |  n/a       | parms,,
  *  yes    |  Yes       | REQUEST_URI,action 
  * 
+ * @return string the request string
  */
 function bw_trace_determine_request() {
-  $request = $_SERVER['REQUEST_URI' ];
+  $request = $_SERVER['REQUEST_URI'];
   if ( !$request ) {
     if ( PHP_SAPI == "cli" ) {
       foreach ( $_SERVER['argv'] as $key => $arg ) {
@@ -378,7 +387,6 @@ function bw_trace_determine_request() {
   }
   return( $request );
 } 
-
 
 /**
  * Record the summary values for this transaction

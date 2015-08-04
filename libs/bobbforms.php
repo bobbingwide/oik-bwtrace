@@ -190,7 +190,12 @@ function tablerow( $td1, $td2 ) {
  *
  * In the first version the cell was not created if there was no value.
  * In oik v2.4 the cell is created even when there is no contents. 
- * This may make it easier for [bw_csv] with blanks and zeros. 
+ * This may make it easier for [bw_csv] with blanks and zeros.
+ * 
+ * If the cell is an array we treat it as a simple array.
+ * @TODO Since this array may be partially associative we need to unassoc it first
+ * 
+ *  
  *
  * @param string $text - cell contents
  * @param string $class - table data class

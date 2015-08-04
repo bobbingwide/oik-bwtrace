@@ -601,12 +601,12 @@ function em( $text, $class=NULL, $id=NULL ) {
 }
 
 /**
- * Display a blockquote
+ * Produce a blockquote tag
  */
 function _bw_blockquote( $text, $class=NULL, $id=NULL ) {
-   stag( "blockquote", $class, $id ) ;
-   e( $text );
-   etag( "blockquote" );    
+	stag( "blockquote", $class, $id ) ;
+	e( $text );
+	etag( "blockquote" );    
 }
 
 /**
@@ -620,6 +620,8 @@ function bw_quote( $text, $class=NULL, $id=NULL ) {
 
 /**
  * Produce a cite tag
+ * 
+ * Renamed from cite() which has been deprecated
  */
 function _bw_cite( $text, $class=NULL, $id=NULL ) {
 	stag( "cite", $class, $id ) ;
@@ -665,7 +667,7 @@ function _bw_acronym( $title="OIK Information Kit", $acronym="oik" ) {
  * Create an HTML comment
  *
  * Renamed from c() which will be deprecated
- */ 
+ */
 function _bw_c( $text ) {
   bw_echo( '<!--' . $text . '-->' );
 }

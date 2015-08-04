@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 1.28\n"
+"Project-Id-Version: oik bwtrace 2.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2015-07-22 12:12:46+00:00\n"
+"POT-Creation-Date: 2015-07-27 16:09:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: fr_FR\n"
@@ -130,7 +130,7 @@ msgstr ""
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr ""
 
-#: libs/bobbforms.php:457
+#: libs/bobbforms.php:462
 msgid "None"
 msgstr "Aucun"
 

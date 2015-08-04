@@ -4,7 +4,7 @@
 Plugin Name: oik bwtrace MU 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress - Must Use version
-Version: 1.24
+Version: 2.0.0
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
@@ -38,6 +38,8 @@ License: GPL2
  * 
  * @TODO Actually write some logic in oik-bwtrace admin to relocate this file;
  * using similar logic to that used to replace plugins.php from wp-includes.
+ *
+ * Note: Since this is an MU plugin it's running from the mu-plugins directory.
  *  
  */
 if ( defined( 'WP_PLUGIN_DIR' ) ) {

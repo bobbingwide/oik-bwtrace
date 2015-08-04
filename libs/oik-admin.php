@@ -70,11 +70,11 @@ function scolumn( $class=NULL, $id=null ) {
  * End a column
  */
 function ecolumn() {
-  c( "start ecolumn" );
+  _bw_c( "start ecolumn" );
   ediv( "meta-box-sortables" );
   ediv( "postbox-container" );
   ediv( "metabox-holder" );
-  c( "end ecolumn" );
+  _bw_c( "end ecolumn" );
 } 
 
 /**

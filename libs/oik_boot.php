@@ -97,11 +97,11 @@ function oik_require2( $include_file="bobbfunc.inc", $to_plugin, $from_plugin="o
  * Notes: a plugin that is dependent upon oik and/or uses the trace facility
  * should either call add_action( "init", "oik_init" ); to let oik load the required API files
  * OR, if add_action() is not yet available, call this function, if it's available.
- * In most cases all that is required initially is bwtrace.php
+ * In most cases all that is required initially is to load /libs/bwtrace.php
 */ 
 if ( !function_exists( "oik_init" ) ) {
 function oik_init( ) {
-  oik_require( 'bwtrace.php' );
+  oik_require( 'libs/bwtrace.php' );
 }
 } 
  

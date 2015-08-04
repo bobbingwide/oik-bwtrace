@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 1.28
+Version: 2.0.0
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-bwtrace
@@ -29,7 +29,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 */
 
-
 /**
  * Return TRUE if option is '1', FALSE otherwise 
  *
@@ -50,7 +49,6 @@ function bw_torf( $array, $option ) {
  * AND if the chosen IP address is being used
  * 
  * Activate action hooks and filter counting or other action tracing if the profile says so
- * 
  * 
  */
 function bw_trace_plugin_startup() {
@@ -139,18 +137,6 @@ function bw_trace_plugin_startup() {
 		add_action( "muplugins_loaded", "bw_trace_count_plugins_loaded" );
 	}
 
- 
-  //$bw_action_reset = bw_torf( $bw_action_options, 'reset' );
-  //if ( !empty( $_REQUEST['_bw_action_reset'] ) ) {
-  //  $bw_action_reset = TRUE;
-  //} 
-  
-  
-  //if ( $bw_action_reset ) {
-  //  oik_require( "includes/oik-actions.php", "oik-bwtrace" );
-  //  bw_actions_reset();
-  //}
-
   if ( $bw_trace_level > '0' ) {
     bw_lazy_trace( ABSPATH . $bw_trace_options['file'], __FUNCTION__, __LINE__, __FILE__, 'tracelog' );
     bw_lazy_trace( $_SERVER, __FUNCTION__, __LINE__, __FILE__, "_SERVER" ); 
@@ -173,7 +159,6 @@ function bw_trace_plugin_startup() {
 		bw_trace2( "Unable to activate oik-bwtrace admin" );
 	}
 }
-
 
 /**
  * Implement "oik_query_libs" for oik-bwtrace
@@ -204,7 +189,6 @@ function oik_bwtrace_query_libs( $libraries ) {
 	bw_trace2();
 	return( $libraries );
 } 
- 
 
 /**
  * 
@@ -217,16 +201,13 @@ function oik_bwtrace_query_libs( $libraries ) {
  * Note: Prior to oik v1.18 we used to relocate the oik-bwtrace plugin from the oik plugin to become its own plugin.
  * This is no longer necessary. As of oik v2.6-alpha.0524 the oik base plugin now delivers a different includes/bwtrace.php
  * that says you need "oik-bwtrace" to implement tracing logic.
+ *
+ * From oik-bwtrace v2.0.0 we use shared libraries.
  * 
  */
 function oik_bwtrace_admin_menu() {
   oik_register_plugin_server( __FILE__ );
 	bw_load_plugin_textdomain( 'oik-bwtrace' );
-  //bw_add_relocation( "oik/oik-bwtrace.php", "oik-bwtrace/oik-bwtrace.php" );
-  //bw_add_relocation( "oik/includes/bwtrace.inc", "oik-bwtrace/includes/bwtrace.inc" );
-  //bw_add_relocation( "oik/includes/oik-bwtrace.inc", "oik-bwtrace/includes/oik-bwtrace.inc" );
-  //bw_add_relocation( "oik/admin/oik-bwtrace.inc", "oik-bwtrace/admin/oik-bwtrace.inc" );
-  //bw_add_relocation( "oik/admin/oik-bwaction.inc", "oik-bwtrace/admin/oik-bwaction.inc" );
 }
 										 
 /**
@@ -241,12 +222,9 @@ function oik_bwtrace_admin_menu() {
  * 
  * For the run-time part we now make used of shared library logic, supported by the oik-lib plugin
  * If this has been loaded before us then we can use its logic.
- * Otherwise
- * 
- *  
+ * Otherwise we have to operate in a standalone mode.
  */
 function oik_bwtrace_loaded() {
-
 	/*
 	 * Since this plugin is defined to load first... so that it can perform the trace reset
 	 * then we need to load oik_boot ourselves... 
