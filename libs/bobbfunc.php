@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2009-2015
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "2.6" );
+define( "BOBBFUNC_INCLUDED", "3.0.0" );
 
 /**
  * HTML output library functions
@@ -1397,6 +1397,27 @@ function bw_is_loaded( $file, $is_main=true ) {
     }   
   }
   return( $loaded );
+}
+
+/** 
+ * Split a string into an array if necessary
+ *
+ * @param mixed $mixed - either an array already or a string of comma or blank separated values
+ * @return array - an unkeyed array 
+ */
+function bw_as_array( $mixed ) {
+	if ( $mixed ) {
+		if ( is_array( $mixed ) ) {
+			$mixed_array = $mixed;
+		} else { 
+			$mixed = str_replace( ",", " ", $mixed );
+			$mixed_array = explode( " ", $mixed );
+		} 
+		//bw_trace2( $mixed_array, "mixed_array" ); 
+	} else {
+		$mixed_array = array();
+	}      
+	return( $mixed_array );
 }
 
 } /* end !defined */

@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2012-2015
 if ( !defined( 'OIK_BOOT_INCLUDED' ) ) {
-define( 'OIK_BOOT_INCLUDED', "2.6" );
+define( 'OIK_BOOT_INCLUDED', "3.0.0" );
 define( 'OIK_BOOT_FILE', __FILE__ );
 /**
  * Library: oik_boot
@@ -101,7 +101,7 @@ function oik_require2( $include_file="bobbfunc.inc", $to_plugin, $from_plugin="o
 */ 
 if ( !function_exists( "oik_init" ) ) {
 function oik_init( ) {
-  oik_require( 'libs/bwtrace.php' );
+  oik_require_lib( 'bwtrace' );
 }
 } 
  

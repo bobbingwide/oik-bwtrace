@@ -3,8 +3,8 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, immediate trace
 * Requires at least: 4.2
-* Tested up to: 4.3-beta4
-* Stable tag: 2.0.0
+* Tested up to: 4.3-RC1
+* Stable tag: 2.0.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 * Text Domain: oik-bwtrace
@@ -92,6 +92,9 @@ Use the contact form on the oik-plugins website.
 
 
 ## Upgrade Notice 
+# 2.0.1 
+Improved response to "oik_query_libs"
+
 # 2.0.0 
 Now works as a standalone plugin. Prior to upgrading oik-bwtrace please deactivate it and upgrade the oik base plugin to 2.6-alpha.0724 or higher.
 
@@ -138,6 +141,15 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.0.1 
+* Changed: libs/bwtrace.php now at 2.0.1
+* Changed: libs/oik-lib.php now at 0.0.2
+* Changed: libs/oik_boot.php now at 3.0.0
+* Changed: libs/bobbfunc.php now at 3.0.0
+* Changed: libs/oik-admin.php now at 3.0.0 and uses _bw_c() instead of c()
+* Changed: Uses "wp_loaded" to test for shared libraries for admin logic
+* Changed: Implements "oik_query_libs" with priority 12, was 10
+
 # 2.0.0 
 * Changed: Summary trace record doesn't show trace file name if 0 trace records produced
 * Changed: Merged shared libraries with oik-libs v0.0.1

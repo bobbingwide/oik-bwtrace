@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 2.0.0
+Version: 2.0.1
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-bwtrace
@@ -28,6 +28,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
     http://www.gnu.org/licenses/gpl-2.0.html
 
 */
+
 
 /**
  * Return TRUE if option is '1', FALSE otherwise 
@@ -146,22 +147,41 @@ function bw_trace_plugin_startup() {
     //bw_lazy_trace( $_GET, __FUNCTION__, __LINE__, __FILE__, "_GET" );
     bw_lazy_trace( $bw_action_options, __FUNCTION__, __LINE__, __FILE__, "bw_action_options" );
   } 
-
-	add_action( 'admin_init', 'bw_trace_options_init' );
-	add_action( 'admin_init', 'bw_action_options_init' );
-
-	add_filter( "oik_query_libs", "oik_bwtrace_query_libs" );
 	
+	add_action( "wp_loaded", "oik_bwtrace_plugins_loaded", 9 );
+	add_filter( "oik_query_libs", "oik_bwtrace_query_libs", 12 );
+	
+}
+
+/**
+ * Implement "plugins_loaded" filter for oik-bwtrace 
+ */
+function oik_bwtrace_plugins_loaded() {
 	if ( oik_require_lib( "oik-admin" ) && oik_require_lib( "bobbforms" ) && oik_require_lib( "bobbfunc" )  ) {
 		add_action( 'admin_menu', 'bw_trace_options_add_page');
 		add_action( 'admin_menu', 'bw_action_options_add_page');
 	} else {
 		bw_trace2( "Unable to activate oik-bwtrace admin" );
 	}
+	
+	
+	add_action( 'admin_init', 'bw_trace_options_init' );
+	add_action( 'admin_init', 'bw_action_options_init' );
+	/*
+	 * Load admin logic if is_admin() 
+	 */
+	if ( function_exists( "is_admin" ) ) {
+		if ( is_admin() ) {   
+			oik_require( "admin/oik-bwtrace.inc", "oik-bwtrace" );
+		}
+	}
+	
+	
+  add_action( "oik_admin_menu", "oik_bwtrace_admin_menu" );
 }
 
 /**
- * Implement "oik_query_libs" for oik-bwtrace
+ * Implement "oik_query_libs" filter for oik-bwtrace
  *
  * In order for this function to have been invoked the oik-lib logic must be in place.
  * So we can happily register the libraries in the libs folder using the available functions and methods
@@ -177,16 +197,21 @@ function oik_bwtrace_query_libs( $libraries ) {
   // $libraries = oik_lib_query_libraries( $libraries, "oik-bwtrace" );
 	$lib_args = array();
 	$libs = array( "bobbfunc" => null, "bobbforms" => "bobbfunc", "oik-admin" => "bobbforms" );
+	$versions = array( "bobbfunc" => "3.0.0" );
 	foreach ( $libs as $library => $depends ) {
 		$lib_args['library'] = $library;
 		$lib_args['src'] = oik_path( "libs/$library.php", "oik-bwtrace" ); 
 		//if ( $depends ) {
 			$lib_args['deps'] = $depends;
 		//}
+		
+		// Here we should consider deferring the version setting until it's actually time to check compatibility
+		$lib_args['version'] = bw_array_get( $versions, $library, null );
 		$lib = new OIK_lib( $lib_args );
 		$libraries[] = $lib;
 	}
 	bw_trace2();
+	bw_backtrace();
 	return( $libraries );
 } 
 
@@ -258,16 +283,6 @@ function oik_bwtrace_loaded() {
 		bw_trace_plugin_startup();
 	}
 	
-	/*
-	 * Load admin logic if is_admin() 
-	 */
-	if ( function_exists( "is_admin" ) ) {
-		if ( is_admin() ) {   
-			oik_require( "admin/oik-bwtrace.inc", "oik-bwtrace" );
-		}
-	}
-	
-  add_action( "oik_admin_menu", "oik_bwtrace_admin_menu" );
 	
 	/*
 	 * Selected actions, such as shutdown actions are implemented in includes/oik-actions.php

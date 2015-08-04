@@ -1,4 +1,5 @@
 <?php // (C) Copyright Bobbing Wide 2015
+
  
 /**
  * Load the global bw_action_options

@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2011-2015
 if ( !defined( "OIK_ADMIN_INCLUDED" ) ) {
-define( "OIK_ADMIN_INCLUDED", "2.6" );
+define( "OIK_ADMIN_INCLUDED", "3.0.0" );
 
 /**
  *
