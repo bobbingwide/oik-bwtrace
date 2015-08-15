@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2011-2015
 if ( !defined( "BWTRACE_INCLUDED" ) ) {
-define( "BWTRACE_INCLUDED", "2.6" );
+define( "BWTRACE_INCLUDED", "2.0.1" );
 define( "BWTRACE_FILE", __FILE__ );
 
 /**

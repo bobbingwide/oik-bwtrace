@@ -17,11 +17,21 @@ define( "BOBBFUNC_INCLUDED", "3.0.0" );
 
 /** 
  * Return the plugin version of the oik base plugin
+ *
+ * @TODO Consider moving this function to the oik_plugins library.
+ *
+ * In the mean time, if 'oik_plugins' can't be loaded
+ * we'll assume the version is the same as this library version.
+ * 
  * @return string $version e.g. 2.0-alpha, 2.0-RC1, 2.0, 2.0.mmdd 
  */
 function bw_oik_version() { 
-  oik_require( "admin/oik-plugins.inc" );
-  $version = bw_get_plugin_version();
+	$oik_plugins = oik_require_lib( "oik_plugins" );
+	if ( $oik_plugins && !is_wp_error( $oik_plugins ) ) {
+		$version = bw_get_plugin_version();
+	} else {
+		$version = BOBBFUNC_INCLUDED;
+	}
   return( $version );
 }
 
@@ -34,13 +44,20 @@ function bw_oik_version() {
  * Use bw_push() and bw_pop() if you need to stack buffers during nested processing.
  * @global $bwecho is used by the bw APIs to create the HTML output that is then returned from the shortcode functions  
  * @global $bwechos counts the number of times that bw_echo() has been called
+ *
+ * @TODO Confirm it's sensible to cast to a string on every call.
  * 
  * @param $string - the string to be "echo'd"
  * 
 */
 function bw_echo( $string ) {
   global $bwecho, $bwechos;
-  $bwecho.=$string;
+	if ( is_object( $string ) ) {
+		bw_trace2();
+		bw_backtrace();
+		$string = print_r( $string, true );
+	}
+  $bwecho .= (string) $string;
   $bwechos++;
 }
 
@@ -669,6 +686,9 @@ function _bw_acronym( $title="OIK Information Kit", $acronym="oik" ) {
  * Renamed from c() which will be deprecated
  */
 function _bw_c( $text ) {
+	if ( is_object( $text ) ) {
+		$text = print_r( $text, true );
+	}
   bw_echo( '<!--' . $text . '-->' );
 }
 
