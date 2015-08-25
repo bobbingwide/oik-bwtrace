@@ -3,8 +3,8 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, immediate trace
 * Requires at least: 4.2
-* Tested up to: 4.3-RC1
-* Stable tag: 2.0.1
+* Tested up to: 4.3
+* Stable tag: 2.0.2
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 * Text Domain: oik-bwtrace
@@ -40,6 +40,7 @@ Features:
 * Writes summary trace record for each transaction into a daily log
 * Now operates as a standalone plugin; independent of the oik base plugin
 * Integrated with oik-lib shared library management
+* Backtraces deprecated logic messages
 
 The trace record output can include:
 
@@ -92,6 +93,9 @@ Use the contact form on the oik-plugins website.
 
 
 ## Upgrade Notice 
+# 2.0.2 
+Use to find the cause of those pesky "Deprecated constructor" messages
+
 # 2.0.1 
 Improved response to "oik_query_libs"
 
@@ -141,6 +145,10 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.0.2 
+* Changed: Now supports deprecated filters and actions
+* Changed: Enabled using "Trace deprecated messages" checkbox
+
 # 2.0.1 
 * Changed: libs/bwtrace.php now at 2.0.1
 * Changed: libs/oik-lib.php now at 0.0.2
