@@ -74,13 +74,22 @@ function bw_trace_add_selected_actions() {
 	
 	$bw_trace_action = bw_trace_add_action( "deprecated_constructor_run", "trace_deprecated", "includes/bwtrace-actions.php", "bw_trace_deprecated_constructor_run", 2 );
 	if ( $bw_trace_action ) {
-		add_filter( "deprecated_argument_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
-		add_filter( "deprecated_file_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
-		add_filter( "deprecated_function_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
-		add_filter( "doing_it_wrong_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
-		add_filter( 'deprecated_constructor_trigger_error', "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
-		//add_filter( "deprecated_constructor_run", "bw_trace_deprecated_constructor_run", 10, 2 );
+		add_action( "deprecated_constructor_run", "bw_trace_deprecated_constructor_run", 10, 2 ); // hack to get hook listed in WP-a2z 
+		add_action( "deprecated_argument_run", "bw_trace_deprecated_argument_run", 10, 3 );
+		add_action( "deprecated_file_included", "bw_trace_deprecated_file_included", 10, 4 );
+		add_action( "deprecated_function_run", "bw_trace_deprecated_function_run", 10, 3 );
+		add_action( "doing_it_wrong_run", "bw_trace_doing_it_wrong_run", 10, 3 );
+		add_filter( "deprecated_argument_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10 ); 
+		add_filter( "deprecated_constructor_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10 ); 
+		add_filter( "deprecated_file_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10 ); 
+		add_filter( "deprecated_function_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10 ); 
+		add_filter( "doing_it_wrong_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10 ); 
+		
+		// Quick tests - these should be commented out
     //_deprecated_argument( __FUNCTION__, "2.0.2", "just a test" );
+		//_deprecated_file( __FILE__, "2.0.2", "another file", "just a test" );
+		//_deprecated_function( __FUNCTION__, "2.0.3", "anotherfunc" );
+		//_doing_it_wrong( __FUNCTION__, "you're doing it wrong", "2.0.3" );
 	}
 }
 
@@ -105,6 +114,18 @@ function bw_trace_deprecated_argument_trigger_error( $trigger_error=true ) {
   return( $trigger_error ); 
 }
 
+/**
+ * Implement "deprecated_argument_run" action for oik-bwtrace
+ *
+ * @param string $function The function that was called
+ * @param string $message A message regarding the change
+ * @param string $version The version of WordPress that deprecated the argument used
+ */
+function bw_trace_deprecated_argument_run( $function=null, $message=null, $version=null) {
+	bw_trace2();
+	bw_backtrace();
+}
+
 
 /**
  * Implement "deprecated_constructor_run" action for oik-bwtrace
@@ -116,6 +137,40 @@ function bw_trace_deprecated_constructor_run( $class=null, $version=null ) {
 	bw_trace2();
 	bw_backtrace();
 }
+
+/**
+ * Implement "deprecated_file_included" action for oik-bwtrace
+ */
+function bw_trace_deprecated_file_included( $file=null, $replacement=null, $version=null, $message=null ) {
+	bw_trace2();
+	bw_backtrace();
+}
+
+ 
+/**
+ * Implement "deprecated_function_run" action for oik-bwtrace
+ *
+ * @param string $function The function that was called
+ * @param string $replacement The function that should have been called
+ * @param string $version The version of WordPress that deprecated the function
+ */
+function bw_trace_deprecated_function_run( $function=null, $replacement=null, $version=null) {
+	bw_trace2();
+	bw_backtrace();
+}
+
+/**
+ * Implement "doing_it_wrong_run" action for oik-bwtrace
+ *
+ * @param string $function The function that was called
+ * @param string $message A message regarding the change
+ * @param string $version The version of WordPress that deprecated the function
+ */
+function bw_trace_doing_it_wrong_run( $function=null, $message=null, $version=null) {
+	bw_trace2();
+	bw_backtrace();
+}
+
 
 
 
