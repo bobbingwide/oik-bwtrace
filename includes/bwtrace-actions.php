@@ -1,5 +1,4 @@
 <?php // (C) Copyright Bobbing Wide 2015
-
  
 /**
  * Load the global bw_action_options
@@ -21,8 +20,9 @@ function bw_action_options() {
  * @param string $option the option name e.g. 'trace_wp_rewrite'
  * @param string $file the implementing file e.g. 'includes/oik-actions.php'
  * @param string $function the implementing function e.g. 'bw_trace_wp_rewrite'
+ * @param integer $count expected parameter count
  */
-function bw_trace_add_action( $action, $option, $file, $function ) {
+function bw_trace_add_action( $action, $option, $file, $function, $count=1 ) {
   bw_trace2();
 	global $bw_action_options;
 	$bw_trace_action = bw_array_get( $bw_action_options, $option, false );
@@ -32,11 +32,12 @@ function bw_trace_add_action( $action, $option, $file, $function ) {
 		}
 		
 		if ( function_exists( $function ) ) {
-		  add_action( $action, $function );
+		  add_action( $action, $function, 10, $count );
 		}	else {
 			gob();
 		}
 	}
+	return( $bw_trace_action );
 }
 	
 /**
@@ -70,4 +71,52 @@ function bw_trace_add_selected_actions() {
 	 * or cheat by using an existing option name
 	 */ 
 	bw_trace_add_action( "shutdown", "trace_plugin_paths", "includes/oik-actions.php", "bw_trace_plugin_paths" );
+	
+	$bw_trace_action = bw_trace_add_action( "deprecated_constructor_run", "trace_deprecated", "includes/bwtrace-actions.php", "bw_trace_deprecated_constructor_run", 2 );
+	if ( $bw_trace_action ) {
+		add_filter( "deprecated_argument_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
+		add_filter( "deprecated_file_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
+		add_filter( "deprecated_function_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
+		add_filter( "doing_it_wrong_trigger_error", "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
+		add_filter( 'deprecated_constructor_trigger_error', "bw_trace_deprecated_argument_trigger_error", 10, 2 ); 
+		//add_filter( "deprecated_constructor_run", "bw_trace_deprecated_constructor_run", 10, 2 );
+    //_deprecated_argument( __FUNCTION__, "2.0.2", "just a test" );
+	}
 }
+
+/**
+ * Perform a debug backtrace before reporting the deprecation
+ * 
+ * Notice: has_cap was called with an argument that is deprecated since version 2.0! 
+ * Usage of user levels by plugins and themes is deprecated. Use roles and capabilities instead. 
+ * in /home/cwiccer/public_html/wp-includes/functions.php on line 2712
+ *
+ *
+ * @link http://tumbledesign.com/fix-notice-has_cap-was-called-with-an-argument-that-is-deprecated-since-version-2-0-in-wordpress/
+ * @link http://masseltech.com/plugins/underconstruction/
+ * @uses bw_backtrace() - from oik
+ *
+ * @param bool $trigger_error true if we want to trigger the error
+ * @return bool the value passed in
+ 
+ */
+function bw_trace_deprecated_argument_trigger_error( $trigger_error=true ) {
+  bw_backtrace();
+  return( $trigger_error ); 
+}
+
+
+/**
+ * Implement "deprecated_constructor_run" action for oik-bwtrace
+ * 
+ * @param string $class class name
+ * @param string $version version
+ */
+function bw_trace_deprecated_constructor_run( $class=null, $version=null ) {
+	bw_trace2();
+	bw_backtrace();
+}
+
+
+
+
