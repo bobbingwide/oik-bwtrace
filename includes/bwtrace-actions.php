@@ -91,6 +91,9 @@ function bw_trace_add_selected_actions() {
 		//_deprecated_function( __FUNCTION__, "2.0.3", "anotherfunc" );
 		//_doing_it_wrong( __FUNCTION__, "you're doing it wrong", "2.0.3" );
 	}
+	
+	bw_trace_add_error_handler();
+	//$x .= "oops";
 }
 
 /**
@@ -171,6 +174,40 @@ function bw_trace_doing_it_wrong_run( $function=null, $message=null, $version=nu
 	bw_backtrace();
 }
 
+/**
+ * Add our error handler for Notice and Warning messages
+ */
+function bw_trace_add_error_handler() {
+	global $bw_action_options;
+	$bw_trace_errors = bw_array_get( $bw_action_options, "trace_errors", false );
+	if ( $bw_trace_errors ) {
+		$previous_error_handler = set_error_handler( "bw_trace_error_handler" );
+		bw_trace2( $previous_error_handler, "Previous error handler", false );
+  }
+}
+
+/**
+ * Trace catchable errors
+ *
+ *
+ * Extract from PHP manual.
+ * `If the function returns FALSE then the normal error handler continues.`
+ * 
+ * It doesn't tell us what the "normal error handler" is though.
+ * 
+ * If we return true then we can log some of the errors and processing will continue.
+ * But we can't do this for E_ERROR - since it's a Fatal error which we don't get to see.
+ * 
+ * If we return false then the standard PHP handler will most likely terminate the process
+ * for anything more serious than a Warning. 
+ * 
+ * @return bool Always true for the time being
+ */
+function bw_trace_error_handler( $errno, $errstr, $errfile=null, $errline=null, $errcontext=null ) {
+	bw_trace2();
+	bw_backtrace();
+	return( true );
+}
 
 
 

@@ -103,6 +103,7 @@ function oik_action_options() {
   //bw_checkbox_arr( "bw_action_options", "Trace immediate actions", $options, 'immediate' );
   bw_checkbox_arr( "bw_action_options", "Count action hooks and filters", $options, 'count' );
   bw_checkbox_arr( "bw_action_options", "Trace deprecated messages", $options, 'trace_deprecated' );
+	bw_checkbox_arr( "bw_action_options", "Trace Error, Warning and Notice messages", $options, 'trace_errors' );
   bw_checkbox_arr( "bw_action_options", "Trace 'wp' action", $options, 'trace_wp_action' );
   bw_checkbox_arr( "bw_action_options", "Trace 'wp' global wp_rewrite ", $options, 'trace_wp_rewrite' );
   bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' included files", $options, 'trace_included_files' );
