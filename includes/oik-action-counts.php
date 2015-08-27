@@ -127,15 +127,11 @@ function bw_trace_count_all( $tag, $args2=null ) {
  * Here we produce the output multiple times.
  * 1. WordPress wp_actions table - which may include some actions invoked before oik-action processing was activated
  * 2. bw_action_counts - the actions and filters invoked since oik-action counting was activated
- * 3. merged - the result of merging wp_actions with bw_actions_counts - where figures from wp_action are more correct
- *    From this output you should be able to work out the main sequence of events... but you have to ignore the
-      commonly used filters. 
- 
- * 4. merged sorted by most used - to show how much work WordPress is doing
- * 5. merged sorted by name.
- * 6. Count of the number of unique hooks invoked
- * 7. Count of the total number of action/filter hooks invoked.
- * 8. First view of the counts taking into account nested actions and filters  
+ * 3. bw_action_counts sorted by most used - to show how much work WordPress is doing
+ * 4. bw_action_counts sorted by name.
+ * 5. Count of the number of unique hooks invoked
+ * 6. Count of the total number of action/filter hooks invoked.
+ * 7. First view of the counts taking into account nested actions and filters  
  */
 function bw_trace_count_report() {
   global $wp_actions;
@@ -149,18 +145,17 @@ function bw_trace_count_report() {
 	if ( count( $bw_action_counts ) ) {
 		$merged = $bw_action_counts;
 	
-		//bw_trace( $merged, __FUNCTION__, __LINE__, __FILE__, "merged" );
 		arsort( $merged );
-		bw_trace( $merged, __FUNCTION__, __LINE__, __FILE__, "merged - most used" );
+		bw_trace( $merged, __FUNCTION__, __LINE__, __FILE__, "most used" );
 	
 		ksort( $merged );
-		bw_trace( $merged, __FUNCTION__, __LINE__, __FILE__, "merged - by hook name" );
+		bw_trace( $merged, __FUNCTION__, __LINE__, __FILE__, "by hook name" );
 	
-		bw_trace( count( $merged), __FUNCTION__, __LINE__, __FILE__, "merged - count hooks" );
-		bw_trace( array_sum( $merged), __FUNCTION__, __LINE__, __FILE__, "merged - total hooks" );
+		bw_trace( count( $merged), __FUNCTION__, __LINE__, __FILE__, "count hooks" );
+		bw_trace( array_sum( $merged), __FUNCTION__, __LINE__, __FILE__, "total hooks" );
 	}
 	global $bw_action_counts_tree;
-	bw_trace( $bw_action_counts_tree, __FUNCTION__, __LINE__, __FILE__, "action counts tree" );
+	//bw_trace( $bw_action_counts_tree, __FUNCTION__, __LINE__, __FILE__, "action counts tree" );
 	
   bw_trace_create_hook_links( $bw_action_counts_tree, "bw_action_counts_tree" );
  
