@@ -98,6 +98,9 @@ Use the contact form on the oik-plugins website.
  
 
 == Upgrade Notice ==
+= 2.0.3 =
+Upgrade for improved deprecated logic support and information related to Error, Warning and Notice type messages
+
 = 2.0.2 =
 Use to find the cause of those pesky "Deprecated constructor" messages
 
@@ -150,6 +153,12 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 2.0.3 = 
+* Added: bw_trace_error_handler() logic for Error, Warning and Notice type messages
+* Added: Add logic for each deprecated action or filter
+* Changed: Anonymize path in output from bw_trace_included_files()
+* Changed: Updated bw_trace_count_report()
+
 = 2.0.2 = 
 * Changed: Now supports deprecated filters and actions
 * Changed: Enabled using "Trace deprecated messages" checkbox
