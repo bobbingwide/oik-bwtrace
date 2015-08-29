@@ -8,7 +8,7 @@ define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
  *  
  *
  */
-bw_trace2( __FILE__, "file loaded" );
+//bw_trace2( __FILE__, "file loaded" );
 
 /**
  * Trace anything left in the output buffer(s)
@@ -56,10 +56,17 @@ function bw_trace_report_actions() {
 
 /** 
  * At shutdown produce a report of the files loaded
+ *
+ * The report is formatted for inclusion into a WordPress page formatted using shortcodes
+ * The [file] shortcode will need to take into account the WordPress core files
+ * and the plugin or theme name.
+ *
+ * We use the global $bw_trace_anonymous to force bw_trace_file_part() to do its stuff. 
  * 
  */
 function bw_trace_included_files() { 
   $included_files = get_included_files();
+	//bw_trace2( $included_files, "included_files" );
   global $bw_trace_anonymous;
   $anon = $bw_trace_anonymous;
   $bw_trace_anonymous = true;
@@ -67,10 +74,11 @@ function bw_trace_included_files() {
   $files .= "<h3>Files</h3>"; 
 	$files .= PHP_EOL;
 	$files .= "[bw_csv uo=u]File";
-  $lose = str_replace( "/", "\\", ABSPATH );
+  //$lose = str_replace( "/", "\\", ABSPATH );
   foreach ( $included_files as $file ) {
-    $file = str_replace( "/", "\\", $file );
-    $file = str_replace( $lose , '', $file );
+    //$file = str_replace( "/", "\\", $file );
+    //$file = str_replace( $lose , '', $file );
+		$file = bw_trace_file_part( $file );
     $file = str_replace( "\\", "/", $file );
     $file = str_replace( "wp-content/plugins/", "", $file );
     $file = str_replace( "wp-content/themes/", "", $file );
@@ -84,6 +92,7 @@ function bw_trace_included_files() {
   $bw_trace_anonymous = $anon;
   bw_trace( $files, __FUNCTION__, __LINE__, __FILE__, "included files" );
 }
+
 
 /**
  * At shutdown produce the SAVEQUERIES report
