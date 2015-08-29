@@ -4,7 +4,7 @@ Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, immediate trace
 Requires at least: 4.2
 Tested up to: 4.3
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: oik-bwtrace
@@ -41,6 +41,7 @@ Features:
 * Now operates as a standalone plugin; independent of the oik base plugin
 * Integrated with oik-lib shared library management
 * Backtraces deprecated logic messages
+* Traces and backtraces PHP Error, Warning and Notice messages
 
 The trace record output can include:
 
@@ -52,12 +53,16 @@ The trace record output can include:
 * Current post ID
 * Current and peak memory usage (in bytes)
 * Files loaded count
+* Contextual information
 
 The output for action tracing can include trace records showing:
+
 * Count of action hooks and filters
 * Invocation of the 'wp' actions
 * Contents of the global wp_rewrite for the 'wp' action
 * Summary reports at 'shutdown'
+* Information about deprecated logic
+* Information related to Errors, Warnings and Notices
 
 If you select "Trace 'shutdown' status report and log in summary file
 then you also get a summary daily log, named bwtrace.vt.mmdd
