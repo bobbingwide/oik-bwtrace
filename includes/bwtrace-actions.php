@@ -201,12 +201,21 @@ function bw_trace_add_error_handler() {
  * If we return false then the standard PHP handler will most likely terminate the process
  * for anything more serious than a Warning. 
  * 
- * @return bool Always true for the time being
+ * @return bool Always false for the time being. We want the developer to be aware of the message.
  */
 function bw_trace_error_handler( $errno, $errstr, $errfile=null, $errline=null, $errcontext=null ) {
+	// Calling bw_trace2() may produce problems when an error is raised inside an output buffer handler
+	//  bw_trace2();
+	// To fix this we use the obsafe_print_r() solution AND a simpler routine
 	bw_trace2();
+	
+	//bw_trace( "errno", __FUNCTION__, __LINE__, __FILE__, $errno);
+	//bw_trace( "errstr", __FUNCTION__, __LINE__, __FILE__, $errstr );
+	//bw_trace( "errfile", __FUNCTION__, __LINE__, __FILE__, $errfile );
+	//bw_trace( "errline", __FUNCTION__, __LINE__, __FILE__, $errline );
+	//echo "<!-- bw_trace_error_handler $errno $errstr, $errfile,$errline -->" . PHP_EOL;
 	bw_backtrace();
-	return( true );
+	return( false );
 }
 
 
