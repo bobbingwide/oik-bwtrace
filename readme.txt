@@ -4,7 +4,7 @@ Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, immediate trace
 Requires at least: 4.2
 Tested up to: 4.3
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: oik-bwtrace
@@ -96,8 +96,10 @@ Use the contact form on the oik-plugins website.
 3. Raw trace output (fully qualified file names unchecked )
 4. Daily log ouput
  
-
 == Upgrade Notice ==
+= 2.0.4 = 
+Upgrade to use 'Error, Warning and Notice' detection in output buffered situations.
+
 = 2.0.3 =
 Upgrade for improved deprecated logic support and information related to Error, Warning and Notice type messages
 
@@ -153,6 +155,9 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 2.0.4 =
+* Changed: Now detects when output buffering is in place and uses an alternative function to print_r()
+
 = 2.0.3 = 
 * Added: bw_trace_error_handler() logic for Error, Warning and Notice type messages
 * Added: Add logic for each deprecated action or filter
