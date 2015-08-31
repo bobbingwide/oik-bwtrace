@@ -111,6 +111,9 @@ function bw_trace_anonymize_symlinked_file( $file ) {
   global $wp_plugin_paths;
 	if ( count( $wp_plugin_paths ) ) {
 	  foreach ( $wp_plugin_paths as $plugin => $real_plugin ) {
+			if ( !$real_plugin ) {
+				// That's rather unexpected.
+			}
 		  if ( 0 === strpos( $fil, $real_plugin ) ) {
 				$fil = str_replace( $real_plugin, $plugin, $fil );
 				$lose = str_replace( "\\", "/", ABSPATH );
@@ -415,6 +418,98 @@ function bw_trace_file_count() {
 
 
 /**
+ * safe print_r ?
+ * 
+ * Attempt to protect from a crash in print_r() when output buffering is active
+ *
+ * Note: ob_get_level() may return 1 when ouput buffering is not really nested.
+ * 
+ */
+function bw_trace_print_r( $text ) {
+
+	$handlers = ob_list_handlers();
+	if ( count( $handlers ) > 1 ) {
+	// if ( ob_get_level() ) {
+		$output = bw_trace_obsafe_print_r( $text );
+	} else {  
+		$output = print_r( $text, TRUE) ; 
+	}
+	return( $output );
+}
+
+
+/**
+
+/**
+ * Output buffering safe print_r() 
+ * 
+ * Activate this plugin when you get the following message from oik-bwtrace
+ * 
+ * Fatal error: print_r(): Cannot use output buffering in output buffering display handlers in 
+ * plugins\oik-bwtrace\includes\bwtrace.inc on line 253 (or thereabouts )
+ *
+ * The source of this function was @link http://grokbase.com/t/php/php-notes/1219akmjd7/note-107120-added-to-function-debug-print-backtrace
+ * 
+ * Explanation of the print_r() function available at http://us.php.net/manual/en/function.print-r.php .
+ *
+ * @param mixed $var - expression to be printed
+ * @param integer $level - the nesting level - used for pretty formatting
+ * @param array $visitedVars - to cater for recursive structures
+ * @return string print_r() like output IF $return is true 
+ */
+function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
+	//$handlers = ob_list_handlers();
+	//if ( count( $handlers ) ) {
+	// $spaces = "**?**" . $handlers[0];
+	//} else {   
+	//	$spaces = "";
+	//}
+	$spaces = "";
+	$space = " ";
+	$newline = "\n";
+	for ($i = 1; $i <= 4; $i++) {
+		$spaces .= $space;
+	}
+	$tabs = $spaces;
+	for ($i = 1; $i <= $level; $i++) {
+		$tabs .= $spaces;
+	}
+	
+	if (is_array($var)) {
+		$title = "Array";
+	} elseif (is_object($var)) {
+		$title = get_class($var)." Object";
+	} else {
+		$title = null;
+	}
+	if ( $title ) {
+		$output = $title . $newline . $newline;
+		foreach ($var as $key => $value) {
+			if (is_array($value) || is_object($value)) {
+				if (isset($visitedVars[md5(serialize($value))])) {
+					$value = '*RECURSION*';
+				} else {
+					$visitedVars[md5(serialize($value))] = true;
+					$level++;
+					$value = bw_trace_obsafe_print_r( $value, $level, $visitedVars);
+					$level--;
+				}
+			} else {
+				$value = '('.gettype($value).') '.(is_string($value) ? '"' : '').$value.(is_string($value) ? '"' : '');
+			}
+			$output .= $tabs . "[" . $key . "] => " . $value . $newline;
+		}
+	} else {
+		$output = $var;
+	}
+	return $output;
+}
+
+
+
+
+
+/**
  * Format the trace record
  *
  * Note: flf is an abbreviation for function, line, file 
@@ -469,11 +564,7 @@ function bw_flf( $function, $lineno, $file, $count, $text, $text_label = NULL ) 
 	$ref .= bw_trace_file_count();
 	$ref .= $text_label;
 	$ref .= " ";
-	if ( is_callable( "obsafe_print_r" ) ) {
-		$ref .= obsafe_print_r( $text, TRUE );
-	} else {  
-		$ref .= print_r( $text, TRUE) ; 
-	}
+	$ref .= bw_trace_print_r( $text );
 	$ref .= bw_trace_bwechos();
 	$ref .= "\n";
 	return( $ref );
