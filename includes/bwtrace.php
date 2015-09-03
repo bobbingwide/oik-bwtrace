@@ -109,16 +109,19 @@ function bw_trace_anonymize_symlinked_file( $file ) {
   $fil = str_replace( "\\", "/", $file );
 	$fil = strtolower( $fil );
   global $wp_plugin_paths;
+	
 	if ( count( $wp_plugin_paths ) ) {
 	  foreach ( $wp_plugin_paths as $plugin => $real_plugin ) {
 			if ( !$real_plugin ) {
-				// That's rather unexpected.
-			}
-		  if ( 0 === strpos( $fil, $real_plugin ) ) {
-				$fil = str_replace( $real_plugin, $plugin, $fil );
-				$lose = str_replace( "\\", "/", ABSPATH );
-				$fil = str_replace( $lose , '', $fil );
-        break;
+				// That's rather unexpected. But it's not safe to trace here!
+				// bw_trace2( $wp_plugin_paths, "Missing real_plugin", true, BW_TRACE_WARNING );
+			} else {
+				if ( 0 === strpos( $fil, $real_plugin ) ) {
+					$fil = str_replace( $real_plugin, $plugin, $fil );
+					$lose = str_replace( "\\", "/", ABSPATH );
+					$fil = str_replace( $lose , '', $fil );
+				 break;
+				}
 			}
 		} 
 	}
@@ -258,7 +261,7 @@ function bw_trace_set_savequeries() {
 		if ( !defined( 'SAVEQUERIES' ) ) {
 			define( 'SAVEQUERIES', true );
 		} else {
-			bw_trace2( SAVEQUERIES, "SAVEQUERIES is already defined" );
+			bw_trace2( SAVEQUERIES, "SAVEQUERIES is already defined", false, BW_TRACE_DEBUG );
 		}
 	}
 } 
@@ -550,9 +553,9 @@ function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
  * @param string $text representing the information to trace
  * @param string $text_label identifying text label  
  */
-function bw_flf( $function, $lineno, $file, $count, $text, $text_label = NULL ) {
+function bw_flf( $function, $lineno, $file, $count, $text, $text_label = NULL, $level=BW_TRACE_ALWAYS ) {
 	$ref = bw_trace_file_part( $file );
-	$ref .= '('.$lineno.':0) ';
+	$ref .= '('.$lineno.':'. $level .') ';
 	$ref .= bw_trace_function( $function );
 	$ref .= bw_trace_count( $count );
 	$ref .= bw_trace_date( DATE_W3C );
@@ -597,7 +600,7 @@ function bw_array_inc( &$array, $index ) {
  * @param string $file the current file
  * @param string $text_label a label for the string
  */
-function bw_lazy_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=__FILE__, $text_label=NULL) {
+function bw_lazy_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=__FILE__, $text_label=NULL, $level=BW_TRACE_ALWAYS ) {
   global $oktop, $bw_trace_on, $bw_trace_count, $bw_trace_functions;
   $oktop = TRUE;
   
@@ -612,7 +615,7 @@ function bw_lazy_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=_
      * It's the number of times that bw_trace() is called for the $function
 		 */
     bw_array_inc( $bw_trace_functions, $function );
-    $line = bw_flf( $function, $lineno, $file, $bw_trace_count, $text, $text_label );  
+    $line = bw_flf( $function, $lineno, $file, $bw_trace_count, $text, $text_label, $level );  
     bw_trace_log( $line );  
       
   } else { 
@@ -898,12 +901,14 @@ function bw_lazy_backtrace() {
   }
 } 
 
+ 
 /**
  * Improved trace function that needs no parameters, but accepts two
  *
  * @param mixed $value - an optional field to be traced
  * @param string $text - an optional field identifying text for the field to be traced
  * @param string $show_args - true to display the arguments to the call  
+ * @param integer $level - trace level, optional **?**
  * @return mixed $value - to allow this function to be called in return statements 
  * 
  * Using debug_backtrace this function can be used to trace the parameters to a function
@@ -912,9 +917,10 @@ function bw_lazy_backtrace() {
  * bw_backtrace should also perform the checks.
  *
  */
-function bw_lazy_trace2( $value=NULL, $text=NULL, $show_args=true ) {
+function bw_lazy_trace2( $value=NULL, $text=NULL, $show_args=true, $level=null ) {
   global $bw_trace_on;
   if ($bw_trace_on) {
+		//bw_trace_check_level( $level );
     $backtrace = debug_backtrace();
     //bw_lazy_trace( $backtrace, __FUNCTION__, __LINE__, __FILE__, "backtrace" );
     $call = $backtrace[0];
@@ -938,14 +944,14 @@ function bw_lazy_trace2( $value=NULL, $text=NULL, $show_args=true ) {
           default:
             $targs = $args;
         }
-        bw_lazy_trace( $targs, $function, $line, $file, $cargs );
+        bw_lazy_trace( $targs, $function, $line, $file, $cargs, $level );
       }  
     } else { 
       $function = "";
     }
            
     if ( $value || $text ) {
-      bw_lazy_trace( $value, $function, $line, $file, $text );
+      bw_lazy_trace( $value, $function, $line, $file, $text, $level );
 		}			
     //if ( $show_args )  
     //  bw_trace_context_all( $function, $line, $file );  
@@ -956,8 +962,43 @@ function bw_lazy_trace2( $value=NULL, $text=NULL, $show_args=true ) {
 
 // Moved bw_lazy_trace_config_startup() to includes/bwtrace-config.php
 
-  
+
+/**
+ * Return the possible trace levels
+ *
+ * Recommended level is "Information level"
+ * as this will included Notice, Warning and Error level trace records as well
+ *
+ * @return array Trace levels 
+ */
+function bw_list_trace_levels() {
+	$levels = array( BW_TRACE_DEBUG => "Debug"
+	               , BW_TRACE_INFO => "Information level - standard"
+								 , BW_TRACE_NOTICE => "Notice level"
+								 , BW_TRACE_WARNING => "Warning level" 
+								 , BW_TRACE_ERROR => "Error level"
+								 );
+	return( $levels );
+}
+
+function bw_trace_trace_startup() {
+	global $bw_trace_level, $bw_trace_options, $bw_action_options;
+	$levels = bw_list_trace_levels();
+	$trace_level_text = bw_array_get( $levels, $bw_trace_level, "Unknown" );
+	bw_trace2( $bw_trace_level, "Trace level: $trace_level_text", false );
+	bw_lazy_trace( $_SERVER, __FUNCTION__, __LINE__, __FILE__, "_SERVER" );
+	bw_lazy_trace( $_REQUEST, __FUNCTION__, __LINE__, __FILE__, "_REQUEST" );
+	//bw_lazy_trace( $_POST, __FUNCTION__, __LINE__, __FILE__, "_POST" );
+	//bw_lazy_trace( $_GET, __FUNCTION__, __LINE__, __FILE__, "_GET" );
+	if ( $bw_trace_level >= BW_TRACE_DEBUG ) {
+		bw_lazy_trace( ABSPATH . $bw_trace_options['file'], __FUNCTION__, __LINE__, __FILE__, 'tracelog' );
+		bw_lazy_trace( bw_getlocale(), __FUNCTION__, __LINE__, __FILE__, "locale" );
+		bw_lazy_trace( $bw_action_options, __FUNCTION__, __LINE__, __FILE__, "bw_action_options" );
+		// Load oik-actions.php ?
+		oik_require( "includes/oik-actions.php", "oik-bwtrace" );
+		add_action( "plugins_loaded", "bw_trace_plugin_paths" );
+	}
 }    
    
    
-
+}
