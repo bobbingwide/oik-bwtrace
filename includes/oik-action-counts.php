@@ -19,7 +19,7 @@ function bw_trace_activate_mu( $activate=true ) {
 	} else {
 		$target = ABSPATH . '/wp-content/mu-plugins';
 	}
-	bw_trace2( $target, "target dir" );
+	bw_trace2( $target, "target dir", true, BW_TRACE_DEBUG );
 	//var_dump( debug_backtrace() );
 	//echo "Target: $target";
 	if ( is_dir( $target ) ) {
@@ -35,7 +35,7 @@ function bw_trace_activate_mu( $activate=true ) {
 		}
 	} else {
 		// Do we need to make this ourselves?
-		bw_trace2( "Not a dir?" );
+		bw_trace2( $target, "Not a dir?", true, BW_TRACE_ERROR );
     //gobang();
 	}
 }
@@ -48,7 +48,7 @@ function bw_trace_count_on() {
   global $bw_action_counts; 
   if ( !isset( $bw_action_counts ) ) {
     $bw_action_counts = array();
-		bw_trace2( "reset bw_action_counts" );
+		bw_trace2( "reset bw_action_counts", null, false, BW_TRACE_DEBUG );
   }
   $bw_count_on = true;
 }
@@ -67,12 +67,9 @@ function bw_trace_count_off() {
  *
  */
 function bw_lazy_trace_count() {
-  bw_trace2();
+  bw_trace2( "Initialising action counts", null, false, BW_TRACE_DEBUG );
   add_action( "all", "bw_trace_count_all", 10, 2 );
-	//add_action( "wp", "bw_trace_wp_early" );
-	
   add_action( "shutdown", "bw_trace_count_report" ); 
-	//gobang();
 }
 
 /**
@@ -187,7 +184,9 @@ function bw_trace_create_hook_links( $action_counts, $heading ) {
  * 
  * Start the trace count logic if required
  * 
- * @TODO - it would be a lot nicer if we could start counting actions from the first time
+ * @TODO - Review these comments for validity
+ *
+ * it would be a lot nicer if we could start counting actions from the first time
  * one is invoked. To achieve this we probably need to create an MU plugin
  * and make it respond to 'muplugins_loaded'.
  * The MU plugin should be responsible for loading the relevant parts of oik and oik-bwtrace 
@@ -204,7 +203,7 @@ function bw_trace_create_hook_links( $action_counts, $heading ) {
 function bw_trace_count_plugins_loaded( $count_hooks=false ) {
   //bw_backtrace();
 	global $bw_action_options;
-  bw_trace2();
+  bw_trace2( $count_hooks, "count_hooks", false, BW_TRACE_DEBUG );
 	//bw_trace_count_report();
   if ( !$count_hooks ) {
 		//$bw_action_options = get_option( 'bw_action_options' );

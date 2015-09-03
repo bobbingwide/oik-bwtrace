@@ -23,7 +23,7 @@ function bw_action_options() {
  * @param integer $count expected parameter count
  */
 function bw_trace_add_action( $action, $option, $file, $function, $count=1 ) {
-  bw_trace2();
+  bw_trace2( null, null, true, BW_TRACE_DEBUG );
 	global $bw_action_options;
 	$bw_trace_action = bw_array_get( $bw_action_options, $option, false );
 	if ( $bw_trace_action ) {
@@ -176,13 +176,16 @@ function bw_trace_doing_it_wrong_run( $function=null, $message=null, $version=nu
 
 /**
  * Add our error handler for Notice and Warning messages
+ *
+ * Note: This function may replace an error handler that has been attached by another plugin.
+ * e.g. query-monitor.
  */
 function bw_trace_add_error_handler() {
 	global $bw_action_options;
 	$bw_trace_errors = bw_array_get( $bw_action_options, "trace_errors", false );
 	if ( $bw_trace_errors ) {
 		$previous_error_handler = set_error_handler( "bw_trace_error_handler" );
-		bw_trace2( $previous_error_handler, "Previous error handler", false );
+		bw_trace2( $previous_error_handler, "Previous error handler", false, BW_TRACE_DEBUG );
   }
 }
 

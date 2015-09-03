@@ -119,10 +119,10 @@ function oik_init( ) {
  */
 if ( !function_exists( 'bw_array_get' ) ) {
   function bw_array_get( $array = NULL, $index, $default=NULL ) { 
-    if ( is_array( $index ) ) {
-      bw_backtrace();
-      //gobang();
     //  sometimes we get passed an empty array as the index to the array - what should we do in this case **?** Herb 2013/10/24
+    if ( is_array( $index ) ) {
+      bw_backtrace( BW_TRACE_WARNING );
+      //gobang();
     }
     if ( isset( $array ) ) {
       if ( is_array( $array ) ) {
@@ -175,8 +175,8 @@ if ( !function_exists( "oik_require_lib" ) ) {
 			$library_file = oik_require_lib_fallback( $library );
 		}
 		// We are dependent upon the 'bwtrace' library for these functions
-		bw_trace2( $library_file, "library_file: $library", true);
-		bw_backtrace();
+		bw_trace2( $library_file, "library_file: $library", true, BW_TRACE_DEBUG );
+		bw_backtrace( BW_TRACE_DEBUG );
 		return( $library_file );
 	}
 }
