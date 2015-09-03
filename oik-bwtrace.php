@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 2.0.4
+Version: 2.0.5
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-bwtrace
@@ -51,7 +51,6 @@ function bw_trace_level() {
 	return( $bw_trace_level );
 }
 
-
 /**
  * Return TRUE if option is '1', FALSE otherwise 
  *
@@ -60,9 +59,9 @@ function bw_trace_level() {
  * @return bool true if the option field is set 
  */
 function bw_torf( $array, $option ) {
-  $opt = bw_array_get( $array, $option );
-  $ret = $opt > '0';
-  return $ret;
+	$opt = bw_array_get( $array, $option );
+	$ret = $opt > '0';
+	return $ret;
 }
 
 /**

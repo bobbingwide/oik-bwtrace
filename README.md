@@ -4,7 +4,7 @@
 * Tags: debug, trace, backtrace, actions, filters, immediate trace
 * Requires at least: 4.2
 * Tested up to: 4.3
-* Stable tag: 2.0.4
+* Stable tag: 2.0.5
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 * Text Domain: oik-bwtrace
@@ -42,6 +42,7 @@ Features:
 * Integrated with oik-lib shared library management
 * Backtraces deprecated logic messages
 * Traces and backtraces PHP Error, Warning and Notice messages
+* API supports multiple trace levels
 
 The trace record output can include:
 
@@ -97,6 +98,9 @@ Use the contact form on the oik-plugins website.
 4. Daily log ouput
 
 ## Upgrade Notice 
+# 2.0.5 
+Now supports multiple trace levels.
+
 # 2.0.4 
 Upgrade to use 'Error, Warning and Notice' detection in output buffered situations.
 
@@ -155,6 +159,12 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.0.5 
+* Added: $level parameter (default BW_TRACE_ALWAYS) to the bw_trace2() and bw_backtrace() APIs
+* Added: Select box to choose the level of tracing
+* Changed: Some bw_trace2() and bw_backtrace() calls to make use of the level capability
+* Fixed: Problem when BW_COUNT_ON defined in wp-config.php
+
 # 2.0.4 
 * Changed: Now detects when output buffering is in place and uses an alternative function to print_r()
 
