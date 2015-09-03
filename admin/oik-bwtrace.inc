@@ -159,7 +159,6 @@ function bw_trace_options_do_page() {
   bw_flush();
 }
 
-
 /**
  * Display the trace options box
  *
@@ -177,6 +176,12 @@ function oik_trace_options() {
   bw_checkbox_arr( "bw_trace_options", "Reset trace file every transaction", $options, 'reset' );
   
   bw_checkbox_arr( "bw_trace_options", "Trace enabled", $options, 'trace' );
+	
+	// Does this need includes/bwtrace.php?
+	$trace_levels = bw_list_trace_levels();
+	// Do we need to default this after upgrade?
+	//$options['level'] = bw_trace_level();
+	bw_select_arr( "bw_trace_options", "Trace level", $options, 'level', array( "#options" => $trace_levels ) );
   bw_checkbox_arr( "bw_trace_options", "Fully qualified file names", $options, 'qualified' );
   bw_checkbox_arr( "bw_trace_options", "Include trace record count", $options, 'count' );
   bw_checkbox_arr( "bw_trace_options", "Include timestamp", $options, 'date' );
