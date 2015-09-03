@@ -29,6 +29,28 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 */
 
+/**
+ * Determine the required trace level
+ *
+ * The required trace level is determined by a number of methods
+ *
+ * - It may already be set as a global value
+ * - From the option variable "level"
+ * - @TODO From the constant BW_TRACE_LEVEL - which may be set as an integer in wp-config.php
+ * - If WP_DEBUG is false then the trace level remains the same 
+ * - @TODO If WP_DEBUG is true then it will become BW_TRACE_DEBUG
+ * 
+ * @return integer trace level
+ */
+function bw_trace_level() {
+	global $bw_trace_level, $bw_trace_options;
+	if ( !isset( $bw_trace_level ) ) {
+		$bw_trace_level = bw_array_get( $bw_trace_options, "level", BW_TRACE_INFO );
+		$bw_trace_level = (int) $bw_trace_level;
+	}
+	return( $bw_trace_level );
+}
+
 
 /**
  * Return TRUE if option is '1', FALSE otherwise 
@@ -59,7 +81,7 @@ function bw_trace_plugin_startup() {
 		$bw_action_options = get_option( 'bw_action_options' );
 	}
 	
-  $bw_trace_level = bw_torf( $bw_trace_options, 'trace' ); 
+  $bw_trace_level = bw_trace_level(); 
   $bw_trace_ip = null;
   if ( $bw_trace_level ) { 
     $bw_trace_ip = bw_array_get( $bw_trace_options, "ip", null );
@@ -125,6 +147,8 @@ function bw_trace_plugin_startup() {
 	 * If we want to trace hook counting then we can start quite early
 	 */
 	if ( defined( "BW_COUNT_ON" ) && true == BW_COUNT_ON ) {
+	
+	  oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
 	  bw_trace_count_plugins_loaded( true );
 		$count_hooks = true;
 	} else {
@@ -136,16 +160,10 @@ function bw_trace_plugin_startup() {
 	if ( $count_hooks ) {
 		add_action( "plugins_loaded", "bw_trace_count_plugins_loaded" );
 		add_action( "muplugins_loaded", "bw_trace_count_plugins_loaded" );
-	}
-
-  if ( $bw_trace_level > '0' ) {
-    bw_lazy_trace( ABSPATH . $bw_trace_options['file'], __FUNCTION__, __LINE__, __FILE__, 'tracelog' );
-    bw_lazy_trace( $_SERVER, __FUNCTION__, __LINE__, __FILE__, "_SERVER" ); 
-    bw_lazy_trace( bw_getlocale(), __FUNCTION__, __LINE__, __FILE__, "locale" );
-    bw_lazy_trace( $_REQUEST, __FUNCTION__, __LINE__, __FILE__, "_REQUEST" );
-    //bw_lazy_trace( $_POST, __FUNCTION__, __LINE__, __FILE__, "_POST" );
-    //bw_lazy_trace( $_GET, __FUNCTION__, __LINE__, __FILE__, "_GET" );
-    bw_lazy_trace( $bw_action_options, __FUNCTION__, __LINE__, __FILE__, "bw_action_options" );
+	} 
+	 
+	if ( $bw_trace_level ) {
+		bw_trace_trace_startup();
   } 
 	
 	add_action( "wp_loaded", "oik_bwtrace_plugins_loaded", 9 );
@@ -153,8 +171,9 @@ function bw_trace_plugin_startup() {
 	
 }
 
+
 /**
- * Implement "plugins_loaded" filter for oik-bwtrace 
+ * Implement "wp_loaded" filter for oik-bwtrace 
  */
 function oik_bwtrace_plugins_loaded() {
 	if ( oik_require_lib( "oik-admin" ) && oik_require_lib( "bobbforms" ) && oik_require_lib( "bobbfunc" )  ) {
@@ -210,8 +229,8 @@ function oik_bwtrace_query_libs( $libraries ) {
 		$lib = new OIK_lib( $lib_args );
 		$libraries[] = $lib;
 	}
-	bw_trace2();
-	bw_backtrace();
+	bw_trace2( null, null, true, BW_TRACE_DEBUG );
+	//bw_backtrace();
 	return( $libraries );
 } 
 
@@ -276,12 +295,20 @@ function oik_bwtrace_loaded() {
 		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
 	}
 	
+	/**
+	 * Hack to enable bw_tracev() when other libraries don't offer it
+	 */
+	//if ( !function_exists( "bw_tracev" ) ) {
+	//  oik_require( "includes/bwtracev.php", "oik-bwtrace" );
+	//}
+	
 	/*
 	 * Invoke the start up logic if "add_action" is available
 	 */ 
 	if ( function_exists( "add_action" ) ) {
 		bw_trace_plugin_startup();
 	}
+	
 	
 	
 	/*
