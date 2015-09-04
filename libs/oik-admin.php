@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2011-2015
 if ( !defined( "OIK_ADMIN_INCLUDED" ) ) {
-define( "OIK_ADMIN_INCLUDED", "3.0.0" );
+define( "OIK_ADMIN_INCLUDED", "3.0.1" );
 
 /**
  *
@@ -23,12 +23,12 @@ define( "OIK_ADMIN_INCLUDED", "3.0.0" );
  */
 function bw_load_plugin( $set="bw_buttons", $option="oik-button-shortcodes", $plugin=NULL ) {
   $checkbox = bw_get_option( $option, $set );
-  bw_trace2( $checkbox, "checkbox" );
+  bw_trace2( $checkbox, "checkbox", true, BW_TRACE_DEBUG );
   if ( $checkbox == "on"  ) {
     if ( $plugin == NULL ) {
       $plugin = $option.".php" ;
     }  
-    bw_trace2( $plugin, "plugin" );
+    bw_trace2( $plugin, "plugin", false, BW_TRACE_DEBUG );
     oik_require( $plugin );
   }
 }    

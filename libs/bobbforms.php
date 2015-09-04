@@ -414,7 +414,7 @@ function is_selected( $option_key, $option_value, $value ) {
  *
  */
 function bw_query_shorten( $args=null ) {
-  bw_backtrace();
+  bw_backtrace( BW_TRACE_DEBUG );
   $shorten = 0;
   if ( $args ) {
     $shorten = bw_array_get( $args, "#length", 0 );
