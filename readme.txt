@@ -24,6 +24,7 @@ You can also use the oik trace facilities to assist in problem determination in 
 
 
 Features:
+
 * Easy to code APIs: bw_trace2(), bw_backtrace() and bw_trace()
 * Tracing can be enabled programmatically
 * Does not require WP_DEBUG to be defined
@@ -65,17 +66,18 @@ The output for action tracing can include trace records showing:
 * Information about deprecated logic
 * Information related to Errors, Warnings and Notices
 
-If you select "Trace 'shutdown' status report and log in summary file
-then you also get a summary daily log, named bwtrace.vt.mmdd
-
+If you select "Trace 'shutdown' status report and log in summary file"
+then you also get a daily summary log, named bwtrace.vt.mmdd
 
 The summary daily log contains information that can be used for performance analysis.
+This log is produced even when tracing is not enabled.
 
 
 See also:
-* bw_trace2() 
-* bw_backtrace()
-* bw_trace()
+
+* [bw_trace2()](http://www.oik-plugins.com/oik_api/bw_trace2)
+* [bw_backtrace()](http://www.oik-plugins.com/oik_api/bw_backtrace)
+* [bw_trace()](http://www.oik-plugins.com/oik_api/bw_trace)
 
 
 == Installation ==
@@ -83,6 +85,7 @@ See also:
 1. Activate the oik-bwtrace plugin through the 'Plugins' menu in WordPress
 1. Define your trace options using Settings > trace options
 1. Define your action trace options using Settings > action options
+1. Don't forget to disable tracing when you no longer need it
 
 == Frequently Asked Questions ==
 = Where is the FAQ? =
@@ -91,11 +94,37 @@ See also:
 = Can I get support? = 
 Use the contact form on the oik-plugins website. 
 
+== Is there a tutorial? ==
+See this page and short video
+[Introduction to oik-bwtrace](http://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-trace-plugin/an-introduction-to-problem-determination-with-oik-bwtrace-debug-trace-for-wordpress)
+
+== How do I trace from startup? ===
+
+If we want to include bw_trace(), bw_trace2() or bw_backtrace() calls in WordPress core 
+then we need to define the functions, so we include /libs/bwtrace.php.
+
+If we want trace and action count to be enabled and reset at WordPress startup then we also need to define these as TRUE
+
+Put the following in your wp-config.php file
+
+`define( 'BW_TRACE_CONFIG_STARTUP', true );
+define( 'BW_TRACE_ON', true );
+define( 'BW_COUNT_ON', true );
+define( 'BW_TRACE_RESET', true );
+
+if ( file_exists( ABSPATH . '/wp-content/plugins/oik-bwtrace/lib/bwtrace.php' ) ) { 
+  require_once( ABSPATH . '/wp-content/plugins/oik-bwtrace/lib/bwtrace.php' );
+}  
+`
+
+Don't forget to remove or comment out this code when you no longer need it.
+
+
 == Screenshots ==
 1. Trace options
 2. Action options
-3. Raw trace output (fully qualified file names unchecked )
-4. Daily log ouput
+3. Raw trace output 
+4. Daily summary log
  
 == Upgrade Notice ==
 = 2.0.5 =
@@ -213,7 +242,6 @@ This version matches the child plugin oik-bwtrace in oik v1.17
 * Tested: With WordPress and WPMS 4.2 and above. 
 * Tested: With and without: oik-lib v0.1 and oik v2.6
 
-
 = 1.27 =
 * Changed: current filter now shows the full tree. No longer necessary to trace the array separately
 * Fixed: Trace function count no longer doubly incremented.
@@ -315,20 +343,3 @@ This version matches the child plugin oik-bwtrace in oik v1.17
 If you want to read more about the oik plugins then please visit the
 [oik plugin](http://www.oik-plugins.com/oik) 
 **"the oik plugin - for often included key-information"**
-
-If we want to include bw_trace(), bw_trace2() or bw_backtrace() calls in WordPress core 
-then we need to define the functions, so we include /libs/bwtrace.php.
-
-If we want trace and action count to be enabled and reset at WordPress startup then we also need to define these as TRUE
-
-`define( 'BW_TRACE_CONFIG_STARTUP', true );
-define( 'BW_TRACE_ON', true );
-define( 'BW_COUNT_ON', true );
-define( 'BW_TRACE_RESET', true );
-
-if ( file_exists( ABSPATH . '/wp-content/plugins/oik-bwtrace/lib/bwtrace.php' ) ) { 
-  require_once( ABSPATH . '/wp-content/plugins/oik-bwtrace/lib/bwtrace.php' );
-}  
-`
-
-Don't forget to remove this code before deleting the plugin.
