@@ -294,12 +294,25 @@ function oik_bwtrace_loaded() {
 		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
 	}
 	
-	/**
-	 * Hack to enable bw_tracev() when other libraries don't offer it
+	/** 
+	 * Constants for bw_trace2's $level parameter
+	 *
+	 * - The trace record is produced if the $level passed is greater than or equal to the current tracing level ( $bw_trace_on );
+	 * - The default value for bw_trace2 is BW_TRACE_ALWAYS
+	 * - The higher you set the value the more tracing you get.
+	 * - The testing is NOT (yet) implemented as a bit-mask.
+	 * - Note: Most of these values are a subset of logging levels in packages such as monolog.
+	 * - It's not really necessary to have CRITICAL, ALERT or EMERGENCY; ERROR will suffice
+	 * - See also {@link https://en.wikipedia.org/wiki/Syslog#Severity_levels}
+	 * 
 	 */
-	//if ( !function_exists( "bw_tracev" ) ) {
-	//  oik_require( "includes/bwtracev.php", "oik-bwtrace" );
-	//}
+	if ( !defined( 'BW_TRACE_VERBOSE' ) ) { define( 'BW_TRACE_VERBOSE', 64 ); }
+	if ( !defined( 'BW_TRACE_DEBUG' ) ) { define( 'BW_TRACE_DEBUG', 32 ); }
+	if ( !defined( 'BW_TRACE_INFO' ) ) { define( 'BW_TRACE_INFO', 16 ); }							// recommended level
+	if ( !defined( 'BW_TRACE_NOTICE' ) ) { define( 'BW_TRACE_NOTICE', 8 ); }
+	if ( !defined( 'BW_TRACE_WARNING' ) ) { define( 'BW_TRACE_WARNING', 4 ); }
+	if ( !defined( 'BW_TRACE_ERROR' ) ) { define( 'BW_TRACE_ERROR', 2 ); }
+	if ( !defined( 'BW_TRACE_ALWAYS' ) ) { define( 'BW_TRACE_ALWAYS', 0 ); }			// bw_trace2() default
 	
 	/*
 	 * Invoke the start up logic if "add_action" is available
@@ -307,8 +320,6 @@ function oik_bwtrace_loaded() {
 	if ( function_exists( "add_action" ) ) {
 		bw_trace_plugin_startup();
 	}
-	
-	
 	
 	/*
 	 * Selected actions, such as shutdown actions are implemented in includes/oik-actions.php
