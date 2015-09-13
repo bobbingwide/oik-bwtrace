@@ -111,6 +111,10 @@ function oik_action_options() {
   bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' output buffer", $options, 'trace_output_buffer' );
   bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' trace functions count", $options, 'trace_functions' );
   bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' status report and log in summary file", $options, 'trace_status_report' );
+	
+	bw_textarea_arr( "bw_action_options", "Other hooks to trace", $options, "hooks", 80 );
+	bw_textarea_arr( "bw_action_options", "Trace the global post object", $options, "post_hooks", 80 );
+	
   
   //bw_tablerow( array( "", "<input type=\"submit\" name=\"ok\" value=\"Save changes\" class=\"button-primary\"/>") ); 
   etag( "table" ); 			

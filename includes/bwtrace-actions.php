@@ -93,6 +93,9 @@ function bw_trace_add_selected_actions() {
 	}
 	
 	bw_trace_add_error_handler();
+	
+	bw_trace_add_trace_selected_hooks();
+	bw_trace_add_trace_selected_hooks_the_post();
 	//$x .= "oops";
 }
 
@@ -219,6 +222,58 @@ function bw_trace_error_handler( $errno, $errstr, $errfile=null, $errline=null, 
 	//echo "<!-- bw_trace_error_handler $errno $errstr, $errfile,$errline -->" . PHP_EOL;
 	bw_backtrace();
 	return( false );
+}
+
+
+/**
+ * Trace selected hooks 
+ * 
+ * Hooks that you might be interested in are:
+ * - found_posts
+ * - posts_results
+ * - the_posts
+ * - 
+ */
+function bw_trace_add_trace_selected_hooks() {
+  global $bw_action_options;
+	$selected_hooks = bw_array_get( $bw_action_options, "hooks", null ); 
+	if ( $selected_hooks ) {
+		oik_require_lib( "bobbfunc" );
+		$hooks = bw_as_array( $selected_hooks );
+		foreach ( $hooks as $hook ) {
+			add_action( $hook, "bw_trace2", 0 );
+		}
+	}
+}
+
+/**
+ * Add selected hooks to trace the values in the global post
+ *
+ * Not in "the_posts" ... it's too early
+ */
+function bw_trace_add_trace_selected_hooks_the_post() {
+	global $bw_action_options;
+	$selected_hooks = bw_array_get( $bw_action_options, "post_hooks", null ); 
+	if ( $selected_hooks ) {
+		oik_require_lib( "bobbfunc" );
+		$hooks = bw_as_array( $selected_hooks );
+		foreach ( $hooks as $hook ) {
+			add_action( $hook, "bw_trace_the_post", 0, 1 );
+		}
+	}
+}
+
+/**
+ * Trace the global post object
+ *
+ * Print the contents of the post object
+ * @param mixed $arg the first parameter to the hook has to be returned
+ * @return mixed the value passed in
+ */
+function bw_trace_the_post( $arg ) {
+	global $post;
+	bw_trace2( $post, "global post", false, BW_TRACE_DEBUG );
+	return( $arg );
 }
 
 
