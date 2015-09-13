@@ -96,6 +96,7 @@ function bw_trace_add_selected_actions() {
 	
 	bw_trace_add_trace_selected_hooks();
 	bw_trace_add_trace_selected_hooks_the_post();
+	bw_trace_add_trace_selected_hooks_attached_hooks();
 	//$x .= "oops";
 }
 
@@ -210,11 +211,9 @@ function bw_trace_add_error_handler() {
  * @return bool Always false for the time being. We want the developer to be aware of the message.
  */
 function bw_trace_error_handler( $errno, $errstr, $errfile=null, $errline=null, $errcontext=null ) {
-	// Calling bw_trace2() may produce problems when an error is raised inside an output buffer handler
-	//  bw_trace2();
-	// To fix this we use the obsafe_print_r() solution AND a simpler routine
-	bw_trace2();
-	
+	$err = array( $errno, $errstr, $errfile, $errline );
+	bw_trace2( $err, "err", false, BW_TRACE_ALWAYS );
+	bw_trace2( $errcontext, "errcontext", false, BW_TRACE_VERBOSE );
 	//bw_trace( "errno", __FUNCTION__, __LINE__, __FILE__, $errno);
 	//bw_trace( "errstr", __FUNCTION__, __LINE__, __FILE__, $errstr );
 	//bw_trace( "errfile", __FUNCTION__, __LINE__, __FILE__, $errfile );
@@ -228,11 +227,9 @@ function bw_trace_error_handler( $errno, $errstr, $errfile=null, $errline=null, 
 /**
  * Trace selected hooks 
  * 
- * Hooks that you might be interested in are:
- * - found_posts
- * - posts_results
- * - the_posts
- * - 
+ * Hooks that you might be interested in are many and varied.
+ * You can find which hooks are invoked by enabling 'Count action hooks and filters'
+ * 
  */
 function bw_trace_add_trace_selected_hooks() {
   global $bw_action_options;
@@ -241,7 +238,7 @@ function bw_trace_add_trace_selected_hooks() {
 		oik_require_lib( "bobbfunc" );
 		$hooks = bw_as_array( $selected_hooks );
 		foreach ( $hooks as $hook ) {
-			add_action( $hook, "bw_trace2", 0 );
+			add_filter( $hook, "bw_trace2", 0 );
 		}
 	}
 }
@@ -258,7 +255,23 @@ function bw_trace_add_trace_selected_hooks_the_post() {
 		oik_require_lib( "bobbfunc" );
 		$hooks = bw_as_array( $selected_hooks );
 		foreach ( $hooks as $hook ) {
-			add_action( $hook, "bw_trace_the_post", 0, 1 );
+			add_filter( $hook, "bw_trace_the_post", 0, 1 );
+		}
+	}
+}
+
+/**
+ * Add selected hooks to trace the attached hooks
+ *
+ */
+function bw_trace_add_trace_selected_hooks_attached_hooks() {
+	global $bw_action_options;
+	$selected_hooks = bw_array_get( $bw_action_options, "hook_funcs", null ); 
+	if ( $selected_hooks ) {
+		oik_require_lib( "bobbfunc" );
+		$hooks = bw_as_array( $selected_hooks );
+		foreach ( $hooks as $hook ) {
+			add_filter( $hook, "bw_trace_attached_hooks", 0, 1 );
 		}
 	}
 }
@@ -267,6 +280,7 @@ function bw_trace_add_trace_selected_hooks_the_post() {
  * Trace the global post object
  *
  * Print the contents of the post object
+ * 
  * @param mixed $arg the first parameter to the hook has to be returned
  * @return mixed the value passed in
  */
@@ -274,6 +288,82 @@ function bw_trace_the_post( $arg ) {
 	global $post;
 	bw_trace2( $post, "global post", false, BW_TRACE_DEBUG );
 	return( $arg );
+}
+
+/**
+ * Trace the attached hooks for the given hook
+ *
+ * Note: The result set is expected to include ourselves
+ * 
+ * @param mixed $arg the value to return, if it's a filter
+ * @return mixed the $arg that was passed
+ *
+ */
+function bw_trace_attached_hooks( $arg ) {
+	$cf = current_filter(); 
+	bw_trace2( $cf, "current filter", true, BW_TRACE_DEBUG );
+	$hooks = bw_trace_get_attached_hooks( $cf );
+	bw_trace2( $hooks, $cf, false, BW_TRACE_ALWAYS );
+	return( $arg );
+}
+
+/**
+ * Return the attached hooks 
+ *
+ * Reduce the $wp_filter[ $tag ] structure
+ * to something a little easier to interpret
+ * e.g. For the "wp_default_styles" hook it will be
+ *
+ * `
+ * : 0   bw_trace_attached_hooks;1
+ * : 10   wp_default_styles;1
+ * ` 
+ *
+ * Note: We can't use foreach against $wp_filter[ $tag ] since this
+ * moves the current pointer to the end of the array
+ * and messes up further filter functions. We need to work on a copy.
+ *
+ * See {@link http://php.net/manual/en/control-structures.foreach.php}
+ *
+ * @param string $tag the action hook or filter
+ * @return string the attached hook information
+ *
+ */
+function bw_trace_get_attached_hooks( $tag ) {
+	global $wp_filter; 
+  if ( isset( $wp_filter[ $tag ] ) ) {
+		//bw_trace2( $wp_filter[ $tag ], "filters for $tag", false, BW_TRACE_VERBOSE );
+		$current_hooks = $wp_filter[ $tag ];
+		bw_trace2( $current_hooks, "current hooks for $tag", false, BW_TRACE_VERBOSE );
+		$hooks = null;
+		foreach ( $current_hooks as $priority => $functions ) {
+			$hooks .= "\n: $priority  ";
+			foreach ( $functions as $index => $args ) {
+				$hooks .= " ";
+				if ( is_object( $args['function' ] ) ) {
+					$object_name = get_class( $args['function'] );
+					$hooks .= $object_name; 
+
+				} elseif ( is_array( $args['function'] ) ) {
+					//bw_trace2( $args, "args" );
+					if ( is_object( $args['function'][0] ) ) { 
+						$object_name = get_class( $args['function'][0] );
+					}	else {
+						$object_name = $args['function'][0];
+					}
+					$hooks .= $object_name . '::' . $args['function'][1];
+				} else {
+					$hooks .= $args['function'];
+				}
+				$hooks .= ";" . $args['accepted_args'];
+			}
+		}
+		
+	} else {
+		$hooks = null;
+	}
+	//bw_trace2( $hooks, "hooks", true, BW_TRACE_ALWAYS );
+	return( $hooks ); 
 }
 
 

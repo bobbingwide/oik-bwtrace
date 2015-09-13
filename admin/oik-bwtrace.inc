@@ -114,6 +114,7 @@ function oik_action_options() {
 	
 	bw_textarea_arr( "bw_action_options", "Other hooks to trace", $options, "hooks", 80 );
 	bw_textarea_arr( "bw_action_options", "Trace the global post object", $options, "post_hooks", 80 );
+	bw_textarea_arr( "bw_action_options", "Trace attached hook functions", $options, "hook_funcs", 80 );
 	
   
   //bw_tablerow( array( "", "<input type=\"submit\" name=\"ok\" value=\"Save changes\" class=\"button-primary\"/>") ); 
