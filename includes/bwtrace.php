@@ -905,19 +905,20 @@ function bw_lazy_backtrace() {
 /**
  * Improved trace function that needs no parameters, but accepts two
  *
+ * Using debug_backtrace this function can be used to trace the parameters to a function
+ * It's a version of bw_backtrace that doesn't produce the whole call tree
+ * It's less efficient than bw_lazy_trace since it first needs to call debug_backtrace()
+ * bw_backtrace should also perform the checks.
+ *
  * @param mixed $value - an optional field to be traced
  * @param string $text - an optional field identifying text for the field to be traced
  * @param string $show_args - true to display the arguments to the call  
  * @param integer $level - trace level, optional **?**
  * @return mixed $value - to allow this function to be called in return statements 
  * 
- * Using debug_backtrace this function can be used to trace the parameters to a function
- * It's a version of bw_backtrace that doesn't produce the whole call tree
- * It's less efficient than bw_lazy_trace since it first needs to call debug_backtrace()
- * bw_backtrace should also perform the checks.
  *
  */
-function bw_lazy_trace2( $value=NULL, $text=NULL, $show_args=true, $level=null ) {
+function bw_lazy_trace2( $value=null, $text=null, $show_args=true, $level=null ) {
   global $bw_trace_on;
   if ($bw_trace_on) {
 		//bw_trace_check_level( $level );
@@ -931,6 +932,9 @@ function bw_lazy_trace2( $value=NULL, $text=NULL, $show_args=true, $level=null )
     if ( isset( $backtrace[2] ) ) {
       $call2 = $backtrace[2]; 
       $function = $call2['function'];
+			if ( isset( $call2['class'] ) ) {
+				$function = $call2['class'] . '::' . $function;
+			}
       if ( $show_args ) {      
         $args = $call2['args'];
         $cargs = count( $args );
