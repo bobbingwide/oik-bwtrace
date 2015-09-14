@@ -113,6 +113,7 @@ function oik_action_options() {
   bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' status report and log in summary file", $options, 'trace_status_report' );
 	
 	bw_textarea_arr( "bw_action_options", "Other hooks to trace", $options, "hooks", 80 );
+	bw_textarea_arr( "bw_action_options", "Filter results to trace", $options, "results", 80 );
 	bw_textarea_arr( "bw_action_options", "Trace the global post object", $options, "post_hooks", 80 );
 	bw_textarea_arr( "bw_action_options", "Trace attached hook functions", $options, "hook_funcs", 80 );
 	

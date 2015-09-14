@@ -93,11 +93,12 @@ function bw_trace_add_selected_actions() {
 	}
 	
 	bw_trace_add_error_handler();
+	//$x.= "oops";
 	
 	bw_trace_add_trace_selected_hooks();
+	bw_trace_add_trace_selected_filters();
 	bw_trace_add_trace_selected_hooks_the_post();
 	bw_trace_add_trace_selected_hooks_attached_hooks();
-	//$x .= "oops";
 }
 
 /**
@@ -223,12 +224,12 @@ function bw_trace_error_handler( $errno, $errstr, $errfile=null, $errline=null, 
 	return( false );
 }
 
-
 /**
  * Trace selected hooks 
  * 
  * Hooks that you might be interested in are many and varied.
  * You can find which hooks are invoked by enabling 'Count action hooks and filters'
+ * then type the hook into the text area to find out more.
  * 
  */
 function bw_trace_add_trace_selected_hooks() {
@@ -238,15 +239,76 @@ function bw_trace_add_trace_selected_hooks() {
 		oik_require_lib( "bobbfunc" );
 		$hooks = bw_as_array( $selected_hooks );
 		foreach ( $hooks as $hook ) {
-			add_filter( $hook, "bw_trace2", 0 );
+			add_filter( $hook, "bw_trace_parms", 0, 9 );
 		}
 	}
 }
 
 /**
+ * Trace the parameters passed to the hook
+ *
+ * This function allows for an action hook that's passed 0 args. Is this possible?
+ *
+ * @param mixed $arg the parameter that must be returned for a filter hook
+ * @return mixed the arg that was passed
+ */
+function bw_trace_parms( $arg=null ) {
+	$num = func_num_args();
+	$args = func_get_args();
+	//if ( 1 === $num ) {
+	//	$args = $args[0];
+	//}
+	bw_trace2( $args, "parameters: $num:", null, BW_TRACE_ALWAYS );
+	return( $arg );
+}
+
+/**
+ * Trace selected results 
+ * 
+ * Filter hooks that you might be interested in are many and varied.
+ *
+ * You can find which hooks are invoked by enabling 'Count action hooks and filters'
+ * then type the hook into the text area to find out more.
+ * 
+ * Here we register the filter hook with a high value for priority
+ * 
+ */
+function bw_trace_add_trace_selected_filters() {
+  global $bw_action_options;
+	$selected_hooks = bw_array_get( $bw_action_options, "results", null ); 
+	if ( $selected_hooks ) {
+		oik_require_lib( "bobbfunc" );
+		$hooks = bw_as_array( $selected_hooks );
+		foreach ( $hooks as $hook ) {
+			add_filter( $hook, "bw_trace_results", 9999, 9 );
+		}
+	}
+}
+
+/**
+ * Trace the results from filtering
+ *
+ * Note: We also trace the parameters passed in so you don't necessarily 
+ * need to trace parms.
+ *
+ * @param mixed $arg the parameter that must be returned for a filter hook
+ * @return mixed the arg that was passed
+ */
+function bw_trace_results( $arg=null ) {
+	$num = func_num_args();
+	$args = func_get_args();
+	//if ( 1 === $num ) {
+	//	$args = $args[0];
+	//}
+	bw_trace2( $args, "results: $num:", false, BW_TRACE_DEBUG );
+	bw_trace2( $arg, "return", false, BW_TRACE_ALWAYS );
+	return( $arg );
+}
+
+/**
  * Add selected hooks to trace the values in the global post
  *
- * Not in "the_posts" ... it's too early
+ * Note: Don't trace "the_posts" ... it's too early - global $post won't be set
  */
 function bw_trace_add_trace_selected_hooks_the_post() {
 	global $bw_action_options;
@@ -255,7 +317,7 @@ function bw_trace_add_trace_selected_hooks_the_post() {
 		oik_require_lib( "bobbfunc" );
 		$hooks = bw_as_array( $selected_hooks );
 		foreach ( $hooks as $hook ) {
-			add_filter( $hook, "bw_trace_the_post", 0, 1 );
+			add_filter( $hook, "bw_trace_the_post", 0, 9 );
 		}
 	}
 }
@@ -271,7 +333,7 @@ function bw_trace_add_trace_selected_hooks_attached_hooks() {
 		oik_require_lib( "bobbfunc" );
 		$hooks = bw_as_array( $selected_hooks );
 		foreach ( $hooks as $hook ) {
-			add_filter( $hook, "bw_trace_attached_hooks", 0, 1 );
+			add_filter( $hook, "bw_trace_attached_hooks", 0, 9 );
 		}
 	}
 }
@@ -284,7 +346,7 @@ function bw_trace_add_trace_selected_hooks_attached_hooks() {
  * @param mixed $arg the first parameter to the hook has to be returned
  * @return mixed the value passed in
  */
-function bw_trace_the_post( $arg ) {
+function bw_trace_the_post( $arg=null ) {
 	global $post;
 	bw_trace2( $post, "global post", false, BW_TRACE_DEBUG );
 	return( $arg );
