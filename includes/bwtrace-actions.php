@@ -236,13 +236,35 @@ function bw_trace_add_trace_selected_hooks() {
   global $bw_action_options;
 	$selected_hooks = bw_array_get( $bw_action_options, "hooks", null ); 
 	if ( $selected_hooks ) {
-		oik_require_lib( "bobbfunc" );
-		$hooks = bw_as_array( $selected_hooks );
-		foreach ( $hooks as $hook ) {
-			add_filter( $hook, "bw_trace_parms", 0, 9 );
-		}
+		bw_trace_add_filters( $selected_hooks, "bw_trace_parms", 0, 9 ); 
 	}
 }
+
+/**
+ * Add the filter function for the selected hooks
+ */
+function bw_trace_add_filters( $selected_hooks, $filter_func, $priority=10, $accepted_args=9 ) {
+	oik_require_lib( "bobbfunc" );
+	$hooks = bw_as_array( $selected_hooks );
+	foreach ( $hooks as $hook ) {
+		bw_trace_add_filter( $hook, $filter_func, $priority, $accepted_args );
+	}
+}
+
+/**
+ * Add the filter function for the selected hook and priority
+ * 
+ */
+function bw_trace_add_filter( $selected_hook, $filter_func, $priority=10, $accepted_args=9 ) {
+	$selected_hook = str_replace( ";", ":", $selected_hook );
+	$hook = explode( ":", $selected_hook );
+	if ( isset( $hook[1] ) ) {
+		$priority	= $hook[1];
+	}
+	add_filter( $hook[0], $filter_func, $priority, $accepted_args );
+}
+	
+
 
 /**
  * Trace the parameters passed to the hook
@@ -277,11 +299,7 @@ function bw_trace_add_trace_selected_filters() {
   global $bw_action_options;
 	$selected_hooks = bw_array_get( $bw_action_options, "results", null ); 
 	if ( $selected_hooks ) {
-		oik_require_lib( "bobbfunc" );
-		$hooks = bw_as_array( $selected_hooks );
-		foreach ( $hooks as $hook ) {
-			add_filter( $hook, "bw_trace_results", 9999, 9 );
-		}
+		bw_trace_add_filters( $selected_hooks, "bw_trace_results", 9999, 9 ); 
 	}
 }
 
@@ -314,11 +332,7 @@ function bw_trace_add_trace_selected_hooks_the_post() {
 	global $bw_action_options;
 	$selected_hooks = bw_array_get( $bw_action_options, "post_hooks", null ); 
 	if ( $selected_hooks ) {
-		oik_require_lib( "bobbfunc" );
-		$hooks = bw_as_array( $selected_hooks );
-		foreach ( $hooks as $hook ) {
-			add_filter( $hook, "bw_trace_the_post", 0, 9 );
-		}
+		bw_trace_add_filters( $selected_hooks, "bw_trace_the_post", 0, 9 ); 
 	}
 }
 
@@ -330,11 +344,7 @@ function bw_trace_add_trace_selected_hooks_attached_hooks() {
 	global $bw_action_options;
 	$selected_hooks = bw_array_get( $bw_action_options, "hook_funcs", null ); 
 	if ( $selected_hooks ) {
-		oik_require_lib( "bobbfunc" );
-		$hooks = bw_as_array( $selected_hooks );
-		foreach ( $hooks as $hook ) {
-			add_filter( $hook, "bw_trace_attached_hooks", 0, 9 );
-		}
+		bw_trace_add_filters( $selected_hooks, "bw_trace_attached_hooks", 0, 9 ); 
 	}
 }
 
