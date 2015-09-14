@@ -79,6 +79,9 @@ function bw_trace_file_part( $file ) {
   global $bw_trace_anonymous;
   if ( $bw_trace_anonymous ) {
     $lose = str_replace( "/", "\\", ABSPATH );
+		if ( ':' === substr( $file, 1, 1 ) ) { 
+			$path = ucfirst( $file ); 
+		}	         
     $file = str_replace( "/", "\\", $file );
     $fil = str_replace( $lose , '', $file );
 		if ( $fil == $file ) {
@@ -107,7 +110,7 @@ function bw_trace_file_part( $file ) {
  */
 function bw_trace_anonymize_symlinked_file( $file ) {
   $fil = str_replace( "\\", "/", $file );
-	$fil = strtolower( $fil );
+	//$fil = strtolower( $fil );
   global $wp_plugin_paths;
 	
 	if ( count( $wp_plugin_paths ) ) {
