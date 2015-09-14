@@ -66,6 +66,13 @@ The output for action tracing can include trace records showing:
 * Information about deprecated logic
 * Information related to Errors, Warnings and Notices
 
+New in v2.0.6
+
+* Parameters passed to user selected hooks
+* Returned values from user selected filters
+* Current status of the global post object for user selected hooks
+* Information about attached hook functions for user selected hooks
+
 If you select "Trace 'shutdown' status report and log in summary file"
 then you also get a daily summary log, named bwtrace.vt.mmdd
 
@@ -129,7 +136,13 @@ Don't forget to remove or comment out this code when you no longer need it.
 
 ## Upgrade Notice 
 # 2.0.6 
-Now supports "Other hooks to trace", "Trace the global post object" and "Trace attached hook functions"
+Now supports user selected action hook tracing
+
+* "Other hooks to trace",
+* "Filter results to trace"
+* "Trace the global post object"
+* "Trace attached hook functions"
+
 Added BW_TRACE_VERBOSE ( 64 ); an even higher level than BW_TRACE_DEBUG ( 32 ).
 
 # 2.0.5 
@@ -194,12 +207,16 @@ This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
 # 2.0.6 
+* Added: Ad-hoc tracing of filter functions for selected hooks ( Issue #3 )
 * Added: Ad-hoc tracing of parameters to selected hooks ( Issue #2 )
 * Added: Ad-hoc tracing of the global post object on selected hooks ( Issue #2 )
-* Added: Ad-hoc tracing of filter functions for selected hooks ( Issue #3 )
 * Added: BW_TRACE_VERBOSE ( 64 ) level, which is even more detailed than BW_TRACE_DEBUG ( 32 )
+* Changed: Enhanced output from Count action hooks and filters ( Issue #7 )
+* Changed: Functions traced should allow OO methods invoking trace ( Issue #8 )
 * Fixed: Ensure BW_TRACE_level constants are defined ( Issue #4 )
+* Fixed: Fix for problem with symlinked file's drive letters ( similar to TRAC #33265 )
 * Fixed: Only trace $errcontext when tracing with BW_TRACE_VERBOSE ( Issue #5 )
+* Fixed: Strings containing commas in the trace summary file should be wrapped in quotes ( Issue #9 )
 
 # 2.0.5 
 * Added: $level parameter (default BW_TRACE_ALWAYS) to the bw_trace2() and bw_backtrace() APIs
