@@ -92,23 +92,28 @@ function bw_trace_wp_early( $WP_Environment_Instance ) {
  * 
  * This new logic ( Aug 2014 ) is significantly faster than the orignal action tracing, which wrote each action to the action log.
  * The additional logic ( May/June 2015 ) helps us determine the nesting.
+ * Sep 2015 - added ability to record the number of parameters passed. 
+ * We subtract 1 from the number of args passed to this function; it gives the value needed when registering an action hook or filter.
  * 
  */
 function bw_trace_count_all( $tag, $args2=null ) {
   global $bw_action_counts; 
+	global $bw_action_parms;
   if ( !isset( $bw_action_counts[ $tag ] ) ) {
     $bw_action_counts[ $tag ] = 1;
+		$bw_action_parms[ $tag ] = func_num_args() - 1;
   } else {
     $bw_action_counts[ $tag ] += 1; 
   }
 	
 	/* 
 	 * We also want to record the actions showing the hierarchy of hooks
+	 * Assuming no one uses semi-colons in hook names!
 	 *
 	 */
 	global $wp_current_filter;
 	global $bw_action_counts_tree;
-	$filters = implode( ",",  $wp_current_filter );
+	$filters = implode( ";",  $wp_current_filter );
 	
   if ( !isset( $bw_action_counts_tree[ $filters ] ) ) {
     $bw_action_counts_tree[ $filters ] = 1;
@@ -158,6 +163,38 @@ function bw_trace_count_report() {
  
 }
 
+/** 
+ * Return the hook type
+ * 
+ */ 
+function bw_trace_get_hook_type( $hook ) {
+	global $wp_actions;
+	if ( isset( $wp_actions[ $hook ] ) ){
+		$type = "action";
+	} else {
+		$type = "filter";
+	}
+	return( $type );
+}
+
+/**
+ * Return the hook param count
+ *
+ * It should not be ?
+ */
+function bw_trace_get_hook_num_args( $hook ) {
+	global $bw_action_parms;
+	if ( isset( $bw_action_parms[ $hook ] ) ) {
+		$num_args = $bw_action_parms[ $hook ];
+		if ( 0 === $num_args ) {
+			$num_args = '';
+		}
+  } else {
+		$num_args = '?'; 
+	}
+	return( $num_args );
+}
+
 /**
  * Create the HTML for a hook links section for "Request summary"
  * 
@@ -166,16 +203,22 @@ function bw_trace_count_report() {
  * 
  */
 function bw_trace_create_hook_links( $action_counts, $heading ) {
-  $hook_links = "<h3>$heading</h3>";
-  $hook_links .= "[bw_csv]Hook,Invoked";
+	$hook_links = "<h3>$heading</h3>";
+	$hook_links .= "[bw_csv]Hook,Invoked";
+	$type = null;
+	$num_args = null;
 	if ( count( $action_counts ) ) {
 		foreach ( $action_counts as $hook => $count ) {
 			$hook_links .= PHP_EOL;
-		 $hook_links .= "[hook $hook],$count";
+			$hooks = explode( ";", $hook );
+			$end_hook = end( $hooks );
+			$type = bw_trace_get_hook_type( $end_hook );
+			$num_args = bw_trace_get_hook_num_args( $end_hook );
+			$hook_links .= "[hook $hook $type $num_args],$count";
 		}
 	}
-  $hook_links .= "[/bw_csv]";
-  bw_trace2( $hook_links, "hook_links", false ); 
+$hook_links .= "[/bw_csv]";
+bw_trace2( $hook_links, "hook_links", false ); 
 
 }
 
