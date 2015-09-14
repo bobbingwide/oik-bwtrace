@@ -7,8 +7,6 @@
 * Stable tag: 2.0.5
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
-* Text Domain: oik-bwtrace
-* Domain Path: /languages/
 
 ## Description 
 Debug trace for WordPress.
@@ -44,6 +42,8 @@ Features:
 * Backtraces deprecated logic messages
 * Traces and backtraces PHP Error, Warning and Notice messages
 * API supports multiple trace levels
+* Supports tracing of user defined hooks
+
 
 The trace record output can include:
 
@@ -122,11 +122,16 @@ Don't forget to remove or comment out this code when you no longer need it.
 
 ## Screenshots 
 1. Trace options
-2. Action options
-3. Raw trace output
-4. Daily summary log
+2. Action options - part 1
+3. Action options - part 2
+4. Raw trace output
+5. Daily summary log
 
 ## Upgrade Notice 
+# 2.0.6 
+Now supports "Other hooks to trace", "Trace the global post object" and "Trace attached hook functions"
+Added BW_TRACE_VERBOSE ( 64 ); an even higher level than BW_TRACE_DEBUG ( 32 ).
+
 # 2.0.5 
 Now supports multiple trace levels.
 
@@ -188,6 +193,14 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.0.6 
+* Added: Ad-hoc tracing of parameters to selected hooks ( Issue #2 )
+* Added: Ad-hoc tracing of the global post object on selected hooks ( Issue #2 )
+* Added: Ad-hoc tracing of filter functions for selected hooks ( Issue #3 )
+* Added: BW_TRACE_VERBOSE ( 64 ) level, which is even more detailed than BW_TRACE_DEBUG ( 32 )
+* Fixed: Ensure BW_TRACE_level constants are defined ( Issue #4 )
+* Fixed: Only trace $errcontext when tracing with BW_TRACE_VERBOSE ( Issue #5 )
+
 # 2.0.5 
 * Added: $level parameter (default BW_TRACE_ALWAYS) to the bw_trace2() and bw_backtrace() APIs
 * Added: Select box to choose the level of tracing
