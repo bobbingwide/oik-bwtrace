@@ -245,6 +245,7 @@ function bw_trace_query_plugins() {
  *
  * 
  * @TODO Trace action hook and filter counts as well?
+ * @TODO Trace number of Errors, Warnings and Notices detected
  * 
  */
 function bw_trace_status_report() {
@@ -375,6 +376,12 @@ function bw_trace_vt( $value, $text ) {
  *  yes    |  No        | REQUEST_URI,,
  *  no     |  n/a       | parms,,
  *  yes    |  Yes       | REQUEST_URI,action 
+ *
+ * If the request contains commas we need to wrap it in quotes or escape them.
+ * Otherwise a CSV routine may not deal with it correctly.
+ * Note: We expect double quotes to have been encoded as %22.
+ *
+ * @TODO What if the AJAX action contains commas and/or quotes?
  * 
  * @return string the request string
  */
@@ -389,7 +396,10 @@ function bw_trace_determine_request() {
         $request .= $arg; 
       }
     }
-  }        
+  }
+	if ( false !== strpos( $request, "," ) ) {
+		$request = '"' . $request . '"';
+	}				
   $request .= ",";
   if ( defined( 'DOING_AJAX') && DOING_AJAX ) {
     $request .=  bw_array_get( $_REQUEST, 'action', null );
