@@ -247,7 +247,7 @@ function bw_trace_add_filters( $selected_hooks, $filter_func, $priority=10, $acc
 	oik_require_lib( "bobbfunc" );
 	$hooks = bw_as_array( $selected_hooks );
 	foreach ( $hooks as $hook ) {
-		bw_trace_add_filter( $hook, $filter_func, $priority, $accepted_args );
+		bw_trace_add_filter( $hook, $filter_func, $priority, "$accepted_args" );
 	}
 }
 
@@ -261,10 +261,8 @@ function bw_trace_add_filter( $selected_hook, $filter_func, $priority=10, $accep
 	if ( isset( $hook[1] ) ) {
 		$priority	= $hook[1];
 	}
-	add_filter( $hook[0], $filter_func, $priority, $accepted_args );
+	add_filter( $hook[0], $filter_func, $priority, "$accepted_args.$priority" );
 }
-	
-
 
 /**
  * Trace the parameters passed to the hook
@@ -318,9 +316,27 @@ function bw_trace_results( $arg=null ) {
 	//if ( 1 === $num ) {
 	//	$args = $args[0];
 	//}
-	bw_trace2( $args, "results: $num:", false, BW_TRACE_DEBUG );
+	$priority = bw_trace_inspect_current(); 
+	bw_trace2( $args, "results: $priority,$num:", false, BW_TRACE_DEBUG );
 	bw_trace2( $arg, "return", false, BW_TRACE_ALWAYS );
+	//bw_backtrace( BW_TRACE_DEBUG );
 	return( $arg );
+}
+
+/**
+ * Find the current priority
+ * 
+ * This super hack relies on the fact that you can define accepted args as a decimal value
+ * So I append the priority to the accepted args, which is always 9.
+ */
+function bw_trace_inspect_current() {
+	global $wp_filter;
+	$tag = current_filter();
+	$current = current( $wp_filter[ $tag ] );
+	bw_trace2( $current, "current", false, BW_TRACE_VERBOSE );
+	$priority = $current[ 'bw_trace_results']['accepted_args'];
+	$priority = substr( $priority, 2 );
+	return( $priority );
 }
 
 /**
@@ -404,7 +420,6 @@ function bw_trace_attached_hooks( $arg ) {
 function bw_trace_get_attached_hooks( $tag ) {
 	global $wp_filter; 
   if ( isset( $wp_filter[ $tag ] ) ) {
-		//bw_trace2( $wp_filter[ $tag ], "filters for $tag", false, BW_TRACE_VERBOSE );
 		$current_hooks = $wp_filter[ $tag ];
 		bw_trace2( $current_hooks, "current hooks for $tag", false, BW_TRACE_VERBOSE );
 		$hooks = null;
@@ -430,7 +445,6 @@ function bw_trace_get_attached_hooks( $tag ) {
 				$hooks .= ";" . $args['accepted_args'];
 			}
 		}
-		
 	} else {
 		$hooks = null;
 	}
