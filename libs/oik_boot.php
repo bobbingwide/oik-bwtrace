@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2012-2015
 if ( !defined( 'OIK_BOOT_INCLUDED' ) ) {
-define( 'OIK_BOOT_INCLUDED', "3.0.0" );
+define( 'OIK_BOOT_INCLUDED', "3.0.1" );
 define( 'OIK_BOOT_FILE', __FILE__ );
 /**
  * Library: oik_boot
@@ -26,10 +26,19 @@ define( 'OIK_BOOT_FILE', __FILE__ );
  * to know when oik has been loaded so you can use the APIs
  * 
  * Note: oik_boot may be loaded before WordPress has done its stuff, so we may need to define some constants ourselves
+ * Here we assume the file is in ABSPATH/wp-content/plugins/oik/libs so we need 4 dirnames to get back to ABSPATH
+ * and then we need to convert backslashes to forward slashes and the drive letter to uppercase.
+ * Currently don't think it's necessary to check the first letter but we're doing it anyway.
  */
 if (!function_exists( 'oik_path' )) {
-  if ( !defined('ABSPATH') )
-    define( 'ABSPATH', dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/' );
+  if ( !defined('ABSPATH') ) {
+		$abspath = dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/';
+    $abspath = str_replace( "\\", "/", $abspath );
+		if ( ':' === substr( $abspath, 1, 1 ) ) {
+			$abspath = ucfirst( $abspath );
+		}
+    define( 'ABSPATH', $abspath );
+	}
 
   if ( !defined('WP_CONTENT_DIR') )
     define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // no trailing slash, full paths only - WP_CONTENT_URL is defined further down
