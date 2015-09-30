@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2011-2015
 if ( !defined( "BWTRACE_INCLUDED" ) ) {
-define( "BWTRACE_INCLUDED", "2.0.5" );
+define( "BWTRACE_INCLUDED", "2.0.7" );
 define( "BWTRACE_FILE", __FILE__ );
 
 /**
@@ -24,6 +24,7 @@ define( "BWTRACE_FILE", __FILE__ );
  * - See also {@link https://en.wikipedia.org/wiki/Syslog#Severity_levels}
  * 
  */
+if ( !defined( 'BW_TRACE_VERBOSE' ) ) { define( 'BW_TRACE_VERBOSE', 64 ); }
 if ( !defined( 'BW_TRACE_DEBUG' ) ) { define( 'BW_TRACE_DEBUG', 32 ); }
 if ( !defined( 'BW_TRACE_INFO' ) ) { define( 'BW_TRACE_INFO', 16 ); }							// recommended level
 if ( !defined( 'BW_TRACE_NOTICE' ) ) { define( 'BW_TRACE_NOTICE', 8 ); }
@@ -50,7 +51,6 @@ if ( !isset( $bw_trace_level )) {
 		$bw_trace_level = BW_TRACE_LEVEL;
 	}
 }
- 
 
 /**
  * Log a simple trace record to the trace log file if tracing is active
@@ -59,17 +59,18 @@ if ( !isset( $bw_trace_level )) {
  * which prevent bw_trace2() from being invoked.
  * 
  * @param mixed $text value to be traced
- * @param string $function name of function to log in the trace file
+ * @param string $function name of function to log in the trace file. In OO code use __METHOD__
  * @param integer $lineno line number of source file to log
  * @param string $file source file name
  * @param string $text_label a label to help you locate the trace record 
+ * @param integer $level required level of tracing
  *
  */
 if ( !function_exists( "bw_trace" ) ) { 
-	function bw_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=__FILE__, $text_label=NULL) {
+	function bw_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=__FILE__, $text_label=null, $level=BW_TRACE_ALWAYS ) {
 		global $bw_trace_on;
 		if ( $bw_trace_on  ) {
-			bw_lazy_trace( $text, $function, $lineno, $file, $text_label );
+			bw_lazy_trace( $text, $function, $lineno, $file, $text_label, $level );
 		}  
 	}
 }
@@ -85,7 +86,7 @@ if ( !function_exists( "bw_trace" ) ) {
  * @return mixed $value - the first parameter
  */
 if ( !function_exists( "bw_trace2" ) ) { 
-	function bw_trace2( $value=NULL, $text=NULL, $show_args=true, $level=BW_TRACE_ALWAYS ) { 
+	function bw_trace2( $value=null, $text=null, $show_args=true, $level=BW_TRACE_ALWAYS ) { 
 		global $bw_trace_on, $bw_trace_level;
 		if ( $bw_trace_on && ( $level <= $bw_trace_level ) ) { 
 			return( bw_lazy_trace2( $value, $text, $show_args, $level ));
@@ -98,6 +99,7 @@ if ( !function_exists( "bw_trace2" ) ) {
 /**
  * Log a debug_backtrace() to the trace log file if tracing is active
  * 
+ * @param integer $level required level of tracing
  */
 if ( !function_exists( "bw_backtrace" ) ) { 
 	function bw_backtrace( $level=BW_TRACE_ALWAYS ) {
