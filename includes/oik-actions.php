@@ -57,16 +57,24 @@ function bw_trace_report_actions() {
 /** 
  * At shutdown produce a report of the files loaded
  *
- * The report is formatted for inclusion into a WordPress page formatted using shortcodes
- * The [file] shortcode will need to take into account the WordPress core files
- * and the plugin or theme name.
+ * The report is formatted for inclusion into a WordPress page formatted using shortcodes.
+ * 
+ * The [file] shortcode will need to take into account the WordPress core files and the plugin or theme name.
  *
- * We use the global $bw_trace_anonymous to force bw_trace_file_part() to do its stuff. 
+ * We use the global $bw_trace_anonymous to force bw_trace_file_part() to do its stuff.
+ *
+ * @TOOD Perhaps we can just look for 'wp-content/plugins' or 'wp-content/themes' and take the substr from that point.
+ *
+ * If it's wp-content then we need to strip the plugin name as well .... but that means we might not load the right file
+ * so oikai_get_file_byname() is wrong... and needs the plugin prefix.
+ *
+ * @TODO Cater for 'wp-content/mu-plugins'
+ * @TODO Cater for drop-ins
  * 
  */
 function bw_trace_included_files() { 
   $included_files = get_included_files();
-	//bw_trace2( $included_files, "included_files" );
+	bw_trace2( $included_files, "included_files", false, BW_TRACE_DEBUG );
   global $bw_trace_anonymous;
   $anon = $bw_trace_anonymous;
   $bw_trace_anonymous = true;
@@ -76,17 +84,17 @@ function bw_trace_included_files() {
 	$files .= "[bw_csv uo=u]File";
   //$lose = str_replace( "/", "\\", ABSPATH );
   foreach ( $included_files as $file ) {
-    //$file = str_replace( "/", "\\", $file );
-    //$file = str_replace( $lose , '', $file );
-		$file = bw_trace_file_part( $file );
+		$original = $file;
     $file = str_replace( "\\", "/", $file );
-    $file = str_replace( "wp-content/plugins/", "", $file );
-    $file = str_replace( "wp-content/themes/", "", $file );
-    // If it's wp-content then we need to strip the plugin name as well .... but that means we might not load the right file
-    // so oikai_get_file_byname() is wrong... and needs the plugin prefix.
-    // where are MU plugins and drop-ins? 
+		$file = bw_trace_file_part( $file );
+		$pos = strpos( $file, "wp-content/" );
+		if ( false !== $pos ) {
+			$file = substr( $file, $pos );
+		} 
+    //$file = str_replace( "wp-content/plugins/", "", $file );
+    //$file = str_replace( "wp-content/themes/", "", $file );
     
-    $files .= PHP_EOL . "[file $file]";
+    $files .= PHP_EOL . "[file $file $original]";
   }
 	$files .= PHP_EOL . "[/bw_csv]";
   $bw_trace_anonymous = $anon;
