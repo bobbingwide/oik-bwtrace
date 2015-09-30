@@ -1,5 +1,4 @@
 <?php // (C) Copyright Bobbing Wide 2013-2015
-
 /**
  * Implement (lazy) trace startup from wp-config.php
  * 
@@ -19,14 +18,6 @@ function bw_lazy_trace_config_startup() {
   } else {
     $trace_on = false;
 	}
-  
-	/*
-  if ( defined( 'BW_ACTIONS_ON' ) ) {
-    $actions_on = BW_ACTIONS_ON;
-  } else {
-    $actions_on = false;
-	}
-	*/
 	
   if ( defined( 'BW_COUNT_ON' ) ) {
     $count_on = BW_COUNT_ON;
@@ -39,15 +30,7 @@ function bw_lazy_trace_config_startup() {
   } else {
     $trace_reset = false;
 	}
-	
-	/*
-  if ( defined( 'BW_ACTIONS_RESET' ) ) {
-    $actions_reset = BW_ACTIONS_RESET;
-  } else {
-    $actions_reset = false;
-	}
-	*/
-    
+
   if ( $trace_on ) {
 	  oik_require( "includes/bwtrace.php", "oik-bwtrace" );
     bw_trace_inc_init();
@@ -56,17 +39,6 @@ function bw_lazy_trace_config_startup() {
       bw_trace_reset();
     }   
   }
-
-	/*
-  if ( $actions_on ) {     
-    oik_require2( "includes/oik-bwtrace.inc", "oik-bwtrace" );
-    bw_action_inc_init();
-    bw_trace_actions_on();     
-    if ( $actions_reset ) {
-      bw_actions_reset();
-    }  
-  }
-	*/
 	
 	if ( $count_on ) {
     oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
@@ -75,6 +47,5 @@ function bw_lazy_trace_config_startup() {
     //bw_lazy_trace_count();
 		//bw_trace_count_plugins_loaded( $count_on );
 	}
-	
 	
 }
