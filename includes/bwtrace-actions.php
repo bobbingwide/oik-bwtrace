@@ -313,9 +313,6 @@ function bw_trace_add_trace_selected_filters() {
 function bw_trace_results( $arg=null ) {
 	$num = func_num_args();
 	$args = func_get_args();
-	//if ( 1 === $num ) {
-	//	$args = $args[0];
-	//}
 	$priority = bw_trace_inspect_current(); 
 	bw_trace2( $args, "results: $priority,$num:", false, BW_TRACE_DEBUG );
 	bw_trace2( $arg, "return", false, BW_TRACE_ALWAYS );
@@ -374,7 +371,7 @@ function bw_trace_add_trace_selected_hooks_attached_hooks() {
  */
 function bw_trace_the_post( $arg=null ) {
 	global $post;
-	bw_trace2( $post, "global post", false, BW_TRACE_DEBUG );
+	bw_trace2( $post, "global post", false, BW_TRACE_ALWAYS );
 	return( $arg );
 }
 
