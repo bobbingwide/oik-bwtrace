@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, immediate trace
 Requires at least: 4.2
-Tested up to: 4.3
-Stable tag: 2.0.5
+Tested up to: 4.3.1
+Stable tag: 2.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,6 +210,8 @@ This version matches the child plugin oik-bwtrace in oik v1.17
 * Added: Ad-hoc tracing of filter functions for selected hooks ( Issue #3 )
 * Added: Ad-hoc tracing of parameters to selected hooks ( Issue #2 )
 * Added: Ad-hoc tracing of the global post object on selected hooks ( Issue #2 )
+* Added: Ad-hoc tracing of filter results ( Issue #6 )
+* Added: Ad-hoc tracing should allow selection of the hook priority ( Issue #10 )
 * Added: BW_TRACE_VERBOSE ( 64 ) level, which is even more detailed than BW_TRACE_DEBUG ( 32 )
 * Changed: Enhanced output from Count action hooks and filters ( Issue #7 )
 * Changed: Functions traced should allow OO methods invoking trace ( Issue #8 )
