@@ -1,28 +1,26 @@
 <?php // (C) Copyright Bobbing Wide 2012-2015
 if ( !defined( 'OIK_BWTRACE_BOOT_INCLUDED' ) ) {
-define( 'OIK_BWTRACE_BOOT_INCLUDED', "1.27" );
+define( 'OIK_BWTRACE_BOOT_INCLUDED', "2.0.7" );
 define( 'OIK_BWTRACE_BOOT_FILE', __FILE__ );
 
 /**
- * Initialise tracing and action logging when WordPress is not yet loaded
+ * Initialise tracing and action counting when WordPress is not yet loaded
  *
  * This file should only be loaded when 'BW_TRACE_CONFIG_STARTUP' is true.
- 
- * When this is the case, trace will be initialised using default values for trace logging and action logging.
- * If the other defines are true then the trace and action log files will be reset
  *
- * Note: This can cause problems when Ajax requests are coming in
- *
- *
+ * When this is the case, trace will be initialised using default values for trace logging.
+ * 
  * Constants that we deal with are:
  * 
  * `
  * define( 'BW_TRACE_ON', true );
- * define( 'BW_ACTIONS_ON', false );
  * define( 'BW_COUNT_ON', true );
  * define( 'BW_TRACE_RESET', true );
- * define( 'BW_ACTIONS_RESET', true );
  * `
+ *
+ * If BW_TRACE_RESET is true then the trace log file is reset.
+ * Note: This can cause problems when Ajax requests are coming in.
+ *
  */ 
 if ( defined( 'BW_TRACE_CONFIG_STARTUP' ) && BW_TRACE_CONFIG_STARTUP ) {
 	if ( !defined( "bw_trace_config_startup" ) ) {
