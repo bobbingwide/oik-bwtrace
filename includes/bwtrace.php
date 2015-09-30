@@ -1,5 +1,4 @@
 <?php // (C) Copyright Bobbing Wide 2011-2015
-
 if ( !defined( 'OIK_BWTRACE_INCLUDES_INCLUDED' ) )  {
 define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  
@@ -9,6 +8,7 @@ define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  * Note: bw_trace(), bw_trace2() and bw_backtrace() call lazy functions that are not loaded until trace is first turned on.
  * The global variable $bw_trace_on should not be set to true manually.
  * 
+ * @param bool $default_options true if default options are to be set
  */
 function bw_trace_on( $default_options=false ) {
   global $bw_trace_on;
@@ -78,11 +78,11 @@ function bw_getlocale( $category=LC_ALL ) {
 function bw_trace_file_part( $file ) {
   global $bw_trace_anonymous;
   if ( $bw_trace_anonymous ) {
-    $lose = str_replace( "/", "\\", ABSPATH );
+    $lose = str_replace( "\\", "/", ABSPATH );
 		if ( ':' === substr( $file, 1, 1 ) ) { 
 			$path = ucfirst( $file ); 
 		}	         
-    $file = str_replace( "/", "\\", $file );
+    $file = str_replace( "\\", "/", $file );
     $fil = str_replace( $lose , '', $file );
 		if ( $fil == $file ) {
 		  $fil = bw_trace_anonymize_symlinked_file( $fil );
@@ -385,12 +385,16 @@ function bw_trace_context() {
 /**
  * Set some contextual information for tracing
  *
+ * @param string $key
+ * @param mixed $value
+ *
  */
 function bw_set_context( $key, $value=NULL ) {
-  global $bw_context;
-  if (!isset( $bw_context )) 
-    $bw_context = array();
-  $bw_context[$key] = $value;
+	global $bw_context;
+	if ( !isset( $bw_context ) ) { 
+		$bw_context = array();
+	}
+	$bw_context[$key] = $value;
 } 
 
 /**
@@ -510,10 +514,6 @@ function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
 	}
 	return $output;
 }
-
-
-
-
 
 /**
  * Format the trace record
@@ -651,15 +651,21 @@ function bw_trace_batch() {
   bw_trace( $_GET, __FUNCTION__, __LINE__, __FILE__, "_GET" );
 }  
 
-
+/**
+ * Log a record to a trace file
+ *
+ * @param string $line
+ *
+ */
 
 function bw_trace_log( $line ) {
-  // echo '<!--bw_trace_log '.$file.$line.'-->';
-  $file = bw_trace_file();
-  if ( $file )
-    bw_write( $file, $line ); 
-  else
-    _doing_wrong_thing();
+	// echo '<!--bw_trace_log '.$file.$line.'-->';
+	$file = bw_trace_file();
+	if ( $file ) {
+		bw_write( $file, $line ); 
+	} else {
+		_doing_wrong_thing();
+	}
 }
 
 
@@ -690,21 +696,24 @@ Call Stack:
 `
 */
 function bw_write( $file, $line ) {
-  // echo 'in bw_write';
-  $handle = fopen( $file, "a" );
-  // echo "<!-- $handle $file $line-->";
-  if ( $handle === FALSE ) {
-     bw_trace_off();
-     // It would be nice to let them know... 
-     $ret = "fopen failed"; 
-  }
-  else {
-    $bytes = fwrite( $handle, $line );
-    $ret = fclose( $handle );
-    $ret .= " $bytes $file $line";
-    
-  }
-  return( $ret );
+	static $unwritten = null;
+	$handle = fopen( $file, "a" );
+	if ( $handle === FALSE ) {
+		//bw_trace_off();
+		// It would be nice to let them know... 
+		$ret = "fopen failed"; 
+		$unwritten .= $line;
+	} else {
+		if ( $unwritten ) {
+			$bytes = fwrite( $handle, "bw_write unwritten" );
+			$bytes = fwrite( $handle, $unwritten );
+			$unwritten = null;
+		}
+		$bytes = fwrite( $handle, $line );
+		$ret = fclose( $handle );
+		$ret .= " $bytes $file $line";
+	}
+	return( $ret );
 } 
 
 
@@ -861,7 +870,7 @@ function bw_lazy_backtrace() {
       $file = bw_array_get( $call, 'file', $file ) ;
       $file = bw_trace_file_part( $file );
       $line = bw_array_get( $call, 'line', 0 );
-      $args = $call['args'];
+      $args = bw_array_get( $call, 'args', array() );
       $cargs = count( $args );
       switch ( $cargs ) {
         case 0: 
@@ -979,11 +988,12 @@ function bw_lazy_trace2( $value=null, $text=null, $show_args=true, $level=null )
  * @return array Trace levels 
  */
 function bw_list_trace_levels() {
-	$levels = array( BW_TRACE_DEBUG => "Debug"
+	$levels = array( BW_TRACE_DEBUG => "Debug level"
 	               , BW_TRACE_INFO => "Information level - standard"
 								 , BW_TRACE_NOTICE => "Notice level"
 								 , BW_TRACE_WARNING => "Warning level" 
 								 , BW_TRACE_ERROR => "Error level"
+								 , BW_TRACE_VERBOSE => "Verbose level - noisier than Debug"
 								 );
 	return( $levels );
 }
