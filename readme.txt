@@ -43,6 +43,7 @@ Features:
 * Traces and backtraces PHP Error, Warning and Notice messages
 * API supports multiple trace levels
 * Supports tracing of user defined hooks
+* Trace AJAX transactions separately, if required 
 
 
 The trace record output can include:
@@ -65,6 +66,10 @@ The output for action tracing can include trace records showing:
 * Summary reports at 'shutdown'
 * Information about deprecated logic
 * Information related to Errors, Warnings and Notices
+
+New in v2.0.7
+
+* Ability to control tracing of AJAX transactions
 
 New in v2.0.6
 
@@ -135,6 +140,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
  
 == Upgrade Notice ==
+= 2.0.7 = 
+Upgrade for improved support for AJAX requests
+
 = 2.0.6 =
 Now supports user selected action hook tracing
 
@@ -206,12 +214,25 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 2.0.7 =
+* Added: Trace AJAX transactions to a separate file, if defined
+* Added: Control tracing of AJAX transactions
+* Changed: Improve setting of ABSPATH for Windows
+* Changed: Removed unused constants
+* Changed: Support trace level parameter on bw_trace()
+* Changed: Improve output from bw_trace_included_files()
+* Changed: Cater for failure to fopen() in bw_write() - store results for later
+* Changed: Delete some previously commented out code
+* Changed: bw_trace_the_post() trace level should be ALWAYS
+* Fixed: Issue #10 - Ad hoc tracing should allow selection of the hook priority
+* Fixed: Issue #11 - Re-enable the logic for the Trace enabled checkbox
+
 = 2.0.6 = 
-* Added: Ad-hoc tracing of filter functions for selected hooks ( Issue #3 )
-* Added: Ad-hoc tracing of parameters to selected hooks ( Issue #2 )
-* Added: Ad-hoc tracing of the global post object on selected hooks ( Issue #2 )
-* Added: Ad-hoc tracing of filter results ( Issue #6 )
-* Added: Ad-hoc tracing should allow selection of the hook priority ( Issue #10 )
+* Added: Ad hoc tracing of filter functions for selected hooks ( Issue #3 )
+* Added: Ad hoc tracing of parameters to selected hooks ( Issue #2 )
+* Added: Ad hoc tracing of the global post object on selected hooks ( Issue #2 )
+* Added: Ad hoc tracing of filter results ( Issue #6 )
+* Added: Ad hoc tracing should allow selection of the hook priority ( Issue #10 )
 * Added: BW_TRACE_VERBOSE ( 64 ) level, which is even more detailed than BW_TRACE_DEBUG ( 32 )
 * Changed: Enhanced output from Count action hooks and filters ( Issue #7 )
 * Changed: Functions traced should allow OO methods invoking trace ( Issue #8 )

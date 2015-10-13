@@ -23,7 +23,7 @@ define( "BOBBFUNC_INCLUDED", "3.0.0" );
  * In the mean time, if 'oik_plugins' can't be loaded
  * we'll assume the version is the same as this library version.
  * 
- * @return string $version e.g. 2.0-alpha, 2.0-RC1, 2.0, 2.0.mmdd 
+ * @return string $version e.g. 3.0.0-alpha, 3.0.0-beta.mmdd, 3.0.0-RCn, 3.0.0, 3.0.1
  */
 function bw_oik_version() { 
 	$oik_plugins = oik_require_lib( "oik_plugins" );
@@ -116,10 +116,10 @@ function bw_pop() {
 /**
  * Perform nested shortcode expansion
  *
+ * @TODO Performance question - is there any point testing for a '[' in the string? i.e. How expensive is do_shortcode() ? 
+ *
  * @param string $content - the content to be expanded
  * @return string the content after shortcode expansion
- *
- * Performance question - is there any point testing for a '[' in the string? i.e. How expensive is do_shortcode() ? 
  */
 function bw_do_shortcode( $content ) {
   bw_push(); 

@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 2.0.6
+Version: 2.0.7
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-bwtrace
@@ -30,6 +30,71 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 /**
+ * Determine the tracing status
+ * 
+ * This logic is performed before testing the trace level 
+ * and whether or not a specific IP address is being traced.
+ *
+ * Additionally, it checks different values when DOING_AJAX is true.
+ *
+ * @return bool - the determined value of $bw_trace_on 
+ */
+function bw_trace_status() {
+	global $bw_trace_on, $bw_trace_options;
+	if ( defined( 'BW_TRACE_ON' ) && BW_TRACE_ON ) {
+		// $bw_trace_on should already be true... but can we turn it off?
+		// How does that affect reset?	
+		// Well, perhaps we can check the BW_TRACE_RESET constant and whether or not we started in wp-config
+	} else {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			$bw_trace_on = bw_torf( $bw_trace_options, 'trace_ajax' );
+		} else {
+			$bw_trace_on = bw_torf( $bw_trace_options, 'trace' );
+		}
+	}	
+	return $bw_trace_on;
+}
+
+/**
+ * Determine the trace reset status
+ *
+ * We can reset the trace file regardless of the value of tracing
+ * except when we're only tracing a specific IP
+ * when we don't want to reset the trace file if we're not tracing this particular transaction.
+ *
+ * If the request contains '_bw_trace_reset' then we will force a reset.
+ * 
+ * @TODO Trace reset only affects the particular file we're dealing with.
+ *  We'll need to find some way of resetting the AJAX trace file.
+ * 
+ * $bw_trace_ip | $tracing | $bw_trace_reset ?
+ * ------------ | -------- | ---------------------
+ * set          | false    | don't reset
+ * set          | true		 | depends on the option 'reset' or 'reset_ajax'
+ * not-set      | either   | depends on the option 'reset' or 'reset_ajax'
+ *
+ * @param string $bw_trace_ip - specific IP to trace
+ * @param bool $tracing true if tracing
+ * @return bool true if the trace file should be reset
+ */
+function bw_trace_reset_status( $bw_trace_ip, $tracing ) {
+	global $bw_trace_options;
+	if ( $bw_trace_ip && !$tracing ) { 
+		$bw_trace_reset = false ;
+	} else {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			$bw_trace_reset = bw_torf( $bw_trace_options, 'reset_ajax' );
+		} else {
+			$bw_trace_reset = bw_torf( $bw_trace_options, 'reset' );
+		}
+	}
+	if ( !empty( $_REQUEST['_bw_trace_reset'] ) ) {
+		$bw_trace_reset = true;
+	} 
+	return( $bw_trace_reset );
+} 
+
+/**
  * Determine the required trace level
  *
  * The required trace level is determined by a number of methods
@@ -40,7 +105,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * - If WP_DEBUG is false then the trace level remains the same 
  * - @TODO If WP_DEBUG is true then it will become BW_TRACE_DEBUG
  * 
- * @return integer trace level
+ * @return integer trace level. Negative when tracing is off
  */
 function bw_trace_level() {
 	global $bw_trace_level, $bw_trace_options;
@@ -74,97 +139,79 @@ function bw_torf( $array, $option ) {
  * 
  */
 function bw_trace_plugin_startup() {
-  global $bw_trace_options, $bw_action_options;
-  $bw_trace_options = get_option( 'bw_trace_options' );
+	global $bw_trace_options, $bw_action_options;
+	$bw_trace_options = get_option( 'bw_trace_options' );
 	if ( !isset( $bw_action_options ) ) {
 		$bw_action_options = get_option( 'bw_action_options' );
 	}
+	$tracing = bw_trace_status();
 	
-  $bw_trace_level = bw_trace_level(); 
-  $bw_trace_ip = null;
-  if ( $bw_trace_level ) { 
-    $bw_trace_ip = bw_array_get( $bw_trace_options, "ip", null );
-    if ( $bw_trace_ip ) {
-      $server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
-      $bw_trace_level = ( $server == $bw_trace_ip );
-    }
-  } 
-	   
-  // We can reset the trace file regardless of the value of tracing
-  // except when we're only tracing a specific IP
+	$bw_trace_ip = bw_array_get( $bw_trace_options, "ip", null );
+	if ( $bw_trace_ip ) {
+	 	$server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
+	 	$tracing = ( $server == $bw_trace_ip );
+	}  
+  $bw_trace_reset = bw_trace_reset_status( $bw_trace_ip, $tracing );
+	if ( $bw_trace_reset ) {
+		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
+		bw_trace_reset();
+	}
+		 
   
-  // $bw_trace_level | $bw_trace_ip | reset ?
-  // --------------- | ------------ | -----------
-  // 0               | set          | NO
-  // 0               | null         | YES
-  // 1               | either       | depends on option
-  if ( $bw_trace_ip && !$bw_trace_level ) { 
-    $bw_trace_reset = false ;
-  } else {
-    $bw_trace_reset = bw_torf( $bw_trace_options, 'reset' );
-  }
-  if ( !empty( $_REQUEST['_bw_trace_reset'] ) ) {
-    $bw_trace_reset = TRUE;
-  } 
-	
-  if ( $bw_trace_reset ) {
-    oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
-    bw_trace_reset();
-    //$bw_action_reset = true;
-  } 
-  
-  if ( $bw_trace_level ) {
-    bw_trace_on();
-    global $bw_include_trace_count
+	if ( $tracing ) {
+		$bw_trace_level = bw_trace_level(); 
+		bw_trace_on();
+		global $bw_include_trace_count
 				, $bw_include_trace_date
 				, $bw_trace_anonymous
 				, $bw_trace_memory
 				, $bw_trace_post_id
 				, $bw_trace_num_queries;
 		global $bw_trace_current_filter, $bw_trace_file_count;
-    $bw_include_trace_count = bw_torf( $bw_trace_options, 'count' );
-    $bw_include_trace_date = bw_torf( $bw_trace_options, 'date' );
-    $bw_trace_anonymous = !bw_torf( $bw_trace_options, 'qualified' );
-    $bw_trace_memory = bw_torf( $bw_trace_options, "memory" );
-    $bw_trace_post_id = bw_torf( $bw_trace_options, "post_id" );
-    $bw_trace_num_queries = bw_torf( $bw_trace_options, "num_queries" );
-    bw_trace_set_savequeries();
+		$bw_include_trace_count = bw_torf( $bw_trace_options, 'count' );
+		$bw_include_trace_date = bw_torf( $bw_trace_options, 'date' );
+		$bw_trace_anonymous = !bw_torf( $bw_trace_options, 'qualified' );
+		$bw_trace_memory = bw_torf( $bw_trace_options, "memory" );
+		$bw_trace_post_id = bw_torf( $bw_trace_options, "post_id" );
+		$bw_trace_num_queries = bw_torf( $bw_trace_options, "num_queries" );
+		bw_trace_set_savequeries();
 		
 		$bw_trace_current_filter = bw_torf( $bw_trace_options, "filters" );
 		$bw_trace_file_count = bw_torf( $bw_trace_options, "files" );
     
     
-    oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
+		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
 		
-  } else {
-    if ( !$bw_trace_ip ) {
-      bw_trace_off();
-    }    
-  }
-	
-  /*
-	 * If we want to trace hook counting then we can start quite early
-	 */
-	if ( defined( "BW_COUNT_ON" ) && true == BW_COUNT_ON ) {
-	
-	  oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
-	  bw_trace_count_plugins_loaded( true );
-		$count_hooks = true;
 	} else {
-	  oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
-		$count_hooks = bw_array_get( $bw_action_options, "count", false );
-		bw_trace_activate_mu( $count_hooks );
-		bw_trace_count_plugins_loaded( $count_hooks );
+	 if ( !$bw_trace_ip ) {
+			bw_trace_off();
+		}    
 	}
-	if ( $count_hooks ) {
-		add_action( "plugins_loaded", "bw_trace_count_plugins_loaded" );
-		add_action( "muplugins_loaded", "bw_trace_count_plugins_loaded" );
+	
+	if ( $tracing ) {
+		/*
+		* If we want to trace hook counting then we can start quite early
+		*/
+		if ( defined( "BW_COUNT_ON" ) && true == BW_COUNT_ON ) {
+	
+			oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
+		 bw_trace_count_plugins_loaded( true );
+			$count_hooks = true;
+		} else {
+			oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
+			$count_hooks = bw_array_get( $bw_action_options, "count", false );
+			bw_trace_activate_mu( $count_hooks );
+			bw_trace_count_plugins_loaded( $count_hooks );
+		}
+		if ( $count_hooks ) {
+			add_action( "plugins_loaded", "bw_trace_count_plugins_loaded" );
+			add_action( "muplugins_loaded", "bw_trace_count_plugins_loaded" );
+		}
 	} 
 	 
-	if ( $bw_trace_level ) {
+	if ( $tracing ) {
 		bw_trace_trace_startup();
   } 
-	
 	add_action( "wp_loaded", "oik_bwtrace_plugins_loaded", 9 );
 	add_filter( "oik_query_libs", "oik_bwtrace_query_libs", 12 );
 	

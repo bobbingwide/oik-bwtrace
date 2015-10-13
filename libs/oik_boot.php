@@ -31,6 +31,7 @@ define( 'OIK_BOOT_FILE', __FILE__ );
  * Currently don't think it's necessary to check the first letter but we're doing it anyway.
  */
 if (!function_exists( 'oik_path' )) {
+		
   if ( !defined('ABSPATH') ) {
 		$abspath = dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/';
     $abspath = str_replace( "\\", "/", $abspath );
