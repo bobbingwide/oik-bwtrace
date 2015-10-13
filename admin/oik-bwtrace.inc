@@ -168,6 +168,9 @@ function bw_trace_options_do_page() {
 /**
  * Display the trace options box
  *
+ * Note: The fields suffixed _ajax apply when the DOING_AJAX constant is true.
+
+ *
  */
 function oik_trace_options() {
   bw_form( "options.php" );
@@ -180,8 +183,11 @@ function oik_trace_options() {
   
   bw_textfield_arr( "bw_trace_options", "Trace file", $options, 'file', 60 );
   bw_checkbox_arr( "bw_trace_options", "Reset trace file every transaction", $options, 'reset' );
-  
   bw_checkbox_arr( "bw_trace_options", "Trace enabled", $options, 'trace' );
+	
+  bw_textfield_arr( "bw_trace_options", "AJAX Trace file", $options, 'file_ajax', 60 );
+  bw_checkbox_arr( "bw_trace_options", "Reset AJAX trace file every AJAX transaction", $options, 'reset_ajax' );
+  bw_checkbox_arr( "bw_trace_options", "AJAX Trace enabled", $options, 'trace_ajax' );
 	
 	// Does this need includes/bwtrace.php?
 	$trace_levels = bw_list_trace_levels();
@@ -286,9 +292,9 @@ function bw_action_options_validate( $input ) {
  * @param string $option the option set.
  * @return string the trace file URL
  */  
-function bw_trace_url( $option='bw_trace_options') {
+function bw_trace_url( $option='bw_trace_options', $ajax=false ) {
   $options = get_option( $option ); 
-  $file = bw_array_get( $options, 'file', "$option.loh" );    
+	$file = bw_trace_file_name( $options, $ajax );
   $bw_trace_url = get_site_url( NULL, $file );
   return( $bw_trace_url );
 }

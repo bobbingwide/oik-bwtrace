@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 2.0.1\n"
+"Project-Id-Version: oik bwtrace 2.0.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2015-08-04 20:57:20+00:00\n"
+"POT-Creation-Date: 2015-09-14 20:21:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: fr_FR\n"
@@ -45,88 +45,108 @@ msgstr ""
 msgid "action options"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:72 admin/oik-bwtrace.inc:148
+#: admin/oik-bwtrace.inc:72 admin/oik-bwtrace.inc:156
 msgid "Options"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:121
+#: admin/oik-bwtrace.inc:115
+msgid "Other hooks to trace"
+msgstr ""
+
+#: admin/oik-bwtrace.inc:116
+msgid "Filter results to trace"
+msgstr ""
+
+#: admin/oik-bwtrace.inc:117
+msgid "Trace the global post object"
+msgstr ""
+
+#: admin/oik-bwtrace.inc:118
+msgid "Trace attached hook functions"
+msgstr ""
+
+#: admin/oik-bwtrace.inc:129
 msgid "It needs to be used in conjunction with the trace facility."
 msgstr ""
 
-#: admin/oik-bwtrace.inc:127
+#: admin/oik-bwtrace.inc:135
 msgid ""
 "Set Count action hooks and filters to count the number of times each action "
 "or filter hook is invoked"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:133
+#: admin/oik-bwtrace.inc:141
 msgid "You may find the most recent trace action output at..."
 msgstr ""
 
-#: admin/oik-bwtrace.inc:137
+#: admin/oik-bwtrace.inc:145
 msgid "The trace action log is reset at the same time as the trace log."
 msgstr ""
 
-#: admin/oik-bwtrace.inc:147
+#: admin/oik-bwtrace.inc:155
 msgid "trace options"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:149
+#: admin/oik-bwtrace.inc:157
 msgid "Notes about oik trace"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:150
+#: admin/oik-bwtrace.inc:158
 msgid "Trace options and reset button"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:174
+#: admin/oik-bwtrace.inc:181
 msgid "Trace file"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:205
+#: admin/oik-bwtrace.inc:190
+msgid "Trace level"
+msgstr ""
+
+#: admin/oik-bwtrace.inc:218
 msgid ""
 "The tracing output produced by oik-bwtrace can be used for problem "
 "determination."
 msgstr ""
 
-#: admin/oik-bwtrace.inc:206
+#: admin/oik-bwtrace.inc:219
 msgid "It's not for the faint hearted."
 msgstr ""
 
-#: admin/oik-bwtrace.inc:207
+#: admin/oik-bwtrace.inc:220
 msgid ""
 "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site."
 msgstr ""
 
-#: admin/oik-bwtrace.inc:208
+#: admin/oik-bwtrace.inc:221
 msgid "If you do need to activate it, only do so for a short period of time."
 msgstr ""
 
-#: admin/oik-bwtrace.inc:210
+#: admin/oik-bwtrace.inc:223
 msgid "You will need to specify the trace file name (e.g. bwtrace.loh )"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:211
+#: admin/oik-bwtrace.inc:224
 msgid "When you want to trace processing check 'Trace enabled'"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:212
+#: admin/oik-bwtrace.inc:225
 msgid ""
 "Check 'Reset trace file every transaction' to cause the trace file to be "
 "cleared for every request, including AJAX requests."
 msgstr ""
 
-#: admin/oik-bwtrace.inc:215
+#: admin/oik-bwtrace.inc:228
 msgid "You may find the most recent trace output at..."
 msgstr ""
 
-#: admin/oik-bwtrace.inc:220
+#: admin/oik-bwtrace.inc:233
 msgid ""
 "If you want to trace processing within some content you can use two "
 "shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off"
 msgstr ""
 
-#: admin/oik-bwtrace.inc:236
+#: admin/oik-bwtrace.inc:249
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr ""
 
