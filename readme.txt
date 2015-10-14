@@ -1,50 +1,58 @@
 === oik-bwtrace ===
 Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
-Tags: debug, trace, backtrace, actions, filters, immediate trace
+Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing
 Requires at least: 4.2
 Tested up to: 4.3.1
-Stable tag: 2.0.6
+Stable tag: 2.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
-Debug trace for WordPress. 
+Debug trace for WordPress, including ad hoc action hook and filter tracing. 
 
 * The primary purpose of debug trace is to help in the development of PHP code: plugins or themes.
 * The primary purpose of action trace is to help you understand the sequence of events in the server.
-* This plugin provides the admin interface to trace functions and action and filter tracing built into plugins that use the oik / bw APIs.
+* This plugin provides the admin interface to trace functions and methods and action and filter tracing.
 
-Except for HTML comments, neither oik bwtrace nor oik action trace alters the output of your web pages.
-They write their output to a file on the server which you can browse in a separate window.
+Except for HTML comments, oik bwtrace does not alter the output of your web pages.
+Output is written to files on the server which you can browse in a separate window.
 
 You can also use the oik trace facilities to assist in problem determination in a live site.
 
 
 Features:
 
-* Easy to code APIs: bw_trace2(), bw_backtrace() and bw_trace()
+* Traces ALL server functionality, including AJAX and other background requests
+* Ability to choose the IP address to trace, defaults to ALL requests
+* Trace AJAX transactions separately, if required 
+* Supports ad hoc tracing of user defined hooks
+* Action trace counts help you understand the sequence of actions and filters
+* Provides contextual information
+* Minimum performance overhead when tracing is not enabled
 * Tracing can be enabled programmatically
+* Traces and backtraces PHP Error, Warning and Notice messages
+* Backtraces deprecated logic messages
+* Writes summary trace record for each transaction into a daily log
 * Does not require WP_DEBUG to be defined
 * Dynamically activates trace functions
 * Implemented as lazy just-in-time code
-* Provides contextual information
-* Action trace counts help you understand the sequence of actions and filters
 * Can be used during regression testing
-* Traces ALL server functionality, including AJAX and other background requests
-* Minimum performance overhead when tracing is not enabled
 * Can be activated in wp-config.php and db.php to trace code before WordPress is fully loaded
-* Does not need to be activated if started programmatically or from wp-config.php
-* Ability to choose the IP address to trace, defaults to ALL requests
-* Writes summary trace record for each transaction into a daily log
-* Now operates as a standalone plugin; independent of the oik base plugin
+* Plugin does not need to be activated if started programmatically or from wp-config.php
+* Operates as a standalone plugin; independent of the oik base plugin
 * Integrated with oik-lib shared library management
-* Backtraces deprecated logic messages
-* Traces and backtraces PHP Error, Warning and Notice messages
+* Easy to code APIs: bw_trace2(), bw_backtrace() and bw_trace()
 * API supports multiple trace levels
-* Supports tracing of user defined hooks
-* Trace AJAX transactions separately, if required 
 
+Ad hoc tracing allows you to:
+
+* trace parameters
+* trace results
+* trace registered functions
+* trace the global post
+* set the priority for the trace hook
+ 
 
 The trace record output can include:
 
