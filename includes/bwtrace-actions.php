@@ -99,6 +99,7 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_trace_selected_filters();
 	bw_trace_add_trace_selected_hooks_the_post();
 	bw_trace_add_trace_selected_hooks_attached_hooks();
+	bw_trace_add_trace_selected_hooks_backtrace();
 }
 
 /**
@@ -362,6 +363,17 @@ function bw_trace_add_trace_selected_hooks_attached_hooks() {
 }
 
 /**
+ * Add selected hooks to debug backtrace
+ */
+function bw_trace_add_trace_selected_hooks_backtrace() {
+	global $bw_action_options;
+	$selected_hooks = bw_array_get( $bw_action_options, "backtrace", null ); 
+	if ( $selected_hooks ) {
+		bw_trace_add_filters( $selected_hooks, "bw_trace_backtrace", 0, 9 ); 
+	}
+}
+
+/**
  * Trace the global post object
  *
  * Print the contents of the post object
@@ -447,6 +459,21 @@ function bw_trace_get_attached_hooks( $tag ) {
 	}
 	//bw_trace2( $hooks, "hooks", true, BW_TRACE_ALWAYS );
 	return( $hooks ); 
+}
+
+
+/**
+ * Backtrace the selected hook
+ *
+ * We call bw_trace() in order to get the context.
+ *
+ * @param mixed $arg the value to return
+ * @return mixed the parameter passed
+ */
+function bw_trace_backtrace( $arg ) {
+	bw_trace2();
+	bw_backtrace();
+	return( $arg );
 }
 
 
