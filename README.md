@@ -3,7 +3,7 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing
 * Requires at least: 4.2
-* Tested up to: 4.3.1
+* Tested up to: 4.4-beta2
 * Stable tag: 2.0.7
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,6 +13,7 @@ Debug trace for WordPress, including ad hoc action hook and filter tracing.
 
 * The primary purpose of debug trace is to help in the development of PHP code: plugins or themes.
 * The primary purpose of action trace is to help you understand the sequence of events in the server.
+* The primary purpose of ad hoc tracing is to let you see what's happening without changing any code.
 * This plugin provides the admin interface to trace functions and methods and action and filter tracing.
 
 Except for HTML comments, oik bwtrace does not alter the output of your web pages.
@@ -52,6 +53,7 @@ Ad hoc tracing allows you to:
 * trace registered functions
 * trace the global post
 * set the priority for the trace hook
+* debug backtrace hook invocation
 
 
 The trace record output can include:
@@ -74,6 +76,10 @@ The output for action tracing can include trace records showing:
 * Summary reports at 'shutdown'
 * Information about deprecated logic
 * Information related to Errors, Warnings and Notices
+
+New in v2.0.8
+
+* Ad hoc debug backtrace for selected hooks
 
 New in v2.0.7
 
@@ -148,6 +154,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
 
 ## Upgrade Notice 
+# 2.0.8 
+Upgrade for ad hoc debug backtracing
+
 # 2.0.7 
 Upgrade for improved support for AJAX requests
 
@@ -222,6 +231,11 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.0.8 
+* Added: Ad hoc debug backtracing of selected hooks ( github issue 14 )
+* Changed: No longer calls oik_register_plugin_server() ( github issue 13 )
+* Changed: Updated readme to better reflect ad hoc tracing
+
 # 2.0.7 
 * Added: Trace AJAX transactions to a separate file, if defined
 * Added: Control tracing of AJAX transactions
