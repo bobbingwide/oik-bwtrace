@@ -224,17 +224,20 @@ function bw_trace_query_plugin_count( $plugins=null ) {
  * Return the array of active plugins
  *
  * This function accounts for tracing in a simulated WordPress environment: oik-batch
- * It should also account for running under WP-CLI
- *
+ * 
+ * @TODO Confirm it also accounts for running under WP-CLI
  *
  * @return array plugin names array
- * 
  */ 
 function bw_trace_query_plugins() {
-	//bw_backtrace();
-	$plugins = array( "oik-batch" );
-  if ( oik_require_lib( "oik-depends" ) ) { 
+	if ( !function_exists( "bw_get_active_plugins" ) ) {
+		$oik_depends = oik_require_lib( "oik-depends" );
+		bw_trace2( $oik_depends, "oik-depends", false, BW_TRACE_VERBOSE );
+	}
+	if ( function_exists( "bw_get_active_plugins" ) ) { 
 		$plugins = bw_get_active_plugins();
+	} else {
+		$plugins = array( "oik-batch" );
 	}
   //if ( PHP_SAPI == "cli" ) {
     //$plugins = array( "oik-batch" );
