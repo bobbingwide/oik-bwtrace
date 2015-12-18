@@ -1,10 +1,10 @@
 === oik-bwtrace ===
-Contributors: bobbingwide
+Contributors: bobbingwide, vsgloik
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing
 Requires at least: 4.2
-Tested up to: 4.4-beta2
-Stable tag: 2.0.8
+Tested up to: 4.4
+Stable tag: 2.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -154,6 +154,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
  
 == Upgrade Notice ==
+= 2.0.9 =
+Tested with WordPress 4.4 and WordPress MultiSite
+
 = 2.0.8 = 
 Upgrade for ad hoc debug backtracing
 
@@ -231,6 +234,10 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 2.0.9 = 
+* Fixed: Issue #15 - Handle WP_Error from oik_require_lib() in bw_trace_query_plugins
+* Tested: Tested with WordPress 4.4 and WordPress MultiSite
+
 = 2.0.8 =
 * Added: Ad hoc debug backtracing of selected hooks ( github issue 14 )
 * Changed: No longer calls oik_register_plugin_server() ( github issue 13 )
