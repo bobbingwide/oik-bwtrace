@@ -150,13 +150,12 @@ function bw_trace_plugin_startup() {
 	if ( $bw_trace_ip ) {
 	 	$server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
 	 	$tracing = ( $server == $bw_trace_ip );
-	}  
-  $bw_trace_reset = bw_trace_reset_status( $bw_trace_ip, $tracing );
+	}
+	$bw_trace_reset = bw_trace_reset_status( $bw_trace_ip, $tracing );
 	if ( $bw_trace_reset ) {
 		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
 		bw_trace_reset();
 	}
-		 
   
 	if ( $tracing ) {
 		$bw_trace_level = bw_trace_level(); 
@@ -183,9 +182,7 @@ function bw_trace_plugin_startup() {
 		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
 		
 	} else {
-	 if ( !$bw_trace_ip ) {
-			bw_trace_off();
-		}    
+		bw_trace_off();
 	}
 	
 	if ( $tracing ) {
