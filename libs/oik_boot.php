@@ -29,9 +29,9 @@ define( 'OIK_BOOT_FILE', __FILE__ );
  * Here we assume the file is in ABSPATH/wp-content/plugins/oik/libs so we need 4 dirnames to get back to ABSPATH
  * and then we need to convert backslashes to forward slashes and the drive letter to uppercase.
  * Currently don't think it's necessary to check the first letter but we're doing it anyway.
+ * 
  */
 if (!function_exists( 'oik_path' )) {
-		
   if ( !defined('ABSPATH') ) {
 		$abspath = dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/';
     $abspath = str_replace( "\\", "/", $abspath );
@@ -265,7 +265,7 @@ function oik_require_file( $file, $library, $args=null ) {
 	} else {
 		$library_file = oik_require_lib_fallback( $file );
 	}
-	//bw_trace2( $library_file, "library_file" );
+	bw_trace2( $library_file, "library_file", true, BW_TRACE_VERBOSE );
 	return( $library_file );	
 }
 } 
