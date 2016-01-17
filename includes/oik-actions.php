@@ -178,7 +178,10 @@ function bw_trace_trace2( $value, $text, $extra=false ) {
  * But only when it's safe to do so.
  *
  * * When the request is not an AJAX request
- * * When the request is not a aysnc-upload of a new file
+ * * When the request is not a JSON request
+ * * When the request is not for robots.txt
+ * * When the request is not an aysnc-upload of a new file ( $_REQUEST contains "short" )
+ * * Or a SiteGround cach check
  * * and other situations we don't yet know about
  *
  * Uses c()?  
@@ -191,6 +194,7 @@ function bw_trace_c3( $value, $text, $extra=false ) {
   } elseif ( defined( 'JSON_REQUEST' ) && JSON_REQUEST ) {
     // Nor here
   } elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
+	} elseif ( did_action( "do_robotstxt" ) ) {
   } else {
     $short = bw_array_get( $_REQUEST, "short", null );
     if ( !$short ) {
