@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2015
+<?php // (C) Copyright Bobbing Wide 2012-2016
 if ( !defined( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED' ) ) {
 define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
 
@@ -246,6 +246,8 @@ function bw_trace_query_plugins() {
 }
  
 /** 
+ * Produce a transaction summary record
+ * 
  * Show some really basic stuff about the PHP version, and number of functions and classes implemented
  * 
  * This is in addition to other stuff produced by oik-bwtrace
@@ -260,34 +262,32 @@ function bw_trace_query_plugins() {
  * 
  */
 function bw_trace_status_report() {
-  global $bw_trace_on, $bw_trace_count;
-   // oik_require( "shortcodes/oik-api-status.php", "oik-shortcodes" );
-  $func = "bw_trace_c3";
-  $defined_functions = get_defined_functions(); 
-  //$count = count( $defined_functions ); 
-  $count_internal = count( $defined_functions["internal"] );
-  $count_user = count( $defined_functions["user"] );
-  $func( phpversion(), "PHP version", false ); 
-  $func( $count_internal, "PHP functions", false );
-  $func( $count_user, "User functions", false );
-  $declared_classes = get_declared_classes(); 
-  $count = count( $declared_classes );
-  $func( $count, "Classes", false ); 
-  // Don't trace $GLOBALS - there's far too much - approx 38K lines
-  //$func( $GLOBALS, "Globals", false );
-  $func( bw_trace_query_plugin_count(), "Plugins", false );
-  $func( count( get_included_files() ), "Files", false );
-  
-  $func( count( $GLOBALS['wp_registered_widgets'] ), "Registered widgets", false );
-  $func( count( $GLOBALS['wp_post_types'] ), "Post types", false );
-  $func( count( $GLOBALS['wp_taxonomies'] ), "Taxonomies", false );
-  global $wpdb;
-  
-  $func( $wpdb->num_queries, "Queries", false );
-    if ( !property_exists( $wpdb, "elapsed_query_time" )) {
-        $wpdb->elapsed_query_time = "";
-    }
-   $func($wpdb->elapsed_query_time, "Query time", false);
+	global $bw_trace_on, $bw_trace_count;
+	// oik_require( "shortcodes/oik-api-status.php", "oik-shortcodes" );
+	$func = "bw_trace_c3";
+	$defined_functions = get_defined_functions(); 
+	//$count = count( $defined_functions ); 
+	$count_internal = count( $defined_functions["internal"] );
+	$count_user = count( $defined_functions["user"] );
+	$func( phpversion(), "PHP version", false ); 
+	$func( $count_internal, "PHP functions", false );
+	$func( $count_user, "User functions", false );
+	$declared_classes = get_declared_classes(); 
+	$count = count( $declared_classes );
+	$func( $count, "Classes", false ); 
+	// Don't trace $GLOBALS - there's far too much - approx 38K lines
+	//$func( $GLOBALS, "Globals", false );
+	$func( bw_trace_query_plugin_count(), "Plugins", false );
+	$func( count( get_included_files() ), "Files", false );
+	$func( count( $GLOBALS['wp_registered_widgets'] ), "Registered widgets", false );
+	$func( count( $GLOBALS['wp_post_types'] ), "Post types", false );
+	$func( count( $GLOBALS['wp_taxonomies'] ), "Taxonomies", false );
+	global $wpdb;
+	$func( $wpdb->num_queries, "Queries", false );
+	if ( !property_exists( $wpdb, "elapsed_query_time" )) {
+		$wpdb->elapsed_query_time = "";
+	}
+	$func($wpdb->elapsed_query_time, "Query time", false);
 	if ( $bw_trace_count ) {
 		$func( bw_trace_file(), "Trace file", false );
 		$func( $bw_trace_count, "Trace records", false );
@@ -295,31 +295,33 @@ function bw_trace_status_report() {
 		$func( null, "Trace file", false );
 		$func( null, "Trace records", false );
 	}	
-  $remote_addr = bw_array_get( $_SERVER, 'REMOTE_ADDR', false );
-  $func( $remote_addr, "Remote addr", false );
-	
-  global $wp_locale;
-  if ( $wp_locale ) {
-    $elapsed = timer_stop( false, 6 );
-  } else {
-    $elapsed = null;
-  }  
-  // Do this regardless 
-  
-  if ( $bw_trace_on ) { 
-    $func = "bw_trace_trace2";
-  } else {
-    $func = "bw_trace_c3";
-  }
-  $func( $elapsed, "Elapsed (secs)", false );
-  
-  bw_flush();
-  bw_record_vt();
+	$remote_addr = bw_array_get( $_SERVER, 'REMOTE_ADDR', false );
+	$func( $remote_addr, "Remote addr", false );
+	$elapsed = bw_trace_timer_stop( false, 6 );
+	// Do this regardless 
+	if ( $bw_trace_on ) { 
+		$func = "bw_trace_trace2";
+	} else {
+		$func = "bw_trace_c3";
+	}
+	$func( $elapsed, "Elapsed (secs)", false );
+	bw_flush();
+	bw_record_vt();
+}
+
+/**
+ * Determine the elapsed time in seconds and microseconds
+ */
+function bw_trace_timer_stop() {
+	global $timestart, $timeend;
+	$timeend = microtime( true );
+	$timetotal = $timeend - $timestart;
+	$elapsed = sprintf( "%.6f", $timetotal );
+	return( $elapsed );
 }
 
 /**
  * Trace the 'wp' action
- *
  * 
  * @param object $WP_Environment_Instance
  *
@@ -447,11 +449,7 @@ function bw_record_vt( $vnoisy=false ) {
   global $vt_values, $vt_text;
   $line = bw_trace_determine_request();
   $line .= ",";
-  
-  global $wp_locale;
-  if ( $wp_locale ) {
-    $line .= timer_stop( false, 6 );
-  }  
+  $line .= bw_trace_timer_stop();
   foreach ( $vt_values as $key=> $value ) {
     $line .=  ",";
     if ( $vnoisy ) {
