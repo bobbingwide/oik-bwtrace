@@ -262,7 +262,7 @@ function bw_trace_add_filter( $selected_hook, $filter_func, $priority=10, $accep
 	if ( isset( $hook[1] ) ) {
 		$priority	= $hook[1];
 	}
-	add_filter( $hook[0], $filter_func, $priority, "$accepted_args.$priority" );
+	add_filter( $hook[0], $filter_func, $priority, $accepted_args );
 }
 
 /**
@@ -326,14 +326,21 @@ function bw_trace_results( $arg=null ) {
  * 
  * This super hack relies on the fact that you can define accepted args as a decimal value
  * So I append the priority to the accepted args, which is always 9.
+ *
+ * @lgedeon suggested this for fix to #33886
+ *  $key = key( $wp_filter[current_filter()] ); 
  */
 function bw_trace_inspect_current() {
 	global $wp_filter;
 	$tag = current_filter();
-	$current = current( $wp_filter[ $tag ] );
-	bw_trace2( $current, "current", false, BW_TRACE_VERBOSE );
-	$priority = $current[ 'bw_trace_results']['accepted_args'];
-	$priority = substr( $priority, 2 );
+	//$current = current( $wp_filter[ $tag ] );
+	//bw_trace2( $current, "current", false, BW_TRACE_VERBOSE );
+	//$priority = $current[ 'bw_trace_results']['accepted_args'];
+	//$priority = substr( $priority, 2 );
+	
+	$priority = key( $wp_filter[ $tag ] );
+	
+	//bw_trace2( $priority, "priority", false, BW_TRACE_VERBOSE );
 	return( $priority );
 }
 
