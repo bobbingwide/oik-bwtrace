@@ -3,8 +3,8 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing
 * Requires at least: 4.2
-* Tested up to: 4.4
-* Stable tag: 2.0.10
+* Tested up to: 4.4.2
+* Stable tag: 2.0.11
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -154,6 +154,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
 
 ## Upgrade Notice 
+# 2.0.11 
+Upgrade for additional fields in the daily summary log.
+
 # 2.0.10 
 Fixes problem where tracing was being performed when the specific IP did not match
 
@@ -237,11 +240,21 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.0.11 
+* Added: github issue 21 - Show intentions to work on issue - though not yet implemented
+* Fixed: github issue 19 - don't use timer_stop()
+* Fixed: github issue 20 - don't write trace summary output to robots.txt
+* Fixed: github issue 22 - Record additional information in the daily trace summary report
+* Fixed: github issue 23 - Support tracing of Closures and protected fields in bw_trace_obsafe_print_r()
+* Fixed: github issue 24 - Update bw_trace_inspect_current() with better solution
+* Fixed: github issue 25 - Uncaught Error: Call to undefined function bw_invoke_shortcode()
+* Tested: up to WordPress 4.4.2 and WordPress MultiSite
+
 # 2.0.10 
 * Fixed: Tracing being performed when the specific IP does not match. github issues 17
 
 # 2.0.9 
-* Fixed: Issue #15 - Handle WP_Error from oik_require_lib() in bw_trace_query_plugins
+* Fixed: Issue github issue 15 - Handle WP_Error from oik_require_lib() in bw_trace_query_plugins
 * Tested: Tested with WordPress 4.4 and WordPress MultiSite
 
 # 2.0.8 
