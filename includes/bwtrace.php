@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2015
+<?php // (C) Copyright Bobbing Wide 2011-2016
 if ( !defined( 'OIK_BWTRACE_INCLUDES_INCLUDED' ) )  {
 define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  
@@ -468,12 +468,6 @@ function bw_trace_print_r( $text ) {
  * @return string print_r() like output IF $return is true 
  */
 function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
-	//$handlers = ob_list_handlers();
-	//if ( count( $handlers ) ) {
-	// $spaces = "**?**" . $handlers[0];
-	//} else {   
-	//	$spaces = "";
-	//}
 	$spaces = "";
 	$space = " ";
 	$newline = "\n";
@@ -489,6 +483,7 @@ function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
 		$title = "Array";
 	} elseif (is_object($var)) {
 		$title = get_class($var)." Object";
+		$var = (array) $var;
 	} else {
 		$title = null;
 	}
@@ -496,17 +491,22 @@ function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
 		$output = $title . $newline . $newline;
 		foreach ($var as $key => $value) {
 			if (is_array($value) || is_object($value)) {
-				if (isset($visitedVars[md5(serialize($value))])) {
-					$value = '*RECURSION*';
+				if ( $value instanceof Closure ) {
+				 $value = 'Closure';
 				} else {
-					$visitedVars[md5(serialize($value))] = true;
-					$level++;
-					$value = bw_trace_obsafe_print_r( $value, $level, $visitedVars);
-					$level--;
-				}
+					if (isset($visitedVars[md5(serialize($value))])) {
+						$value = '*RECURSION*';
+					} else {
+						$visitedVars[md5(serialize($value))] = true;
+						$level++;
+						$value = bw_trace_obsafe_print_r( $value, $level, $visitedVars);
+						$level--;
+					}
+				}	
 			} else {
 				$value = '('.gettype($value).') '.(is_string($value) ? '"' : '').$value.(is_string($value) ? '"' : '');
 			}
+			$key = str_replace( chr(0), " ", $key );
 			$output .= $tabs . "[" . $key . "] => " . $value . $newline;
 		}
 	} else {
