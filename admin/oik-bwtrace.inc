@@ -1,7 +1,7 @@
 <?php 
 /*
 
-    Copyright 2012-2015 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2016 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -248,9 +248,9 @@ function oik_trace_notes() {
  *
  */
 function oik_trace_reset_notes() {
-
-	if ( oik_require_lib( "oik-sc-help" ) ) {
-  //oik_require( "includes/oik-sc-help.inc" );
+	$oik_sc_help = oik_require_lib( "oik-sc-help" ); 
+	if ( $oik_sc_help && !is_wp_error( $oik_sc_help ) ) {
+		bw_trace2( $oik_sc_help, "oik-sc-help", false, BW_TRACE_DEBUG );
 		bw_invoke_shortcode( "bwtrace", null, "Use the [bwtrace] shortcode in a widget to provide an instant trace reset and page reload." );
 	} else {
 		p( "Activate the oik base plugin to enable the [bwtrace] shortcode" );
