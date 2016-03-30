@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2014, 2015
+<?php // (C) Copyright Bobbing Wide 2014-2016
 
 /**
  * Activate / deactivate _oik-bwtrace-mu processing
@@ -42,13 +42,15 @@ function bw_trace_activate_mu( $activate=true ) {
 
 /**
  * Turn on action hook and filter counting 
+ * 
+ * 
  */
 function bw_trace_count_on() {
   global $bw_count_on;
   global $bw_action_counts; 
   if ( !isset( $bw_action_counts ) ) {
     $bw_action_counts = array();
-		bw_trace2( "reset bw_action_counts", null, false, BW_TRACE_DEBUG );
+		bw_trace2( "reset bw_action_counts", null, false, BW_TRACE_VERBOSE );
   }
   $bw_count_on = true;
 }
@@ -67,7 +69,7 @@ function bw_trace_count_off() {
  *
  */
 function bw_lazy_trace_count() {
-  bw_trace2( "Initialising action counts", null, false, BW_TRACE_DEBUG );
+  bw_trace2( "Initialising action counts", null, false, BW_TRACE_VERBOSE );
   add_action( "all", "bw_trace_count_all", 10, 2 );
   add_action( "shutdown", "bw_trace_count_report" ); 
 }
@@ -165,7 +167,12 @@ function bw_trace_count_report() {
 
 /** 
  * Return the hook type
- * 
+ *
+ * We can tell it's an 'action' hook if it's listed in $wp_actions
+ * If not it's a 'filter'.
+ *
+ * @param string $hook
+ * @return string "action" | "filter" 
  */ 
 function bw_trace_get_hook_type( $hook ) {
 	global $wp_actions;
@@ -181,14 +188,17 @@ function bw_trace_get_hook_type( $hook ) {
  * Return the hook param count
  *
  * It should not be ?
+ * 
+ * @param $hook	the hook name
+ * @return integer
  */
 function bw_trace_get_hook_num_args( $hook ) {
 	global $bw_action_parms;
 	if ( isset( $bw_action_parms[ $hook ] ) ) {
 		$num_args = $bw_action_parms[ $hook ];
-		if ( 0 === $num_args ) {
-			$num_args = '';
-		}
+		//if ( 0 === $num_args ) {
+		//	$num_args = '';
+		//}
   } else {
 		$num_args = '?'; 
 	}
@@ -200,11 +210,22 @@ function bw_trace_get_hook_num_args( $hook ) {
  * 
  * @param array $action_counts - array of action counts, which may also contain filter counts
  * @param string $heading - a heading for this sections
- * 
  */
 function bw_trace_create_hook_links( $action_counts, $heading ) {
 	$hook_links = "<h3>$heading</h3>";
-	$hook_links .= "[bw_csv]Hook,Invoked";
+	$hook_links .= bw_trace_get_hook_links( $action_counts );
+	bw_trace2( $hook_links, "hook_links", false ); 
+}
+
+/**
+ * Return the [hook] links shortcodes
+ *
+ * @param array $action_counts
+ * @return string bw_csv shortcode with hook link shortcode
+ */
+function bw_trace_get_hook_links( $action_counts ) {
+	//$hook_links = "[bw_csv]Hook,Invoked";
+	$hook_links = null;
 	$type = null;
 	$num_args = null;
 	if ( count( $action_counts ) ) {
@@ -214,13 +235,12 @@ function bw_trace_create_hook_links( $action_counts, $heading ) {
 			$end_hook = end( $hooks );
 			$type = bw_trace_get_hook_type( $end_hook );
 			$num_args = bw_trace_get_hook_num_args( $end_hook );
-			$hook_links .= "[hook $hook $type $num_args],$count";
+			$hook_links .= "[hook $hook $type $num_args $count]";
 		}
 	}
-$hook_links .= "[/bw_csv]";
-bw_trace2( $hook_links, "hook_links", false ); 
-
-}
+	//$hook_links .= "[/bw_csv]";
+	return( $hook_links );
+}	
 
 /**
  * Implement "plugins_loaded" for oik-bwtrace
