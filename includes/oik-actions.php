@@ -73,16 +73,26 @@ function bw_trace_report_actions() {
  * 
  */
 function bw_trace_included_files() { 
+	$files = PHP_EOL;
+  $files .= "<h3>Files</h3>"; 
+	$files .= bw_trace_get_included_files();
+  bw_trace( $files, __FUNCTION__, __LINE__, __FILE__, "included files" );
+}
+
+/**
+ * Return the shortcode for included files
+ *
+ * @return string shortcode for included files
+ */
+function bw_trace_get_included_files() {
   $included_files = get_included_files();
-	bw_trace2( $included_files, "included_files", false, BW_TRACE_DEBUG );
+	bw_trace2( $included_files, "included_files", false, BW_TRACE_VERBOSE );
   global $bw_trace_anonymous;
   $anon = $bw_trace_anonymous;
   $bw_trace_anonymous = true;
-	$files = PHP_EOL;
-  $files .= "<h3>Files</h3>"; 
-	$files .= PHP_EOL;
-	$files .= "[bw_csv uo=u]File";
+	//$files = "[bw_csv uo=u]File";
   //$lose = str_replace( "/", "\\", ABSPATH );
+	$files = null;
   foreach ( $included_files as $file ) {
 		$original = $file;
     $file = str_replace( "\\", "/", $file );
@@ -96,9 +106,9 @@ function bw_trace_included_files() {
     
     $files .= PHP_EOL . "[file $file $original]";
   }
-	$files .= PHP_EOL . "[/bw_csv]";
+	//$files .= PHP_EOL . "[/bw_csv]";
   $bw_trace_anonymous = $anon;
-  bw_trace( $files, __FUNCTION__, __LINE__, __FILE__, "included files" );
+	return( $files );
 }
 
 
@@ -120,35 +130,71 @@ function bw_trace_included_files() {
  * `   
  */
 function bw_trace_saved_queries() {
-    global $wpdb;
-    $elapsed_query_time = 0;
-  if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES == true ) {
+	global $wpdb;
+	if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES == true ) {
+		bw_trace2( $wpdb, "saved queries", false ); 
+		$record = PHP_EOL . "<h3>Queries</h3>" . PHP_EOL;
+		$record .= bw_trace_get_saved_queries();
+		bw_trace2( $record, "Queries: {$wpdb->num_queries} in {$wpdb->elapsed_query_time}", false );
+	}
+}
 
+/**
+ * Return the saved queries
+ *
+ * Create a set of [bw_sql] shortcodes with format as in this example
+ * 
+ * `
+ * [bw_sql 1 1.2 get_post_meta]SELECT option_value FROM wp_options WHERE option_name = 'auto_core_update_failed' LIMIT 1,get_option[/bw_sql]
+ * `
+ *
+ * @return string saved queries 
+ */
+function bw_trace_get_saved_queries() {
+	global $wpdb;
+	$elapsed_query_time = 0;
+	$wpdb->elapsed_query_time = $elapsed_query_time;
+	$record = null;
+	if ( count( $wpdb->queries ) ) {
+		$count = 0;
+		//$record .= "[bw_csv]#,Elapsed,Query,Function" . PHP_EOL;
+		foreach ( $wpdb->queries as $key => $query ) {
+			$count++;
+			$execution = $query[1];
+			$query_string = $query[0];
+			$query_string = str_replace( array( ",", "\n") , array( "&comma; ", " " ), $query_string);
+			$record .= "[bw_sql ";
+			$record .= $count;
+			$record .= ' ';
+			$record .= number_format( $execution, 6 ); 
+			$record .= ' ';
+			$record .= bw_trace_get_last_query_function( $query[2] );
+			$record .= ']';
+			$record .= $query_string;
+			$record .= '[/bw_sql]';
+			$record .= PHP_EOL;
+			$elapsed_query_time += $execution;
+		}
+		//$record .= $count . ',' . $elapsed_query_time . ",Total" . PHP_EOL;
+		//$record .= "[/bw_csv]";
+	}
+	
+	$wpdb->elapsed_query_time = $elapsed_query_time;
+	return( $record );
+}
 
-    bw_trace2( $wpdb, "saved queries", false ); 
-    if ( count( $wpdb->queries ) ) {
-      $count = 0;
-      $record = "<h3>Queries</h3>" . PHP_EOL;
-      $record .= "[bw_csv]#,Elapsed,Query" . PHP_EOL;
-      foreach ( $wpdb->queries as $key => $query ) {
-        $count++;
-        $execution = $query[1];
-        $query_string = $query[0];
-        $record .= $count;
-        $record .= ',';
-        $record .= number_format( $execution, 6 ); 
-        $record .= ',';
-        $record .= str_replace( ",", "&comma;", $query_string);
-        $record .= PHP_EOL;
-        $elapsed_query_time += $execution;
-      }
-      $record .= $count . ',' . $elapsed_query_time . ",Total" . PHP_EOL;
-      $record .= "[/bw_csv]";
-      bw_trace2( $record, "Queries: {$wpdb->num_queries} in $elapsed_query_time", false );
-    }
-
-  }
-    $wpdb->elapsed_query_time = $elapsed_query_time;
+/**
+ * Find the function that performed the query
+ *
+ * @param string $backtrace the formatted backtrace from $wpdb
+ * @return string the function or method with '->' converted to '::'
+ */
+function bw_trace_get_last_query_function( $backtrace ) {
+	$functions = explode( ",", $backtrace );
+	$last = end( $functions );
+	$last = trim( $last );
+	$last = str_replace( "->", "::", $last );
+	return( $last );
 }
 
 
