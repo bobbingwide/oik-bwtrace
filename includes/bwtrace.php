@@ -436,7 +436,6 @@ function bw_trace_file_count() {
  * 
  */
 function bw_trace_print_r( $text ) {
-
 	$handlers = ob_list_handlers();
 	if ( count( $handlers ) > 1 ) {
 	// if ( ob_get_level() ) {
@@ -446,9 +445,6 @@ function bw_trace_print_r( $text ) {
 	}
 	return( $output );
 }
-
-
-/**
 
 /**
  * Output buffering safe print_r() 
@@ -479,10 +475,10 @@ function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
 		$tabs .= $spaces;
 	}
 	
-	if (is_array($var)) {
+	if ( is_array( $var ) ) {
 		$title = "Array";
-	} elseif (is_object($var)) {
-		$title = get_class($var)." Object";
+	} elseif ( is_object( $var ) ) {
+		$title = get_class( $var )." Object";
 		$var = (array) $var;
 	} else {
 		$title = null;
@@ -490,19 +486,28 @@ function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
 	if ( $title ) {
 		$output = $title . $newline . $newline;
 		foreach ($var as $key => $value) {
-			if (is_array($value) || is_object($value)) {
-				if ( $value instanceof Closure ) {
-				 $value = 'Closure';
+		
+			if (is_array( $value ) || is_object( $value) ) {
+				if ( is_array( $value ) && 0 == count( $value ) ) {
+						$value = "Array";
+				}	elseif ( is_object( $value ) && $value instanceof Closure ) {
+					 $value = 'Closure';
 				} else {
-					if (isset($visitedVars[md5(serialize($value))])) {
-						$value = '*RECURSION*';
+					try {
+						$md5_serialize = md5( serialize( $value ) );
+					}
+					catch	( Exception $e ) {
+						$md5_serialize = "Nested closure? $key";
+					}
+					if ( isset( $visitedVars[ $md5_serialize ] ) ) {
+						$value = "*RECURSION* " . $visitedVars[ $md5_serialize] ;
 					} else {
-						$visitedVars[md5(serialize($value))] = true;
+						$visitedVars[ $md5_serialize ] = "$key $level";
 						$level++;
 						$value = bw_trace_obsafe_print_r( $value, $level, $visitedVars);
 						$level--;
 					}
-				}	
+				}		
 			} else {
 				$value = '('.gettype($value).') '.(is_string($value) ? '"' : '').$value.(is_string($value) ? '"' : '');
 			}
