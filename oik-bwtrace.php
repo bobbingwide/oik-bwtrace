@@ -272,7 +272,7 @@ function oik_bwtrace_query_libs( $libraries ) {
 		$lib = new OIK_lib( $lib_args );
 		$libraries[] = $lib;
 	}
-	bw_trace2( null, null, true, BW_TRACE_DEBUG );
+	bw_trace2( null, null, true, BW_TRACE_VERBOSE );
 	//bw_backtrace();
 	return( $libraries );
 } 

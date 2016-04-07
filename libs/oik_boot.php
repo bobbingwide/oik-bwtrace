@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2015
+<?php // (C) Copyright Bobbing Wide 2012-2016
 if ( !defined( 'OIK_BOOT_INCLUDED' ) ) {
 define( 'OIK_BOOT_INCLUDED', "3.0.1" );
 define( 'OIK_BOOT_FILE', __FILE__ );
@@ -186,7 +186,7 @@ if ( !function_exists( "oik_require_lib" ) ) {
 		}
 		// We are dependent upon the 'bwtrace' library for these functions
 		bw_trace2( $library_file, "library_file: $library", true, BW_TRACE_DEBUG );
-		bw_backtrace( BW_TRACE_DEBUG );
+		bw_backtrace( BW_TRACE_VERBOSE );
 		return( $library_file );
 	}
 }

@@ -42,6 +42,7 @@ function bw_trace_off() {
  * Initialise hardcoded trace options
  *
  * When trace is invoked during startup processing we can't access the wp_options table so we have to use hardcoded values.
+ * 
  * @TODO Use values of trace constants instead?
  * 
  */ 
@@ -51,7 +52,7 @@ function bw_trace_inc_init() {
   $bw_trace_options = array( 'file' => "bwtrace.loh", 'trace' => 0, 'reset' => 0,  ); 
   if ( !empty( $_REQUEST['_bw_trace_reset'] ) ) {
     bw_trace_reset();
-  }  
+  }
 } 
 
 /**
@@ -1041,7 +1042,7 @@ function bw_lazy_trace2( $value=null, $text=null, $show_args=true, $level=null )
  * Return the possible trace levels
  *
  * Recommended level is "Information level"
- * as this will included Notice, Warning and Error level trace records as well
+ * as this will include Notice, Warning and Error level trace records as well
  *
  * @return array Trace levels 
  */
@@ -1056,11 +1057,17 @@ function bw_list_trace_levels() {
 	return( $levels );
 }
 
+/**
+ * Trace the trace startup
+ *
+ * 
+ */
 function bw_trace_trace_startup() {
 	global $bw_trace_level, $bw_trace_options, $bw_action_options;
 	$levels = bw_list_trace_levels();
 	$trace_level_text = bw_array_get( $levels, $bw_trace_level, "Unknown" );
 	bw_trace2( $bw_trace_level, "Trace level: $trace_level_text", false );
+	bw_backtrace( BW_TRACE_VERBOSE );
 	bw_lazy_trace( $_SERVER, __FUNCTION__, __LINE__, __FILE__, "_SERVER" );
 	bw_lazy_trace( $_REQUEST, __FUNCTION__, __LINE__, __FILE__, "_REQUEST" );
 	//bw_lazy_trace( $_POST, __FUNCTION__, __LINE__, __FILE__, "_POST" );
