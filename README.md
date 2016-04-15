@@ -1,10 +1,10 @@
 # oik-bwtrace 
 * Contributors: bobbingwide, vsgloik
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
-* Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing
+* Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 * Requires at least: 4.2
-* Tested up to: 4.4.2
-* Stable tag: 2.0.11
+* Tested up to: 4.5
+* Stable tag: 2.0.12
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,6 +14,7 @@ Debug trace for WordPress, including ad hoc action hook and filter tracing.
 * The primary purpose of debug trace is to help in the development of PHP code: plugins or themes.
 * The primary purpose of action trace is to help you understand the sequence of events in the server.
 * The primary purpose of ad hoc tracing is to let you see what's happening without changing any code.
+* The primary purpose of 'string watch' is to track the source of some output.
 * This plugin provides the admin interface to trace functions and methods and action and filter tracing.
 
 Except for HTML comments, oik bwtrace does not alter the output of your web pages.
@@ -54,6 +55,7 @@ Ad hoc tracing allows you to:
 * trace the global post
 * set the priority for the trace hook
 * debug backtrace hook invocation
+* perform 'string watch' to watch for a particular string
 
 
 The trace record output can include:
@@ -76,6 +78,10 @@ The output for action tracing can include trace records showing:
 * Summary reports at 'shutdown'
 * Information about deprecated logic
 * Information related to Errors, Warnings and Notices
+
+New in v2.0.12
+
+* 'String watch' capability. Helps you track down the source of some output, whether it comes from code, content or elsewhere.
 
 New in v2.0.8
 
@@ -154,6 +160,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
 
 ## Upgrade Notice 
+# 2.0.12 
+Now includes prototype 'string watch' capability. Tested with WordPress 4.5 and WordPress MultiSite
+
 # 2.0.11 
 Upgrade for additional fields in the daily summary log.
 
@@ -240,6 +249,16 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.0.12 
+* Added: 'String watch' capability [github bobbingwide oik-bwtrace issues 36]
+* Changed: Support tracing of nested Closures in bw_trace_obsafe_print_r() [github bobbingwide oik-bwtrace issues 28]
+* Changed: Improve output for saved queries [github bobbingwide oik-bwtrace issues 29]
+*	Changed: Improve formatting of included files [github bobbingwide oik-bwtrace issues 32]
+*	Changed: Improve formatting of hooks [github bobbingwide oik-bwtrace issues 33]
+*	Changed: Blessed task - reduce trace output produced [github bobbingwide oik-bwtrace issues 34]
+*	Changed: Add attached functions to hook shortcode [github bobbingwide oik-bwtrace issues 35]
+* Fixed: Don't call undefined c()  function from bw_trace_c3() [github bobbingwide oik-bwtrace issues 37]
+
 # 2.0.11 
 * Added: github issue 21 - Show intentions to work on issue - though not yet implemented
 * Fixed: github issue 19 - don't use timer_stop()

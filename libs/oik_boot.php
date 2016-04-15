@@ -29,9 +29,9 @@ define( 'OIK_BOOT_FILE', __FILE__ );
  * Here we assume the file is in ABSPATH/wp-content/plugins/oik/libs so we need 4 dirnames to get back to ABSPATH
  * and then we need to convert backslashes to forward slashes and the drive letter to uppercase.
  * Currently don't think it's necessary to check the first letter but we're doing it anyway.
- * 
  */
 if (!function_exists( 'oik_path' )) {
+		
   if ( !defined('ABSPATH') ) {
 		$abspath = dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/';
     $abspath = str_replace( "\\", "/", $abspath );
@@ -56,11 +56,11 @@ if (!function_exists( 'oik_path' )) {
 /**
  * invoke require_once on an oik include file or other file
  *
+ * @uses oik_path()
+ 
  * @param string $include_file - the include file (or any other file) that you want to load
  * @param string $plugin - the plugin in which the file is located (default="oik")
- * @uses oik_path()
  */
- 
 if (!function_exists( 'oik_require' )) {
   function oik_require( $include_file = "bobbfunc.inc", $plugin="oik" ) {
     $path = oik_path( $include_file, $plugin );
@@ -118,14 +118,16 @@ function oik_init( ) {
 /** 
  * Return the array[index] or a default value if not set
  * 
+ * Notes: This routine may produce a Warning message if the $index is not scalar.
+ 
+ * @TODO I can't change it yet since there are other bits of code that may go wrong if I attempt 
+ * to deal with an invalid  $index parameter. 
+ * 
  * @param mixed $array - an array or object or scalar item from which to find $index
  * @param scalar $index - the array index or object property to obtain
  * @param string $default - the default value to return 
  * @return mixed - the value found at the given index
  *
- * Notes: This routine may produce a Warning message if the $index is not scalar
- * I can't change it yet since there are other bits of code that may go wrong if I attempt 
- * to deal with an invalid  $index parameter. 
  */
 if ( !function_exists( 'bw_array_get' ) ) {
   function bw_array_get( $array = NULL, $index, $default=NULL ) { 
@@ -185,7 +187,7 @@ if ( !function_exists( "oik_require_lib" ) ) {
 			$library_file = oik_require_lib_fallback( $library );
 		}
 		// We are dependent upon the 'bwtrace' library for these functions
-		bw_trace2( $library_file, "library_file: $library", true, BW_TRACE_DEBUG );
+		bw_trace2( $library_file, "library_file: $library", true, BW_TRACE_VERBOSE );
 		bw_backtrace( BW_TRACE_VERBOSE );
 		return( $library_file );
 	}
@@ -250,11 +252,12 @@ function oik_lib_fallback( $lib_dir ) {
  * Require a file in a library
  * 
  * Locates and loads a file from a given library in order to make additional functions available to the invoking routine
+ * Note: If successful the oik_lib object of the library is returned. It won't show the file name of the file loaded.
  * 
- * @param string $file the relative file name ( relative to the library's "root" file ) e.g. 
+ * @param string $file the relative file name ( relative to the library's "root" file ) e.g. class-oik-autoload.php 
  * @param string $library the library name 
  * @param array $args additional parameters
- * @return bool|WP_Error 
+ * @return bool|WP_Error|oik_lib 
  */
 if ( !function_exists( "oik_require_file" ) ) { 
 function oik_require_file( $file, $library, $args=null ) {
@@ -265,7 +268,7 @@ function oik_require_file( $file, $library, $args=null ) {
 	} else {
 		$library_file = oik_require_lib_fallback( $file );
 	}
-	bw_trace2( $library_file, "library_file", true, BW_TRACE_VERBOSE );
+	bw_trace2( $library_file, "library_file", true, BW_TRACE_DEBUG );
 	return( $library_file );	
 }
 } 

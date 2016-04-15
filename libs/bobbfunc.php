@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2009-2015
+<?php // (C) Copyright Bobbing Wide 2009-2016
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
 define( "BOBBFUNC_INCLUDED", "3.0.0" );
 
@@ -238,7 +238,16 @@ function alink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=N
  * Return a well formed link
  *
  * Parameters as for alink()
-*/
+ *
+ * @param string $class - the classes for the anchor tag
+ * @param string $url - the fully formed URL e.g. http://www.oik-plugins.com
+ * @param string $linktori - is the text or image
+ * @param string $alt - if NULL will use $linktori
+ * @param string $id - the unique ID for the anchor tag
+ * @param string $extra - anything else that needs to go in the <a> tag. e.g. 'onclick=then some javascript' 
+ * @return string the link
+ * 
+ */
 function retlink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL  ) {
   if ( is_null( $linktori ) )
     $linktori = $url;
@@ -308,23 +317,36 @@ function stag( $tag, $class=NULL, $id=NULL, $extra=NULL ) {
 
 /**
  * Start an ordered list
+ *
+ * @param string $class CSS class name(s)
+ * @param string $id CSS id name
+ * @param string $extra - additional NVPs
  */
-function sol( $class=NULL, $id=NULL ) {
-   stag( "ol", $class, $id );
-}        
+function sol( $class=null, $id=null, $extra=null ) {
+	//bw_trace2();
+	stag( "ol", $class, $id, $extra );
+}
 
 /** 
  * Start an unordered list
+ *
+ * @param string $class CSS class name(s)
+ * @param string $id CSS id name
+ * @param string $extra - additional NVPs
  */ 
 function sul( $class=NULL, $id=NULL, $extra=null ) {
-   stag( "ul", $class, $id, $extra );
+	stag( "ul", $class, $id, $extra );
 } 
 
 /**
  * Start a div
+ *
+ * @param string $class CSS class name(s)
+ * @param string $id CSS id name
+ * @param string $extra - additional NVPs
  */       
 function sdiv( $class=NULL, $id=NULL, $extra=NULL ) {
-   stag( "div", $class, $id, $extra );
+	stag( "div", $class, $id, $extra );
 }
 
 /** 
@@ -565,22 +587,23 @@ function th( $data, $class=NULL, $id=NULL ) {
   stag( "th", $class, $id );
   bwt( $data );
   etag( "th" );
-}         
+} 
 
-// This routine finds the subdirectory under which this local version of the website is installed
-// we need to remove this from index lookups but add it to links! 
-// Example: on betterbfar in the twentyte directory it's set:
-// $docroot_suffix = "/twentyte/" ;
-
+/**
+ * Get the document root suffix
+ * 
+ * This routine finds the subdirectory under which this local version of the website is installed.
+ * Sometimes we need to remove this from index lookups but add it to links! 
+ *
+ * @TODO Shouldn't this function be deprecated?
+ */
 function bw_get_docroot_suffix() {
-  bw_backtrace();
-  //gobang();
+  bw_backtrace( BW_TRACE_DEBUG );
   $docroot_suffix = "/";
   if ( $_SERVER['SERVER_NAME'] == bw_get_option( "betterbyfar") )
   {
      $exdr = explode( '/', $_SERVER["DOCUMENT_ROOT"] );
      $exsf = explode( '/', $_SERVER['SCRIPT_FILENAME'] );
-     
      $docroot_suffix = '/' . $exsf[ count( $exdr) ] . '/';
      
      // bw_debug( "_SERVER[DOCUMENT_ROOT]: " . $_SERVER["DOCUMENT_ROOT"] );
