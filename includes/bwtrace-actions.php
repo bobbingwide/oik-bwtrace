@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2015
+<?php // (C) Copyright Bobbing Wide 2015,2016
  
 /**
  * Load the global bw_action_options
@@ -100,6 +100,7 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_trace_selected_hooks_the_post();
 	bw_trace_add_trace_selected_hooks_attached_hooks();
 	bw_trace_add_trace_selected_hooks_backtrace();
+	bw_trace_add_trace_stringwatch();
 }
 
 /**
@@ -377,6 +378,21 @@ function bw_trace_add_trace_selected_hooks_backtrace() {
 	$selected_hooks = bw_array_get( $bw_action_options, "backtrace", null ); 
 	if ( $selected_hooks ) {
 		bw_trace_add_filters( $selected_hooks, "bw_trace_backtrace", 0, 9 ); 
+	}
+}
+
+/**
+ * Add stringwatch logic if required
+ *
+ * Since this won't get used often it's in a separate file
+ * ... that might get loaded earlier by the MU plugin
+ * 
+ */
+function bw_trace_add_trace_stringwatch() {
+	global $bw_action_options;
+	$stringwatch = bw_array_get( $bw_action_options, "stringwatch", null ); 
+	if ( $stringwatch || defined( "BW_TRACE_STRINGWATCH" ) ) {
+		oik_require( "includes/bwtrace-stringwatch.php", "oik-bwtrace" );
 	}
 }
 
