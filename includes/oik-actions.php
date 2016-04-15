@@ -212,6 +212,9 @@ function bw_trace_functions_traced() {
 /**
  * Trace the results and echo a comment?
  *
+ * @param string $value
+ * @param string $text
+ * @param bool $extra	- 3rd parm to bw_trace2()
  */
 function bw_trace_trace2( $value, $text, $extra=false ) {
   bw_trace2( $value, $text, $extra );
@@ -227,10 +230,14 @@ function bw_trace_trace2( $value, $text, $extra=false ) {
  * * When the request is not a JSON request
  * * When the request is not for robots.txt
  * * When the request is not an aysnc-upload of a new file ( $_REQUEST contains "short" )
- * * Or a SiteGround cach check
+ * * Or a SiteGround cache check
  * * and other situations we don't yet know about
  *
- * Uses c()?  
+ * Uses c()?... which requires libs/bobbfunc.php 
+ *
+ * @param string $value value to be written
+ * @param string $text contextual label 
+ * @param string $extra	3rd parm to bw_trace2()
  */ 
 function bw_trace_c3( $value, $text, $extra=false ) {
   //  bw_trace2( DOING_AJAX, "doing_ajax?", false );
@@ -249,7 +256,9 @@ function bw_trace_c3( $value, $text, $extra=false ) {
     if ( $short ) {
       // Not safe here either!
     } else {
-      c( "$text:$value\n");
+			if ( function_exists( "c" ) ) {
+				c( "$text:$value\n");
+			}	
     } 
      
   }
