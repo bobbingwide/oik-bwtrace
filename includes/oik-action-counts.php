@@ -150,10 +150,12 @@ function bw_trace_count_report() {
 		$merged = $bw_action_counts;
 	
 		arsort( $merged );
-		bw_trace( $merged, __FUNCTION__, __LINE__, __FILE__, "most used" );
+		//bw_trace( $merged, __FUNCTION__, __LINE__, __FILE__, "most used" );
+		bw_trace_create_hook_links( $merged, "most used", true );
 	
 		ksort( $merged );
-		bw_trace( $merged, __FUNCTION__, __LINE__, __FILE__, "by hook name" );
+		//bw_trace( $merged, __FUNCTION__, __LINE__, __FILE__, "by hook name" );
+		bw_trace_create_hook_links( $merged, "by hook name" );
 	
 		bw_trace( count( $merged), __FUNCTION__, __LINE__, __FILE__, "count hooks" );
 		bw_trace( array_sum( $merged), __FUNCTION__, __LINE__, __FILE__, "total hooks" );
@@ -209,33 +211,69 @@ function bw_trace_get_hook_num_args( $hook ) {
  * Create the HTML for a hook links section for "Request summary"
  * 
  * @param array $action_counts - array of action counts, which may also contain filter counts
- * @param string $heading - a heading for this sections
+ * @param string $heading - a heading for this section
+ * @param bool $implemented - restrict output to hooks which are implemented
  */
-function bw_trace_create_hook_links( $action_counts, $heading ) {
+function bw_trace_create_hook_links( $action_counts, $heading, $implemented=false ) {
 	$hook_links = "<h3>$heading</h3>";
-	$hook_links .= bw_trace_get_hook_links( $action_counts );
+	$hook_links .= bw_trace_get_hook_links( $action_counts, $implemented );
 	bw_trace2( $hook_links, "hook_links", false ); 
 }
 
 /**
+ * Return the number of attached hooks
+ *
+ * If we know that there are attached hooks then we can probably
+ * save some time by removing them. It depends what they do.
+ * You can find out more about the attached hooks by using ad hoc trace
+ *  
+ * @param string $hook
+ * @return integer the number of attached hook functions
+ */
+function bw_trace_get_attached_hook_count( $hook ) {
+	$hooks = 0;
+	global $wp_filter;
+	$hooks = bw_array_get( $wp_filter, $hook, array() );
+	//print_r( $hooks );
+	$count_hooks = count( $hooks );
+	if ( $count_hooks ) {
+		$count_hooks = 0;
+		foreach ( $hooks as $priority => $functions ) {
+			$count_hooks += count( $functions );
+		}
+	}
+	//echo $count_hooks;
+	//print_r( $hooks );
+	//bog();
+	return( $count_hooks );
+}
+
+/**
  * Return the [hook] links shortcodes
+ * 
+ * The implemented parameter allows us to reduce the output to only those hooks where
+ * an action hook is implemeted. This makes it a lot easier to find things that actually do things.
  *
  * @param array $action_counts
+ * @param bool $implemented true to restricted output to hooks which are implemented
  * @return string bw_csv shortcode with hook link shortcode
  */
-function bw_trace_get_hook_links( $action_counts ) {
+function bw_trace_get_hook_links( $action_counts, $implemented=false ) {
 	//$hook_links = "[bw_csv]Hook,Invoked";
 	$hook_links = null;
 	$type = null;
 	$num_args = null;
 	if ( count( $action_counts ) ) {
 		foreach ( $action_counts as $hook => $count ) {
-			$hook_links .= PHP_EOL;
 			$hooks = explode( ";", $hook );
 			$end_hook = end( $hooks );
-			$type = bw_trace_get_hook_type( $end_hook );
-			$num_args = bw_trace_get_hook_num_args( $end_hook );
-			$hook_links .= "[hook $hook $type $num_args $count]";
+			$attached = bw_trace_get_attached_hook_count( $end_hook ); 
+			if ( $attached || ( false === $implemented ) ) {
+				$type = bw_trace_get_hook_type( $end_hook );
+				$num_args = bw_trace_get_hook_num_args( $end_hook );
+				$hook_links .= PHP_EOL;
+				$hook_links .= "[hook $hook $type $num_args $count $attached]";
+			}	
 		}
 	}
 	//$hook_links .= "[/bw_csv]";
