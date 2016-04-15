@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2011-2015
+<?php // (C) Copyright Bobbing Wide 2011-2016
 if ( !defined( "BWTRACE_INCLUDED" ) ) {
-define( "BWTRACE_INCLUDED", "2.0.7" );
+define( "BWTRACE_INCLUDED", "2.0.12" );
 define( "BWTRACE_FILE", __FILE__ );
 
 /**
@@ -68,8 +68,8 @@ if ( !isset( $bw_trace_level )) {
  */
 if ( !function_exists( "bw_trace" ) ) { 
 	function bw_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=__FILE__, $text_label=null, $level=BW_TRACE_ALWAYS ) {
-		global $bw_trace_on;
-		if ( $bw_trace_on  ) {
+		global $bw_trace_on, $bw_trace_level;
+		if ( $bw_trace_on && ( $level <= $bw_trace_level )  ) {
 			bw_lazy_trace( $text, $function, $lineno, $file, $text_label, $level );
 		}  
 	}
