@@ -437,7 +437,9 @@ function bw_trace_file_count() {
  * 
  */
 function bw_trace_print_r( $text ) {
+	//echo "counting handlers" . PHP_EOL;
 	$handlers = ob_list_handlers();
+	//echo "handlers:" . count( $handlers ) . PHP_EOL;
 	if ( count( $handlers ) > 1 ) {
 	// if ( ob_get_level() ) {
 		$output = bw_trace_obsafe_print_r( $text );
@@ -1067,7 +1069,7 @@ function bw_trace_trace_startup() {
 	$levels = bw_list_trace_levels();
 	$trace_level_text = bw_array_get( $levels, $bw_trace_level, "Unknown" );
 	bw_trace2( $bw_trace_level, "Trace level: $trace_level_text", false );
-	bw_backtrace( BW_TRACE_VERBOSE );
+	//bw_backtrace( BW_TRACE_VERBOSE );
 	bw_lazy_trace( $_SERVER, __FUNCTION__, __LINE__, __FILE__, "_SERVER" );
 	bw_lazy_trace( $_REQUEST, __FUNCTION__, __LINE__, __FILE__, "_REQUEST" );
 	//bw_lazy_trace( $_POST, __FUNCTION__, __LINE__, __FILE__, "_POST" );
