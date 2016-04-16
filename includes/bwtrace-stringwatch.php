@@ -41,32 +41,26 @@ function bw_trace_stringwatch_loaded() {
  * @TODO If it's hidden inside a call to bw_echo() we should be able to cater for this within bw_echo()
  *  
  * @param string $tag - the hook or filter being invoked
- * @param array $args - other parameters to the action hook or filter
- * @return string $tag
+ * @param mixed $arg2 - first parameter to the action hook or filter
  */
-function bw_trace_stringwatch( $tag, $args=null ) {
-	static $watching = true, $deferred = true;
-	if ( $watching || $deferred ) {
-		$type = bw_trace_get_hook_type( $tag );
+function bw_trace_stringwatch( $tag, $arg2=null ) {
+	static $found_in = null;
+	$type = bw_trace_get_hook_type( $tag );
+	if ( $type === "action" ) {
+		bw_trace_stringwatch_echo( $type );
 	}
-	if ( $watching ) {
-		$buffer = ob_get_contents();
-		$deferred = $watching;
-		$watching = bw_trace_stringwatch_filter( $buffer, $args, $watching, $tag, $type );
+	if ( null === $found_in ) {
 		if ( $type == "filter" ) {
-			if ( is_string( $tag ) ) {
-				//$deferred = $watching;
-				$watching = bw_trace_stringwatch_filter( $tag, $args, $watching, $tag, $type );
+			if ( is_string( $arg2 ) ) {
+				$found_in = bw_trace_stringwatch_filter( $arg2, $tag, $type );
 			} else {
 				// Defer watching until it's a scalar
 			}
-		}
-	} elseif ( $deferred ) {
-		bw_trace_stringwatch_echo( $type );
-	} else {
-		$deferred = false;
+		} else {
+			$buffer = ob_get_contents();
+			$found_in = bw_trace_stringwatch_filter( $buffer, $tag, $type );
+		}	
 	}
-	return( $tag );	
 }
 
 /**
@@ -75,27 +69,28 @@ function bw_trace_stringwatch( $tag, $args=null ) {
  * Note: We can't use esc_html() on the constant since it currently goes recursive 
  *
  * @param string $buffer the haystack that may contain the string
- * @param array $args - may be needed
- * @param string $watching - current value of $watching - last hook
  * @param string $tag - the current hook
  * @param string $type - the type of the current hook 
  */
-function bw_trace_stringwatch_filter( $buffer, $args, $watching, $tag, $type ) {
+function bw_trace_stringwatch_filter( $buffer, $tag, $type ) {
+	static $previous = null;
 	if ( false !== strpos( $buffer, BW_TRACE_STRINGWATCH ) ) {
 		bw_trace2( BW_TRACE_STRINGWATCH, "stringwatch!", true, BW_TRACE_ALWAYS );
 		bw_backtrace();
-		$hook = bw_trace_get_hook_type( $watching );
+		$hook = bw_trace_get_hook_type( $previous );
 		$string = '<div class="stringwatch">';
 		$string .= "String watch detected: " .  BW_TRACE_STRINGWATCH . PHP_EOL;
 		$string .= "In: $tag $type" . PHP_EOL;
-		$string .= "After: $watching $hook" . PHP_EOL;
+		$string .= "After: $previous $hook" . PHP_EOL;
 		$string .= '</div>';
 		bw_trace_stringwatch_echo( $type, $string );
-		$watching = false;
+		//gob();
+		$found_in = $tag;
 	} else {
-		$watching = $tag;
+		$found_in = null;
 	}
-	return( $watching );
+	$previous = $tag;
+	return( $found_in );
 }
  
 /**
@@ -109,7 +104,7 @@ function bw_trace_stringwatch_filter( $buffer, $args, $watching, $tag, $type ) {
  */
 function bw_trace_stringwatch_on() {
 	if ( defined( "BW_TRACE_STRINGWATCH" ) && BW_TRACE_STRINGWATCH !== null ) {
-		add_action( "all", "bw_trace_stringwatch", 9999, 2 );
+		add_action( "all", "bw_trace_stringwatch", 9999, 9 );
 		ob_start( "bw_trace_output_callback" );
 		bw_trace2( BW_TRACE_STRINGWATCH, "stringwatch activated", false );
  	}	else {

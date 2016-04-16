@@ -97,6 +97,8 @@ function bw_trace_wp_early( $WP_Environment_Instance ) {
  * Sep 2015 - added ability to record the number of parameters passed. 
  * We subtract 1 from the number of args passed to this function; it gives the value needed when registering an action hook or filter.
  * 
+ * @param string $tag the action or filter hook
+ * @param array $args2 - doesn't matter - we use func_num_args()
  */
 function bw_trace_count_all( $tag, $args2=null ) {
   global $bw_action_counts; 
