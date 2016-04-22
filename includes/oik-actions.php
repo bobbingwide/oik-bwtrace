@@ -240,28 +240,11 @@ function bw_trace_trace2( $value, $text, $extra=false ) {
  * @param string $extra	3rd parm to bw_trace2()
  */ 
 function bw_trace_c3( $value, $text, $extra=false ) {
-  //  bw_trace2( DOING_AJAX, "doing_ajax?", false );
-  //bw_trace2( $_REQUEST, "request", false );  
-  if ( defined('DOING_AJAX') && DOING_AJAX ) {
-    // Not safe to echo here
-  } elseif ( defined( 'JSON_REQUEST' ) && JSON_REQUEST ) {
-    // Nor here
-  } elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
-	} elseif ( did_action( "do_robotstxt" ) ) {
-  } else {
-    $short = bw_array_get( $_REQUEST, "short", null );
-    if ( !$short ) {
-      $short = bw_array_get( $_REQUEST, "sgCacheCheck", null );
-    }
-    if ( $short ) {
-      // Not safe here either!
-    } else {
-			if ( function_exists( "c" ) ) {
-				c( "$text:$value\n");
-			}	
-    } 
-     
-  }
+	if ( bw_trace_ok_to_echo() ) {
+		if ( function_exists( "c" ) ) {
+			c( "$text:$value\n");
+		}	
+  } 
   bw_trace_vt( $value, $text );
 }
 
@@ -551,7 +534,64 @@ function bw_trace_http_user_agent() {
 	}
 	*/
 	return( $http_user_agent );
-}	
+}
+
+/** 
+ * Return the hook type
+ *
+ * We can tell it's an 'action' hook if it's listed in $wp_actions
+ * If not it's a 'filter'.
+ *
+ * @param string $hook
+ * @return string "action" | "filter" 
+ */ 
+function bw_trace_get_hook_type( $hook ) {
+	global $wp_actions;
+	if ( isset( $wp_actions[ $hook ] ) ){
+		$type = "action";
+	} else {
+		$type = "filter";
+	}
+	return( $type );
+}
+
+/**
+ * Return true if it's OK to echo HTML comments and such
+ *
+ * It's not safe to echo when:
+ *
+ * * the request is an AJAX request
+ * * the request is a JSON request
+ * * the request is for robots.txt
+ * * the request is an aysnc-upload of a new file ( $_REQUEST contains "short" )
+ * * the request is a SiteGround cache check
+ * * and other situations we don't yet know about
+ */
+function bw_trace_ok_to_echo() {
+	$ok = true;
+  if ( defined('DOING_AJAX') && DOING_AJAX ) {
+		$ok = false;
+  } elseif ( defined( 'JSON_REQUEST' ) && JSON_REQUEST ) {
+    $ok = false;
+  } elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
+		$ok = false;
+	} elseif ( did_action( "do_robotstxt" ) ) {
+		$ok = false;
+	} elseif ( did_action( "load-async-upload.php" ) ) {
+		$ok = false;
+  } else {
+    $short = bw_array_get( $_REQUEST, "short", null );
+    if ( !$short ) {
+      $short = bw_array_get( $_REQUEST, "sgCacheCheck", null );
+    }
+    if ( $short ) {
+      $ok = false;
+    } else {
+			$ok = true;
+		}
+	}
+	return( $ok );
+}
 
 
 } /* end of first if defined() */

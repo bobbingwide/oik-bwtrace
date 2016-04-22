@@ -26,6 +26,7 @@ function bw_trace_stringwatch_loaded() {
 		}
 	}
 	if ( defined( "BW_TRACE_STRINGWATCH" ) ) {
+		oik_require( "includes/oik-actions.php", "oik-bwtrace" );
 		bw_trace_stringwatch_on();
 	}
 }
@@ -77,14 +78,16 @@ function bw_trace_stringwatch_filter( $buffer, $tag, $type ) {
 	if ( false !== strpos( $buffer, BW_TRACE_STRINGWATCH ) ) {
 		bw_trace2( BW_TRACE_STRINGWATCH, "stringwatch!", true, BW_TRACE_ALWAYS );
 		bw_backtrace();
-		$hook = bw_trace_get_hook_type( $previous );
-		$string = '<div class="stringwatch">';
-		$string .= "String watch detected: " .  BW_TRACE_STRINGWATCH . PHP_EOL;
-		$string .= "In: $tag $type" . PHP_EOL;
-		$string .= "After: $previous $hook" . PHP_EOL;
-		$string .= '</div>';
-		bw_trace_stringwatch_echo( $type, $string );
-		//gob();
+		if ( bw_trace_ok_to_echo() ) {
+			$hook = bw_trace_get_hook_type( $previous );
+			$string = '<div class="stringwatch">';
+			$string .= "String watch detected: " .  BW_TRACE_STRINGWATCH . PHP_EOL;
+			$string .= "In: $tag $type" . PHP_EOL;
+			$string .= "After: $previous $hook" . PHP_EOL;
+			$string .= '</div>';
+			bw_trace_stringwatch_echo( $type, $string );
+			//gob();
+		}
 		$found_in = $tag;
 	} else {
 		$found_in = null;
@@ -104,9 +107,13 @@ function bw_trace_stringwatch_filter( $buffer, $tag, $type ) {
  */
 function bw_trace_stringwatch_on() {
 	if ( defined( "BW_TRACE_STRINGWATCH" ) && BW_TRACE_STRINGWATCH !== null ) {
-		add_action( "all", "bw_trace_stringwatch", 9999, 9 );
-		ob_start( "bw_trace_output_callback" );
-		bw_trace2( BW_TRACE_STRINGWATCH, "stringwatch activated", false );
+		if ( PHP_SAPI == "cli" ) {
+			echo "Stringwatch in batch mode is not yet supported." . PHP_EOL;
+		} else {
+			add_action( "all", "bw_trace_stringwatch", 9999, 9 );
+			ob_start( "bw_trace_output_callback" );
+			bw_trace2( BW_TRACE_STRINGWATCH, "stringwatch activated", false );
+		}
  	}	else {
 		bw_trace2( BW_TRACE_STRINGWATCH, "Invalid constant BW_TRACE_STRINGWATCH", false, BW_TRACE_ERROR );
 	}

@@ -169,24 +169,7 @@ function bw_trace_count_report() {
  
 }
 
-/** 
- * Return the hook type
- *
- * We can tell it's an 'action' hook if it's listed in $wp_actions
- * If not it's a 'filter'.
- *
- * @param string $hook
- * @return string "action" | "filter" 
- */ 
-function bw_trace_get_hook_type( $hook ) {
-	global $wp_actions;
-	if ( isset( $wp_actions[ $hook ] ) ){
-		$type = "action";
-	} else {
-		$type = "filter";
-	}
-	return( $type );
-}
+// Moved bw_trace_get_hook_type to includes\oik-actions.php
 
 /**
  * Return the hook param count
