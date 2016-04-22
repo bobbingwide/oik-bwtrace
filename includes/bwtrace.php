@@ -286,7 +286,9 @@ function bw_get_post_id() {
   if ( isset( $GLOBALS['id'] ) ) {
     $id = $GLOBALS['id'];
     if ( $id <> $post_id ) { 
-      $post_id .= "<>" . $id; 
+			if ( is_scalar( $id ) ) {
+				$post_id .= "<>" . $id; 
+			}
     }
   }
   return( $post_id ) ;
