@@ -226,18 +226,11 @@ function bw_trace_trace2( $value, $text, $extra=false ) {
  *
  * But only when it's safe to do so.
  *
- * * When the request is not an AJAX request
- * * When the request is not a JSON request
- * * When the request is not for robots.txt
- * * When the request is not an aysnc-upload of a new file ( $_REQUEST contains "short" )
- * * Or a SiteGround cache check
- * * and other situations we don't yet know about
- *
  * Uses c()?... which requires libs/bobbfunc.php 
  *
  * @param string $value value to be written
  * @param string $text contextual label 
- * @param string $extra	3rd parm to bw_trace2()
+ * @param string $extra	3rd parm to bw_trace2() - future use
  */ 
 function bw_trace_c3( $value, $text, $extra=false ) {
 	if ( bw_trace_ok_to_echo() ) {
@@ -563,7 +556,8 @@ function bw_trace_get_hook_type( $hook ) {
  * * the request is an AJAX request
  * * the request is a JSON request
  * * the request is for robots.txt
- * * the request is an aysnc-upload of a new file ( $_REQUEST contains "short" )
+ * * the request is an async-upload 
+ * * the request is an async-upload of a new file ( $_REQUEST contains "short" )
  * * the request is a SiteGround cache check
  * * and other situations we don't yet know about
  */
