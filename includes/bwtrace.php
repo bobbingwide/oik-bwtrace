@@ -312,13 +312,14 @@ function bw_trace_post_id() {
 /**
  * Trace the current memory/peak usage, if required
  * 
+ * Now traces real memory usages, not just that allocated by emalloc()
  */
 function bw_get_memory_usage() {
 	global $bw_trace_memory;
 	$memory = null;
 	if ( $bw_trace_memory ) {
-		$memory .= memory_get_usage(); 
-		$peak = memory_get_peak_usage();
+		$memory .= memory_get_usage( true ); 
+		$peak = memory_get_peak_usage( true );
 		$memory .= "/$peak";
 		$memory .= " "; 
 	}
