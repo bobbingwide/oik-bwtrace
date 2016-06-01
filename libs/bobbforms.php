@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2009-2016
 if ( !defined( "BOBBFORMS_INCLUDED" ) ) {
-define( "BOBBFORMS_INCLUDED", "2.6" );
+define( "BOBBFORMS_INCLUDED", "3.0.1" );
 
 /**
  * Library: bobbforms
@@ -17,13 +17,15 @@ define( "BOBBFORMS_INCLUDED", "2.6" );
  * @param string $action - action to perform
  * @param string $method - post/get
  * @param string $class - CSS class name
+ * @param string $extras - additional tag parameters
  * @return string - HTML form tag
  */
-function form( $action="", $method="post", $class=null ) {
+function form( $action="", $method="post", $class=null, $extras=null ) {
 	$form = "<form";
 	$form .= kv( "method", $method );
 	$form .= kv( "action", $action );
 	$form .= kv( "class", $class );
+	$form .= $extras;
 	$form .= ">";
 	return( $form );
 }
@@ -34,9 +36,10 @@ function form( $action="", $method="post", $class=null ) {
  * @param string $action - defaults to none - so this must be defined on the submit button
  * @param string $method - defaults to "post". other value is "get"
  * @param string $class - CSS class name
+ * @param string $extras - additional tag parameters
 */
-function bw_form( $action="", $method="post", $class=null ) {
-	e( form( $action, $method, $class ) );
+function bw_form( $action="", $method="post", $class=null, $extras=null ) {
+	e( form( $action, $method, $class, $extras ) );
 }
 
 /**
@@ -369,6 +372,7 @@ function bw_textarea( $name, $len, $text, $value, $rows=10, $args=null ) {
 		$value = bw_array_get( $_REQUEST, $name, null );
 		bw_trace2( $value, "bw_textarea value" );
 		$value = wp_strip_all_tags( $value );
+		$value = stripslashes( $value );
 	}
 	
 	$spellcheck = bw_array_get( $args, "#spellcheck", null );

@@ -201,7 +201,9 @@ function oik_trace_options() {
   bw_checkbox_arr( "bw_trace_options", "Include current filter", $options, 'filters' );
   bw_checkbox_arr( "bw_trace_options", "Include number of queries", $options, "num_queries" );
   bw_checkbox_arr( "bw_trace_options", "Include post ID", $options, "post_id" );
-  bw_checkbox_arr( "bw_trace_options", "Include memory/peak usage", $options, 'memory' );
+	$memory_limit = ini_get( "memory_limit" );
+	bw_trace( $memory_limit, "memory_limit", false, BW_TRACE_DEBUG );
+  bw_checkbox_arr( "bw_trace_options", "Include memory/peak usage ( limit $memory_limit )", $options, 'memory' );
   bw_checkbox_arr( "bw_trace_options", "Include files loaded count", $options, 'files' );
   $current_ip = "<br />Current IP: ";
   $current_ip .= bw_array_get( $_SERVER, "REMOTE_ADDR", null );
