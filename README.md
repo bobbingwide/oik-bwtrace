@@ -3,7 +3,7 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 * Requires at least: 4.2
-* Tested up to: 4.5.1
+* Tested up to: 4.5.2
 * Stable tag: 2.0.12
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -161,7 +161,7 @@ Don't forget to remove or comment out this code when you no longer need it.
 
 ## Upgrade Notice 
 # 2.0.12 
-Now includes prototype 'string watch' capability. Tested with WordPress 4.5.1 and WordPress MultiSite
+Now includes prototype 'string watch' capability. Tested with WordPress 4.5.2 and WordPress MultiSite
 
 # 2.0.11 
 Upgrade for additional fields in the daily summary log.
@@ -257,10 +257,12 @@ This version matches the child plugin oik-bwtrace in oik v1.17
 *	Changed: Improve formatting of hooks [github bobbingwide oik-bwtrace issues 33]
 *	Changed: Blessed task - reduce trace output produced [github bobbingwide oik-bwtrace issues 34]
 *	Changed: Add attached functions to hook shortcode [github bobbingwide oik-bwtrace issues 35]
+* Changed: Trace real memory usage [github bobbingwide oik-bwtrace issue 40]
+* Changed: Sync shared libraries with oik and oik-libs
 * Fixed: Don't call undefined c()  function from bw_trace_c3() [github bobbingwide oik-bwtrace issues 37]
 * Fixed: bw_trace_c3() should not produce comments after "load-async-upload.php" action [github bobbingwide oik-bwtrace issues 38]
 * Fixed: Avoid Notice when $GLOBALS['id'] is not just a post ID [github bobbingwide oik-bwtrace issues 39]
-* Tested: With WordPress 4.5.1 and WordPress MultiSite
+* Tested: With WordPress 4.5.2 and WordPress MultiSite
 
 # 2.0.11 
 * Added: github issue 21 - Show intentions to work on issue - though not yet implemented
