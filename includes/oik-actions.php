@@ -459,26 +459,30 @@ function bw_trace_determine_request() {
  * Record the summary values for this transaction
  *
  * Note: The columns are dynamically created from the fields recorded by bw_trace_status_report()
- * 
- * 0 - request
- * 1 - AJAX action
- * 2 - elapsed ( final figure )
- * 3 - PHP version
- * 4 - PHP functions
- * 5 - User functions
- * 6 - Classes
- * 7 - Plugins
- * 8 - Files
- * 9 - Registered Widgets
- * 10 - Post types
- * 11 - Taxonomies
- * 12 - Queries
- * 13 - Query time
- * 14 - Trace file
- * 15 - Trace records
- * 16 - Remote address ( IP address )
- * 17 - Elapsed
- * 18 - Date - ISO 8601 date 
+ *
+ * Index | Field
+ * ----- | ----------- 
+ * 0 | request
+ * 1 | AJAX action
+ * 2 | elapsed ( final figure )
+ * 3 | PHP version
+ * 4 | PHP functions
+ * 5 | User functions
+ * 6 | Classes
+ * 7 | Plugins
+ * 8 | Files
+ * 9 | Registered Widgets
+ * 10 | Post types
+ * 11 | Taxonomies
+ * 12 | Queries
+ * 13 | Query time
+ * 14 | Trace file
+ * 15 | Trace records
+ * 16 | Remote address ( IP address )
+ * 17 | Elapsed
+ * 18 | Date - ISO 8601 date 
+ * 19 | HTTP user agent
+ * 20 | REQUEST_METHOD
  */
 function bw_record_vt( $vnoisy=false ) {
   global $vt_values, $vt_text;
@@ -500,9 +504,31 @@ function bw_record_vt( $vnoisy=false ) {
 	$line .= bw_array_get( $_SERVER, "REQUEST_METHOD", null );
 	
   $line .= PHP_EOL;
-  $file = ABSPATH . "bwtrace.vt." .  date( "md" );
+	$file = bw_trace_vt_file();
   bw_write( $file, $line );
 }
+
+/**
+ * Returns the 'vt' file name
+ * 
+ * Format: bwtrace.vt.mmdd
+ * 
+ * For WPMS this includes the blog ID, but not the site ID
+ *
+ * Format: bwtrace.vt.mmdd.blog_ID
+ *
+ * @return string Fully qualified file name
+ */
+function bw_trace_vt_file() {
+  $file = ABSPATH . "bwtrace.vt." .  date( "md" );
+	global $blog_id; 
+	bw_trace2( $blog_id, "blog_id !$blog_id!", false, BW_TRACE_VERBOSE );
+	if ( $blog_id != 1 ) {
+		$file .= ".$blog_id";
+	} 
+	return( $file );
+}
+
 
 /**
  * Extract the HTTP_USER_AGENT 
@@ -556,7 +582,7 @@ function bw_trace_get_hook_type( $hook ) {
  * * the request is an AJAX request
  * * the request is a JSON request
  * * the request is for robots.txt
- * * the request is an async-upload 
+ * * the request is an async|upload 
  * * the request is an async-upload of a new file ( $_REQUEST contains "short" )
  * * the request is a SiteGround cache check
  * * and other situations we don't yet know about
