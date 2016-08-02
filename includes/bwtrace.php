@@ -313,6 +313,9 @@ function bw_trace_post_id() {
  * Trace the current memory/peak usage, if required
  * 
  * Now traces real memory usages, not just that allocated by emalloc()
+ * 
+ * Optionally, trace the current value of the memory_limit
+ * 
  */
 function bw_get_memory_usage() {
 	global $bw_trace_memory;
@@ -321,6 +324,8 @@ function bw_get_memory_usage() {
 		$memory .= memory_get_usage( true ); 
 		$peak = memory_get_peak_usage( true );
 		$memory .= "/$peak";
+		$memory .= " ";
+		$memory .= ini_get( "memory_limit" );
 		$memory .= " "; 
 	}
 	return( $memory );
