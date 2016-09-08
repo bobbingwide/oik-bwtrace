@@ -586,6 +586,7 @@ function bw_trace_get_hook_type( $hook ) {
  * * the request is an async-upload of a new file ( $_REQUEST contains "short" )
  * * the request is a SiteGround cache check
  * * and other situations we don't yet know about
+ * * the request was implemented as a REST API !
  */
 function bw_trace_ok_to_echo() {
 	$ok = true;
@@ -594,6 +595,8 @@ function bw_trace_ok_to_echo() {
   } elseif ( defined( 'JSON_REQUEST' ) && JSON_REQUEST ) {
     $ok = false;
   } elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
+		$ok = false;
+  } elseif ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 		$ok = false;
 	} elseif ( did_action( "do_robotstxt" ) ) {
 		$ok = false;
