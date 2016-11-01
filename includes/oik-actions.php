@@ -511,7 +511,7 @@ function bw_record_vt( $vnoisy=false ) {
 /**
  * Returns the 'vt' file name
  * 
- * Format: bwtrace.vt.mmdd
+ * Format: bwtrace.vt.ccyymmdd
  * 
  * For WPMS this includes the blog ID, but not the site ID
  *
@@ -520,7 +520,7 @@ function bw_record_vt( $vnoisy=false ) {
  * @return string Fully qualified file name
  */
 function bw_trace_vt_file() {
-  $file = ABSPATH . "bwtrace.vt." .  date( "md" );
+  $file = ABSPATH . "bwtrace.vt." .  date( "Ymd" );
 	global $blog_id; 
 	bw_trace2( $blog_id, "blog_id !$blog_id!", false, BW_TRACE_VERBOSE );
 	if ( $blog_id != 1 ) {
