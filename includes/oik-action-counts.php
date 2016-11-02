@@ -69,10 +69,10 @@ function bw_trace_count_off() {
  *
  */
 function bw_lazy_trace_count() {
-  bw_trace2( "Initialising action counts", null, false, BW_TRACE_VERBOSE );
-	oik_require( "includes\oik-actions.php", "oik-bwtrace" );
-  add_action( "all", "bw_trace_count_all", 10, 2 );
-  add_action( "shutdown", "bw_trace_count_report" ); 
+	bw_trace2( "Initialising action counts", null, false, BW_TRACE_VERBOSE );
+	oik_require( "includes/oik-actions.php", "oik-bwtrace" );
+	add_action( "all", "bw_trace_count_all", 10, 2 );
+	add_action( "shutdown", "bw_trace_count_report" ); 
 }
 
 /**
@@ -84,7 +84,6 @@ function bw_trace_wp_early( $WP_Environment_Instance ) {
 	oik_require( "includes/bwtrace-actions.php", "oik-bwtrace" );
 	bw_action_options();
 	bw_trace_add_selected_actions();
-	
 }
 
 /**
