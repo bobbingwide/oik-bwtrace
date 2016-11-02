@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2009-2016
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.0.0" );
+define( "BOBBFUNC_INCLUDED", "3.1.0" );
 
 /**
  * HTML output library functions
@@ -914,25 +914,33 @@ function bw_sc_snippet( $shortcode="oik" ) {
 }
 
 /**
-  * Dynamic jQuery setting the selector, function and option parameters
-  * When should we use?
-  * 
-  * jQuery(window).load(function() - when you need to wait for images to load?
-  * jQuery(function()
-  * jQuery(document).ready(function()
-  *
-*/  
+ * Dynamic jQuery setting the selector, function and option parameters
+ *
+ * When should we use?
+ * 
+ * - jQuery(window).load(function() - when you need to wait for images to load?
+ * - jQuery(function()
+ * - jQuery(document).ready(function()
+ *
+ * @param string $selector - the jQuery selector
+ * @param string $method - the jQuery method to invoke
+ * @param string $parms - parameters overriding the method's defaults
+ * @param bool $windowload
+ */  
 if ( !function_exists( "bw_jquery" ) ) {
 function bw_jquery( $selector, $method, $parms=null, $windowload=false ) {
-  bw_jq( "<script type=\"text/javascript\">" );
-  if ( $windowload ) {
-    $jqfn = "jQuery(window).load(function()";
-  } else {
-    $jqfn = "jQuery(document).ready(function()"; 
-  }    
-  $function = "$jqfn { jQuery( \"$selector\" ).$method( $parms ); });";
-  bw_jq( $function );
-  bw_jq( "</script>" );
+	if ( defined('DOING_AJAX') && DOING_AJAX ) {
+		return;
+	} 
+	bw_jq( "<script type=\"text/javascript\">" );
+	if ( $windowload ) {
+		$jqfn = "jQuery(window).load(function()";
+	} else {
+		$jqfn = "jQuery(document).ready(function()"; 
+	}    
+	$function = "$jqfn { jQuery( \"$selector\" ).$method( $parms ); });";
+	bw_jq( $function );
+	bw_jq( "</script>" );
 } 
 }
 
@@ -942,9 +950,9 @@ function bw_jquery( $selector, $method, $parms=null, $windowload=false ) {
  * @globals bw_jq
  */
 function bw_jq_flush() {
-  global $bw_jq;
-  echo $bw_jq;
-  $bw_jq = null;
+	global $bw_jq;
+	echo $bw_jq;
+	$bw_jq = null;
 }  
 
 /**
@@ -954,20 +962,19 @@ function bw_jq_flush() {
  * @global $bw_jq
  */
 function bw_jq( $text ) {
-  global $bw_jq;
-  if ( !isset( $bw_jq ) ) {
-    wp_enqueue_script( 'jquery' ); 
-    if ( !is_admin() ) {
-      add_action( 'wp_footer', "bw_jq_flush", 25 );
-    }  
-    //bw_trace2( $bw_jq, "bw_jq not set" );  
-  }
-  $bw_jq .=$text;
-  //bw_trace2( $bw_jq, "bw_jq", false );  
-
-  if ( is_admin() ) {
-    bw_jq_flush();
-  }  
+	global $bw_jq;
+	if ( !isset( $bw_jq ) ) {
+		wp_enqueue_script( 'jquery' ); 
+		if ( !is_admin() ) {
+			add_action( 'wp_footer', "bw_jq_flush", 25 );
+		}  
+	 //bw_trace2( $bw_jq, "bw_jq not set" );  
+	}
+	$bw_jq .=$text;
+	//bw_trace2( $bw_jq, "bw_jq", false );  
+	if ( is_admin() ) {
+		bw_jq_flush();
+	}  
 }
 
 /**
@@ -1461,6 +1468,70 @@ function bw_as_array( $mixed ) {
 		$mixed_array = array();
 	}      
 	return( $mixed_array );
+}
+
+
+/**
+ * Get the value of an option field
+ *
+ * @param string $field field name within set
+ * @param string $set option name
+ * @return mixed option value
+ */
+if ( !function_exists( "bw_get_option" ) ) {
+	function bw_get_option( $field, $set="bw_options" ) {
+		$bw_options = get_option( $set );
+		if ( isset( $bw_options[ $field ] ) ) {
+			$option = $bw_options[ $field ] ; 
+		} else {
+			$option = null;
+		}	  
+    // Note: A value that appears to be blank ( == '') may actually be FALSE ( == FALSE )
+		// bw_trace( '!' .$option.'!', __FUNCTION__,  __LINE__, __FILE__, "option" );  
+		return( $option ); 
+	}
+}
+
+ 
+
+/** 
+ * Return the array[index] or build the result by calling $callback, passing the $default as the arg.
+ *
+ * @param array $array array from which to obtain the value
+ * @param string $index - index of value to obtain]
+ * @param mixed $default - parameter to the $callback function 
+ * @param string $callback - function name to invoke - defaults to invoking __()
+ *
+ * Notes: dcb = deferred callback
+ * Use this function when applying the default might take some time but would be unnecessary if the $array[$index] is already set.
+ *
+ * You can also use this function when the default value is a string that you want to be translated.
+ *
+ * 2012/10/23 - When the parameter was passed as a null value e.g. "" then it was being treated as NULL
+ * hence the default processing took effect. 
+ * In this new verision we replace the NULLs in the code body with $default
+ * So bw_array_get() can return a given NULL value which will then override the default.
+ * In this case, if the parameter that is passed turns out to be the default value then this will also be translated.
+ * Note: It could could still match a default null value
+ * Also: We don't expect a null value for the default callback function __()
+ * 2012/12/04 - we have to allow for the value being set as 0 which differs from a default value of NULL
+ * so the comparison needs to be identical ( === ) rather than equal ( == )
+ * 
+ * 2014/02/27 - In cases where value found may be the same as the default and the dcb function could mess this up
+ * then it's advisable to NOT use this function.  
+ */
+if ( !function_exists( "bw_array_get_dcb" ) ) { 
+function bw_array_get_dcb( $array = array(), $index, $default = NULL, $callback='__', $text_domain="oik" ) {
+  $value = bw_array_get( $array, $index, $default );
+  if ( $value === $default ) {
+    if ( is_callable( $callback ) ) {
+      $value = call_user_func( $callback, $default, $text_domain ); 
+    } else {
+      bw_backtrace();
+    }
+  }  
+  return( $value );  
+}
 }
 
 } /* end !defined */
