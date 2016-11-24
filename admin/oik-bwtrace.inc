@@ -65,21 +65,13 @@ function bw_action_options_add_page() {
  * Settings page for oik actions logging
  *
  * 
+ * Also includes the Information block
  * 
  */
 function bw_action_options_do_page() {
   oik_menu_header( "action options", "w70pc" );
   oik_box( null, null, "Options", "oik_action_options" ); 
-  //oik_box( null, null, "Notes about oik actions", "oik_action_notes" ); 
-  //ecolumn();
-  //scolumn( "w30pc" );
-  //oik_box( null, null, "Action reset button", "oik_action_reset_notes" ); 
-  //oik_box( NULL, NULL, "oik documentation", "oik_documentation" );
-  //oik_box( NULL, NULL, "support oik", "oik_support" );
-  //ecolumn();
-  // scolumn();
-  //oik_box( null, null, "Action summary", "oik_action_summary" ); 
-  //oik_box( null, null, "PHP Info", "phpinfo" );
+  oik_box( null, null, "Information", "oik_trace_info" );
   oik_menu_footer();
   bw_flush();
 }
@@ -154,14 +146,10 @@ function oik_action_notes() {
  */
 function bw_trace_options_do_page() { 
   oik_menu_header( "trace options" );
-  oik_box( null, null, "Options", "oik_trace_options" ); 
+  oik_box( null, null, "Options", "oik_trace_options" );
+  oik_box( null, null, "Information", "oik_trace_info" );
   oik_box( null, null, "Notes about oik trace", "oik_trace_notes" ); 
   oik_box( null, null, "Trace options and reset button", "oik_trace_reset_notes" ); 
-  //ecolumn();
-  
-  //scolumn( "w30pc" );
-  //oik_box( NULL, NULL, "oik documentation", "oik_documentation" );
-  //oik_box( NULL, NULL, "support oik", "oik_support" );
   oik_menu_footer();
   bw_flush();
 }
@@ -257,6 +245,19 @@ function oik_trace_reset_notes() {
 	} else {
 		p( "Activate the oik base plugin to enable the [bwtrace] shortcode" );
 	}
+}
+
+/**
+ * Display Trace info
+ * 
+ * This displays lots of useful information about the site configuration and settings
+ * Similar to PHPinfo but more aligned to WordPress and problem determination thereof.
+ */
+function oik_trace_info() {
+	oik_require( "admin/class-oik-trace-info.php", "oik-bwtrace" );
+	$oik_trace_info = new OIK_trace_info();
+	$oik_trace_info->display_info();
+	
 }
 
 /**
