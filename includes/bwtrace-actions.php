@@ -196,6 +196,53 @@ function bw_trace_add_error_handler() {
   }
 }
 
+
+/** 
+ * Return string representation of the $errno 
+ * 
+ * | $errno | constant | string |
+ * | --- | --- | --- |
+ * | 1 | E_ERROR | Error |
+ * | 2 | E_WARNING | Warning |
+ * | 4 | E_PARSE | Parsing Error |
+ * | 8 | E_NOTICE | Notice |
+ * | 16 | E_CORE_ERROR | Core Error |
+ * | 32 | E_CORE_WARNING | Core Warning |
+ * | 64 | E_COMPILE_ERROR | Compile Error |
+ * | 128 | E_COMPILE_WARNING | Compile Warning |
+ * | 256 | E_USER_ERROR | User Error |
+ * | 512 | E_USER_WARNING | User Warning |
+ * | 1024 | E_USER_NOTICE | User Notice |
+ * | 2048 | E_STRICT | Runtime Notice |
+ * | 4096 | E_RECOVERABLE_ERROR | Catchable Fatal Error |
+ * | 8192 | E_DEPRECATED | Deprecated |
+ * | 16384 | E_USER_DEPRECATED | User Deprecated |
+ *
+ * @param integer $errno
+ * @return string the string representation
+ */
+function bw_trace_errno( $errno ) {
+	$strings = array( E_ERROR => "Error"
+ , E_WARNING => "Warning"
+ , E_PARSE => "Parsing Error"
+ , E_NOTICE => "Notice"
+ , E_CORE_ERROR => "Core Error"
+ , E_CORE_WARNING => "Core Warning"
+ , E_COMPILE_ERROR => "Compile Error"
+ , E_COMPILE_WARNING => "Compile Warning"
+ , E_USER_ERROR => "User Error"
+ , E_USER_WARNING => "User Warning"
+ , E_USER_NOTICE => "User Notice"
+ , E_STRICT => "Runtime Notice"
+ , E_RECOVERABLE_ERROR => "Catchable Fatal Error"
+ , E_DEPRECATED => "Deprecated"
+ , E_USER_DEPRECATED => "User Deprecated"
+ );
+	$string = bw_array_get( $strings, $errno, $errno );
+	return( $string );
+}
+	
+
 /**
  * Trace catchable errors
  *
@@ -214,7 +261,10 @@ function bw_trace_add_error_handler() {
  * @return bool Always false for the time being. We want the developer to be aware of the message.
  */
 function bw_trace_error_handler( $errno, $errstr, $errfile=null, $errline=null, $errcontext=null ) {
-	$err = array( $errno, $errstr, $errfile, $errline );
+	$err_string = bw_trace_errno( $errno );
+	$err_string .= ": ";
+	$err_string .= $errstr;
+	$err = array( $errno, $err_string, $errfile, $errline );
 	bw_trace2( $err, "err", false, BW_TRACE_ALWAYS );
 	bw_trace2( $errcontext, "errcontext", false, BW_TRACE_VERBOSE );
 	//bw_trace( "errno", __FUNCTION__, __LINE__, __FILE__, $errno);
