@@ -223,7 +223,7 @@ function bw_trace_plugin_startup() {
  * Implement "wp_loaded" filter for oik-bwtrace 
  */
 function oik_bwtrace_plugins_loaded() {
-	if ( oik_require_lib( "oik-admin" ) && oik_require_lib( "bobbforms" ) && oik_require_lib( "bobbfunc" )  ) {
+	if ( oik_require_lib( "oik-admin" ) && oik_require_lib( "bobbforms" ) && oik_require_lib( "bobbfunc" ) && oik_require_lib( "class-bobbcomp") ) {
 		add_action( 'admin_menu', 'bw_trace_options_add_page');
 		add_action( 'admin_menu', 'bw_action_options_add_page');
 	} else {
