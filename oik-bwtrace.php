@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 2.0.12
+Version: 2.1.0
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-bwtrace
@@ -90,6 +90,10 @@ function bw_trace_reset_status( $bw_trace_ip, $tracing ) {
 	}
 	if ( !empty( $_REQUEST['_bw_trace_reset'] ) ) {
 		$bw_trace_reset = true;
+	}
+	
+	if ( isset( $_REQUEST['wc-ajax'] ) ) {
+		$bw_trace_reset = false;
 	} 
 	return( $bw_trace_reset );
 } 
@@ -319,7 +323,7 @@ function oik_bwtrace_loaded() {
 	 */
 	if ( !function_exists( 'oik_require' ) ) {
 		// check that oik v2.6 (or higher) is available.
-		$oik_boot = __DIR__ . "/libs/oik_boot.php";
+		$oik_boot = dirname( __FILE__ ). "/libs/oik_boot.php";
 		if ( file_exists( $oik_boot ) ) { 
 			require_once( $oik_boot );
 		}
@@ -332,9 +336,10 @@ function oik_bwtrace_loaded() {
 	 * If oik really is backlevel then we may have a problem.
 	*/
 	if ( function_exists( "oik_require2" )) {
-		oik_lib_fallback( __DIR__ . '/libs' );
+		oik_lib_fallback( dirname( __FILE__ ) . '/libs' );
 		oik_require( "libs/bwtrace.php", "oik-bwtrace" );
-		oik_require( "libs/bwtrace_boot.php", "oik-bwtrace" ); 
+		oik_require( "libs/bwtrace_boot.php", "oik-bwtrace" );
+		oik_require( "libs/bwtrace_log.php", "oik-bwtrace" ); 
 		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
 	}
 	
