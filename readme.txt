@@ -3,8 +3,8 @@ Contributors: bobbingwide, vsgloik
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 Requires at least: 4.2
-Tested up to: 4.5.2
-Stable tag: 2.0.12
+Tested up to: 4.7-RC1
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -160,6 +160,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
  
 == Upgrade Notice ==
+= 2.1.0 = 
+Tested with WordPress 4.7-RC1 and WPMS. No longer requires PHP 5.3 or higher.
+
 = 2.0.12 = 
 Now includes prototype 'string watch' capability. Tested with WordPress 4.5.2 and WordPress MultiSite
 
@@ -249,6 +252,18 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 2.1.0 =
+* Changed: Add logging library functions under bw_log [github bobbingwide oik-bwtrace issues 50]
+* Changed: Cater for REST API v2 [github bobbingwide oik-bwtrace issues 42]
+* Changed: Do not enqueue jQuery when DOING_AJAX [github bobbingwide oik-bwtrace issues 47]
+* Changed: Improve bw_trace_error_handler output [github bobbingwide oik-bwtrace issues 44]
+* Changed: Make bw_trace_reset_status() more context sensitive [github bobbingwide oik-bwtrace issues 49]
+* Changed: Part 1 - include yyyy in the file name [github bobbingwide oik-bwtrace issues 45]
+* Changed: Reconcile shared libraries with oik v3.1.0
+* Changed: Reduce messages produced by trace reset [github bobbingwide oik-bwtrace issue 46]
+* Fixed: trace shutdown sometimes can't find all the functions it needs; Wrong type of slash [github bobbingwide oik-bwtrace issues 43]
+* Tested: With WordPress 4.7-RC1 
+
 = 2.0.12 = 
 * Added: 'String watch' capability [github bobbingwide oik-bwtrace issues 36]
 * Changed: Support tracing of nested Closures in bw_trace_obsafe_print_r() [github bobbingwide oik-bwtrace issues 28]

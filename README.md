@@ -1,10 +1,11 @@
 # oik-bwtrace 
+![banner](https://raw.githubusercontent.com/bobbingwide/oik-bwtrace/master/assets/oik-bwtrace-banner-772x250.jpg)
 * Contributors: bobbingwide, vsgloik
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 * Requires at least: 4.2
-* Tested up to: 4.5.2
-* Stable tag: 2.0.12
+* Tested up to: 4.7-RC1
+* Stable tag: 2.1.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -147,7 +148,7 @@ define( 'BW_TRACE_RESET', true );
 if ( file_exists( ABSPATH . '/wp-content/plugins/oik-bwtrace/lib/bwtrace.php' ) ) {
   require_once( ABSPATH . '/wp-content/plugins/oik-bwtrace/lib/bwtrace.php' );
 }
-`
+```
 
 Don't forget to remove or comment out this code when you no longer need it.
 
@@ -160,6 +161,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
 
 ## Upgrade Notice 
+# 2.1.0 
+Tested with WordPress 4.7-RC1 and WPMS. No longer requires PHP 5.3 or higher.
+
 # 2.0.12 
 Now includes prototype 'string watch' capability. Tested with WordPress 4.5.2 and WordPress MultiSite
 
@@ -249,19 +253,31 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.1.0 
+* Changed: Add logging library functions under bw_log https://github.com/bobbingwide/oik-bwtrace/issues/50
+* Changed: Cater for REST API v2 https://github.com/bobbingwide/oik-bwtrace/issues/42
+* Changed: Do not enqueue jQuery when DOING_AJAX https://github.com/bobbingwide/oik-bwtrace/issues/47
+* Changed: Improve bw_trace_error_handler output https://github.com/bobbingwide/oik-bwtrace/issues/44
+* Changed: Make bw_trace_reset_status() more context sensitive https://github.com/bobbingwide/oik-bwtrace/issues/49
+* Changed: Part 1 - include yyyy in the file name https://github.com/bobbingwide/oik-bwtrace/issues/45
+* Changed: Reconcile shared libraries with oik v3.1.0
+* Changed: Reduce messages produced by trace reset https://github.com/bobbingwide/oik-bwtrace/issues/46
+* Fixed: trace shutdown sometimes can't find all the functions it needs; Wrong type of slash https://github.com/bobbingwide/oik-bwtrace/issues/43
+* Tested: With WordPress 4.7-RC1
+
 # 2.0.12 
-* Added: 'String watch' capability [github bobbingwide oik-bwtrace issues 36]
-* Changed: Support tracing of nested Closures in bw_trace_obsafe_print_r() [github bobbingwide oik-bwtrace issues 28]
-* Changed: Improve output for saved queries [github bobbingwide oik-bwtrace issues 29]
-*	Changed: Improve formatting of included files [github bobbingwide oik-bwtrace issues 32]
-*	Changed: Improve formatting of hooks [github bobbingwide oik-bwtrace issues 33]
-*	Changed: Blessed task - reduce trace output produced [github bobbingwide oik-bwtrace issues 34]
-*	Changed: Add attached functions to hook shortcode [github bobbingwide oik-bwtrace issues 35]
-* Changed: Trace real memory usage [github bobbingwide oik-bwtrace issue 40]
+* Added: 'String watch' capability https://github.com/bobbingwide/oik-bwtrace/issues/36
+* Changed: Support tracing of nested Closures in bw_trace_obsafe_print_r() https://github.com/bobbingwide/oik-bwtrace/issues/28
+* Changed: Improve output for saved queries https://github.com/bobbingwide/oik-bwtrace/issues/29
+*	Changed: Improve formatting of included files https://github.com/bobbingwide/oik-bwtrace/issues/32
+*	Changed: Improve formatting of hooks https://github.com/bobbingwide/oik-bwtrace/issues/33
+*	Changed: Blessed task - reduce trace output produced https://github.com/bobbingwide/oik-bwtrace/issues/34
+*	Changed: Add attached functions to hook shortcode https://github.com/bobbingwide/oik-bwtrace/issues/35
+* Changed: Trace real memory usage https://github.com/bobbingwide/oik-bwtrace/issues/40
 * Changed: Sync shared libraries with oik and oik-libs
-* Fixed: Don't call undefined c()  function from bw_trace_c3() [github bobbingwide oik-bwtrace issues 37]
-* Fixed: bw_trace_c3() should not produce comments after "load-async-upload.php" action [github bobbingwide oik-bwtrace issues 38]
-* Fixed: Avoid Notice when $GLOBALS['id'] is not just a post ID [github bobbingwide oik-bwtrace issues 39]
+* Fixed: Don't call undefined c()  function from bw_trace_c3() https://github.com/bobbingwide/oik-bwtrace/issues/37
+* Fixed: bw_trace_c3() should not produce comments after "load-async-upload.php" action https://github.com/bobbingwide/oik-bwtrace/issues/38
+* Fixed: Avoid Notice when $GLOBALS['id'] is not just a post ID https://github.com/bobbingwide/oik-bwtrace/issues/39
 * Tested: With WordPress 4.5.2 and WordPress MultiSite
 
 # 2.0.11 
