@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2012-2016
 if ( !defined( 'OIK_BOOT_INCLUDED' ) ) {
-define( 'OIK_BOOT_INCLUDED', "3.0.1" );
+define( 'OIK_BOOT_INCLUDED', "3.1.0" );
 define( 'OIK_BOOT_FILE', __FILE__ );
 /**
  * Library: oik_boot
@@ -21,62 +21,53 @@ define( 'OIK_BOOT_FILE', __FILE__ );
  * and then you don't have to worry about including the oik header files 
  * until you need them.
  *
- * New version:
- * use add_action( "oik_loaded", 'your_init_function' );
- * to know when oik has been loaded so you can use the APIs
+ * Use add_action( "oik_loaded", 'your_init_function' );
+ * to know when oik has been loaded so you can use the APIs.
  * 
- * Note: oik_boot may be loaded before WordPress has done its stuff, so we may need to define some constants ourselves
- * Here we assume the file is in ABSPATH/wp-content/plugins/oik/libs so we need 4 dirnames to get back to ABSPATH
- * and then we need to convert backslashes to forward slashes and the drive letter to uppercase.
- * Currently don't think it's necessary to check the first letter but we're doing it anyway.
+ * Note: oik_boot may be loaded before WordPress has done its stuff, so we may need to define some constants ourselves.
+ * Here we assume the file is in ABSPATH/wp-content/plugins/oik/libs so we need 4 dirnames to get back to ABSPATH,
+ * and then we need to convert backslashes to forward slashes and the drive letter, if present, to uppercase.
+ * 
+ * @param string $file - the relative file name within the plugin, without a leading slash
+ * @param string $plugin - the plugin slug
+ * @return string the fully qualified plugin file name
  */
-if (!function_exists( 'oik_path' )) {
-		
-  if ( !defined('ABSPATH') ) {
+if ( !function_exists( 'oik_path' ) ) {
+	if ( !defined('ABSPATH') ) {
 		$abspath = dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/';
-    $abspath = str_replace( "\\", "/", $abspath );
+		$abspath = str_replace( "\\", "/", $abspath );
 		if ( ':' === substr( $abspath, 1, 1 ) ) {
 			$abspath = ucfirst( $abspath );
 		}
-    define( 'ABSPATH', $abspath );
+		define( 'ABSPATH', $abspath );
 	}
-
-  if ( !defined('WP_CONTENT_DIR') )
-    define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // no trailing slash, full paths only - WP_CONTENT_URL is defined further down
-          
-  if ( !defined('WP_PLUGIN_DIR') )
-    define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' ); // full path, no trailing slash
-
-  function oik_path( $file = NULL, $plugin='oik') {
-  
-    return( WP_PLUGIN_DIR . '/'. $plugin. '/' . $file );
-  }
+	if ( !defined('WP_CONTENT_DIR') ) {
+		define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // no trailing slash, full paths only - WP_CONTENT_URL is defined further down
+	}        
+	if ( !defined('WP_PLUGIN_DIR') ) {
+		define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' ); // full path, no trailing slash
+	}
+	function oik_path( $file=NULL, $plugin='oik') {
+		return( WP_PLUGIN_DIR . '/'. $plugin. '/' . $file );
+	}
 }
- 
+
 /**
- * invoke require_once on an oik include file or other file
+ * Invoke require_once on an oik include file or other file
  *
  * @uses oik_path()
- 
+ * 
  * @param string $include_file - the include file (or any other file) that you want to load
  * @param string $plugin - the plugin in which the file is located (default="oik")
  */
 if (!function_exists( 'oik_require' )) {
-  function oik_require( $include_file = "bobbfunc.inc", $plugin="oik" ) {
-    $path = oik_path( $include_file, $plugin );
-    if ( !file_exists( $path ) ) { 
-      echo "<!-- File does not exist:$path! -->" ;
-      if ( !is_file( $path ) ) {
-        echo "<!-- File is not a real file:$path! -->" ;
-      }
-			echo "<!-- ";
-      print_r( debug_backtrace() );
-			echo " -->";
-      //gobang();
-      
-    }  
-    require_once( $path ); 
-  }  
+	function oik_require( $include_file = "bobbfunc.inc", $plugin="oik" ) {
+		$path = oik_path( $include_file, $plugin );
+		if ( !file_exists( $path ) ) {
+			bw_log( $path, "path", true, "oik_yourehavingmeon" );
+		}  
+		require_once( $path ); 
+	}  
 } 
 
 if( !function_exists( "oik_require2" )) {
@@ -91,14 +82,14 @@ if( !function_exists( "oik_require2" )) {
  * Note: this code does not allow for files to be renamed during relocation
  * This code does REQUIRE the file to exist somewhere! 
  */
-function oik_require2( $include_file="bobbfunc.inc", $to_plugin, $from_plugin="oik" ) {
-  $new_path = oik_path( $include_file, $to_plugin );
-  if ( file_exists( $new_path ) ) {
-    require_once( $new_path );
-  } else {
-    oik_require( $include_file, $from_plugin );
-  }  
-}
+	function oik_require2( $include_file="bobbfunc.inc", $to_plugin, $from_plugin="oik" ) {
+		$new_path = oik_path( $include_file, $to_plugin );
+		if ( file_exists( $new_path ) ) {
+			require_once( $new_path );
+		} else {
+			oik_require( $include_file, $from_plugin );
+		}  
+	}
 }
   
 /**
@@ -108,11 +99,11 @@ function oik_require2( $include_file="bobbfunc.inc", $to_plugin, $from_plugin="o
  * should either call add_action( "init", "oik_init" ); to let oik load the required API files
  * OR, if add_action() is not yet available, call this function, if it's available.
  * In most cases all that is required initially is to load /libs/bwtrace.php
-*/ 
+ */ 
 if ( !function_exists( "oik_init" ) ) {
-function oik_init( ) {
-  oik_require_lib( 'bwtrace' );
-}
+	function oik_init( ) {
+		oik_require_lib( 'bwtrace' );
+	}
 } 
  
 /** 
@@ -130,33 +121,33 @@ function oik_init( ) {
  *
  */
 if ( !function_exists( 'bw_array_get' ) ) {
-  function bw_array_get( $array = NULL, $index, $default=NULL ) { 
-    //  sometimes we get passed an empty array as the index to the array - what should we do in this case **?** Herb 2013/10/24
-    if ( is_array( $index ) ) {
-      bw_backtrace( BW_TRACE_WARNING );
-      //gobang();
-    }
-    if ( isset( $array ) ) {
-      if ( is_array( $array ) ) {
-        if ( isset( $array[$index] ) || array_key_exists( $index, $array ) ) {
-          $value = $array[$index];
-        } else {
-          $value = $default;
-        }  
-      } elseif ( is_object( $array ) ) {
-        if ( property_exists( $array, $index ) ) {
-          $value = $array->$index;
-        } else {
-          $value = $default;
-        } 
-      } else {
-        $value = $default;
-      }  
-    } else {
-      $value = $default;
-    }  
-    return( $value );
-  }
+	function bw_array_get( $array = NULL, $index, $default=NULL ) { 
+		//  sometimes we get passed an empty array as the index to the array - what should we do in this case **?** Herb 2013/10/24
+		if ( is_array( $index ) ) {
+			bw_backtrace( BW_TRACE_WARNING );
+			//gobang();
+		}
+		if ( isset( $array ) ) {
+			if ( is_array( $array ) ) {
+				if ( isset( $array[$index] ) || array_key_exists( $index, $array ) ) {
+					$value = $array[$index];
+				} else {
+					$value = $default;
+				}  
+			} elseif ( is_object( $array ) ) {
+				if ( property_exists( $array, $index ) ) {
+					$value = $array->$index;
+				} else {
+					$value = $default;
+				} 
+			} else {
+				$value = $default;
+			}  
+		} else {
+			$value = $default;
+		}  
+		return( $value );
+	}
 }
 
 /**
@@ -186,9 +177,11 @@ if ( !function_exists( "oik_require_lib" ) ) {
 			}
 			$library_file = oik_require_lib_fallback( $library );
 		}
-		// We are dependent upon the 'bwtrace' library for these functions
-		bw_trace2( $library_file, "library_file: $library", true, BW_TRACE_VERBOSE );
-		bw_backtrace( BW_TRACE_VERBOSE );
+		// We are dependent upon the 'bwtrace' library for these functions. Assume both are defined if bw_trace2() is.
+		if ( function_exists( "bw_trace2" ) ) {
+			bw_trace2( $library_file, "library_file: $library", true, BW_TRACE_VERBOSE );
+			bw_backtrace( BW_TRACE_VERBOSE );
+		}
 		return( $library_file );
 	}
 }
@@ -208,7 +201,7 @@ if ( !function_exists( "oik_require_lib" ) ) {
 		if ( false === strpos( $library, ".php" ) ) {
 			$library .= ".php";
 		}
-		$oik_lib_fallback = oik_lib_fallback( __DIR__ );
+		$oik_lib_fallback = oik_lib_fallback( dirname( __FILE__ ) );
 		foreach ( $oik_lib_fallback as $library_dir ) {
 			$library_file = "$library_dir/$library";
 			
@@ -225,26 +218,17 @@ if ( !function_exists( "oik_require_lib" ) ) {
 //}
 
 /**
- * Set a fallback directory for shared library processing
+ * Set a(nother) fallback directory for shared library processing
  *
  * @param string $lib_dir fully qualified directory for library files with NO trailing slash
  * @return array fallback directories so far
  */
 function oik_lib_fallback( $lib_dir ) {
-	//echo "adding: $lib_dir " . PHP_EOL; 
 	global $oik_lib_fallback;
-	//echo count( $oik_lib_fallback );
 	if ( empty( $oik_lib_fallback ) ) {
-		//if ( __DIR__ == $lib_dir ) {
-  	//	$oik_lib_fallback = array();
-		//} else {
-			$oik_lib_fallback = array( __DIR__ );
-		//}
-	} //else {
-		if ( __DIR__ != $lib_dir ) {
-			$oik_lib_fallback[] = $lib_dir;
-		}
-	//}
+		$oik_lib_fallback = array();
+	}
+	$oik_lib_fallback[] = $lib_dir;
 	return( $oik_lib_fallback );
 }
 
@@ -260,17 +244,38 @@ function oik_lib_fallback( $lib_dir ) {
  * @return bool|WP_Error|oik_lib 
  */
 if ( !function_exists( "oik_require_file" ) ) { 
-function oik_require_file( $file, $library, $args=null ) {
-	//bw_trace2();
-	if ( function_exists( "oik_libs" ) ) {
-		$oik_libs = oik_libs();
-		$library_file = $oik_libs->require_file( $file, $library, $args );
-	} else {
-		$library_file = oik_require_lib_fallback( $file );
+	function oik_require_file( $file, $library, $args=null ) {
+		//bw_trace2();
+		if ( function_exists( "oik_libs" ) ) {
+			$oik_libs = oik_libs();
+			$library_file = $oik_libs->require_file( $file, $library, $args );
+		} else {
+			$library_file = oik_require_lib_fallback( $file );
+		}
+		bw_trace2( $library_file, "library_file", true, BW_TRACE_DEBUG );
+		return( $library_file );	
 	}
-	bw_trace2( $library_file, "library_file", true, BW_TRACE_DEBUG );
-	return( $library_file );	
 }
+
+/**
+ * Dormant logging function
+ *
+ * Similar to oik-bwtrace's bw_trace2() but always enabled if the bw_lazy_log() function is defined,
+ * regardless of the $level.
+ *
+ * @param mixed $value - the data to be logged 
+ * @param string $text - label for the data to be logged
+ * @param bool $show_args - true if the calling parameters should be logged
+ * @param string $level - either the logging level or a callable function which is passed $value 
+ * @return mixed $value - in case it's invoked in a filter function's return
+ */
+if ( !function_exists( "bw_log" ) ) {
+	function bw_log( $value=null, $text=null, $show_args=true, $level=BW_TRACE_ALWAYS ) { 
+		if ( function_exists( "bw_lazy_log" ) ) {
+			bw_lazy_log( $value, $text, $show_args, $level );
+		}
+		return( $value );
+	}
 } 
 
 } /* end if !defined */
