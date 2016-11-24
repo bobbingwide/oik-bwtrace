@@ -8,7 +8,7 @@ define( "BOBBFORMS_INCLUDED", "3.0.1" );
  * Depends: bobbfunc
  * 
  * Note: This file uses functions from the bobbfunc library. You must ensure this is already loaded
- * e.g. use oik_require_lib()
+ * e.g. use oik_require_lib( "bobbfunc" )
  */
 
 /**
@@ -45,7 +45,7 @@ function bw_form( $action="", $method="post", $class=null, $extras=null ) {
 /**
  * Create a field label
  * 
- * @Uses bw_translate() from bobbfunc.inc
+ * @Uses bw_translate() from bobbfunc
  * 
  * @param string $name - field name
  * @param string $text - label to display
