@@ -785,39 +785,38 @@ function bw_write( $file, $line ) {
 	return( $ret );
 } 
 
-
 /**
  * Perform a trace reset
  *
- * We shouldn't do this if we're not tracing the specific IP
- *
+ * If the trace file exists and is writable then we can attempt to unlink it.
+ * We precede the call to unlink with an @ to attempt to avoid getting warning messages.
+ * 
+ * This file may not exist so we have two choices. 1. precede with an @, 2. test for it
+ * but if $file is not set then we should test
+ 
+ * Note: We shouldn't be doing this if we're not tracing the specific IP.
  * 
  */
 function bw_trace_reset() {
-  static $reset_done = false; 
-  
-  //global $bw_trace_options;   
-  //$reset_done = bw_array_get( $bw_trace_options, 'reset_done', false );
-  if ( ! $reset_done ) {
-    $file = bw_trace_file();
-    // This file may not exist so we have two choices. 1. precede with an @, 2. test for it
-    // but if $file is not set then we should test
-    if ( is_file($file) ) {
-      unlink( $file ); 
-      
-    }
-    // echo( "<p>Attempted to unlink: $file</p>" );  
-    //$bw_trace_options['reset_done'] = true; 
-  } 
-  $reset_done = true;
-      
+	static $reset_done = false; 
+	if ( ! $reset_done ) {
+		$file = bw_trace_file();
+		if ( is_file($file) ) {
+			if ( is_writable( $file ) ) {
+				@unlink( $file );
+			} else {
+				// We can't unlink the file at the moment - never mind eh?
+			} 
+		}
+	} 
+	$reset_done = true;
 } 
 
-
-
+/**
+ * 
+ */
 function bw_trace_errors( $level ) {
   error_reporting( $level );
-  
   @ini_set('display_errors', 1);
 }
 
@@ -860,15 +859,16 @@ if ( !function_exists( 'bw_array_get' ) ) {
  * print a backtrace to help find out where something is called from and how to debug it
  *
  * The output from debug_backtrace() is an array - from 0 to n of the calls
- * [file] is the file name
- * [line] is the line number
- * [function] is the method used to get the file: include, require_once
- * [args] are parameters
- * [class]
- * [object]
- * [type] -> = method call,  :: = static method call, nothing for function call
  * 
-
+ * - [file] is the file name
+ * - [line] is the line number
+ * - [function] is the method used to get the file: include, require_once
+ * - [args] are parameters
+ * - [class]
+ * - [object]
+ * - [type] -> = method call,  :: = static method call, nothing for function call
+ * 
+ * `
  C:\apache\htdocs\wordpress\wp-content\themes\hsoh0922bp\functions.php(12:0) 2011-09-27T16:22:49+00:00   backtrace Array
 (
     [0] => Array
@@ -927,6 +927,7 @@ if ( !function_exists( 'bw_array_get' ) ) {
         )
 
 )
+ ` 
 */
 function bw_lazy_backtrace() {
   global $bw_trace_on;
