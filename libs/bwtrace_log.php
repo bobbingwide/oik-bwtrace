@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2016
+<?php // (C) Copyright Bobbing Wide 2016, 2017
 if ( !defined( "OIK_BWTRACE_LOG_INCLUDED" ) ) {
 	define( "OIK_BWTRACE_LOG_INCLUDED", "0.0.1" );
 	
@@ -36,12 +36,17 @@ if ( !defined( "OIK_BWTRACE_LOG_INCLUDED" ) ) {
  * The second test checks that the file really doesn't exist
  * 
  * @param string $file - the fully qualified file name
+ * @return string - some additional information that may help debugging.
  */
 function oik_yourehavingmeon( $file ) {
+	if ( file_exists( $file ) ) {
+		$file = "exists now";
+		return;
+	}
 	if ( defined( 'WP_DEBUG') && WP_DEBUG ) {
-		echo "<!-- File does not exist:$path! -->" ;
-		if ( !is_file( $path ) ) {
-			echo "<!-- File is not a real file:$path! -->" ;
+		echo "<!-- File does not exist:$file! -->" ;
+		if ( !is_file( $file ) ) {
+			echo "<!-- File is not a real file:$file! -->" ;
 		}
 		echo "<!-- ";
 		echo __FILE__ ; 
@@ -51,8 +56,10 @@ function oik_yourehavingmeon( $file ) {
 	}
 	
 	if ( file_exists( $file ) ) {
+	
 		//gob(); this is not expected... but perhaps that's part of the problem!
 		echo "<!-- Oh. And now it does exist! $file -->";
+		$file = "exists a bit later";
 		
 	}
 	return( $file );	
