@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2016
+<?php // (C) Copyright Bobbing Wide 2016,2017
 /**
  * Class: OIK_trace_info
  *
@@ -36,7 +36,7 @@ class OIK_trace_info {
 	 * 
 	 * Each value is obtained by a standard method which may involve a fallback process
 	 * 
-	 * The format of the displayed table is as in this example
+	 * The format of the displayed table is as in this short example
 	 *
 	 * Field | Value | Notes
 	 * ----- | ----- | ------
@@ -73,9 +73,10 @@ class OIK_trace_info {
 		$this->display_constant( 'BW_TRACE_CONFIG_STARTUP', "bool" );
 		$this->display_constant( 'BW_TRACE_ON', "bool" );
 		$this->display_constant( 'BW_COUNT_ON', "bool" );
-		$this->display_constant( 'BW_TRACE_LEVEL', "string" ) ;
-		$this->display_constant( 'BW_TRACE_RESET', "bool" );	
-		
+		$this->display_constant( 'BW_TRACE_LEVEL', "string" );
+		$this->display_constant( 'BW_TRACE_RESET', "bool" );
+		$this->display_constant( "DB_NAME", "string" );
+
 	}
 	
 	/**
