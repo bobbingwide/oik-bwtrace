@@ -762,7 +762,7 @@ function bw_write( $file, $line ) {
 	if ( !$file ) {
 		return( 0 );
 	}
-	$handle = fopen( $file, "a" );
+	$handle = @fopen( $file, "a" );
 	if ( $handle === FALSE ) {
 		//bw_trace_off();
 		// It would be nice to let them know... 
