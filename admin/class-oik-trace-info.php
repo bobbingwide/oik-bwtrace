@@ -78,7 +78,8 @@ class OIK_trace_info {
 		$this->display_constant( 'BW_TRACE_ON', "bool" );
 		$this->display_constant( 'BW_COUNT_ON', "bool" );
 		$this->display_constant( 'BW_TRACE_LEVEL', "string" ) ;
-		$this->display_constant( 'BW_TRACE_RESET', "bool" );	
+		$this->display_constant( 'BW_TRACE_RESET', "bool" );
+		$this->display_constant( "DB_NAME", "string" );	
 		
 	}
 	
