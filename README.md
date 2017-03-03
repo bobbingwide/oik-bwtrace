@@ -4,7 +4,7 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 * Requires at least: 4.2
-* Tested up to: 4.7-RC1
+* Tested up to: 4.7.1
 * Stable tag: 2.1.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -161,6 +161,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
 
 ## Upgrade Notice 
+# 2.1.1-alpha.1124
+Started adding an Information section to help assist problem determination
+
 # 2.1.0 
 Tested with WordPress 4.7-RC1 and WPMS. No longer requires PHP 5.3 or higher.
 
@@ -253,6 +256,9 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 2.1.1-alpha.1124
+* Changed: First pass adding an Information section https://github.com/bobbingwide/oik-bwtrace/issues/51
+
 # 2.1.0 
 * Changed: Add logging library functions under bw_log https://github.com/bobbingwide/oik-bwtrace/issues/50
 * Changed: Cater for REST API v2 https://github.com/bobbingwide/oik-bwtrace/issues/42

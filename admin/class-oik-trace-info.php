@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2016,2017
+<?php // (C) Copyright Bobbing Wide 2016
 /**
  * Class: OIK_trace_info
  *
@@ -55,6 +55,10 @@ class OIK_trace_info {
 		$this->display_ini( "display_errors", "string", "http://php.net/manual/en/errorfunc.configuration.php#ini.display-errors" );
 		$this->display_ini( "log_errors", "bool", "http://php.net/manual/en/errorfunc.configuration.php#ini.log-errors" );
 		$this->display_ini( "error_log", "string", "http://php.net/manual/en/errorfunc.configuration.php#ini.error-log" );
+		$this->display_ini( "output_buffering", "string", "Set to off for better detection of Notice: Undefined messages" );
+		
+		ini_set( "implicit_flush", true );
+		$this->display_ini( "implicit_flush", "bool", "http://php.net/manual/en/outcontrol.configuration.php#ini.implicit-flush" );
 		
 		$this->display_constant( "SCRIPT_DEBUG", "bool" );
 		$this->display_constant( "JETPACK_DEV_DEBUG", "bool" );
@@ -73,10 +77,9 @@ class OIK_trace_info {
 		$this->display_constant( 'BW_TRACE_CONFIG_STARTUP', "bool" );
 		$this->display_constant( 'BW_TRACE_ON', "bool" );
 		$this->display_constant( 'BW_COUNT_ON', "bool" );
-		$this->display_constant( 'BW_TRACE_LEVEL', "string" );
-		$this->display_constant( 'BW_TRACE_RESET', "bool" );
-		$this->display_constant( "DB_NAME", "string" );
-
+		$this->display_constant( 'BW_TRACE_LEVEL', "string" ) ;
+		$this->display_constant( 'BW_TRACE_RESET', "bool" );	
+		
 	}
 	
 	/**
@@ -190,6 +193,8 @@ class OIK_trace_info {
 	/** 
 	 * Tell them the truth about PHP end of life
 	 * 
+	 * {@link http://php.net/supported-versions.php} 
+	 * 
 	 * @return string 
 	 */
 	function php_end_of_life() {
@@ -201,6 +206,7 @@ class OIK_trace_info {
 											, "5.5" => "2016-07-21"
 											, "5.6" => "2018-12-31"
 											, "7.0" => "2018-12-03"
+											, "7.1" => "2019-12-01"
 											); 
 			$eol = $php_eol[ PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ]; 
 			if ( $eol < date( "Y-m-d" ) ) {
@@ -209,7 +215,7 @@ class OIK_trace_info {
 				$message = "End of life for your version of PHP is: $eol";
 			}	
 		} else {
-			$message = "You're out of suppport by over 5 years!";
+			$message = "You're out of support by over 5 years!";
 		}
 		return( $message ); 
 	}
