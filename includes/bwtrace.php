@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2016
+<?php // (C) Copyright Bobbing Wide 2011-2017
 if ( !defined( 'OIK_BWTRACE_INCLUDES_INCLUDED' ) )  {
 define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  
@@ -762,7 +762,7 @@ function bw_write( $file, $line ) {
 	if ( !$file ) {
 		return( 0 );
 	}
-	$handle = @fopen( $file, "a" );
+	$handle = fopen( $file, "a" );
 	if ( $handle === FALSE ) {
 		//bw_trace_off();
 		// It would be nice to let them know... 
@@ -960,8 +960,10 @@ function bw_lazy_backtrace() {
               $function .= $sep."object";
             } elseif ( is_array( $targ ) ) {
               $function .= $sep."array";
-            } else { 
+            } elseif ( is_scalar( $targ ) ) {
               $function .= $sep.$targ ;
+						} else {
+							$function .= $sep."unsupported" ;
             }  
             $sep = ',';
           }
