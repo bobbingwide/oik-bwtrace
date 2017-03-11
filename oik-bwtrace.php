@@ -138,6 +138,7 @@ function bw_torf( $array, $option ) {
  * 
  * Activate trace if the profile says so 
  * AND if the chosen IP address is being used
+ * OR if there's no REMOTE_ADDR and the value for trace_ip matches the value for PHP CLI processing.
  * 
  * Activate action hooks and filter counting or other action tracing if the profile says so
  * 
@@ -153,7 +154,11 @@ function bw_trace_plugin_startup() {
 	$bw_trace_ip = bw_array_get( $bw_trace_options, "ip", null );
 	if ( $bw_trace_ip ) {
 	 	$server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
-	 	$tracing = ( $server == $bw_trace_ip );
+		if ( $server ) {
+			$tracing = ( $server == $bw_trace_ip );
+		} else {
+			$tracing = ( $bw_trace_ip === php_sapi_name() );
+		}
 	}
 	$bw_trace_reset = bw_trace_reset_status( $bw_trace_ip, $tracing );
 	if ( $bw_trace_reset ) {
