@@ -34,13 +34,15 @@ function bw_trace_anychange_loaded() {
 /**
  * 'all' hook looking for the changes to things listed in string BW_TRACE_ANYCHANGE
  *
+ * Note: You can invoke this function directly if you really really want.
  *  
  * @param string $tag - the hook or filter being invoked
  * @param mixed $arg2 - first parameter to the action hook or filter
+ * @return string $tag
  */
 function bw_trace_anychange( $tag, $arg2=null ) {
 	
-	static $current_value = null;
+	static $previous_value = null;
 	
 	$name = BW_TRACE_ANYCHANGE;
 	if ( defined( $name ) ) { 
@@ -48,16 +50,17 @@ function bw_trace_anychange( $tag, $arg2=null ) {
 		if ( null === $value ) {
 		 // E_WARNING level error should have been generated
 		}
-		if ( $value !== $current_value ) {
-			bw_trace2( $current_value, "anychange detected: $name", true );
-			bw_trace2( $value, "anychange new value for: $name", false );
+		bw_trace2( $value, "anychange current value for: $name", false, BW_TRACE_VERBOSE );
+		if ( $value !== $previous_value ) {
+			bw_trace2( $previous_value, "anychange previous: $name", true );
 			bw_backtrace();
 			//gob();
 		}
-		$current_value = $value; 
+		$previous_value = $value; 
 		
 	} else { 
 		/// only works for constants at the moment
+		bw_trace2( $name, "anychange constant not yet defined", true );
 	}
 	
 	
