@@ -41,7 +41,7 @@ if ( !defined( "OIK_BWTRACE_LOG_INCLUDED" ) ) {
 function oik_yourehavingmeon( $file ) {
 	if ( file_exists( $file ) ) {
 		$file = "exists now";
-		return;
+		return $file;
 	}
 	if ( defined( 'WP_DEBUG') && WP_DEBUG ) {
 		echo "<!-- File does not exist:$file! -->" ;
@@ -58,7 +58,10 @@ function oik_yourehavingmeon( $file ) {
 	if ( file_exists( $file ) ) {
 	
 		//gob(); this is not expected... but perhaps that's part of the problem!
-		echo "<!-- Oh. And now it does exist! $file -->";
+		
+		if ( defined( 'WP_DEBUG') && WP_DEBUG ) {
+			echo "<!-- Oh. And now it does exist! $file -->";
+		}	
 		$file = "exists a bit later";
 		
 	}
@@ -88,7 +91,7 @@ function oik_yourehavingmeon( $file ) {
  * @param mixed $value - the data to log and trace
  * @param string $text - a label for the output
  * @param bool $show_args - passed to bw_lazy_trace2()
- * @param string $level - the trace level 
+ * @param string|function name $level - the trace level 
  * 
  */ 
 function bw_lazy_log( $value=null, $text=null, $show_args=true, $level='error' ) {
