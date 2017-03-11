@@ -101,6 +101,7 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_trace_selected_hooks_attached_hooks();
 	bw_trace_add_trace_selected_hooks_backtrace();
 	bw_trace_add_trace_stringwatch();
+	bw_trace_add_trace_anychange();
 }
 
 /**
@@ -443,6 +444,18 @@ function bw_trace_add_trace_stringwatch() {
 	$stringwatch = bw_array_get( $bw_action_options, "stringwatch", null ); 
 	if ( $stringwatch || defined( "BW_TRACE_STRINGWATCH" ) ) {
 		oik_require( "includes/bwtrace-stringwatch.php", "oik-bwtrace" );
+	}
+}
+
+/**
+ * Adds anychange logic if required
+ */
+
+function bw_trace_add_trace_anychange() {
+	global $bw_action_options;
+	$anychange = bw_array_get( $bw_action_options, "anychange", null );
+	if ( $anychange || defined( "BW_TRACE_ANYCHANGE" ) ) {
+		oik_require( "includes/bwtrace-anychange.php", "oik-bwtrace" );
 	}
 }
 
