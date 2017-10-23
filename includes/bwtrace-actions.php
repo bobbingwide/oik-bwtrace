@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2015,2016
+<?php // (C) Copyright Bobbing Wide 2015-2017
  
 /**
  * Load the global bw_action_options
@@ -488,6 +488,19 @@ function bw_trace_attached_hooks( $arg ) {
 	$hooks = bw_trace_get_attached_hooks( $cf );
 	bw_trace2( $hooks, $cf, false, BW_TRACE_ALWAYS );
 	return( $arg );
+}
+
+/**
+ * Traces all attached hooks
+ */
+function bw_trace_all_attached_hooks() {
+	global $wp_filter;
+	$count = count( $wp_filter );
+	$hooks = array();
+	foreach ( $wp_filter as $tag => $hook_object ) {
+		$hooks[ $tag ] = bw_trace_get_attached_hooks( $tag );
+	}
+	bw_trace2( $hooks, "All $count hooks" );
 }
 
 /**

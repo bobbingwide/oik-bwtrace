@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2016
+<?php // (C) Copyright Bobbing Wide 2009-2017
 if ( !defined( "BOBBFORMS_INCLUDED" ) ) {
-define( "BOBBFORMS_INCLUDED", "3.0.1" );
+define( "BOBBFORMS_INCLUDED", "3.2.0" );
 
 /**
  * Library: bobbforms
@@ -577,7 +577,7 @@ function icheckbox( $name, $value=NULL, $disabled=false ) {
  * @param array $args future use
  */
 function bw_checkbox( $name, $text, $value=1, $args=NULL ) {
-	$lab = label( $name, $text );
+	$lab = BW_::label( $name, $text );
 	$icheckbox = icheckbox( $name, $value );
 	bw_tablerow( array( $lab, $icheckbox ));
 	return;

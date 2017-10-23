@@ -1,9 +1,9 @@
 === oik-bwtrace ===
 Contributors: bobbingwide, vsgloik
-Donate link: http://www.oik-plugins.com/oik/oik-donate/
+Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 Requires at least: 4.2
-Tested up to: 4.7.1
+Tested up to: 4.9-beta3
 Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -107,9 +107,9 @@ This log is produced even when tracing is not enabled.
 
 See also:
 
-* [bw_trace2()](http://www.oik-plugins.com/oik_api/bw_trace2)
-* [bw_backtrace()](http://www.oik-plugins.com/oik_api/bw_backtrace)
-* [bw_trace()](http://www.oik-plugins.com/oik_api/bw_trace)
+* [bw_trace2()](https://www.oik-plugins.com/oik_api/bw_trace2)
+* [bw_backtrace()](https://www.oik-plugins.com/oik_api/bw_backtrace)
+* [bw_trace()](https://www.oik-plugins.com/oik_api/bw_trace)
 
 
 == Installation ==
@@ -121,7 +121,7 @@ See also:
 
 == Frequently Asked Questions ==
 = Where is the FAQ? =
-[oik-bwtrace FAQ](http://www.oik-plugins.com/oik-plugins/oik-bwtrace-debug-trace-for-wordpress/?oik-tab=faq)
+[oik-bwtrace FAQ](https://www.oik-plugins.com/oik-plugins/oik-bwtrace-debug-trace-for-wordpress/?oik-tab=faq)
 
 = Can I get support? = 
 Use the contact form on the oik-plugins website. 
@@ -139,7 +139,8 @@ If we want trace and action count to be enabled and reset at WordPress startup t
 
 Put the following in your wp-config.php file
 
-`define( 'BW_TRACE_CONFIG_STARTUP', true );
+`
+define( 'BW_TRACE_CONFIG_STARTUP', true );
 define( 'BW_TRACE_ON', true );
 define( 'BW_COUNT_ON', true );
 define( 'BW_TRACE_RESET', true );
@@ -160,6 +161,12 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
  
 == Upgrade Notice ==
+= 2.1.1-beta-20171023 = 
+Upgrade to ensure shared library file compatibility with oik v3.2.0-RC1
+
+= 2.1.1-alpha.20170303 =
+Version used to attempt to detect changes to the PHP_SAPI constant.
+
 = 2.1.1-alpha.1124 
 Started adding an Information section to help assist problem determination
 
@@ -255,8 +262,23 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
-= 2.1.1-alpha.1124
-* Changed: First pass adding an Information section [github bobbingwide oik-bwtrace issues 51]
+= 2.1.1-beta-20171023 = 
+* Changed: Synchronized shared libraries with oik v3.2.0-RC1, 
+* Changed: Regenerate language files for en_GB and bb_BB
+* Added: bw_trace_all_attached_hooks() for when problem determination gets serious
+* Tested: With WordPress 4.8.2 and 4.9-beta3
+
+= 2.1.1-alpha.20170303 = 
+* Added: Logic to limit tracing to CLI processing [github bobbingwide oik-bwtrace issues 58]
+* Changed: Logic to detect changes to a constant ( e.g. PHP_SAPI ) [github bobbingwide oik-bwtrace issue 57]
+* Changed: Further analysis in oik_yourehavingmeon()
+* Fixed: Catchable fatal error when tracing __PHP_Incomplete_Class [github bobbingwide oik-bwtrace issues 56]
+* Changed: Reduce messages produced by bw_trace_reset() [github bobbingwide oik-bwtrace issues 46]
+
+= 2.1.1-alpha.1124 =
+* Changed: Improve handling of temporary (random?) problems with file_exists() 
+* Added: Add an Information section to improve problem determination [github bobbingwide oik-bwtrace issues 51]
+* Added: Include output_buffering and implicit_flush, EOL for PHP 7.1 [github bobbingwide oik-bwtrace issues 51]
 
 = 2.1.0 =
 * Changed: Add logging library functions under bw_log [github bobbingwide oik-bwtrace issues 50]

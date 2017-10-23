@@ -1,187 +1,250 @@
-# Copyright (C) 2015 oik bwtrace
+# Copyright (C) 2017 oik bwtrace
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 2.0.6\n"
+"Project-Id-Version: oik bwtrace 2.1.1-alpha.20170303\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2015-09-14 20:21:59+00:00\n"
+"POT-Creation-Date: 2017-10-23 15:09:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: bb_BB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 #: admin/oik-bwaction.inc:35
 msgid " to be written"
-msgstr " tO bE wrtietn"
+msgstr " tO bE wirtten"
+
 
 #: admin/oik-bwaction.inc:264
 msgid "Action"
-msgstr "Aitocn"
+msgstr "Atcoin"
+
 
 #: admin/oik-bwaction.inc:265
 msgid "Invocations"
-msgstr "Iivtocnonas"
+msgstr "Ivncotaoins"
+
 
 #: admin/oik-bwaction.inc:266
 msgid "Elapsed"
-msgstr "Eesalpd"
+msgstr "Ealsped"
+
 
 #: admin/oik-bwaction.inc:267
 msgid "Average"
-msgstr "Arveage"
+msgstr "Aevarge"
+
 
 #: admin/oik-bwtrace.inc:51
 msgid "oik trace options"
-msgstr "OIk tacre opiotns"
+msgstr "OIk tarce otpoins"
+
 
 #: admin/oik-bwtrace.inc:61
 msgid "oik action options"
-msgstr "OIk aicton optoins"
+msgstr "OIk atcoin otpoins"
 
-#: admin/oik-bwtrace.inc:71
+
+#: admin/oik-bwtrace.inc:72
 msgid "action options"
-msgstr "atoicn otoipns"
+msgstr "atcoin otpoins"
 
-#: admin/oik-bwtrace.inc:72 admin/oik-bwtrace.inc:156
+
+#: admin/oik-bwtrace.inc:73 admin/oik-bwtrace.inc:149
 msgid "Options"
-msgstr "Opinots"
+msgstr "Otpoins"
 
-#: admin/oik-bwtrace.inc:115
+
+#: admin/oik-bwtrace.inc:74 admin/oik-bwtrace.inc:150
+msgid "Information"
+msgstr "Ifnroamiton"
+
+
+#: admin/oik-bwtrace.inc:107
 msgid "Other hooks to trace"
-msgstr "Ohetr hokos tO tcrae"
+msgstr "Ohter hooks tO tarce"
 
-#: admin/oik-bwtrace.inc:116
+
+#: admin/oik-bwtrace.inc:108
 msgid "Filter results to trace"
-msgstr "Fetilr rltsues tO tcare"
+msgstr "Flietr rseluts tO tarce"
 
-#: admin/oik-bwtrace.inc:117
+
+#: admin/oik-bwtrace.inc:109
 msgid "Trace the global post object"
-msgstr "Tarce thE golbal psot obecjt"
+msgstr "Tarce thE golabl psot ojbcet"
 
-#: admin/oik-bwtrace.inc:118
+
+#: admin/oik-bwtrace.inc:110
 msgid "Trace attached hook functions"
-msgstr "Tcare ahtetcad hook funonicts"
+msgstr "Tarce attcaehd hook fnutcoins"
 
-#: admin/oik-bwtrace.inc:129
+
+#: admin/oik-bwtrace.inc:111
+msgid "Hooks to debug backtrace"
+msgstr "Hooks tO dbeug bcatkarce"
+
+
+#: admin/oik-bwtrace.inc:112
+msgid "'String watch' for this string"
+msgstr "'Srtnig wtach' fOr tihs srtnig"
+
+
+#: admin/oik-bwtrace.inc:122
 msgid "It needs to be used in conjunction with the trace facility."
-msgstr "It nedes tO bE uesd In cntiocnojun wtih thE trcae falitciy."
+msgstr "It needs tO bE uesd In cnoujcniton wtih thE tarce fcalitiy."
 
-#: admin/oik-bwtrace.inc:135
+
+#: admin/oik-bwtrace.inc:128
 msgid ""
 "Set Count action hooks and filters to count the number of times each action "
 "or filter hook is invoked"
 msgstr ""
-"SEt Cnout atcoin hokos And friltes tO conut thE nebmur Of temis each aotcin "
-"Or fietlr hook Is invkeod"
+"SEt Cuont atcoin hooks And flietrs tO cuont thE nmuebr Of tmies ecah atcoin "
+"Or flietr hook Is ivnkoed"
 
-#: admin/oik-bwtrace.inc:141
+
+#: admin/oik-bwtrace.inc:134
 msgid "You may find the most recent trace action output at..."
-msgstr "YOU mAy fnid thE msot rnceet tacre aciotn optuut At..."
+msgstr "YOU mAy fnid thE msot rcenet tarce atcoin otuupt At..."
 
-#: admin/oik-bwtrace.inc:145
+
+#: admin/oik-bwtrace.inc:138
 msgid "The trace action log is reset at the same time as the trace log."
-msgstr "ThE tarce atocin lOg Is reest At thE smae tmie As thE tarce lOg."
+msgstr "ThE tarce atcoin lOg Is rseet At thE smae tmie As thE tarce lOg."
 
-#: admin/oik-bwtrace.inc:155
+
+#: admin/oik-bwtrace.inc:148
 msgid "trace options"
-msgstr "tcare opniots"
+msgstr "tarce otpoins"
 
-#: admin/oik-bwtrace.inc:157
+
+#: admin/oik-bwtrace.inc:151
 msgid "Notes about oik trace"
-msgstr "Notes aubot OIk tcare"
+msgstr "Ntoes aobut OIk tarce"
 
-#: admin/oik-bwtrace.inc:158
+
+#: admin/oik-bwtrace.inc:152
 msgid "Trace options and reset button"
-msgstr "Tacre oiponts And rseet botutn"
+msgstr "Tarce otpoins And rseet btuotn"
 
-#: admin/oik-bwtrace.inc:181
+
+#: admin/oik-bwtrace.inc:173
 msgid "Trace file"
-msgstr "Tcare flie"
+msgstr "Tarce flie"
 
-#: admin/oik-bwtrace.inc:190
+
+#: admin/oik-bwtrace.inc:177
+msgid "AJAX Trace file"
+msgstr "AAJX Tarce flie"
+
+
+#: admin/oik-bwtrace.inc:185
 msgid "Trace level"
 msgstr "Tarce lveel"
 
-#: admin/oik-bwtrace.inc:218
+
+#: admin/oik-bwtrace.inc:205
+msgid "Save changes"
+msgstr "Svae cahgnes"
+
+
+#: admin/oik-bwtrace.inc:215
 msgid ""
 "The tracing output produced by oik-bwtrace can be used for problem "
 "determination."
 msgstr ""
-"ThE tcriang otpuut pecrdoud by OIk-brctawe cAn bE uesd fOr peorblm "
-"draoientmietn."
+"ThE taricng otuupt porudecd by OIk-btwarce cAn bE uesd fOr porlbem "
+"dtereimaniton."
 
-#: admin/oik-bwtrace.inc:219
+
+#: admin/oik-bwtrace.inc:216
 msgid "It's not for the faint hearted."
-msgstr "It's nOt fOr thE fniat hareetd."
+msgstr "It's nOt fOr thE fiant haetred."
 
-#: admin/oik-bwtrace.inc:220
+
+#: admin/oik-bwtrace.inc:217
 msgid ""
 "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site."
 msgstr ""
-"ThE OIk-bwrtcae pugiln sulhod <b>not</b> need tO bE acetatvid On A lvie site."
+"ThE OIk-btwarce pulign sohlud <b>not</b> need tO bE atcvitaed On A lvie stie."
+
+
+#: admin/oik-bwtrace.inc:218
+msgid "If you do need to activate it, only do so for a short period of time."
+msgstr "If yOU dO need tO atcvitae It, olny dO sO fOr A sohrt preoid Of tmie."
+
+
+#: admin/oik-bwtrace.inc:220
+msgid "You will need to specify the trace file name (e.g. bwtrace.loh )"
+msgstr "YOU wlil need tO sepicfy thE tarce flie nmae (E.g. btwarce.lOh )"
+
 
 #: admin/oik-bwtrace.inc:221
-msgid "If you do need to activate it, only do so for a short period of time."
-msgstr "If yOU dO need tO aivctate It, only dO sO fOr A shrot poreid Of tmie."
-
-#: admin/oik-bwtrace.inc:223
-msgid "You will need to specify the trace file name (e.g. bwtrace.loh )"
-msgstr "YOU wlil need tO sfpeciy thE tarce file name (E.g. bcawtre.lOh )"
-
-#: admin/oik-bwtrace.inc:224
 msgid "When you want to trace processing check 'Trace enabled'"
-msgstr "When yOU wnat tO trcae psncirsoeg ccehk 'Tacre eleanbd'"
+msgstr "Wehn yOU wnat tO tarce porecssnig cehck 'Tarce eanlbed'"
 
-#: admin/oik-bwtrace.inc:225
+
+#: admin/oik-bwtrace.inc:222
 msgid ""
 "Check 'Reset trace file every transaction' to cause the trace file to be "
 "cleared for every request, including AJAX requests."
 msgstr ""
-"Cchek 'Reest tcrae flie erevy tairnotcsan' tO cuase thE tcrae file tO bE "
-"cerlaed fOr eevry rsqeeut, icdiunlng AAJX ruesetqs."
+"Cehck 'Rseet tarce flie eevry tarsncaiton' tO cuase thE tarce flie tO bE "
+"celraed fOr eevry rqeeust, icnulidng AAJX rqeeutss."
 
-#: admin/oik-bwtrace.inc:228
+
+#: admin/oik-bwtrace.inc:225
 msgid "You may find the most recent trace output at..."
-msgstr "YOU mAy fnid thE msot rneect trcae ouuptt At..."
+msgstr "YOU mAy fnid thE msot rcenet tarce otuupt At..."
 
-#: admin/oik-bwtrace.inc:233
+
+#: admin/oik-bwtrace.inc:230
 msgid ""
 "If you want to trace processing within some content you can use two "
 "shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off"
 msgstr ""
-"If yOU wnat tO tacre pirsseoncg witihn smoe cneotnt yOU cAn UsE twO "
-"sedrohotcs: [bwtron] tO turn tcrae On And [bwtroff] tO trun It Off"
+"If yOU wnat tO tarce porecssnig wtiihn smoe cnoetnt yOU cAn UsE twO "
+"sohtroceds: [bwtron] tO trun tarce On And [bwtroff] tO trun It Off"
 
-#: admin/oik-bwtrace.inc:249
+
+#: admin/oik-bwtrace.inc:246
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
-msgstr "Acitvate thE OIk base piulgn tO ealnbe thE [bwtrace] srodcohte"
+msgstr "Atcvitae thE OIk bsae pulign tO eanlbe thE [bwtrace] sohtrocde"
 
-#: libs/bobbforms.php:462
+
+#: libs/bobbforms.php:510
 msgid "None"
 msgstr "Nnoe"
 
-#: libs/oik-admin.php:50
-msgid "Click to toggle"
-msgstr "Ccilk tO tgolge"
+
+#: libs/class-BW-.php:108 libs/oik-admin.php:69
+msgid "Toggle panel: %s"
+msgstr "Tgolge pnael: %s"
+
 
 #. Plugin Name of the plugin/theme
 msgid "oik bwtrace"
-msgstr "OIk brtwcae"
+msgstr "OIk btwarce"
+
 
 #. Plugin URI of the plugin/theme
 msgid "http://www.oik-plugins.com/oik-plugins/oik-bwtrace"
 msgstr "http://www.oik-plugins.com/oik-plugins/oik-bwtrace"
 
+
 #. Description of the plugin/theme
 msgid "Debug trace for WordPress, including action and filter tracing"
-msgstr "Dubeg tcare fOr WdPoserrs, iucnndilg atiocn And fteilr tanricg"
+msgstr "Dbeug tarce fOr WroPderss, icnulidng atcoin And flietr taricng"
+
 
 #. Author of the plugin/theme
 msgid "bobbingwide"
-msgstr "bbinogibwde"
+msgstr "bboibgniwde"
+
 
 #. Author URI of the plugin/theme
 msgid "http://www.oik-plugins.com/author/bobbingwide"

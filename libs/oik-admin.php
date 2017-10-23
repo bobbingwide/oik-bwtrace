@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2011-2016
+<?php // (C) Copyright Bobbing Wide 2011-2017
 if ( !defined( "OIK_ADMIN_INCLUDED" ) ) {
-define( "OIK_ADMIN_INCLUDED", "3.1.0" );
+define( "OIK_ADMIN_INCLUDED", "3.2.0" );
 
 /**
  *
@@ -37,31 +37,42 @@ function bw_load_plugin( $set="bw_buttons", $option="oik-button-shortcodes", $pl
 	}
 }
 
-/**
- * Create a postbox widget on the admin pages 
- *
- * 
- * Notes: Similar to Yoast's potbox (sic)
- *
- * @param string $class additional CSS classes for the postbox
- * @param string $id Unique CSS ID
- * @param string $title Translatable title
- * @param string $callback Callable function implementing the post box contents
- */
-function oik_box( $class=NULL, $id=NULL, $title=NULL, $callback='oik_callback' ) {
-	if ( $id == NULL ) {
-		$id = $callback;
-	}  
-	sdiv( "postbox $class", $id );
-	sdiv( "handlediv", NULL, kv( 'title', __( "Click to toggle" ) ) );
-	br();
-	ediv();
-	h3( bw_translate( $title ), "hndle" );
-	sdiv( "inside" );
-	call_user_func( $callback );
-	ediv( "inside" );
-	ediv( "postbox" );
-}
+
+	/**
+	 * Outputs a postbox widget on the admin pages 
+	 *
+	 * @param string $class additional CSS classes for the postbox
+	 * @param string $id Unique CSS ID
+	 * @param string $title Translatable title
+	 * @param string $callback Callable function implementing the post box contents
+	 */
+	function oik_box( $class=null, $id=null, $title=null, $callback='oik_callback' ) {
+		$title = bw_translate( $title );
+		if ( $id == null ) {
+			$id = $callback;
+		}  
+		sdiv( "postbox $class", $id );
+		oik_handlediv( $title );
+		h3( $title, "hndle" );
+		sdiv( "inside" );
+		call_user_func( $callback );
+		ediv( "inside" );
+		ediv( "postbox" );
+	}
+
+	/**
+	 * Displays the toggle button for the postbox
+	 * 
+	 * @param string $title - translated title
+	 */
+	function oik_handlediv( $title ) {
+		$title = sprintf( __( 'Toggle panel: %s' ), $title );
+		e( '<button type="button" class="handlediv" aria-expanded="true">' );
+		e( '<span class="screen-reader-text">' . $title . '</span>' );
+		e( '<span class="toggle-indicator" aria-hidden="true">' );
+		e( '</span>' );
+		e( '</button>' );
+	}
 
 /**
  * Start a column 
@@ -91,20 +102,16 @@ function ecolumn() {
 /**
  * Create an oik menu header
  *
- * Note: Removed the link to oik  
+ * Note: Completely removed the link to oik  
  *
  * @param string $title - title for the box
  * @param string $class - class for the box 
  */
 function oik_menu_header( $title="Overview", $class="w70pc" ) {
 	oik_enqueue_scripts();
+	e( wp_nonce_field( "closedpostboxes", "closedpostboxesnonce", false, false ) );
 	sdiv( "wrap" ); 
-	if ( function_exists( "bw_loik" ) ) {
-		$loik = bw_loik();
-	} else {
-		$loik = null;
-	}
-	h2( "$loik " . bw_translate( $title ) ); 
+	h2( bw_translate( $title ) ); 
 	scolumn( $class );
 }
 
@@ -156,6 +163,7 @@ function oik_plugins_validate( $input ) {
  * Except when 'SCRIPT_DEBUG' is true; then each script is loaded separately.
  * 
  * 'dashboard' enables postbox toggling
+ * Currently ( Jul 2017 ) we want the toggling but don't want the AJAX requests when a postbox is toggled.
  * 
  * It's not necessary to add most of the others that are commented out below as they are pre-requisites 
  * e.g. dashboard is dependent upon jquery, admin-comments and postbox

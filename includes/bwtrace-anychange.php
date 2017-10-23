@@ -63,6 +63,10 @@ function bw_trace_anychange( $tag, $arg2=null ) {
 		bw_trace2( $name, "anychange constant not yet defined", true );
 	}
 	
+	if ( $name == "PHP_SAPI" ) {
+		bw_trace2( PHP_SAPI, "How about now?", false, BW_TRACE_VERBOSE );
+	}
+	
 	
 	return( $tag );
 	

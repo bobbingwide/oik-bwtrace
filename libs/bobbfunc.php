@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2016
+<?php // (C) Copyright Bobbing Wide 2009-2017
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.1.0" );
+define( "BOBBFUNC_INCLUDED", "3.2.0" );
 
 /**
  * HTML output library functions
@@ -11,8 +11,8 @@ define( "BOBBFUNC_INCLUDED", "3.1.0" );
  *
  * These functions were part of the oik base plugin in bobbfunc.inc and bobbcomp.inc
  * Some functions may now be unused. This hasn't yet been confirmed.
- * 
- * 
+ *
+ *
  */
 
 /** 
@@ -180,6 +180,9 @@ function kv( $keyword, $value=null ) {
 
 /**
  * Format a sanitized title= parameter 
+ * 
+ * Note: More often than not, for a11y, the title= parameter is not recommended.
+ *
  * @param $string - the title
  * @return $string
  */  
@@ -222,7 +225,7 @@ function _alink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=
  * @param string $class - the classes for the anchor tag
  * @param string $url - the fully formed URL e.g. http://www.oik-plugins.com
  * @param string $linktori - is the text or image
- * @param string $alt - if NULL will use $linktori
+ * @param string $alt - text for title= attribute. a11y recommendations are to leave this null
  * @param string $id - the unique ID for the anchor tag
  * @param string $extra - anything else that needs to go in the <a> tag. e.g. 'onclick=then some javascript' 
  *
@@ -237,34 +240,37 @@ function alink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=N
 /**
  * Return a well formed link
  *
- * Parameters as for alink()
+ * Parameters as for `alink()`
  *
  * @param string $class - the classes for the anchor tag
- * @param string $url - the fully formed URL e.g. http://www.oik-plugins.com
+ * @param string $url - the fully formed URL e.g. https://www.oik-plugins.com
  * @param string $linktori - is the text or image
- * @param string $alt - if NULL will use $linktori
+ * @param string $alt - text for title= attribute. a11y recommendations are to leave this null
  * @param string $id - the unique ID for the anchor tag
  * @param string $extra - anything else that needs to go in the <a> tag. e.g. 'onclick=then some javascript' 
  * @return string the link
  * 
  */
 function retlink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL  ) {
-  if ( is_null( $linktori ) )
+  if ( is_null( $linktori ) )	{
     $linktori = $url;
+	}
   $link = "<a" ;
-  $link .= kv( "class", $class ); // aclass( $class );
-  $link .= kv( "id", $id ); // aid( $id );
-  $link .= kv( "href", $url ); // ahref( $url );
-  if ( is_null( $alt ) )
-     $alt = $linktori;
-  // Is alt= allowed with XHTML Strict 1.0?    
-  // aalt( $alt );
-  $link .= atitle( $alt );
-  if ( $extra )
-    $link .= $extra ;
+  $link .= kv( "class", $class ); 
+  $link .= kv( "id", $id ); 
+  $link .= kv( "href", $url ); 
+  if ( !is_null( $alt ) ) {
+		if ( $alt != $linktori ) {
+			$link .= atitle( $alt );
+		}
+	}
+  if ( $extra ) {
+    $link .= $extra;
+	}
   $link .= ">";
-  if ( $linktori )
+  if ( $linktori ) {
     $link .= $linktori;
+	}
   $link .= "</a>";
   return( $link );
 }  
@@ -396,14 +402,12 @@ function nullretetag( $tag, $class=NULL ) {
      $ret = retetag( $tag );
   return( $ret );   
 }
-
 /**
  * Return an end tag 
  */
 function retetag( $tag ) {
    return( '</'.$tag.'>');
 }  
-
 /** 
  * Output an end tag
  */
@@ -411,7 +415,6 @@ function etag( $tag ) {
   //  bw_echo( '</'.$tag.'>'."\n";
   bw_echo( '</'.$tag.'>' );
 }    
-
 /**
  * Start a paragraph
  * 
@@ -483,19 +486,21 @@ function h6( $text, $class=NULL, $id=NULL ) {
 /** 
  * Output some translated text
  * 
- * Function e() replaces the original t() function used in Bobbing Wide custom code
+ * Function `e()` replaces the original t() function used in Bobbing Wide custom code
  * since for Drupal t() is already defined for translatable text.
  *
- * Function bwt() does a similar job but also performs some strange filtering if required.
+ * Function `bwt()` does a similar job but also performs some strange filtering if required.
  *
  * When you want to output text that is translatable use: 
- *   bwt( $text ); 
+ *   `bwt( $text );` 
  *
  * When you want to output text that is NOT translatable use:
- *   e( $text );
+ *   `e( $text );`
  *
  * Within functions where the $text parameter is translatable use:
- *   e( bw_translate( $text ) )
+ *   `e( __( "translatable text", "plugn-text-domain" ) );`
+ * 
+ * Note: This function will be deprecated.
  * 
  */  
 function bwt( $text=NULL ) {
@@ -509,11 +514,14 @@ function bwt( $text=NULL ) {
 }
 
 /**
- * @func e for bw_echo( if not NULL
+ * Outputs some translated / non-translatable text
+ * 
+ * @param string $text any translated text or non translatable HTML
  */
 function e( $text = NULL ) {
-  if ( !is_null( $text ))
-    bw_echo( $text );
+	if ( !is_null( $text )) {
+		bw_echo( $text );
+	}
 }
 
 /** 
@@ -738,7 +746,7 @@ function bw_debug( $text ) {
   if ($bw_debug_on)
   {
     if ( $oktop )
-      p( $bw_debug_on . $text );
+      BW_::p( $bw_debug_on . $text );
     else
       _bw_c( $text ); 
   }     
@@ -916,16 +924,12 @@ function bw_sc_snippet( $shortcode="oik" ) {
 /**
  * Dynamic jQuery setting the selector, function and option parameters
  *
- * When should we use?
- * 
- * - jQuery(window).load(function() - when you need to wait for images to load?
- * - jQuery(function()
- * - jQuery(document).ready(function()
+ * Note: jQuery(document).ready( fn ) has been deprecated in jQuery 3.0
  *
  * @param string $selector - the jQuery selector
  * @param string $method - the jQuery method to invoke
  * @param string $parms - parameters overriding the method's defaults
- * @param bool $windowload
+ * @param bool $windowload - use true when you need to wait for images to load
  */  
 if ( !function_exists( "bw_jquery" ) ) {
 function bw_jquery( $selector, $method, $parms=null, $windowload=false ) {
@@ -934,9 +938,9 @@ function bw_jquery( $selector, $method, $parms=null, $windowload=false ) {
 	} 
 	bw_jq( "<script type=\"text/javascript\">" );
 	if ( $windowload ) {
-		$jqfn = "jQuery(window).load(function()";
+		$jqfn = 'jQuery(window).on( "load", function()';
 	} else {
-		$jqfn = "jQuery(document).ready(function()"; 
+		$jqfn = "jQuery( function()"; 
 	}    
 	$function = "$jqfn { jQuery( \"$selector\" ).$method( $parms ); });";
 	bw_jq( $function );
@@ -956,7 +960,10 @@ function bw_jq_flush() {
 }  
 
 /**
- * Append some more jQuery code to be output later
+ * Appends some more jQuery code to be output later
+ *
+ * If it's not already set then we need to enqueue jquery and ensure that all the jQuery gets flushed at the end of processing.
+ * Note: 
  * 
  * @param $text - some well formed jQuery code
  * @global $bw_jq
@@ -967,14 +974,25 @@ function bw_jq( $text ) {
 		wp_enqueue_script( 'jquery' ); 
 		if ( !is_admin() ) {
 			add_action( 'wp_footer', "bw_jq_flush", 25 );
-		}  
+		} else {
+			add_action( "admin_print_footer_scripts", "bw_jq_flush", 25 );
+		}
 	 //bw_trace2( $bw_jq, "bw_jq not set" );  
 	}
 	$bw_jq .=$text;
-	//bw_trace2( $bw_jq, "bw_jq", false );  
-	if ( is_admin() ) {
-		bw_jq_flush();
-	}  
+}
+
+/**
+ * Returns any queued jQuery
+ *
+ * @return string queued jQuery
+ */
+function bw_jq_get() {
+	global $bw_jq;
+	if ( isset( $bw_jq ) ) { 	
+		return $bw_jq;
+	}
+	return null;
 }
 
 /**
@@ -1175,11 +1193,13 @@ function bw_pick_one( $preferred, $alternate ) {
  * If the path is not given then it will be the root of the plugin directory.
  *
  * @param string $domain the plugin name
+ * @return bool 
  */
 function bw_load_plugin_textdomain( $domain="oik" ) {
   $languages_dir =  "$domain/languages";
-  //bw_trace2( $languages_dir, "languages dir" );
-  load_plugin_textdomain( $domain, false, $languages_dir );
+  bw_trace2( $languages_dir, "languages dir" );
+  $loaded = load_plugin_textdomain( $domain, false, $languages_dir );
+	return $loaded;
 }  
 
 /**
@@ -1298,14 +1318,27 @@ function bw_context( $field, $value=null ) {
 } 
 
 /**
- * Wrapper to translate - well it was! Herb 2013/10/31 
- *
- * Similar to __() but with overriding logic to disable translation
+ * Wrapper to translate 
+ * 
+ * - Similar to __() but with overriding logic to disable translation
+ * - translation can be disabled by using bw_translation_off()
+ * - translation can be re-enabled by using bw_translation_on()
+ * - the textdomain can be set using bw_context( "textdomain", 'plugin-slug' );
+ * - the textdomain can be reset to the default ( 'oik' ) using bw_context( "textdomain", false );
  * 
  * @param string $text - text to be translated
  * @return string $text - the translated text
  */
 function bw_translate( $text ) {
+	if ( function_exists( "_deprecated_function" ) ) {
+		if ( defined( 'BW_TRANSLATE_DEPRECATED' ) && BW_TRANSLATE_DEPRECATED ) {
+			_deprecated_function( __FUNCTION__, "oik v3.2.0", "a suitable replacement method from class BW_" );
+		}
+	} else {
+		//  Perhaps it's not WordPress;
+		bw_trace2();
+		bw_backtrace(); 
+	}
   $translation = bw_context( "bw_translation" );
   if ( $translation == "off" ) {
     // Text has already been translated? 
@@ -1319,22 +1352,23 @@ function bw_translate( $text ) {
     //if ( is_callable( "get_translations_for_domain" ) ) } 
       $translations = get_translations_for_domain( $textdomain );
       $text = $translations->translate( $text );
+			bw_trace2( $text, "Translation for: $textdomain", true, BW_TRACE_VERBOSE );  
     //}  
-  }  
+  }
   return( $text );
 } 
 
 /**
- * Turn off translation performed by bw_translate()
+ * Turn off translation performed by `bw_translate()`
  * 
- * Helper function for bw_translate()
+ * Helper function for `bw_translate()`
  */
 function bw_translation_off() {
   bw_context( "bw_translation", "off" );
 }
 
 /**
- * Turn on translation performed by bw_translate()
+ * Turn on translation performed by `bw_translate()`
  */
 function bw_translation_on() {
   bw_context( "bw_translation", "on" );
@@ -1344,7 +1378,7 @@ function bw_translation_on() {
  * Register some text for localization as deferred translatable text
  *
  * Part of the internationalization process is to ensure text is translatable.
- * We use bw_dtt() to register strings of text destined for internationalization.
+ * We use `bw_dtt()` to register strings of text destined for internationalization.
  * This enables makepot/makeoik to extract the strings into the plugin's .pot file
  * from which localized versions can be created.
  * 
