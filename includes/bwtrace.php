@@ -1073,19 +1073,27 @@ function bw_list_trace_levels() {
 /**
  * Trace the trace startup
  *
- * 
+ * Notes: 
+ * - The merging of $_GET and $_POST data into $_REQUEST depends on php.ini settings. @link http://php.net/request-order
+ * - wp_magic_quotes() is normally called after this function has been run, since it's invoked after plugins have been loaded.
+ * - wp_magic_quotes() adds the 'sometimes unwanted' backslashes to $_GET, $_POST, $_COOKIE and $_SERVER.
+ * - wp_magic_quotes() also remerges $_GET and $_POST into $_REQUEST.
+ * - Other plugins and themes can fiddle with these superglobals.
  */
 function bw_trace_trace_startup() {
 	global $bw_trace_level, $bw_trace_options, $bw_action_options;
 	$levels = bw_list_trace_levels();
 	$trace_level_text = bw_array_get( $levels, $bw_trace_level, "Unknown" );
 	bw_trace2( $bw_trace_level, "Trace level: $trace_level_text", false );
-	//bw_backtrace( BW_TRACE_VERBOSE );
+	//bw_lazy_backtrace(  );
 	bw_lazy_trace( $_SERVER, __FUNCTION__, __LINE__, __FILE__, "_SERVER" );
 	bw_lazy_trace( $_REQUEST, __FUNCTION__, __LINE__, __FILE__, "_REQUEST" );
-	//bw_lazy_trace( $_POST, __FUNCTION__, __LINE__, __FILE__, "_POST" );
-	//bw_lazy_trace( $_GET, __FUNCTION__, __LINE__, __FILE__, "_GET" );
 	if ( $bw_trace_level >= BW_TRACE_DEBUG ) {
+		bw_lazy_trace( $_GET, __FUNCTION__, __LINE__, __FILE__, "_GET" );
+		bw_lazy_trace( $_POST, __FUNCTION__, __LINE__, __FILE__, "_POST" );
+		if ( $bw_trace_level >= BW_TRACE_VERBOSE ) {
+			bw_lazy_trace( $_COOKIE, __FUNCTION__, __LINE__, __FILE__, "_COOKIE" );
+		}
 		bw_lazy_trace( ABSPATH . $bw_trace_options['file'], __FUNCTION__, __LINE__, __FILE__, 'tracelog' );
 		bw_lazy_trace( bw_getlocale(), __FUNCTION__, __LINE__, __FILE__, "locale" );
 		bw_lazy_trace( $bw_action_options, __FUNCTION__, __LINE__, __FILE__, "bw_action_options" );

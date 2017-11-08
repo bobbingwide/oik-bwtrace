@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 2.1.1-alpha.20170303\n"
+"Project-Id-Version: oik bwtrace 2.1.1-beta-20171023\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2017-10-23 15:09:55+00:00\n"
+"POT-Creation-Date: 2017-10-26 17:14:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -182,7 +182,7 @@ msgid "oik bwtrace"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://www.oik-plugins.com/oik-plugins/oik-bwtrace"
+msgid "https://www.oik-plugins.com/oik-plugins/oik-bwtrace"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -194,5 +194,5 @@ msgid "bobbingwide"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://www.oik-plugins.com/author/bobbingwide"
+msgid "https://www.oik-plugins.com/author/bobbingwide"
 msgstr ""

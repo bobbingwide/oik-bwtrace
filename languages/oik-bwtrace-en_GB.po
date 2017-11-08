@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 2.1.1-alpha.20170303\n"
+"Project-Id-Version: oik bwtrace 2.1.1-beta-20171023\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2017-10-23 15:09:55+00:00\n"
+"POT-Creation-Date: 2017-10-26 17:14:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: en_GB\n"
@@ -183,8 +183,8 @@ msgid "oik bwtrace"
 msgstr "oik bwtrace"
 
 #. Plugin URI of the plugin/theme
-msgid "http://www.oik-plugins.com/oik-plugins/oik-bwtrace"
-msgstr "http://www.oik-plugins.com/oik-plugins/oik-bwtrace"
+msgid "https://www.oik-plugins.com/oik-plugins/oik-bwtrace"
+msgstr "https://www.oik-plugins.com/oik-plugins/oik-bwtrace"
 
 #. Description of the plugin/theme
 msgid "Debug trace for WordPress, including action and filter tracing"
@@ -195,6 +195,6 @@ msgid "bobbingwide"
 msgstr "bobbingwide"
 
 #. Author URI of the plugin/theme
-msgid "http://www.oik-plugins.com/author/bobbingwide"
-msgstr "http://www.oik-plugins.com/author/bobbingwide"
+msgid "https://www.oik-plugins.com/author/bobbingwide"
+msgstr "https://www.oik-plugins.com/author/bobbingwide"
 
