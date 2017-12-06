@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2016
+<?php // (C) Copyright Bobbing Wide 2016,2017
 /**
  * Class: OIK_trace_info
  *
@@ -80,6 +80,20 @@ class OIK_trace_info {
 		$this->display_constant( 'BW_TRACE_LEVEL', "string" ) ;
 		$this->display_constant( 'BW_TRACE_RESET', "bool" );
 		$this->display_constant( "DB_NAME", "string" );	
+		
+		// WPMS stuff
+		$this->display_constant( "MULTISITE", "bool" );
+		$this->display_constant( "SUBDOMAIN_INSTALL", "bool" );
+		$this->display_constant( "DOMAIN_CURRENT_SITE", "string" );
+		$this->display_constant( "PATH_CURRENT_SITE", "string" );
+		$this->display_constant( "SITE_ID_CURRENT_SITE", "string" );
+		$this->display_constant( "BLOG_ID_CURRENT_SITE", "string" ); 
+		$this->display_constant( "SUNRISE", "string" );
+		
+		// These globals are objects.
+		//$this->display_global( "current_site", "string", "Current site" );
+		//$this->display_global( "current_blog", "string", "Current blog" );
+		
 		
 	}
 	
@@ -208,6 +222,7 @@ class OIK_trace_info {
 											, "5.6" => "2018-12-31"
 											, "7.0" => "2018-12-03"
 											, "7.1" => "2019-12-01"
+											, "7.2" => "2020-11-30"
 											); 
 			$eol = $php_eol[ PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ]; 
 			if ( $eol < date( "Y-m-d" ) ) {
@@ -216,7 +231,7 @@ class OIK_trace_info {
 				$message = "End of life for your version of PHP is: $eol";
 			}	
 		} else {
-			$message = "You're out of support by over 5 years!";
+			$message = "You're out of support by over 6 years!";
 		}
 		return( $message ); 
 	}
