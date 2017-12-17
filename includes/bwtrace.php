@@ -347,7 +347,11 @@ function bw_trace_bwechos() {
   static $saved = 0;
   if ( $saved != $bwechos ) {
     $ret = "@#:";
-    $ret .= count( $bwecho_array); 
+		if ( is_array( $bwecho_array ) ) {
+			$ret .= count( $bwecho_array); 
+		} else {
+			$ret .= "0";
+		}
     $ret .= " $bwechos ";
     $ret .= strlen( $bwecho ); 
     $ret .= $bwecho;  

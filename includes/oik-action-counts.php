@@ -216,11 +216,13 @@ function bw_trace_create_hook_links( $action_counts, $heading, $implemented=fals
  * @return integer the number of attached hook functions
  */
 function bw_trace_get_attached_hook_count( $hook ) {
-	$hooks = 0;
+	$count_hooks = 0;
 	global $wp_filter;
 	$hooks = bw_array_get( $wp_filter, $hook, array() );
 	//print_r( $hooks );
-	$count_hooks = count( $hooks );
+	if ( is_array( $hooks ) ) { 
+		$count_hooks = count( $hooks );
+	}	
 	if ( $count_hooks ) {
 		$count_hooks = 0;
 		foreach ( $hooks as $priority => $functions ) {
