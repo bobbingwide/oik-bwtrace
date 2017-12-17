@@ -101,7 +101,7 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_trace_selected_hooks_attached_hooks();
 	bw_trace_add_trace_selected_hooks_backtrace();
 	bw_trace_add_trace_stringwatch();
-	bw_trace_add_trace_anychange();
+	//bw_trace_add_trace_anychange();
 }
 
 /**
