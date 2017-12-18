@@ -1,12 +1,13 @@
 <?php // (C) Copyright Bobbing Wide 2009-2017
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.2.0" );
+define( "BOBBFUNC_INCLUDED", "3.2.1" );
 
 /**
  * HTML output library functions
  * 
  * Library: bobbfunc
  * Depends: oik_boot, bwtrace, class-bobbcomp
+ * Deferred dependencies: oik-sc-help
  * Provides: bobbfunc
  *
  * These functions were part of the oik base plugin in bobbfunc.inc and bobbcomp.inc
@@ -890,8 +891,10 @@ function oik_url( $file=null, $plugin='oik' ) {
  * @param string $shortcode - the shortcode name
  */
 function bw_sc_help( $shortcode="oik" ) {
-  oik_require( "includes/oik-sc-help.inc" );
-  bw_lazy_sc_help( $shortcode );
+  oik_require_lib( "oik-sc-help" );
+	if ( function_exists( "bw_lazy_sc_help" ) ) {
+		bw_lazy_sc_help( $shortcode );
+	}
 }
 
 /**
@@ -901,24 +904,30 @@ function bw_sc_help( $shortcode="oik" ) {
  * @param string $callback - the callback function - which may not be passed 
  */
 function bw_sc_syntax( $shortcode="oik", $callback=null ) {
-  oik_require( "includes/oik-sc-help.inc" );
-  bw_lazy_sc_syntax( $shortcode, $callback );
+  oik_require_lib( "oik-sc-help" );
+	if ( function_exists( "bw_lazy_sc_syntax" ) ) {
+		bw_lazy_sc_syntax( $shortcode, $callback );
+	}
 }
 
 /**
  * Display a shortcode example
  */
 function bw_sc_example( $shortcode="oik", $atts=null ) {
-  oik_require( "includes/oik-sc-help.inc" );
-  bw_lazy_sc_example( $shortcode, $atts );
+  oik_require_lib( "oik-sc-help" );
+	if ( function_exists( "bw_lazy_sc_example" ) ) {
+		bw_lazy_sc_example( $shortcode, $atts );
+	}
 }
 
 /**
  * Display a shortcode snippet
  */
 function bw_sc_snippet( $shortcode="oik" ) {
-  oik_require( "includes/oik-sc-help.inc" );
-  bw_lazy_sc_snippet( $shortcode );
+  oik_require_lib( "oik-sc-help" );
+	if ( function_exists( "bw_lazy_sc_snippet" ) ) {
+		bw_lazy_sc_snippet( $shortcode );
+	}
 }
 
 /**
@@ -1259,12 +1268,17 @@ function bw_wp_error( $code, $text=null, $data=null ) {
 
 /** 
  * Return the global post ID
+ * 
+ * In WordPress 4.9 new logic hides the globals $post from widgets.
+ * 
  * @return ID - the global post ID or 0
  */
 function bw_global_post_id() {
   if ( isset( $GLOBALS['post'] )) {
     $post_id = $GLOBALS['post']->ID;
-  } else {
+  } elseif ( isset( $GLOBALS['id'] ) ) {
+		$post_id = $GLOBALS['id'];
+	} else {
     $post_id = 0;
   }  
   return( $post_id ) ;
@@ -1288,7 +1302,7 @@ function bw_current_post_id( $id=null ) {
   if ( !$current_post_id ) { 
     $current_post_id = bw_global_post_id();
   }
-  //bw_trace2( $current_post_id, "current_post_id" );
+  //bw_trace2( $current_post_id, "current_post_id", true );
   return( $current_post_id ); 
 }
 
