@@ -43,6 +43,7 @@ function bw_trace_anychange_loaded() {
 function bw_trace_anychange( $tag, $arg2=null ) {
 	
 	static $previous_value = null;
+	return $tag;
 	
 	$name = BW_TRACE_ANYCHANGE;
 	if ( defined( $name ) ) { 
