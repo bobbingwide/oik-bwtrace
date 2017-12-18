@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2011-2017
 if ( !defined( "CLASS_OIK_UPDATE_INCLUDED" ) ) {
-define( "CLASS_OIK_UPDATE_INCLUDED", "3.0.2" );
+define( "CLASS_OIK_UPDATE_INCLUDED", "3.2.3" );
 
 /**
  *
@@ -206,7 +206,7 @@ static function oik_query_themes_server( $slug ) {
 	global $bw_registered_themes, $bw_theme_slugs;
 	if ( !isset( $bw_theme_slugs ) ) {
 		$bw_theme_slugs = array();
-		if ( count( $bw_registered_themes) ) {
+		if ( is_array( $bw_registered_themes) && count( $bw_registered_themes ) ) {
 			foreach ( $bw_registered_themes as $key => $value ) {
 				$file = bw_array_get( $value, "file", null );
 				// The next 2 lines are equivalent to $bw_slug = bw_last_path( $file );
