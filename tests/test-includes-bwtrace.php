@@ -217,7 +217,6 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		
 
 /**
-bwtrace.php 221 1:function bw_current_filter() {
 bwtrace.php 236 1:function bw_get_num_queries() {
 bwtrace.php 259 1:function bw_trace_set_savequeries() {
 bwtrace.php 280 1:function bw_get_post_id() {
