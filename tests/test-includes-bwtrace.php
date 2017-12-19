@@ -147,9 +147,22 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		$bw_include_trace_date = $saved;
 	}
 	
-	
-	
-	
+	/** 
+	 * Tests bw_trace_date. 
+	 * To saved effort we pass a silly format string so that the returned date is always the same
+	 */
+	function test_bw_trace_date() {
+		global $bw_include_trace_date;
+		$saved = $bw_include_trace_date;
+		$bw_include_trace_date = false;
+		$actual = bw_trace_date();
+		$this->assertNull( $actual );
+		$bw_include_trace_date = true;
+		$actual = bw_trace_date( "--" );
+		$this->assertEquals( "-- ", $actual );
+		$bw_include_trace_date = $saved;
+	}
+
 	/**
 	 * There are some functions we won't bother to test explicitely
 	 * Function | Notes
@@ -165,8 +178,6 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		
 
 /**
-
-bwtrace.php 143 1:function bw_trace_elapsed( ) {
 bwtrace.php 169 1:function bw_trace_date( $format=DATE_W3C ) {
 bwtrace.php 186 1:function bw_trace_count( $count ) {
 bwtrace.php 203 1:function bw_trace_function( $function ) {
