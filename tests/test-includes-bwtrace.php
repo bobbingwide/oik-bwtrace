@@ -96,7 +96,6 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		$bw_trace_on = $saved;
 	}
 	
-	
 	/**
 	 * Tests anonymize logic for symlinked files
 	 *
@@ -104,10 +103,7 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 	 * That's true in qw/oikcom but not qw/wordpress
 	 */
 	function test_bw_trace_anonymize_symlinked_file() {
-	
 		global $wp_plugin_paths;
-		
-		
 		$saved_paths = $wp_plugin_paths;
 		// key = symlinked directory, data = target directory, where the file really is
 		$wp_plugin_paths = array( ABSPATH . "/wp-content/plugins/oik-bwtrace" => "C:/not/abspath/wp-content/plugins/oik-bwtrace" );
@@ -115,25 +111,42 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		$this->assertEquals( "/wp-content/plugins/oik-bwtrace/oik-bwtrace.php", $file );
 		$wp_plugin_paths = $saved_paths;
 		//print_r( $wp_plugin_paths );
-		
 	}
 	
-	
-	
+	/** 
+	 * Test bw_trace_file_part()
+	 * 
+	 * Note: This test doesn't invoke bw_trace_anonymized_symlinked_file
+	 */
 	function test_bw_trace_file_part() {
     global $bw_trace_anonymous;
-		global $wp_plugin_paths;
 		$saved = $bw_trace_anonymous;
-		$saved_paths = $wp_plugin_paths;
 		$bw_trace_anonymous = true;
-		$wp_plugin_paths = null;
-		$actual = bw_trace_file_part( ABSPATH . "/wp-content/plugins/oik-bwtrace.php" );
-		//print_r( $actual );
+		$actual = bw_trace_file_part( ABSPATH . "\\wp-content\\plugins\\oik-bwtrace.php" );
 		$this->assertEquals( "/wp-content/plugins/oik-bwtrace.php", $actual );
-		$wp_plugin_paths = $saved_paths;
 		$bw_trace_anonymous = $saved;
 		
 	}
+	
+	
+	/**
+	 * How do we test a function that uses microtime?
+	 */
+	
+	function test_bw_trace_elapsed() {
+		global $bw_include_trace_date;
+		$saved = $bw_include_trace_date;
+		$bw_include_trace_date = false;
+		$actual = bw_trace_elapsed();
+		$this->assertNull( $actual );
+		
+		$bw_include_trace_date = true;
+		$actual = bw_trace_elapsed();
+		$actual = str_replace( array( "1", "2", "3", "4", "5", "6", "7", "8", "9" ), array( "0", "0", "0", "0", "0", "0", "0", "0", "0" ), $actual );
+		$this->assertEquals( "0.000000 0.000000 ", $actual );
+		$bw_include_trace_date = $saved;
+	}
+	
 	
 	
 	
@@ -153,8 +166,6 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 
 /**
 
-bwtrace.php 79 1:function bw_trace_file_part( $file ) {
-bwtrace.php 112 1:function bw_trace_anonymize_symlinked_file( $file ) {
 bwtrace.php 143 1:function bw_trace_elapsed( ) {
 bwtrace.php 169 1:function bw_trace_date( $format=DATE_W3C ) {
 bwtrace.php 186 1:function bw_trace_count( $count ) {
