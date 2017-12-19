@@ -175,6 +175,31 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		$bw_include_trace_count = $saved;
 	}
 	
+	function test_bw_trace_function() {
+		global $bw_trace_functions;
+		$bw_trace_functions['test_bw_trace_function'] = 1;
+		$actual = bw_trace_function( 'test_bw_trace_function' );
+		$this->assertEquals( 'test_bw_trace_function(1) ', $actual );
+	}
+	
+	function test_bw_current_filter() {
+		global $wp_current_filter;
+		$saved = $wp_current_filter;
+		$wp_current_filter = array();
+		$actual = bw_current_filter();
+		$this->assertEquals( '', $actual );
+		$wp_current_filter[] = "test";
+		$actual = bw_current_filter();
+		$this->assertEquals( "test", $actual );
+		$wp_current_filter[] = "bw_current_filter";
+		$actual = bw_current_filter();
+		$this->assertEquals( "test,bw_current_filter", $actual );
+		$wp_current_filter = $saved;
+	}
+		
+	
+	
+	
 	
 
 	/**
@@ -192,8 +217,6 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		
 
 /**
-bwtrace.php 186 1:function bw_trace_count( $count ) {
-bwtrace.php 203 1:function bw_trace_function( $function ) {
 bwtrace.php 221 1:function bw_current_filter() {
 bwtrace.php 236 1:function bw_get_num_queries() {
 bwtrace.php 259 1:function bw_trace_set_savequeries() {
