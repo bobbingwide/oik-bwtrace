@@ -252,28 +252,13 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		$this->restore_bw_action_options();
 	}
 	
-		
-	
-		
-	
-	
-	/**
-oik-bwtrace.php 148 1:function bw_trace_plugin_startup() {
-oik-bwtrace.php 232 1:function oik_bwtrace_plugins_loaded() {
-oik-bwtrace.php 233 7:  if ( function_exists( "is_admin" ) ) {
-oik-bwtrace.php 267 22: * In order for this function to have been invoked the oik-lib logic must be in place.
-oik-bwtrace.php 268 84: * So we can happily register the libraries in the libs folder using the available functions and methods
-oik-bwtrace.php 270 45: * Here we're determining the subset of oik functions that are actually used by oik-bwtrace.
-oik-bwtrace.php 277 1:function oik_bwtrace_query_libs( $libraries ) {
-oik-bwtrace.php 310 1:function oik_bwtrace_admin_menu() {
-oik-bwtrace.php 322 47: * Some parts of oik-bwtrace are dependent on functions in the oik base plugin.
-oik-bwtrace.php 323 13: * If these functions are not available then it won't do anything.
-oik-bwtrace.php 329 1:function oik_bwtrace_loaded() {
-oik-bwtrace.php 335 8:  if ( !function_exists( 'oik_require' ) ) {
-oik-bwtrace.php 349 7:  if ( function_exists( "oik_require2" )) {
-oik-bwtrace.php 380 7:  if ( function_exists( "add_action" ) ) {
-	
-	*/
+	/** 
+	 * We can probably get away with saying that the following functions are tested implicitely.
+	 * - oik_bwtrace_plugins_loaded
+	 * - oik_bwtrace_query_libs
+	 * - oik_bwtrace_admin_menu
+	 * - oik_bwtrace_loaded
+	 */
 	
 	
 }

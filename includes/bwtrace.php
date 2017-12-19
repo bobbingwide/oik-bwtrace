@@ -110,11 +110,12 @@ function bw_trace_file_part( $file ) {
  * @return string the anonymized file
  */
 function bw_trace_anonymize_symlinked_file( $file ) {
+	
   $fil = str_replace( "\\", "/", $file );
 	//$fil = strtolower( $fil );
   global $wp_plugin_paths;
 	
-	if ( count( $wp_plugin_paths ) ) {
+	if ( is_array( $wp_plugin_paths) && count( $wp_plugin_paths ) ) {
 	  foreach ( $wp_plugin_paths as $plugin => $real_plugin ) {
 			if ( !$real_plugin ) {
 				// That's rather unexpected. But it's not safe to trace here!

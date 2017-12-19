@@ -81,6 +81,108 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		$this->assertEquals( $atts, array( '0' ) );
 	}
 */
+
+	 
+	/**
+	 * Test turning trace on and off
+	 */
+	function test_bw_trace_on_off() {
+		global $bw_trace_on;
+		$saved = $bw_trace_on;
+		bw_trace_on();
+		$this->assertTrue( $bw_trace_on );
+		bw_trace_off();
+		$this->assertFalse( $bw_trace_on );
+		$bw_trace_on = $saved;
+	}
+	
+	
+	function test_bw_trace_anonymize_symlinked_file() {
+	
+		global $wp_plugin_paths;
+		
+		
+		$saved_paths = $wp_plugin_paths;
+		// key = symlinked directory, data = target directory, where the file really is
+		$wp_plugin_paths = array( ABSPATH . "/wp-content/plugins/oik-bwtrace" => "C:/apache/htdocs/wordpress/wp-content/plugins/oik-bwtrace" );
+		$file = bw_trace_anonymize_symlinked_file( "C:/apache/htdocs/wordpress/wp-content/plugins/oik-bwtrace/oik-bwtrace.php" );
+		$this->assertEquals( "/wp-content/plugins/oik-bwtrace/oik-bwtrace.php", $file );
+		$wp_plugin_paths = $saved_paths;
+		//print_r( $wp_plugin_paths );
+		
+	}
+	
+	
+	
+	function test_bw_trace_file_part() {
+    global $bw_trace_anonymous;
+		global $wp_plugin_paths;
+		$saved = $bw_trace_anonymous;
+		$saved_paths = $wp_plugin_paths;
+		$bw_trace_anonymous = true;
+		$wp_plugin_paths = null;
+		$actual = bw_trace_file_part( ABSPATH . "/wp-content/plugins/oik-bwtrace.php" );
+		//print_r( $actual );
+		$this->assertEquals( "/wp-content/plugins/oik-bwtrace.php", $actual );
+		$wp_plugin_paths = $saved_paths;
+		$bw_trace_anonymous = $saved;
+		
+	}
+	
+	
+	
+	/**
+	 * There are some functions we won't bother to test explicitely
+	 * Function | Notes
+	 * --------- | -----------------------------------
+	 * bw_trace_inc_init | sets some hardcoded values in $bw_trace_options and may perform trace reset. It's called by bw_lazy_trace_config_startup from bw_trace_config_startup.
+	 * bw_getlocale | See bw_trace_trace_startup
+	 */
+	 
+	 
+		
+	 
+	 
+		
+
+/**
+
+bwtrace.php 79 1:function bw_trace_file_part( $file ) {
+bwtrace.php 112 1:function bw_trace_anonymize_symlinked_file( $file ) {
+bwtrace.php 143 1:function bw_trace_elapsed( ) {
+bwtrace.php 169 1:function bw_trace_date( $format=DATE_W3C ) {
+bwtrace.php 186 1:function bw_trace_count( $count ) {
+bwtrace.php 203 1:function bw_trace_function( $function ) {
+bwtrace.php 221 1:function bw_current_filter() {
+bwtrace.php 236 1:function bw_get_num_queries() {
+bwtrace.php 259 1:function bw_trace_set_savequeries() {
+bwtrace.php 280 1:function bw_get_post_id() {
+bwtrace.php 302 1:function bw_trace_post_id() {
+bwtrace.php 320 1:function bw_get_memory_usage() {
+bwtrace.php 345 1:function bw_trace_bwechos() {
+bwtrace.php 372 1:function bw_trace_context() {
+bwtrace.php 405 1:function bw_set_context( $key, $value=NULL ) {
+bwtrace.php 419 1:function bw_trace_context_all( $function=NULL, $line=NULL, $file=NULL ) {
+bwtrace.php 431 1:function bw_trace_file_count() {
+bwtrace.php 451 1:function bw_trace_print_r( $text ) {
+bwtrace.php 481 1:function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
+bwtrace.php 579 1:function bw_flf( $function, $lineno, $file, $count, $text, $text_label = NULL, $level=BW_TRACE_ALWAYS ) {
+bwtrace.php 606 1:function bw_array_inc( &$array, $index ) {
+bwtrace.php 626 1:function bw_lazy_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=__FILE__, $text_label=NULL, $level=BW_TRACE_ALWAYS ) {
+bwtrace.php 656 1:function bw_trace_file_name( $bw_trace_options, $ajax=false ) {
+bwtrace.php 681 1:function bw_trace_file() {
+bwtrace.php 710 1:function bw_trace_batch() {
+bwtrace.php 725 1:function bw_trace_log( $line ) {
+bwtrace.php 764 1:function bw_write( $file, $line ) {
+bwtrace.php 804 1:function bw_trace_reset() {
+bwtrace.php 822 1:function bw_trace_errors( $level ) {
+bwtrace.php 837 3:  function bw_array_get( $array = NULL, $index, $default=NULL ) {
+bwtrace.php 936 1:function bw_lazy_backtrace() {
+bwtrace.php 1009 1:function bw_lazy_trace2( $value=null, $text=null, $show_args=true, $level=null ) {
+bwtrace.php 1066 1:function bw_list_trace_levels() {
+bwtrace.php 1087 1:function bw_trace_trace_startup() {
+
+*/
 	 
 }
 	
