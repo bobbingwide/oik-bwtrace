@@ -162,6 +162,20 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		$this->assertEquals( "-- ", $actual );
 		$bw_include_trace_date = $saved;
 	}
+	
+	function test_bw_trace_count() {
+		global $bw_include_trace_count;
+		$saved = $bw_include_trace_count;
+		$bw_include_trace_count = false;
+		$actual = bw_trace_count( 42 );
+		$this->assertNull( $actual );
+		$bw_include_trace_count = true;
+		$actual = bw_trace_count( 42 );
+		$this->assertEquals( "42 ", $actual );
+		$bw_include_trace_count = $saved;
+	}
+	
+	
 
 	/**
 	 * There are some functions we won't bother to test explicitely
@@ -178,7 +192,6 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		
 
 /**
-bwtrace.php 169 1:function bw_trace_date( $format=DATE_W3C ) {
 bwtrace.php 186 1:function bw_trace_count( $count ) {
 bwtrace.php 203 1:function bw_trace_function( $function ) {
 bwtrace.php 221 1:function bw_current_filter() {
