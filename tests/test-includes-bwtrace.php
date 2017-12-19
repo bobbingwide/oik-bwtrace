@@ -97,6 +97,12 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 	}
 	
 	
+	/**
+	 * Tests anonymize logic for symlinked files
+	 *
+	 * This really needs ABSPATH to be different from C:/apache/htdocs/wordpress
+	 * That's true in qw/oikcom but not qw/wordpress
+	 */
 	function test_bw_trace_anonymize_symlinked_file() {
 	
 		global $wp_plugin_paths;
@@ -104,8 +110,8 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		
 		$saved_paths = $wp_plugin_paths;
 		// key = symlinked directory, data = target directory, where the file really is
-		$wp_plugin_paths = array( ABSPATH . "/wp-content/plugins/oik-bwtrace" => "C:/apache/htdocs/wordpress/wp-content/plugins/oik-bwtrace" );
-		$file = bw_trace_anonymize_symlinked_file( "C:/apache/htdocs/wordpress/wp-content/plugins/oik-bwtrace/oik-bwtrace.php" );
+		$wp_plugin_paths = array( ABSPATH . "/wp-content/plugins/oik-bwtrace" => "C:/not/abspath/wp-content/plugins/oik-bwtrace" );
+		$file = bw_trace_anonymize_symlinked_file( "C:/not/abspath/wp-content/plugins/oik-bwtrace/oik-bwtrace.php" );
 		$this->assertEquals( "/wp-content/plugins/oik-bwtrace/oik-bwtrace.php", $file );
 		$wp_plugin_paths = $saved_paths;
 		//print_r( $wp_plugin_paths );
