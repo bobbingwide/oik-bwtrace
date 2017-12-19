@@ -1,0 +1,394 @@
+<input type="hidden" id="closedpostboxesnonce" name="closedpostboxesnonce" value="nonsense" />
+<div class="wrap">
+<h2>action options</h2>
+<div class="metabox-holder">
+<div class="postbox-container w70pc">
+<div class="meta-box-sortables ui-sortable">
+<div class="postbox " id="oik_action_options">
+<button type="button" class="handlediv" aria-expanded="true">
+<span class="screen-reader-text">Toggle panel: Options</span>
+<span class="toggle-indicator" aria-hidden="true">
+</span>
+</button>
+<h3 class="hndle">Options</h3>
+<div class="inside">
+<form method="post" action="options.php">
+<table class="form-table">
+<input type='hidden' name='option_page' value='bw_action_options_options' />
+<input type="hidden" name="action" value="update" />
+<input type="hidden" id="_wpnonce" name="_wpnonce" value="nonsense" />
+<input type="hidden" name="_wp_http_referer" value="/" />
+<tr>
+<td>
+<label for="bw_action_options[count]">Count action hooks and filters</label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[count]" value="0" />
+<input type="checkbox" name="bw_action_options[count]" id="bw_action_options[count]" checked="checked"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[trace_deprecated]">Trace deprecated messages</label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[trace_deprecated]" value="0" />
+<input type="checkbox" name="bw_action_options[trace_deprecated]" id="bw_action_options[trace_deprecated]" checked="checked"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[trace_errors]">Trace Error, Warning and Notice messages</label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[trace_errors]" value="0" />
+<input type="checkbox" name="bw_action_options[trace_errors]" id="bw_action_options[trace_errors]" checked="checked"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[trace_wp_action]">Trace 'wp' action</label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[trace_wp_action]" value="0" />
+<input type="checkbox" name="bw_action_options[trace_wp_action]" id="bw_action_options[trace_wp_action]"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[trace_wp_rewrite]">Trace 'wp' global wp_rewrite </label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[trace_wp_rewrite]" value="0" />
+<input type="checkbox" name="bw_action_options[trace_wp_rewrite]" id="bw_action_options[trace_wp_rewrite]"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[trace_included_files]">Trace 'shutdown' included files</label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[trace_included_files]" value="0" />
+<input type="checkbox" name="bw_action_options[trace_included_files]" id="bw_action_options[trace_included_files]" checked="checked"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[trace_saved_queries]">Trace 'shutdown' saved queries</label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[trace_saved_queries]" value="0" />
+<input type="checkbox" name="bw_action_options[trace_saved_queries]" id="bw_action_options[trace_saved_queries]" checked="checked"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[trace_output_buffer]">Trace 'shutdown' output buffer</label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[trace_output_buffer]" value="0" />
+<input type="checkbox" name="bw_action_options[trace_output_buffer]" id="bw_action_options[trace_output_buffer]" checked="checked"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[trace_functions]">Trace 'shutdown' trace functions count</label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[trace_functions]" value="0" />
+<input type="checkbox" name="bw_action_options[trace_functions]" id="bw_action_options[trace_functions]" checked="checked"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[trace_status_report]">Trace 'shutdown' status report and log in summary file</label>
+</td>
+<td>
+<input type="hidden" name="bw_action_options[trace_status_report]" value="0" />
+<input type="checkbox" name="bw_action_options[trace_status_report]" id="bw_action_options[trace_status_report]" checked="checked"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[hooks]">Other hooks to trace</label>
+</td>
+<td>
+<textarea rows="5" cols="80" name="bw_action_options[hooks]">
+</textarea>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[results]">Filter results to trace</label>
+</td>
+<td>
+<textarea rows="5" cols="80" name="bw_action_options[results]">
+</textarea>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[post_hooks]">Trace the global post object</label>
+</td>
+<td>
+<textarea rows="5" cols="80" name="bw_action_options[post_hooks]">
+</textarea>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[hook_funcs]">Trace attached hook functions</label>
+</td>
+<td>
+<textarea rows="5" cols="80" name="bw_action_options[hook_funcs]">
+</textarea>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[backtrace]">Hooks to debug backtrace</label>
+</td>
+<td>
+<textarea rows="5" cols="80" name="bw_action_options[backtrace]">
+</textarea>
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_action_options[stringwatch]">'String watch' for this string</label>
+</td>
+<td>
+<textarea rows="5" cols="80" name="bw_action_options[stringwatch]">
+</textarea>
+</td>
+</tr>
+</table>
+<p>
+<input type="submit" name="ok" value="Save changes" class="button-primary" />
+</p>
+</form>
+</div>
+</div>
+<div class="postbox " id="oik_trace_info">
+<button type="button" class="handlediv" aria-expanded="true">
+<span class="screen-reader-text">Toggle panel: Information</span>
+<span class="toggle-indicator" aria-hidden="true">
+</span>
+</button>
+<h3 class="hndle">Information</h3>
+<div class="inside">
+<table class="widefat">
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$wp_version</td>
+<td>190</td>
+<td>WordPress version</td>
+</tr>
+<tr>
+<td>PHP_VERSION</td>
+<td>195</td>
+<td>End of life for your version of PHP is: 2020-11-30</td>
+</tr>
+<tr>
+<td>WP_DEBUG</td>
+<td>200</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>WP_DEBUG_LOG</td>
+<td>206</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>WP_DEBUG_DISPLAY</td>
+<td>212</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>error_reporting</td>
+<td>218</td>
+<td>http://php.net/manual/en/errorfunc.configuration.php#ini.error-reporting</td>
+</tr>
+<tr>
+<td>display_errors</td>
+<td>223</td>
+<td>http://php.net/manual/en/errorfunc.configuration.php#ini.display-errors</td>
+</tr>
+<tr>
+<td>log_errors</td>
+<td>228</td>
+<td>http://php.net/manual/en/errorfunc.configuration.php#ini.log-errors</td>
+</tr>
+<tr>
+<td>error_log</td>
+<td>233</td>
+<td>http://php.net/manual/en/errorfunc.configuration.php#ini.error-log</td>
+</tr>
+<tr>
+<td>output_buffering</td>
+<td>238</td>
+<td>Set to off for better detection of Notice: Undefined messages</td>
+</tr>
+<tr>
+<td>implicit_flush</td>
+<td>243</td>
+<td>http://php.net/manual/en/outcontrol.configuration.php#ini.implicit-flush</td>
+</tr>
+<tr>
+<td>SCRIPT_DEBUG</td>
+<td>248</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>JETPACK_DEV_DEBUG</td>
+<td>254</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>Multi site</td>
+<td>260</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>WP_SITEURL</td>
+<td>266</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>siteurl</td>
+<td>272</td>
+<a href="https://qw/src">https://qw/src</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>WP_HOME</td>
+<td>280</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>home</td>
+<td>286</td>
+<a href="https://qw/src">https://qw/src</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>ABSPATH</td>
+<td>294</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>WP_MEMORY_LIMIT</td>
+<td>300</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>BW_TRACE_CONFIG_STARTUP</td>
+<td>306</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>BW_TRACE_ON</td>
+<td>312</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>BW_COUNT_ON</td>
+<td>318</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>BW_TRACE_LEVEL</td>
+<td>324</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>BW_TRACE_RESET</td>
+<td>330</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>DB_NAME</td>
+<td>336</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>MULTISITE</td>
+<td>342</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>SUBDOMAIN_INSTALL</td>
+<td>348</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>DOMAIN_CURRENT_SITE</td>
+<td>354</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>PATH_CURRENT_SITE</td>
+<td>360</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>SITE_ID_CURRENT_SITE</td>
+<td>366</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>BLOG_ID_CURRENT_SITE</td>
+<td>372</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>SUNRISE</td>
+<td>378</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!--start ecolumn-->
+</div>
+</div>
+</div>
+<!--end ecolumn-->
+<div class="clear">
+</div>
+</div>

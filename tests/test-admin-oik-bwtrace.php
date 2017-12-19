@@ -54,6 +54,196 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->switch_to_locale( 'en_GB' );
 	}
 	
+	function test_bw_action_options_add_page() {
+		wp_set_current_user( 1 );
+		$this->unset_submenu();
+		$this->switch_to_locale( 'en_GB' );
+		bw_action_options_add_page();
+		global $submenu;
+		$html = $this->arraytohtml( $submenu );
+		//$this->generate_expected_file( $html );
+		$this->assertArrayEqualsFile( $html );
+	}
+	
+	function test_bw_action_options_add_page_bb_BB() {
+		wp_set_current_user( 1 );
+		$this->unset_submenu();
+		$this->switch_to_locale( 'bb_BB' );
+		bw_action_options_add_page();
+		global $submenu;
+		$html = $this->arraytohtml( $submenu );
+		//$this->generate_expected_file( $html );
+		$this->assertArrayEqualsFile( $html );
+		$this->switch_to_locale( 'en_GB' );
+	}
+	
+	function test_bw_action_options_do_page() {
+		//$this->setExpectedDeprecated( "bw_translate" );
+		$_SERVER['REQUEST_URI'] = "/";
+		$this->update_action_options();
+		$this->switch_to_locale( 'en_GB' );
+		ob_start(); 
+		bw_action_options_do_page();
+		$html = ob_get_contents();
+		ob_end_clean();
+		$this->assertNotNull( $html );
+		$html = $this->replace_admin_url( $html );
+		$html = $this->replace_home_url( $html );
+		$html_array = $this->tag_break( $html );
+		$this->assertNotNull( $html_array );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array, "closedpostboxesnonce", "closedpostboxesnonce" );
+		$html_array = $this->replace_oik_trace_info( $html_array );
+		//$this->generate_expected_file( $html_array );
+		$this->assertArrayEqualsFile( $html_array );
+	}
+	
+	function test_bw_action_options_do_page_bb_BB() {
+		$_SERVER['REQUEST_URI'] = "/";
+		$this->update_action_options();
+		$this->switch_to_locale( 'bb_BB' );
+		ob_start(); 
+		bw_action_options_do_page();
+		$html = ob_get_contents();
+		ob_end_clean();
+		$this->assertNotNull( $html );
+		$html = $this->replace_admin_url( $html );
+		$html = $this->replace_home_url( $html );
+		$html_array = $this->tag_break( $html );
+		$this->assertNotNull( $html_array );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array, "closedpostboxesnonce", "closedpostboxesnonce" );
+		$html_array = $this->replace_oik_trace_info( $html_array );
+		//$this->generate_expected_file( $html_array );
+		$this->assertArrayEqualsFile( $html_array );
+		$this->switch_to_locale( 'en_GB' );
+	}
+	
+	function update_action_options() {
+		$bw_action_options = get_option( "bw_action_options" );
+		$bw_action_options['count'] = 'on';
+    $bw_action_options['trace_deprecated'] = 'on';
+    $bw_action_options['trace_errors'] = 'on';
+    $bw_action_options['trace_wp_action'] = '0';
+    $bw_action_options['trace_wp_rewrite'] = '0';
+    $bw_action_options['trace_included_files'] = 'on';
+    $bw_action_options['trace_saved_queries'] = 'on';
+    $bw_action_options['trace_output_buffer'] = 'on';
+    $bw_action_options['trace_functions'] = 'on';
+    $bw_action_options['trace_status_report'] = 'on';
+    $bw_action_options['hooks'] = '';
+    $bw_action_options['results'] = '';
+    $bw_action_options['post_hooks'] = '';
+    $bw_action_options['hook_funcs'] = '';
+    $bw_action_options['backtrace'] = '';
+    $bw_action_options['stringwatch'] = '';
+		update_option( "bw_action_options", $bw_action_options );
+	}
+	
+	/** 
+	 * Tests the trace options page
+	 */
+	function test_bw_trace_options_do_page() {
+	
+		$this->setExpectedDeprecated( "bw_translate" );
+		$_SERVER['REQUEST_URI'] = "/";
+		$this->update_trace_options();
+		$this->switch_to_locale( 'en_GB' );
+		ob_start(); 
+		bw_trace_options_do_page();
+		$html = ob_get_contents();
+		ob_end_clean();
+		$this->assertNotNull( $html );
+		$html = $this->replace_admin_url( $html );
+		$html = $this->replace_home_url( $html );
+		$html_array = $this->tag_break( $html );
+		$this->assertNotNull( $html_array );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array, "closedpostboxesnonce", "closedpostboxesnonce" );
+		$html_array = $this->replace_oik_trace_info( $html_array );
+		//$this->generate_expected_file( $html_array );
+		$this->assertArrayEqualsFile( $html_array );
+	}
+	
+	/** 
+	 * Tests the trace options page
+	 */
+	function test_bw_trace_options_do_page_bb_BB() {
+	
+		$this->setExpectedDeprecated( "bw_translate" );
+		$_SERVER['REQUEST_URI'] = "/";
+		$this->update_trace_options();
+		$this->switch_to_locale( 'bb_BB' );
+		ob_start(); 
+		bw_trace_options_do_page();
+		$html = ob_get_contents();
+		ob_end_clean();
+		$this->assertNotNull( $html );
+		$html = $this->replace_admin_url( $html );
+		$html = $this->replace_home_url( $html );
+		$html_array = $this->tag_break( $html );
+		$this->assertNotNull( $html_array );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array, "closedpostboxesnonce", "closedpostboxesnonce" );
+		$html_array = $this->replace_oik_trace_info( $html_array );
+		$this->generate_expected_file( $html_array );
+		$this->assertArrayEqualsFile( $html_array );
+		
+		$this->switch_to_locale( 'en_GB' );
+	}
+	
+	function update_trace_options() {
+		$bw_trace_options = get_option( "bw_trace_options" );
+		$bw_trace_options['file'] = 'bwphpunit.loh';
+		$bw_trace_options['reset'] = 'on';
+		$bw_trace_options['trace'] = '0';
+		$bw_trace_options['file_ajax'] = 'bwphpunit.ajax';
+		$bw_trace_options['reset_ajax'] = 'on';
+		$bw_trace_options['trace_ajax'] = 'on'; 
+		$bw_trace_options['level'] = BW_TRACE_INFO; // 16
+    $bw_trace_options['qualified'] = 'on';
+    $bw_trace_options['count'] = 'on';
+    $bw_trace_options['date'] = 'on';
+    $bw_trace_options['filters'] = 'on';
+    $bw_trace_options['num_queries'] = 'on';
+    $bw_trace_options['post_id'] = 'on';
+    $bw_trace_options['memory'] = 'on';
+    $bw_trace_options['files'] = 'on';
+    $bw_trace_options['ip'] = php_sapi_name();
+		update_option( "bw_trace_options", $bw_trace_options );
+	}
+	
+	/**
+	 * Replace the values in the oik_trace_info table with consistent values
+	 */
+	function replace_oik_trace_info( $html_array ) {
+		$found_oik_trace_info = false; 
+		$count_td = 0; 				 
+		foreach ( $html_array as $index => $line ) {
+			
+			if ( !$found_oik_trace_info ) {
+				$found_oik_trace_info = ( false !== strpos( $line, '<div class="postbox " id="oik_trace_info">' ) );
+			}
+			if ( $found_oik_trace_info ) {
+				if ( 0 === strpos( $line, "<td>" ) ) {
+					$count_td++;
+					switch ( $count_td ) {
+						case 0:
+						case 1:
+						break;
+					
+						case 2:
+							$html_array[$index] = "<td>$index</td>";
+							break;
+						
+						case 3:
+							$count_td = 0;
+					}
+				}
+			}
+		}
+		return $html_array;
+	}
 	
 	function unset_submenu() {	
 		unset( $GLOBALS['submenu'] );
@@ -78,14 +268,6 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 	
 	/**
 	
-oik-bwtrace.php 49 1:function bw_trace_options_add_page() {
-oik-bwtrace.php 60 1:function bw_action_options_add_page() {
-oik-bwtrace.php 71 1:function bw_action_options_do_page() {
-oik-bwtrace.php 86 1:function oik_action_options() {
-oik-bwtrace.php 104 65:  bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' trace functions count", $options, 'trace_functions' );
-oik-bwtrace.php 104 100:  bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' trace functions count", $options, 'trace_functions' );
-oik-bwtrace.php 110 61: bw_textarea_arr( "bw_action_options", "Trace attached hook functions", $options, "hook_funcs", 80 );
-oik-bwtrace.php 120 1:function oik_action_notes() {
 oik-bwtrace.php 147 1:function bw_trace_options_do_page() {
 oik-bwtrace.php 164 1:function oik_trace_options() {
 oik-bwtrace.php 214 1:function oik_trace_notes() {

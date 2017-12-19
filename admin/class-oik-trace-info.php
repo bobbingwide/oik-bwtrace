@@ -22,7 +22,8 @@ class OIK_trace_info {
 	function display_info() {
     stag( "table", "widefat" );
     stag( "thead" ); 
-		bw_tablerow( bw_as_array( "Field,Value,Notes" ), "tr", "th" );
+		$headings = array( __( "Field", "oik-bwtrace" ), __( "Value", "oik-bwtrace" ), __( "Notes", "oik-bwtrace" ) );
+		bw_tablerow( $headings, "tr", "th" );
 		etag( "thead" );
 		stag( "tbody" );
 		$this->display_fields();

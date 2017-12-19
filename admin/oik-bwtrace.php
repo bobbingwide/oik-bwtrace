@@ -69,9 +69,9 @@ function bw_action_options_add_page() {
  * 
  */
 function bw_action_options_do_page() {
-  oik_menu_header( "action options", "w70pc" );
-  oik_box( null, null, "Options", "oik_action_options" ); 
-  oik_box( null, null, "Information", "oik_trace_info" );
+  BW_::oik_menu_header( __( "action options", "oik-bwtrace" ), "w70pc" );
+  BW_::oik_box( null, null, __( "Options", "oik-bwtrace" ) , "oik_action_options" ); 
+  BW_::oik_box( null, null, __( "Information", "oik-bwtrace" ), "oik_trace_info" );
   oik_menu_footer();
   bw_flush();
 }
@@ -90,55 +90,30 @@ function oik_action_options() {
   bw_flush();
   settings_fields('bw_action_options_options'); 
   
-  //bw_textfield_arr( "bw_action_options", "Action file", $options, 'file', 60 );
-  //bw_checkbox_arr( "bw_action_options", "Trace actions", $options, 'actions' );
-  //bw_checkbox_arr( "bw_action_options", "Trace immediate actions", $options, 'immediate' );
-  bw_checkbox_arr( "bw_action_options", "Count action hooks and filters", $options, 'count' );
-  bw_checkbox_arr( "bw_action_options", "Trace deprecated messages", $options, 'trace_deprecated' );
-	bw_checkbox_arr( "bw_action_options", "Trace Error, Warning and Notice messages", $options, 'trace_errors' );
-  bw_checkbox_arr( "bw_action_options", "Trace 'wp' action", $options, 'trace_wp_action' );
-  bw_checkbox_arr( "bw_action_options", "Trace 'wp' global wp_rewrite ", $options, 'trace_wp_rewrite' );
-  bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' included files", $options, 'trace_included_files' );
-  bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' saved queries", $options, 'trace_saved_queries' );
-  bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' output buffer", $options, 'trace_output_buffer' );
-  bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' trace functions count", $options, 'trace_functions' );
-  bw_checkbox_arr( "bw_action_options", "Trace 'shutdown' status report and log in summary file", $options, 'trace_status_report' );
+  bw_checkbox_arr( "bw_action_options", __( "Count action hooks and filters", "oik-bwtrace" ), $options, 'count' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace deprecated messages", "oik-bwtrace" ), $options, 'trace_deprecated' );
+	bw_checkbox_arr( "bw_action_options", __( "Trace Error, Warning and Notice messages", "oik-bwtrace" ), $options, 'trace_errors' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace 'wp' action", "oik-bwtrace" ), $options, 'trace_wp_action' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace 'wp' global wp_rewrite ", "oik-bwtrace" ), $options, 'trace_wp_rewrite' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' included files", "oik-bwtrace" ), $options, 'trace_included_files' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' saved queries", "oik-bwtrace" ), $options, 'trace_saved_queries' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' output buffer", "oik-bwtrace" ), $options, 'trace_output_buffer' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' trace functions count", "oik-bwtrace" ), $options, 'trace_functions' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' status report and log in summary file", "oik-bwtrace" ), $options, 'trace_status_report' );
 	
-	bw_textarea_arr( "bw_action_options", "Other hooks to trace", $options, "hooks", 80 );
-	bw_textarea_arr( "bw_action_options", "Filter results to trace", $options, "results", 80 );
-	bw_textarea_arr( "bw_action_options", "Trace the global post object", $options, "post_hooks", 80 );
-	bw_textarea_arr( "bw_action_options", "Trace attached hook functions", $options, "hook_funcs", 80 );
-	bw_textarea_arr( "bw_action_options", "Hooks to debug backtrace", $options, "backtrace", 80 );
-	bw_textarea_arr( "bw_action_options", "'String watch' for this string", $options, "stringwatch", 80 );
+	BW_::bw_textarea_arr( "bw_action_options", __( "Other hooks to trace", "oik-bwtrace" ), $options, "hooks", 80 );
+	BW_::bw_textarea_arr( "bw_action_options", __( "Filter results to trace", "oik-bwtrace" ), $options, "results", 80 );
+	BW_::bw_textarea_arr( "bw_action_options", __( "Trace the global post object", "oik-bwtrace" ), $options, "post_hooks", 80 );
+	BW_::bw_textarea_arr( "bw_action_options", __( "Trace attached hook functions", "oik-bwtrace" ), $options, "hook_funcs", 80 );
+	BW_::bw_textarea_arr( "bw_action_options", __( "Hooks to debug backtrace", "oik-bwtrace" ), $options, "backtrace", 80 );
+	BW_::bw_textarea_arr( "bw_action_options", __( "'String watch' for this string", "oik-bwtrace" ), $options, "stringwatch", 80 );
   
   //bw_tablerow( array( "", "<input type=\"submit\" name=\"ok\" value=\"Save changes\" class=\"button-primary\"/>") ); 
   etag( "table" ); 			
-  p( isubmit( "ok", "Save changes", null, "button-primary" ) );
+  BW_::p( isubmit( "ok", __( "Save changes", "oik-bwtrace" ), null, "button-primary" ) );
   etag( "form" );
 }  
   
-function oik_action_notes() {  
-  p( "The actions output produced by " .bw_oik(). " actions can be used to find the sequence that actions are performed." );
-  p( "It needs to be used in conjunction with the trace facility.");
-  //p( "The oik actions should <b>not</b> need to be activated on a live site.");
-  //p( "If you do need to activate it, only do so for a short period of time." );
- 
-  //p( "You will need to specify the action file name (e.g. bwaction.loh )" );
-  //p( "Set actions to 'on' when you want to trace action processing, 'off' otherwise.");
-  p( "Set Count action hooks and filters to count the number of times each action or filter hook is invoked" );
-  //p( "Set immediate actions to 'on' when you want to trace ALL actions and filters." );
-  //p( "Note: Immediate action tracing will replace the current version of wp-includes/plugin.php with one that has been modified to include tracing." );
-  //p( "When you deselect the check box then the original file is restored." );
-  //p( "The code should not break your site after a WordPress upgrade." ); 
-  
-  p( "You may find the most recent trace action output at..." );
-  $bw_action_url = bw_trace_url( 'bw_action_options' );
-  
-  alink( NULL, $bw_action_url, $bw_action_url, "View action output in your browser.");
-  p( "The trace action log is reset at the same time as the trace log." );
-  
-  bw_flush();
-}
 
 /**
  * Display the oik trace options page
