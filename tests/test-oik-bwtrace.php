@@ -82,6 +82,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		$bw_trace_options['trace'] = '0';
 		$bw_trace_options['reset'] = 'on';
 		$bw_trace_options['reset_ajax'] = 'on';
+		$bw_trace_options['level'] = BW_TRACE_INFO; // 16
 	} 
 	
 	/**
@@ -112,11 +113,44 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	
 	}
 	
+	/** 
+	 * Tests bw_trace_level
+	 * 
+	 */
+	function test_bw_trace_level() {
+	 	global $bw_trace_level;
+		$this->save_bw_trace_options(); 
+		$this->init_bw_trace_options();
+		$bw_trace_level = BW_TRACE_VERBOSE;
+		$level = bw_trace_level();
+		$this->assertEquals( BW_TRACE_VERBOSE, $level );
+		
+		$bw_trace_level = null;
+		$level = bw_trace_level();
+		$this->assertEquals( BW_TRACE_INFO, $level );
+		
+		$this->restore_bw_trace_options();
+	}
 	
 	/**
-oik-bwtrace.php 80 1:function bw_trace_reset_status( $bw_trace_ip, $tracing ) {
-oik-bwtrace.php 114 1:function bw_trace_level() {
-oik-bwtrace.php 130 1:function bw_torf( $array, $option ) {
+	 * Tests bw_torf
+	 */
+	function test_bw_torf() {
+		global $bw_trace_options;
+		$this->save_bw_trace_options(); 
+		$this->init_bw_trace_options();
+		$ajax = bw_torf( $bw_trace_options, 'trace_ajax' );
+		$this->assertTrue( $ajax );
+		$trace = bw_torf( $bw_trace_options, 'trace' );
+		$this->assertFalse( $trace );
+		$this->restore_bw_trace_options();
+	}
+		
+	
+		
+	
+	
+	/**
 oik-bwtrace.php 148 1:function bw_trace_plugin_startup() {
 oik-bwtrace.php 232 1:function oik_bwtrace_plugins_loaded() {
 oik-bwtrace.php 233 7:  if ( function_exists( "is_admin" ) ) {
