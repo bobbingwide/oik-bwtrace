@@ -255,7 +255,7 @@ function oik_bwtrace_plugins_loaded() {
 	 * Load admin logic if is_admin() 
 	 */
 	if ( $is_admin ) {   
-		oik_require( "admin/oik-bwtrace.inc", "oik-bwtrace" );
+		oik_require( "admin/oik-bwtrace.php", "oik-bwtrace" );
 	}
 	
   add_action( "oik_admin_menu", "oik_bwtrace_admin_menu" );
