@@ -47,19 +47,19 @@ class OIK_trace_info {
 	function display_fields() {
 	
 		//$this->display_method( $field, $type, $extra );
-		$this->display_global( "wp_version", "string", "WordPress version" );
+		$this->display_global( "wp_version", "string", __( "WordPress version", "oik-bwtrace" ) );
 		$this->display_constant( "PHP_VERSION", "string", $this->php_end_of_life() );
 		$this->display_constant( "WP_DEBUG", "bool" );
 		$this->display_constant( "WP_DEBUG_LOG", "bool" );
 		$this->display_constant( "WP_DEBUG_DISPLAY", "bool" );
-		$this->display_ini( "error_reporting", "string", "http://php.net/manual/en/errorfunc.configuration.php#ini.error-reporting" );
-		$this->display_ini( "display_errors", "string", "http://php.net/manual/en/errorfunc.configuration.php#ini.display-errors" );
-		$this->display_ini( "log_errors", "bool", "http://php.net/manual/en/errorfunc.configuration.php#ini.log-errors" );
-		$this->display_ini( "error_log", "string", "http://php.net/manual/en/errorfunc.configuration.php#ini.error-log" );
-		$this->display_ini( "output_buffering", "string", "Set to off for better detection of Notice: Undefined messages" );
+		$this->display_ini( "error_reporting", "string", $this->as_url( "http://php.net/manual/en/errorfunc.configuration.php#ini.error-reporting" ) );
+		$this->display_ini( "display_errors", "string", $this->as_url( "http://php.net/manual/en/errorfunc.configuration.php#ini.display-errors" ) );
+		$this->display_ini( "log_errors", "bool", $this->as_url( "http://php.net/manual/en/errorfunc.configuration.php#ini.log-errors" ) );
+		$this->display_ini( "error_log", "string", $this->as_url( "http://php.net/manual/en/errorfunc.configuration.php#ini.error-log" ) );
+		$this->display_ini( "output_buffering", "string", __( "Set to off for better detection of Notice: Undefined messages", "oik-bwtrace" ) );
 		
-		ini_set( "implicit_flush", true );
-		$this->display_ini( "implicit_flush", "bool", "http://php.net/manual/en/outcontrol.configuration.php#ini.implicit-flush" );
+		//ini_set( "implicit_flush", true );
+		$this->display_ini( "implicit_flush", "bool", $this->as_url( "http://php.net/manual/en/outcontrol.configuration.php#ini.implicit-flush" ) );
 		
 		$this->display_constant( "SCRIPT_DEBUG", "bool" );
 		$this->display_constant( "JETPACK_DEV_DEBUG", "bool" );
