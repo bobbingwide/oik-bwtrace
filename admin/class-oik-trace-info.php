@@ -64,7 +64,7 @@ class OIK_trace_info {
 		$this->display_constant( "SCRIPT_DEBUG", "bool" );
 		$this->display_constant( "JETPACK_DEV_DEBUG", "bool" );
 		
-		$this->display_function( "Multi site", "bool", "is_multisite" );
+		$this->display_function( __( "Multisite", "oik-bwtrace" ), "bool", "is_multisite" );
 		$this->display_constant( "WP_SITEURL", "url" );
 		$this->display_option( "siteurl", "url" );
 		
