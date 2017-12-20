@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oik bwtrace 2.1.1-beta-20171023\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2017-12-20 15:56:11+00:00\n"
+"POT-Creation-Date: 2017-12-20 17:01:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: bb_BB\n"
@@ -26,6 +26,21 @@ msgstr "Vlaue"
 #: admin/class-oik-trace-info.php:25
 msgid "Notes"
 msgstr "Ntoes"
+
+
+#: admin/class-oik-trace-info.php:50
+msgid "WordPress version"
+msgstr "WroPderss vreison"
+
+
+#: admin/class-oik-trace-info.php:59
+msgid "Set to off for better detection of Notice: Undefined messages"
+msgstr "SEt tO Off fOr bteetr dteceiton Of Ntocie: Udnfenied mseasegs"
+
+
+#: admin/class-oik-trace-info.php:67
+msgid "Multisite"
+msgstr "Mluitiste"
 
 
 #: admin/oik-bwtrace.php:51
@@ -300,6 +315,15 @@ msgid ""
 msgstr ""
 "If yOU wnat tO tarce porecssnig wtiihn smoe cnoetnt yOU cAn UsE twO "
 "sohtroceds: [bwtron] tO trun tarce On And [bwtroff] tO trun It Off"
+
+
+#: admin/oik-bwtrace.php:220
+msgid ""
+"Use the [bwtrace] shortcode in a widget to provide an instant trace reset "
+"and page reload."
+msgstr ""
+"UsE thE [bwtrace] sohtrocde In A wdiegt tO porivde An isnatnt tarce rseet "
+"And pgae rleaod."
 
 
 #: admin/oik-bwtrace.php:226

@@ -217,13 +217,13 @@ function oik_trace_reset_notes() {
 	if ( $oik_sc_help && !is_wp_error( $oik_sc_help ) ) {
 		bw_trace2( $oik_sc_help, "oik-sc-help", false, BW_TRACE_DEBUG );
 		if ( function_exists( "bw_invoke_shortcode" ) ) {
-			bw_invoke_shortcode( "bwtrace", null, "Use the [bwtrace] shortcode in a widget to provide an instant trace reset and page reload." );
+			bw_invoke_shortcode( "bwtrace", null, __( "Use the [bwtrace] shortcode in a widget to provide an instant trace reset and page reload.", "oik-bwtrace" ) );
 		} else {
 			bw_trace_included_files(); 
 		}
 	} else {
 		bw_trace2( $oik_sc_help, "oik-sc-help" );
-		p( "Activate the oik base plugin to enable the [bwtrace] shortcode" );
+		BW_::p( __( "Activate the oik base plugin to enable the [bwtrace] shortcode", "oik-bwtrace" ) );
 	}
 }
 

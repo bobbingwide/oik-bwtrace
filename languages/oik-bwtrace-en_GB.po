@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oik bwtrace 2.1.1-beta-20171023\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2017-12-20 15:56:11+00:00\n"
+"POT-Creation-Date: 2017-12-20 17:01:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: en_GB\n"
@@ -24,6 +24,18 @@ msgstr "Value"
 #: admin/class-oik-trace-info.php:25
 msgid "Notes"
 msgstr "Notes"
+
+#: admin/class-oik-trace-info.php:50
+msgid "WordPress version"
+msgstr "WordPress version"
+
+#: admin/class-oik-trace-info.php:59
+msgid "Set to off for better detection of Notice: Undefined messages"
+msgstr "Set to off for better detection of Notice: Undefined messages"
+
+#: admin/class-oik-trace-info.php:67
+msgid "Multisite"
+msgstr "Multisite"
 
 #: admin/oik-bwtrace.php:51
 msgid "oik trace options"
@@ -239,6 +251,12 @@ msgid ""
 "If you want to trace processing within some content you can use two "
 "shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off"
 msgstr "If you want to trace processing within some content you can use two shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off"
+
+#: admin/oik-bwtrace.php:220
+msgid ""
+"Use the [bwtrace] shortcode in a widget to provide an instant trace reset "
+"and page reload."
+msgstr "Use the [bwtrace] shortcode in a widget to provide an instant trace reset and page reload."
 
 #: admin/oik-bwtrace.php:226
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"

@@ -174,8 +174,6 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 	 * Tests the trace options page
 	 */
 	function test_bw_trace_options_do_page_bb_BB() {
-	
-		$this->setExpectedDeprecated( "bw_translate" );
 		$_SERVER['REQUEST_URI'] = "/";
 		$this->update_trace_options();
 		$this->switch_to_locale( 'bb_BB' );
@@ -193,7 +191,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array, "closedpostboxesnonce", "closedpostboxesnonce" );
 		$html_array = $this->replace_oik_trace_info( $html_array );
-		$this->generate_expected_file( $html_array );
+		//$this->generate_expected_file( $html_array );
 		$this->assertArrayEqualsFile( $html_array );
 		
 		$this->switch_to_locale( 'en_GB' );
