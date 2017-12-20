@@ -89,6 +89,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->assertNotNull( $html );
 		$html = $this->replace_admin_url( $html );
 		$html = $this->replace_home_url( $html );
+		$html = $this->replace_php_end_of_life( $html );
 		$html_array = $this->tag_break( $html );
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
@@ -109,6 +110,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->assertNotNull( $html );
 		$html = $this->replace_admin_url( $html );
 		$html = $this->replace_home_url( $html );
+		$html = $this->replace_php_end_of_life( $html );
 		$html_array = $this->tag_break( $html );
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
@@ -145,7 +147,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 	 */
 	function test_bw_trace_options_do_page() {
 	
-		$this->setExpectedDeprecated( "bw_translate" );
+		//$this->setExpectedDeprecated( "bw_translate" );
 		$_SERVER['REQUEST_URI'] = "/";
 		$this->update_trace_options();
 		$this->switch_to_locale( 'en_GB' );
@@ -156,6 +158,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->assertNotNull( $html );
 		$html = $this->replace_admin_url( $html );
 		$html = $this->replace_home_url( $html );
+		$html = $this->replace_php_end_of_life( $html );
 		$html_array = $this->tag_break( $html );
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
@@ -181,6 +184,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->assertNotNull( $html );
 		$html = $this->replace_admin_url( $html );
 		$html = $this->replace_home_url( $html );
+		$html = $this->replace_php_end_of_life( $html );
 		$html_array = $this->tag_break( $html );
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
@@ -243,6 +247,26 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 			}
 		}
 		return $html_array;
+	}
+	
+	/**
+	 * Replaces the PHP end of life message with a non-translatable literal string
+	 */
+	function replace_php_end_of_life( $html ) {
+		$php_end_of_life = $this->php_end_of_life();
+		$html = str_replace( $php_end_of_life, "generic PHP end of life", $html ); #
+		return $html;
+	}
+	
+	/**
+	 * Gets the PHP end of life message
+	 */
+	function php_end_of_life() {
+		oik_require( "admin/class-oik-trace-info.php", "oik-bwtrace" );
+		$oik_trace_info = new OIK_trace_info;
+		$php_end_of_life = $oik_trace_info->php_end_of_life();
+		$this->assertNotNull( $php_end_of_life );
+		return $php_end_of_life;
 	}
 	
 	function unset_submenu() {	
