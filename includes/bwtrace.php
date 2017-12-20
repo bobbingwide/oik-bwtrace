@@ -1065,12 +1065,12 @@ function bw_lazy_trace2( $value=null, $text=null, $show_args=true, $level=null )
  * @return array Trace levels 
  */
 function bw_list_trace_levels() {
-	$levels = array( BW_TRACE_DEBUG => "Debug level"
-	               , BW_TRACE_INFO => "Information level - standard"
-								 , BW_TRACE_NOTICE => "Notice level"
-								 , BW_TRACE_WARNING => "Warning level" 
-								 , BW_TRACE_ERROR => "Error level"
-								 , BW_TRACE_VERBOSE => "Verbose level - noisier than Debug"
+	$levels = array( BW_TRACE_DEBUG => __( "Debug level", "oik-bwtrace" )
+								 , BW_TRACE_INFO => __( "Information level - standard", "oik-bwtrace" )
+								 , BW_TRACE_NOTICE => __( "Notice level", "oik-bwtrace" )
+								 , BW_TRACE_WARNING => __( "Warning level" , "oik-bwtrace" )
+								 , BW_TRACE_ERROR => __( "Error level", "oik-bwtrace" )
+								 , BW_TRACE_VERBOSE => __( "Verbose level - noisier than Debug", "oik-bwtrace" )
 								 );
 	return( $levels );
 }

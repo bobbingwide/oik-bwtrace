@@ -149,6 +149,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 	
 		//$this->setExpectedDeprecated( "bw_translate" );
 		$_SERVER['REQUEST_URI'] = "/";
+		
 		$this->update_trace_options();
 		$this->switch_to_locale( 'en_GB' );
 		ob_start(); 
@@ -159,6 +160,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$html = $this->replace_admin_url( $html );
 		$html = $this->replace_home_url( $html );
 		$html = $this->replace_php_end_of_life( $html );
+		$html = $this->replace_memory_limit( $html );
 		$html_array = $this->tag_break( $html );
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
@@ -185,6 +187,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$html = $this->replace_admin_url( $html );
 		$html = $this->replace_home_url( $html );
 		$html = $this->replace_php_end_of_life( $html );
+		$html = $this->replace_memory_limit( $html );
 		$html_array = $this->tag_break( $html );
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
@@ -255,6 +258,15 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 	function replace_php_end_of_life( $html ) {
 		$php_end_of_life = $this->php_end_of_life();
 		$html = str_replace( $php_end_of_life, "generic PHP end of life", $html ); #
+		return $html;
+	}
+	
+	/**
+	 * Replaces the memory limit with a fixed value
+	 */
+	function replace_memory_limit( $html ) {
+		$memory_limit = ini_get( "memory_limit" );
+		$html = str_replace( $memory_limit, "xyzM", $html );
 		return $html;
 	}
 	

@@ -196,9 +196,17 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		$this->assertEquals( "test,bw_current_filter", $actual );
 		$wp_current_filter = $saved;
 	}
-		
 	
 	
+	/**
+	 * Note: We test the translation logic elsewhere; where we can ensure that language files are re-loaded
+	 */ 
+	function test_bw_list_trace_levels() {
+		$levels = bw_list_trace_levels();
+		$html = $this->arraytohtml( $levels );
+    //$this->generate_expected_file( $html );
+		$this->assertArrayEqualsFile( $html );
+	}
 	
 	
 
@@ -209,11 +217,6 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 	 * bw_trace_inc_init | sets some hardcoded values in $bw_trace_options and may perform trace reset. It's called by bw_lazy_trace_config_startup from bw_trace_config_startup.
 	 * bw_getlocale | See bw_trace_trace_startup
 	 */
-	 
-	 
-		
-	 
-	 
 		
 
 /**
@@ -242,7 +245,6 @@ bwtrace.php 822 1:function bw_trace_errors( $level ) {
 bwtrace.php 837 3:  function bw_array_get( $array = NULL, $index, $default=NULL ) {
 bwtrace.php 936 1:function bw_lazy_backtrace() {
 bwtrace.php 1009 1:function bw_lazy_trace2( $value=null, $text=null, $show_args=true, $level=null ) {
-bwtrace.php 1066 1:function bw_list_trace_levels() {
 bwtrace.php 1087 1:function bw_trace_trace_startup() {
 
 */

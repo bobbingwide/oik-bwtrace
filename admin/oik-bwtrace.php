@@ -107,24 +107,21 @@ function oik_action_options() {
 	BW_::bw_textarea_arr( "bw_action_options", __( "Trace attached hook functions", "oik-bwtrace" ), $options, "hook_funcs", 80 );
 	BW_::bw_textarea_arr( "bw_action_options", __( "Hooks to debug backtrace", "oik-bwtrace" ), $options, "backtrace", 80 );
 	BW_::bw_textarea_arr( "bw_action_options", __( "'String watch' for this string", "oik-bwtrace" ), $options, "stringwatch", 80 );
-  
-  //bw_tablerow( array( "", "<input type=\"submit\" name=\"ok\" value=\"Save changes\" class=\"button-primary\"/>") ); 
   etag( "table" ); 			
   BW_::p( isubmit( "ok", __( "Save changes", "oik-bwtrace" ), null, "button-primary" ) );
   etag( "form" );
 }  
-  
 
 /**
  * Display the oik trace options page
  * 
  */
 function bw_trace_options_do_page() { 
-  oik_menu_header( "trace options" );
-  oik_box( null, null, "Options", "oik_trace_options" );
-  oik_box( null, null, "Information", "oik_trace_info" );
-  oik_box( null, null, "Notes about oik trace", "oik_trace_notes" ); 
-  oik_box( null, null, "Trace options and reset button", "oik_trace_reset_notes" ); 
+  BW_::oik_menu_header( __( "trace options", "oik-bwtrace" ) );
+  BW_::oik_box( null, null, __( "Options", "oik-bwtrace" ), "oik_trace_options" );
+  BW_::oik_box( null, null, __( "Information", "oik-bwtrace" ), "oik_trace_info" );
+  BW_::oik_box( null, null, __( "Notes about oik trace", "oik-bwtrace" ), "oik_trace_notes" ); 
+  BW_::oik_box( null, null, __( "Trace options and reset button", "oik-bwtrace" ), "oik_trace_reset_notes" ); 
   oik_menu_footer();
   bw_flush();
 }
@@ -145,39 +142,42 @@ function oik_trace_options() {
   bw_flush();
   settings_fields('bw_trace_options_options'); 
   
-  bw_textfield_arr( "bw_trace_options", "Trace file", $options, 'file', 60 );
-  bw_checkbox_arr( "bw_trace_options", "Reset trace file every transaction", $options, 'reset' );
-  bw_checkbox_arr( "bw_trace_options", "Trace enabled", $options, 'trace' );
+  BW_::bw_textfield_arr( "bw_trace_options", __( "Trace file", "oik-bwtrace" ), $options, 'file', 60 );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset trace file every transaction", "oik-bwtrace" ), $options, 'reset' );
+  bw_checkbox_arr( "bw_trace_options", __( "Trace enabled", "oik-bwtrace" ), $options, 'trace' );
 	
-  bw_textfield_arr( "bw_trace_options", "AJAX Trace file", $options, 'file_ajax', 60 );
-  bw_checkbox_arr( "bw_trace_options", "Reset AJAX trace file every AJAX transaction", $options, 'reset_ajax' );
-  bw_checkbox_arr( "bw_trace_options", "AJAX Trace enabled", $options, 'trace_ajax' );
+  BW_::bw_textfield_arr( "bw_trace_options", __( "AJAX Trace file", "oik-bwtrace" ), $options, 'file_ajax', 60 );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset AJAX trace file every AJAX transaction", "oik-bwtrace" ), $options, 'reset_ajax' );
+  bw_checkbox_arr( "bw_trace_options", __( "AJAX Trace enabled", "oik-bwtrace" ), $options, 'trace_ajax' );
 	
 	// Does this need includes/bwtrace.php?
 	$trace_levels = bw_list_trace_levels();
 	// Do we need to default this after upgrade?
 	//$options['level'] = bw_trace_level();
-	bw_select_arr( "bw_trace_options", "Trace level", $options, 'level', array( "#options" => $trace_levels ) );
-  bw_checkbox_arr( "bw_trace_options", "Fully qualified file names", $options, 'qualified' );
-  bw_checkbox_arr( "bw_trace_options", "Include trace record count", $options, 'count' );
-  bw_checkbox_arr( "bw_trace_options", "Include timestamp", $options, 'date' );
-  bw_checkbox_arr( "bw_trace_options", "Include current filter", $options, 'filters' );
-  bw_checkbox_arr( "bw_trace_options", "Include number of queries", $options, "num_queries" );
-  bw_checkbox_arr( "bw_trace_options", "Include post ID", $options, "post_id" );
+	BW_::bw_select_arr( "bw_trace_options", __( "Trace level", "oik-bwtrace" ), $options, 'level', array( "#options" => $trace_levels ) );
+  bw_checkbox_arr( "bw_trace_options", __( "Fully qualified file names", "oik-bwtrace" ), $options, 'qualified' );
+  bw_checkbox_arr( "bw_trace_options", __( "Include trace record count", "oik-bwtrace" ), $options, 'count' );
+  bw_checkbox_arr( "bw_trace_options", __( "Include timestamp", "oik-bwtrace" ), $options, 'date' );
+  bw_checkbox_arr( "bw_trace_options", __( "Include current filter", "oik-bwtrace" ), $options, 'filters' );
+  bw_checkbox_arr( "bw_trace_options", __( "Include number of queries", "oik-bwtrace" ), $options, "num_queries" );
+  bw_checkbox_arr( "bw_trace_options", __( "Include post ID", "oik-bwtrace" ), $options, "post_id" );
 	$memory_limit = ini_get( "memory_limit" );
 	bw_trace( $memory_limit, "memory_limit", false, BW_TRACE_DEBUG );
-  bw_checkbox_arr( "bw_trace_options", "Include memory/peak usage ( limit $memory_limit )", $options, 'memory' );
-  bw_checkbox_arr( "bw_trace_options", "Include files loaded count", $options, 'files' );
-  $current_ip = "<br />Current IP: ";
-  $current_ip .= bw_array_get( $_SERVER, "REMOTE_ADDR", null );
-  bw_textfield_arr( "bw_trace_options", "Trace specific IP $current_ip", $options, 'ip', 20 );
+  bw_checkbox_arr( "bw_trace_options", sprintf( __( 'Include memory/peak usage ( limit %1$s )', "oik-bwtrace" ), $memory_limit ), $options, 'memory' );
+  bw_checkbox_arr( "bw_trace_options", __( "Include files loaded count", "oik-bwtrace" ), $options, 'files' );
+	
+  $current_ip = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
+  $current_ip_text = "<br />";
+	$current_ip_text .= sprintf( __( 'Current IP: %1$s', "oik-bwtrace" ), $current_ip );
+	
+  BW_::bw_textfield_arr( "bw_trace_options", __( "Trace specific IP", "oik-bwtrace" ) . $current_ip_text, $options, 'ip', 20 );
   
   // Trace error processing is not yet enabled.
   // textfield( "bw_trace_options[errors]", 1 ,"Trace errors (0=no,-1=all,1=E_ERROR,2=E_WARNING,4=E_PARSE, etc)", $options['errors'] );
   // bw_tablerow( array( "", "<input type=\"submit\" name=\"ok\" value=\"Save changes\" class=\"button-primary\"/>") ); 
 
   etag( "table" );
-  p( isubmit( "ok", __( "Save changes", 'oik-bwtrace' ), null, "button-primary" ) );
+  BW_::p( isubmit( "ok", __( "Save changes", 'oik-bwtrace' ), null, "button-primary" ) );
   etag( "form" );
   
   bw_flush();
@@ -187,22 +187,22 @@ function oik_trace_options() {
  * Display trace notes
  */
 function oik_trace_notes() {
-  p( "The tracing output produced by oik-bwtrace can be used for problem determination.");
-  p( "It's not for the faint hearted.");
-  p( "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site.");
-  p( "If you do need to activate it, only do so for a short period of time." );
+  BW_::p( __( "The tracing output produced by oik-bwtrace can be used for problem determination.", "oik-bwtrace" ) );
+  BW_::p( __( "It's not for the faint hearted.", "oik-bwtrace" ) );
+  BW_::p( __( "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site.", "oik-bwtrace" ) );
+  BW_::p( __( "If you do need to activate it, only do so for a short period of time.", "oik-bwtrace" )  );
  
-  p( "You will need to specify the trace file name (e.g. bwtrace.loh )" );
-  p( "When you want to trace processing check 'Trace enabled'" );
-  p( "Check 'Reset trace file every transaction' to cause the trace file to be cleared for every request, including AJAX requests." );
+  BW_::p( __( "You will need to specify the trace file name (e.g. bwtrace.loh )", "oik-bwtrace" )  );
+  BW_::p( __( "When you want to trace processing check 'Trace enabled'", "oik-bwtrace" )  );
+  BW_::p( __( "Check 'Reset trace file every transaction' to cause the trace file to be cleared for every request, including AJAX requests.", "oik-bwtrace" )  );
     
   
-  p("You may find the most recent trace output at..." );
+  BW_::p( __( "You may find the most recent trace output at...", "oik-bwtrace" )  );
   $bw_trace_url = bw_trace_url();
   
-  alink( NULL, $bw_trace_url, $bw_trace_url, "View trace output in your browser.");
+  BW_::alink( NULL, $bw_trace_url, $bw_trace_url, __( "View trace output in your browser.", "oik-bwtrace" ) );
   
-  p("If you want to trace processing within some content you can use two shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off" );
+  BW_::p( __( "If you want to trace processing within some content you can use two shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off", "oik-bwtrace" )  );
   
   bw_flush();
 

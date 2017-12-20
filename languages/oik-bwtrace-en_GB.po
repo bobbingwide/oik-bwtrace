@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oik bwtrace 2.1.1-beta-20171023\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2017-12-19 17:57:35+00:00\n"
+"POT-Creation-Date: 2017-12-20 15:56:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: en_GB\n"
@@ -13,6 +13,18 @@ msgstr ""
 "PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+#: admin/class-oik-trace-info.php:25
+msgid "Field"
+msgstr "Field"
+
+#: admin/class-oik-trace-info.php:25
+msgid "Value"
+msgstr "Value"
+
+#: admin/class-oik-trace-info.php:25
+msgid "Notes"
+msgstr "Notes"
+
 #: admin/oik-bwtrace.php:51
 msgid "oik trace options"
 msgstr "oik trace options"
@@ -25,11 +37,11 @@ msgstr "oik action options"
 msgid "action options"
 msgstr "action options"
 
-#: admin/oik-bwtrace.php:73 admin/oik-bwtrace.php:124
+#: admin/oik-bwtrace.php:73 admin/oik-bwtrace.php:121
 msgid "Options"
 msgstr "Options"
 
-#: admin/oik-bwtrace.php:74
+#: admin/oik-bwtrace.php:74 admin/oik-bwtrace.php:122
 msgid "Information"
 msgstr "Information"
 
@@ -97,33 +109,89 @@ msgstr "Hooks to debug backtrace"
 msgid "'String watch' for this string"
 msgstr "'String watch' for this string"
 
-#: admin/oik-bwtrace.php:113 admin/oik-bwtrace.php:180
+#: admin/oik-bwtrace.php:111 admin/oik-bwtrace.php:180
 msgid "Save changes"
 msgstr "Save changes"
 
-#: admin/oik-bwtrace.php:123
+#: admin/oik-bwtrace.php:120
 msgid "trace options"
 msgstr "trace options"
 
-#: admin/oik-bwtrace.php:126
+#: admin/oik-bwtrace.php:123
 msgid "Notes about oik trace"
 msgstr "Notes about oik trace"
 
-#: admin/oik-bwtrace.php:127
+#: admin/oik-bwtrace.php:124
 msgid "Trace options and reset button"
 msgstr "Trace options and reset button"
 
-#: admin/oik-bwtrace.php:148
+#: admin/oik-bwtrace.php:145
 msgid "Trace file"
 msgstr "Trace file"
 
-#: admin/oik-bwtrace.php:152
+#: admin/oik-bwtrace.php:146
+msgid "Reset trace file every transaction"
+msgstr "Reset trace file every transaction"
+
+#: admin/oik-bwtrace.php:147
+msgid "Trace enabled"
+msgstr "Trace enabled"
+
+#: admin/oik-bwtrace.php:149
 msgid "AJAX Trace file"
 msgstr "AJAX Trace file"
 
-#: admin/oik-bwtrace.php:160
+#: admin/oik-bwtrace.php:150
+msgid "Reset AJAX trace file every AJAX transaction"
+msgstr "Reset AJAX trace file every AJAX transaction"
+
+#: admin/oik-bwtrace.php:151
+msgid "AJAX Trace enabled"
+msgstr "AJAX Trace enabled"
+
+#: admin/oik-bwtrace.php:157
 msgid "Trace level"
 msgstr "Trace level"
+
+#: admin/oik-bwtrace.php:158
+msgid "Fully qualified file names"
+msgstr "Fully qualified file names"
+
+#: admin/oik-bwtrace.php:159
+msgid "Include trace record count"
+msgstr "Include trace record count"
+
+#: admin/oik-bwtrace.php:160
+msgid "Include timestamp"
+msgstr "Include timestamp"
+
+#: admin/oik-bwtrace.php:161
+msgid "Include current filter"
+msgstr "Include current filter"
+
+#: admin/oik-bwtrace.php:162
+msgid "Include number of queries"
+msgstr "Include number of queries"
+
+#: admin/oik-bwtrace.php:163
+msgid "Include post ID"
+msgstr "Include post ID"
+
+#: admin/oik-bwtrace.php:166
+msgid "Include memory/peak usage ( limit %1$s )"
+msgstr "Include memory/peak usage ( limit %1$s )"
+
+#: admin/oik-bwtrace.php:167
+msgid "Include files loaded count"
+msgstr "Include files loaded count"
+
+#: admin/oik-bwtrace.php:171
+msgid "Current IP: %1$s"
+msgstr "Current IP: %1$s"
+
+#: admin/oik-bwtrace.php:173
+msgid "Trace specific IP"
+msgstr "Trace specific IP"
 
 #: admin/oik-bwtrace.php:190
 msgid ""
@@ -162,6 +230,10 @@ msgstr "Check 'Reset trace file every transaction' to cause the trace file to be
 msgid "You may find the most recent trace output at..."
 msgstr "You may find the most recent trace output at..."
 
+#: admin/oik-bwtrace.php:203
+msgid "View trace output in your browser."
+msgstr "View trace output in your browser."
+
 #: admin/oik-bwtrace.php:205
 msgid ""
 "If you want to trace processing within some content you can use two "
@@ -171,6 +243,30 @@ msgstr "If you want to trace processing within some content you can use two shor
 #: admin/oik-bwtrace.php:226
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr "Activate the oik base plugin to enable the [bwtrace] shortcode"
+
+#: includes/bwtrace.php:1068
+msgid "Debug level"
+msgstr "Debug level"
+
+#: includes/bwtrace.php:1069
+msgid "Information level - standard"
+msgstr "Information level - standard"
+
+#: includes/bwtrace.php:1070
+msgid "Notice level"
+msgstr "Notice level"
+
+#: includes/bwtrace.php:1071
+msgid "Warning level"
+msgstr "Warning level"
+
+#: includes/bwtrace.php:1072
+msgid "Error level"
+msgstr "Error level"
+
+#: includes/bwtrace.php:1073
+msgid "Verbose level - noisier than Debug"
+msgstr "Verbose level - noisier than Debug"
 
 #: libs/bobbforms.php:510
 msgid "None"
