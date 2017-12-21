@@ -140,7 +140,6 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 	/**
 	 * How do we test a function that uses microtime?
 	 */
-	
 	function test_bw_trace_elapsed() {
 		global $bw_include_trace_date;
 		$saved = $bw_include_trace_date;
@@ -151,6 +150,7 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		$bw_include_trace_date = true;
 		$actual = bw_trace_elapsed();
 		$actual = str_replace( array( "1", "2", "3", "4", "5", "6", "7", "8", "9" ), array( "0", "0", "0", "0", "0", "0", "0", "0", "0" ), $actual );
+		$actual = str_replace( array( "00.0",  "000.0" ), array( "0.0", "0.0" ), $actual );
 		$this->assertEquals( "0.000000 0.000000 ", $actual );
 		$bw_include_trace_date = $saved;
 	}
