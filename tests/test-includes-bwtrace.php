@@ -106,12 +106,20 @@ O:28:"GoogleSitemapGeneratorStatus":4:{s:39:"?GoogleSitemapGeneratorStatus?start
 		global $wp_plugin_paths;
 		$saved_paths = $wp_plugin_paths;
 		// key = symlinked directory, data = target directory, where the file really is
-		$wp_plugin_paths = array( ABSPATH . "/wp-content/plugins/oik-bwtrace" => "C:/not/abspath/wp-content/plugins/oik-bwtrace" );
+		$wp_plugin_paths = array( $this->adjusted_abspath() . "/wp-content/plugins/oik-bwtrace" => "C:/not/abspath/wp-content/plugins/oik-bwtrace" );
 		$file = bw_trace_anonymize_symlinked_file( "C:/not/abspath/wp-content/plugins/oik-bwtrace/oik-bwtrace.php" );
 		$this->assertEquals( "/wp-content/plugins/oik-bwtrace/oik-bwtrace.php", $file );
 		$wp_plugin_paths = $saved_paths;
 		//print_r( $wp_plugin_paths );
 	}
+	
+	function adjusted_abspath() { 
+		$abspath = ABSPATH;
+		$abspath = str_replace( "\\", "/", $abspath );
+		$abspath = ucfirst( $abspath );
+		return $abspath;
+	}
+		
 	
 	/** 
 	 * Test bw_trace_file_part()
