@@ -7,9 +7,29 @@
  */
 class Tests_oik_bwtrace extends BW_UnitTestCase {
 
+	public $bw_trace_on = null;
+
 	function setUp() { 
 		parent::setUp();
 	}
+	
+	function test_constant_bw_trace_on() {
+	
+		if ( defined( 'BW_TRACE_ON' ) ) { 
+			if ( BW_TRACE_ON ) {
+				//echo "BW_TRACE_ON is true!";
+				$this->bw_trace_on = true;
+			} else {
+				//echo "BW_TRACE_ON is false";
+				$this->bw_trace_on = false;
+			}
+		} else {
+			//echo "BW_TRACE_ON is not set";
+			$this->bw_trace_on = null;
+		}
+		$this->assertTrue( true );
+	}
+			
 	
 	/**
 	 * Tests for bw_trace_status are rather limited by the values of constants
@@ -19,9 +39,13 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	function test_bw_trace_status() {
 		global $bw_trace_on;
 		if ( defined( 'BW_TRACE_ON' ) && BW_TRACE_ON ) {
+			$saved = $bw_trace_on;
 			$bw_trace_on = true;
 			$status = bw_trace_status();
 			$this->assertTrue( $status );
+			$bw_trace_on = $saved;
+																		 
+			return;
 		}
 		$this->save_bw_trace_options(); 
 		$this->init_bw_trace_options();
@@ -204,12 +228,18 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	
 	/**
 	 * Test trace plugin startup with tracing off
+	 *
+	 * Note: There's a lot of faffing to cater for the fact that trace may already have been started.
 	 */
 	function test_bw_trace_plugin_startup_tracing_off() {
 		global $bw_trace_options;
 		global $bw_action_options;
 	
 		$this->save_bw_trace_options(); 
+		if ( $bw_trace_options['trace'] == "on" ) {
+			$bw_trace_options['trace'] = '0';
+			bw_trace_off();
+		}
 		$this->init_bw_trace_options();
 		$this->update_bw_trace_options();
 		$this->save_bw_action_options();
@@ -217,12 +247,11 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		
 		bw_trace_plugin_startup();
 		
-		$this->restore_bw_trace_options();
-		$this->restore_bw_action_options();
-		
 		$tracing = bw_trace_status();
 		$this->assertFalse( $tracing );
-	
+		
+		$this->restore_bw_trace_options();
+		$this->restore_bw_action_options();
 	}
 	
 	/**
@@ -248,8 +277,13 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		$tracing = bw_trace_status();
 		$this->assertTrue( $tracing );
 		
+		
 		$this->restore_bw_trace_options();
 		$this->restore_bw_action_options();
+		
+		if ( $bw_trace_options['trace'] == 0 ) {
+			bw_trace_off();
+		}
 	}
 	
 	/** 
