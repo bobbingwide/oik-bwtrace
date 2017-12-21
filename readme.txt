@@ -2,9 +2,9 @@
 Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
-Requires at least: 4.2
-Tested up to: 4.9-beta3
-Stable tag: 2.1.0
+Requires at least: 4.9
+Tested up to: 4.9.1
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -145,8 +145,8 @@ define( 'BW_TRACE_ON', true );
 define( 'BW_COUNT_ON', true );
 define( 'BW_TRACE_RESET', true );
 
-if ( file_exists( ABSPATH . '/wp-content/plugins/oik-bwtrace/lib/bwtrace.php' ) ) { 
-  require_once( ABSPATH . '/wp-content/plugins/oik-bwtrace/lib/bwtrace.php' );
+if ( file_exists( ABSPATH . '/wp-content/plugins/oik-bwtrace/libs/bwtrace.php' ) ) { 
+  require_once( ABSPATH . '/wp-content/plugins/oik-bwtrace/libs/bwtrace.php' );
 }  
 `
 
@@ -161,6 +161,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
  
 == Upgrade Notice ==
+= 2.1.1 = 
+Upgrade for PHP 7.2 support
+
 = 2.1.1-beta-20171023 = 
 Upgrade to ensure shared library file compatibility with oik v3.2.0-RC1
 
@@ -262,6 +265,18 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 2.1.1 =
+* Added: Display information related to WPMS installations [github bobbingwide oik-bwtrace issues 51]
+* Changed: 100% translatable and localizable on wordpress.org [github bobbingwide oik-bwtrace issues 60]
+* Changed: Convert php.net URLs into links [github bobbingwide oik-bwtrace issues 51]
+* Changed: Display End of Life for PHP 7.2 [github bobbingwide oik-bwtrace issues 55]
+* Changed: First pass at tracing $_GET and $_POST as well as $_REQUEST [github bobbingwide oik-bwtrace issues 61]
+* Changed: Fix Warning: Count() messages for PHP 7.2
+* Changed: Logic to watch for a constant changing [github bobbingwide oik-bwtrace issues 57]
+* Changed: Test bw_invoke_shortcode exists even if oik-sc-help loaded [github bobbingwide oik-bwtrace issues 62]
+* Tested: With WordPress 4.9.1 and WordPress Multisite
+* Tested: With PHP 7.1 and 7.2 
+
 = 2.1.1-beta-20171023 = 
 * Changed: Synchronized shared libraries with oik v3.2.0-RC1, 
 * Changed: Regenerate language files for en_GB and bb_BB
