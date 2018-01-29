@@ -1,7 +1,7 @@
 <?php 
 /*
 
-    Copyright 2012-2017 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2018 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -146,9 +146,13 @@ function oik_trace_options() {
   bw_checkbox_arr( "bw_trace_options", __( "Reset trace file every transaction", "oik-bwtrace" ), $options, 'reset' );
   bw_checkbox_arr( "bw_trace_options", __( "Trace enabled", "oik-bwtrace" ), $options, 'trace' );
 	
-  BW_::bw_textfield_arr( "bw_trace_options", __( "AJAX Trace file", "oik-bwtrace" ), $options, 'file_ajax', 60 );
+  BW_::bw_textfield_arr( "bw_trace_options", __( "AJAX trace file", "oik-bwtrace" ), $options, 'file_ajax', 60 );
   bw_checkbox_arr( "bw_trace_options", __( "Reset AJAX trace file every AJAX transaction", "oik-bwtrace" ), $options, 'reset_ajax' );
-  bw_checkbox_arr( "bw_trace_options", __( "AJAX Trace enabled", "oik-bwtrace" ), $options, 'trace_ajax' );
+  bw_checkbox_arr( "bw_trace_options", __( "AJAX trace enabled", "oik-bwtrace" ), $options, 'trace_ajax' );
+	
+  BW_::bw_textfield_arr( "bw_trace_options", __( "Batch trace file", "oik-bwtrace" ), $options, 'file_cli', 60 );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset batch trace file each invocation", "oik-bwtrace" ), $options, 'reset_cli' );
+  bw_checkbox_arr( "bw_trace_options", __( "Batch trace enabled", "oik-bwtrace" ), $options, 'trace_cli' );
 	
 	// Does this need includes/bwtrace.php?
 	$trace_levels = bw_list_trace_levels();
