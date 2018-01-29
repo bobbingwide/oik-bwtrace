@@ -98,10 +98,10 @@ class trace_file_selector {
 		$file = null;
 		$request_type = $this->query_request_type();
 		if ( $request_type ) {
-      $file = bw_array_get( $this->bw_trace_options, 'file_' . $request_type, null ); 
+      $file = bw_array_get( $this->trace_options, 'file_' . $request_type, null ); 
 		}
 		if ( !$file ) {
-			$file = bw_array_get( $this->bw_trace_options, 'file', "bwtrace.loh" );
+			$file = bw_array_get( $this->trace_options, 'file', "bwtrace.loh" );
 		}
 		$file = trim( $file );
 		$file_name = pathinfo( $file, PATHINFO_FILENAME );
@@ -138,13 +138,18 @@ class trace_file_selector {
 	}
 	
 	/**
-	 * Query trace files given the file mask
+	 * Queries trace files given the file mask
+	 *
+	 * We need them sorted in the natural sort sequence
+	 * where .2 is greater than .11
 	 * 
 	 * @param string $file_mask
 	 * @return array of fully qualified file names
 	 */
-	public function query_files( $file_mask ) {  
-		$this->trace_files = glob( $file_mask . ".*" );
+	public function query_files( $file_mask ) { 
+		$files = glob( $file_mask . ".*", GLOB_NOSORT );
+ 		natsort( $files );
+		$this->trace_files = $files; 		
 		return $this->trace_files;
 	}
 	
