@@ -266,7 +266,7 @@ function bw_trace_set_savequeries() {
 		if ( !defined( 'SAVEQUERIES' ) ) {
 			define( 'SAVEQUERIES', true );
 		} else {
-			bw_trace2( SAVEQUERIES, "SAVEQUERIES is already defined", false, BW_TRACE_DEBUG );
+			bw_trace2( SAVEQUERIES, "SAVEQUERIES is already defined", false, BW_TRACE_VERBOSE );
 		}
 	}
 } 
