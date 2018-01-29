@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2017
+<?php // (C) Copyright Bobbing Wide 2011-2018
 if ( !defined( 'OIK_BWTRACE_INCLUDES_INCLUDED' ) )  {
 define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  
@@ -656,6 +656,12 @@ function bw_lazy_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=_
  */
 function bw_trace_file_name( $bw_trace_options, $ajax=false ) {
 	$file = null;
+	
+	//if ( defined('REST_REQUEST') && REST_REQUEST ) {
+	//	$file = "bwtrace.rest";
+	//	return $file;
+	//}
+	
 	if ( $ajax ) {
 		$file = bw_array_get( $bw_trace_options, 'file_ajax', null ); 
 		$file = trim( $file );
@@ -697,8 +703,31 @@ function bw_trace_file() {
 		$ajax = defined( 'DOING_AJAX' ) && DOING_AJAX ;
 		$bw_trace_file = bw_trace_file_name( $bw_trace_options, $ajax );
 		$bw_trace_file = $file . $bw_trace_file;
+		
 	}
   return( $bw_trace_file );
+}
+
+
+/** 
+ * Returns the trace file name supporting trace file generations 
+ * 
+ * To better support multiple trace requests during editing, 
+ * where the new editor performs a variety of calls: normal, AJAX and REST
+ * 
+ * @return Name of the trace file to use
+ */
+function bw_trace_file2() {
+	static $bw_trace_file2 = null;
+	if ( null === $bw_trace_file2 ) {
+		global $bw_trace_options;
+		oik_require( "includes/class-trace-file-selector.php", "oik-bwtrace" );
+		$trace_file_selector = new trace_file_selector();
+		$trace_file_selector->set_trace_options( $bw_trace_options );
+		$bw_trace_file2 = $trace_file_selector->get_trace_file_name();
+	}
+	return $bw_trace_file2;
+
 }
 
 /**
@@ -725,7 +754,7 @@ function bw_trace_batch() {
  */
 function bw_trace_log( $line ) {
 	// echo '<!--bw_trace_log '.$file.$line.'-->';
-	$file = bw_trace_file();
+	$file = bw_trace_file2();
 	if ( $file ) {
 		bw_write( $file, $line ); 
 	} else {
@@ -805,7 +834,7 @@ function bw_write( $file, $line ) {
 function bw_trace_reset() {
 	static $reset_done = false; 
 	if ( ! $reset_done ) {
-		$file = bw_trace_file();
+		$file = bw_trace_file2();
 		if ( is_file($file) ) {
 			if ( is_writable( $file ) ) {
 				@unlink( $file );

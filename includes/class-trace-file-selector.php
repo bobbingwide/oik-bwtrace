@@ -10,6 +10,17 @@ class trace_file_selector {
 	public $trace_file_name;
 	public $trace_files;
 	
+	/**
+	 * oik-bwtrace was developed as procedural code. 
+	 * If we now intend to implement OO code for some things
+	 * how do we go about introducing it? 
+	 * Should bw_trace_options be a separate class?
+	 * For the time being we'll just try working with a local copy
+	 * so we can set the $file_name and $file_extension for AJAX and normal.
+	 * and extend this for CLI and REST
+	 *
+	 */
+	public $trace_options;
 	
 	public function __construct() {
 		$this->set_limit();
@@ -43,15 +54,79 @@ class trace_file_selector {
 		return $this->file_generation;
 	}
 	
-	
 	/**
 	 * Sets the trace file path
 	 *
 	 * $file_path fully qualified location including trailing slash
 	 */
-	public function set_file_path( $file_path=ABSPATH ) {
+	public function set_file_path( $file_path=null ) {
+		if ( !$file_path ) {
+			$file_path = $this->get_abspath();
+		}
 		$this->file_path = $file_path;
 	}
+	
+	/**
+	 * Gets a sanitized version of ABSPATH
+	 *
+	 * If the constant is not set it determines it based on this file's location.
+	 *
+	 */
+	public function get_abspath() {
+		if ( !defined('ABSPATH') ) {
+			$abspath = dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/';
+			$abspath = str_replace( "\\", "/", $abspath );
+			if ( ':' === substr( $abspath, 1, 1 ) ) {
+				$abspath = ucfirst( $abspath );
+			}
+		} else { 
+			$abspath = ABSPATH;
+		}
+		return $abspath;
+	}
+	
+	public function set_trace_options( $bw_trace_options ) {
+		$this->trace_options = $bw_trace_options;
+		$this->update_from_options();
+	}
+	
+	/**
+	 * Use ajax/rest/cli file name if defined
+	 * 
+	 */
+	public function update_from_options() {
+		$file = null;
+		$request_type = $this->query_request_type();
+		if ( $request_type ) {
+      $file = bw_array_get( $this->bw_trace_options, 'file_' . $request_type, null ); 
+		}
+		if ( !$file ) {
+			$file = bw_array_get( $this->bw_trace_options, 'file', "bwtrace.loh" );
+		}
+		$file = trim( $file );
+		$file_name = pathinfo( $file, PATHINFO_FILENAME );
+		$file_extension = pathinfo( $file, PATHINFO_EXTENSION );
+		$this->set_file_name( $file_name );
+		$this->set_file_extension( $file_extension ? $file_extension : $request_type );
+		
+	}
+	
+	/**
+	 * Determines the request type from the available information
+	 */
+	public function query_request_type() {
+		$type = null;
+		if ( php_sapi_name() == "cli" ) {
+			$type = "cli";
+		}
+		if ( defined('REST_REQUEST') && REST_REQUEST ) {
+			$type = "rest";
+		}
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			$type = "ajax";
+		}
+		return $type;
+	}				
 	
 	public function get_trace_file_mask() {
 		$file_mask = $this->file_path;
