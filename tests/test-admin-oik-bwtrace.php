@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2017
+<?php // (C) Copyright Bobbing Wide 2017, 2018
 
 /**
  * @package oik-bwtrace 
@@ -205,6 +205,13 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$bw_trace_options['file_ajax'] = 'bwphpunit.ajax';
 		$bw_trace_options['reset_ajax'] = 'on';
 		$bw_trace_options['trace_ajax'] = 'on'; 
+		$bw_trace_options['file_rest'] = 'bwphpunit.rest';
+		$bw_trace_options['reset_reset'] = 'on';
+		$bw_trace_options['trace_rest'] = '0'; 
+		$bw_trace_options['file_cli'] = 'bwphpunit.cli';
+		$bw_trace_options['reset_cli'] = 'on';
+		$bw_trace_options['trace_cli'] = '0'; 
+		$bw_trace_options['limit'] = ''; 
 		$bw_trace_options['level'] = BW_TRACE_INFO; // 16
     $bw_trace_options['qualified'] = 'on';
     $bw_trace_options['count'] = 'on';

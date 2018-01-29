@@ -1,16 +1,16 @@
-# Copyright (C) 2017 oik bwtrace
+# Copyright (C) 2018 oik bwtrace
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 2.1.1-beta-20171023\n"
+"Project-Id-Version: oik bwtrace 2.1.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2017-12-20 17:01:03+00:00\n"
+"POT-Creation-Date: 2018-01-29 18:16:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: bb_BB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 #: admin/class-oik-trace-info.php:25
@@ -148,7 +148,7 @@ msgid "'String watch' for this string"
 msgstr "'Srtnig wtach' fOr tihs srtnig"
 
 
-#: admin/oik-bwtrace.php:111 admin/oik-bwtrace.php:180
+#: admin/oik-bwtrace.php:111 admin/oik-bwtrace.php:190
 msgid "Save changes"
 msgstr "Svae cahgnes"
 
@@ -184,8 +184,8 @@ msgstr "Tarce eanlbed"
 
 
 #: admin/oik-bwtrace.php:149
-msgid "AJAX Trace file"
-msgstr "AAJX Tarce flie"
+msgid "AJAX trace file"
+msgstr "AAJX tarce flie"
 
 
 #: admin/oik-bwtrace.php:150
@@ -194,66 +194,101 @@ msgstr "Rseet AAJX tarce flie eevry AAJX tarsncaiton"
 
 
 #: admin/oik-bwtrace.php:151
-msgid "AJAX Trace enabled"
-msgstr "AAJX Tarce eanlbed"
+msgid "AJAX trace enabled"
+msgstr "AAJX tarce eanlbed"
+
+
+#: admin/oik-bwtrace.php:153
+msgid "REST trace file"
+msgstr "RSET tarce flie"
+
+
+#: admin/oik-bwtrace.php:154
+msgid "Reset REST trace file every REST transaction"
+msgstr "Rseet RSET tarce flie eevry RSET tarsncaiton"
+
+
+#: admin/oik-bwtrace.php:155
+msgid "REST trace enabled"
+msgstr "RSET tarce eanlbed"
 
 
 #: admin/oik-bwtrace.php:157
+msgid "Batch trace file"
+msgstr "Btach tarce flie"
+
+
+#: admin/oik-bwtrace.php:158
+msgid "Reset batch trace file each invocation"
+msgstr "Rseet btach tarce flie ecah ivncotaoin"
+
+
+#: admin/oik-bwtrace.php:159
+msgid "Batch trace enabled"
+msgstr "Btach tarce eanlbed"
+
+
+#: admin/oik-bwtrace.php:161
+msgid "Trace file generation limit"
+msgstr "Tarce flie gneretaoin lmiit"
+
+
+#: admin/oik-bwtrace.php:167
 msgid "Trace level"
 msgstr "Tarce lveel"
 
 
-#: admin/oik-bwtrace.php:158
+#: admin/oik-bwtrace.php:168
 msgid "Fully qualified file names"
 msgstr "Fluly qauilifed flie nmaes"
 
 
-#: admin/oik-bwtrace.php:159
+#: admin/oik-bwtrace.php:169
 msgid "Include trace record count"
 msgstr "Icnulde tarce rcerod cuont"
 
 
-#: admin/oik-bwtrace.php:160
+#: admin/oik-bwtrace.php:170
 msgid "Include timestamp"
 msgstr "Icnulde tmiseatmp"
 
 
-#: admin/oik-bwtrace.php:161
+#: admin/oik-bwtrace.php:171
 msgid "Include current filter"
 msgstr "Icnulde cruernt flietr"
 
 
-#: admin/oik-bwtrace.php:162
+#: admin/oik-bwtrace.php:172
 msgid "Include number of queries"
 msgstr "Icnulde nmuebr Of qeuires"
 
 
-#: admin/oik-bwtrace.php:163
+#: admin/oik-bwtrace.php:173
 msgid "Include post ID"
 msgstr "Icnulde psot ID"
 
 
-#: admin/oik-bwtrace.php:166
+#: admin/oik-bwtrace.php:176
 msgid "Include memory/peak usage ( limit %1$s )"
 msgstr "Icnulde mmeroy/paek uasge ( lmiit %1$s )"
 
 
-#: admin/oik-bwtrace.php:167
+#: admin/oik-bwtrace.php:177
 msgid "Include files loaded count"
 msgstr "Icnulde flies laoedd cuont"
 
 
-#: admin/oik-bwtrace.php:171
+#: admin/oik-bwtrace.php:181
 msgid "Current IP: %1$s"
 msgstr "Cruernt IP: %1$s"
 
 
-#: admin/oik-bwtrace.php:173
+#: admin/oik-bwtrace.php:183
 msgid "Trace specific IP"
 msgstr "Tarce sepicifc IP"
 
 
-#: admin/oik-bwtrace.php:190
+#: admin/oik-bwtrace.php:200
 msgid ""
 "The tracing output produced by oik-bwtrace can be used for problem "
 "determination."
@@ -262,34 +297,34 @@ msgstr ""
 "dtereimaniton."
 
 
-#: admin/oik-bwtrace.php:191
+#: admin/oik-bwtrace.php:201
 msgid "It's not for the faint hearted."
 msgstr "It's nOt fOr thE fiant haetred."
 
 
-#: admin/oik-bwtrace.php:192
+#: admin/oik-bwtrace.php:202
 msgid ""
 "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site."
 msgstr ""
 "ThE OIk-btwarce pulign sohlud <b>not</b> need tO bE atcvitaed On A lvie stie."
 
 
-#: admin/oik-bwtrace.php:193
+#: admin/oik-bwtrace.php:203
 msgid "If you do need to activate it, only do so for a short period of time."
 msgstr "If yOU dO need tO atcvitae It, olny dO sO fOr A sohrt preoid Of tmie."
 
 
-#: admin/oik-bwtrace.php:195
+#: admin/oik-bwtrace.php:205
 msgid "You will need to specify the trace file name (e.g. bwtrace.loh )"
 msgstr "YOU wlil need tO sepicfy thE tarce flie nmae (E.g. btwarce.lOh )"
 
 
-#: admin/oik-bwtrace.php:196
+#: admin/oik-bwtrace.php:206
 msgid "When you want to trace processing check 'Trace enabled'"
 msgstr "Wehn yOU wnat tO tarce porecssnig cehck 'Tarce eanlbed'"
 
 
-#: admin/oik-bwtrace.php:197
+#: admin/oik-bwtrace.php:207
 msgid ""
 "Check 'Reset trace file every transaction' to cause the trace file to be "
 "cleared for every request, including AJAX requests."
@@ -298,17 +333,17 @@ msgstr ""
 "celraed fOr eevry rqeeust, icnulidng AAJX rqeeutss."
 
 
-#: admin/oik-bwtrace.php:200
+#: admin/oik-bwtrace.php:210
 msgid "You may find the most recent trace output at..."
 msgstr "YOU mAy fnid thE msot rcenet tarce otuupt At..."
 
 
-#: admin/oik-bwtrace.php:203
+#: admin/oik-bwtrace.php:213
 msgid "View trace output in your browser."
 msgstr "Veiw tarce otuupt In yuor borswer."
 
 
-#: admin/oik-bwtrace.php:205
+#: admin/oik-bwtrace.php:215
 msgid ""
 "If you want to trace processing within some content you can use two "
 "shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off"
@@ -317,7 +352,7 @@ msgstr ""
 "sohtroceds: [bwtron] tO trun tarce On And [bwtroff] tO trun It Off"
 
 
-#: admin/oik-bwtrace.php:220
+#: admin/oik-bwtrace.php:230
 msgid ""
 "Use the [bwtrace] shortcode in a widget to provide an instant trace reset "
 "and page reload."
@@ -326,37 +361,37 @@ msgstr ""
 "And pgae rleaod."
 
 
-#: admin/oik-bwtrace.php:226
+#: admin/oik-bwtrace.php:236
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr "Atcvitae thE OIk bsae pulign tO eanlbe thE [bwtrace] sohtrocde"
 
 
-#: includes/bwtrace.php:1068
+#: includes/bwtrace.php:1097
 msgid "Debug level"
 msgstr "Dbeug lveel"
 
 
-#: includes/bwtrace.php:1069
+#: includes/bwtrace.php:1098
 msgid "Information level - standard"
 msgstr "Ifnroamiton lveel - satdnrad"
 
 
-#: includes/bwtrace.php:1070
+#: includes/bwtrace.php:1099
 msgid "Notice level"
 msgstr "Ntocie lveel"
 
 
-#: includes/bwtrace.php:1071
+#: includes/bwtrace.php:1100
 msgid "Warning level"
 msgstr "Wrainng lveel"
 
 
-#: includes/bwtrace.php:1072
+#: includes/bwtrace.php:1101
 msgid "Error level"
 msgstr "Error lveel"
 
 
-#: includes/bwtrace.php:1073
+#: includes/bwtrace.php:1102
 msgid "Verbose level - noisier than Debug"
 msgstr "Vreobse lveel - nioiser tahn Dbeug"
 
