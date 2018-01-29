@@ -34,22 +34,52 @@ class trace_file_selector {
 		//$this->set_trace_file_name();
 	}
 	
+	/**
+	 * Sets the limit
+	 * 
+	 * Limit      | Generation logic | Generation
+	 * ------     | ---------------- | -----------
+	 * blank/null | Not used.        | null
+	 * 0          | Unlimited        | .timestamp
+	 * >0         | Cycling          | .generation
+	 */
 	public function set_limit( $limit=100 ) {
+		$limit = trim( $limit );
 		$this->limit = $limit;
 	}
 	
+	/**
+	 * Sets the trace file name
+	 * 
+	 * @param string $file_name file name part, should not contain path
+	 */
 	public function set_file_name( $file_name="bwtrace" ) {
 		$this->file_name = $file_name;
 	}
 	
+	/**
+	 * Sets the trace file extension
+	 * 
+	 * @param string $file_extension Expected to reflect the request type
+	 */
 	public function set_file_extension( $file_extension="loh" ) {
 		$this->file_extension = $file_extension;
 	}
 	
-	public function set_generation( $generation=1 ) {
+	/**
+	 * Sets the file generation
+	 * 
+	 * @param integer|null $generation
+	 */
+	public function set_generation( $generation=null ) {
 		$this->file_generation = $generation;	
 	}
 	
+	/** 
+	 * Returns the current setting of the generation
+	 *
+	 * @return integer|null  
+	 */
 	public function get_generation() {
 		return $this->file_generation;
 	}
@@ -88,10 +118,11 @@ class trace_file_selector {
 	public function set_trace_options( $bw_trace_options ) {
 		$this->trace_options = $bw_trace_options;
 		$this->update_from_options();
+		$this->set_limit( bw_array_get( $this->trace_options, 'limit', $this->limit ) );
 	}
 	
 	/**
-	 * Use ajax/rest/cli file name if defined
+	 * Use ajax/rest/cli file name and extension if defined
 	 * 
 	 */
 	public function update_from_options() {
@@ -108,7 +139,6 @@ class trace_file_selector {
 		$file_extension = pathinfo( $file, PATHINFO_EXTENSION );
 		$this->set_file_name( $file_name );
 		$this->set_file_extension( $file_extension ? $file_extension : $request_type );
-		
 	}
 	
 	/**
@@ -118,16 +148,44 @@ class trace_file_selector {
 		$type = null;
 		if ( php_sapi_name() == "cli" ) {
 			$type = "cli";
+		}	elseif ( defined( 'DOING_AJAX' ) && DOING_AJAX  ) {
+			$type = "ajax";
+		} else {
+			$type = $this->maybe_rest();
 		}
+		return $type;
+	}
+	
+	/** 
+	 * Determines if this request could be a REST request
+	 * 
+	 * @TODO Cater for custom REST routes
+	 * @return string|null 'rest' if we think or know it's a REST request
+	 */
+	function maybe_rest() {
+		$type = null;
+		$request_uri = bw_array_get( $_SERVER, 'REQUEST_URI' );
+		//$request_uri = $this->maybe_subdir_install( $request_uri );
+		$pos = strpos( $request_uri, "/wp-json/wp/v2/" );
+		if ( $pos === false ) {
+			$pos = strpos( $request_uri, "/index.php?rest_route=" );
+		}
+		if ( $pos !== false ) {
+			$type = "rest";
+		}
+	
 		if ( defined('REST_REQUEST') && REST_REQUEST ) {
 			$type = "rest";
 		}
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			$type = "ajax";
-		}
 		return $type;
-	}				
 	
+	}	
+	
+	/**
+	 * Builds the trace file mask
+	 *
+	 * Format: path/filename.ext
+	 */			
 	public function get_trace_file_mask() {
 		$file_mask = $this->file_path;
 		$file_mask .= $this->file_name;
@@ -155,6 +213,8 @@ class trace_file_selector {
 	
 	/**
 	 * Trims to limit
+	 * 
+	 * Removes files which are not in the currently defined limit.
 	 */
 	public function trim_to_limit( $files, $file_mask, $limit ) {
 		$limited = array();
@@ -186,20 +246,47 @@ class trace_file_selector {
 		return $generation;
 	}
 	
+	/**
+	 * Sets the full trace file name
+	 */
 	public function set_trace_file_name() {
 		$file_name = $this->get_trace_file_mask();
-		$file_name .= ".";
-		$file_name .= $this->get_generation();
+		$generation = $this->get_generation();
+		if ( $generation ) {
+			$file_name .= ".";
+			$file_name .= $generation;
+		}	
 		$this->trace_file_name = $file_name;
 	}
 	
 	public function get_trace_file_name() {
 		if ( !$this->trace_file_name ) {
-			$generation = $this->query_next_generation();
-			$this->set_generation( $generation );
+			$this->set_generation_for_limit();
 			$this->set_trace_file_name();
 		}
 		return $this->trace_file_name;
+	}
+	
+	/** 
+	 * Sets the generation for the given limit
+	 * 
+	 */
+	public function set_generation_for_limit() {
+		switch ( $this->limit ) {
+			case null:
+			case '':
+				$this->set_generation( null );
+				break;
+			
+			case 0:
+				$this->set_generation( $_SERVER['REQUEST_TIME' ] );
+				//$this->set_generation( time() );
+				break;
+			
+			default:		
+				$generation = $this->query_next_generation();
+				$this->set_generation( $generation );
+		}
 	}
 	
 	/**

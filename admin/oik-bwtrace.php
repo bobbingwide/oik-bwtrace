@@ -150,9 +150,15 @@ function oik_trace_options() {
   bw_checkbox_arr( "bw_trace_options", __( "Reset AJAX trace file every AJAX transaction", "oik-bwtrace" ), $options, 'reset_ajax' );
   bw_checkbox_arr( "bw_trace_options", __( "AJAX trace enabled", "oik-bwtrace" ), $options, 'trace_ajax' );
 	
+  BW_::bw_textfield_arr( "bw_trace_options", __( "REST trace file", "oik-bwtrace" ), $options, 'file_rest', 60 );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset REST trace file every REST transaction", "oik-bwtrace" ), $options, 'reset_rest' );
+  bw_checkbox_arr( "bw_trace_options", __( "REST trace enabled", "oik-bwtrace" ), $options, 'trace_rest' );
+	
   BW_::bw_textfield_arr( "bw_trace_options", __( "Batch trace file", "oik-bwtrace" ), $options, 'file_cli', 60 );
   bw_checkbox_arr( "bw_trace_options", __( "Reset batch trace file each invocation", "oik-bwtrace" ), $options, 'reset_cli' );
   bw_checkbox_arr( "bw_trace_options", __( "Batch trace enabled", "oik-bwtrace" ), $options, 'trace_cli' );
+	
+	BW_::bw_textfield_arr( "bw_trace_options", __( "Trace file generation limit", "oik-bwtrace" ), $options, 'limit', 5 ); 
 	
 	// Does this need includes/bwtrace.php?
 	$trace_levels = bw_list_trace_levels();
