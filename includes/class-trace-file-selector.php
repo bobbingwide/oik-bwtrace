@@ -134,7 +134,6 @@ class trace_file_selector {
 		$file_mask .= ".";
 		$file_mask .= $this->file_extension;
 		return $file_mask;
-	
 	}
 	
 	/**
@@ -148,9 +147,24 @@ class trace_file_selector {
 	 */
 	public function query_files( $file_mask ) { 
 		$files = glob( $file_mask . ".*", GLOB_NOSORT );
+		$files = $this->trim_to_limit( $files, $file_mask, $this->limit );
  		natsort( $files );
 		$this->trace_files = $files; 		
 		return $this->trace_files;
+	}
+	
+	/**
+	 * Trims to limit
+	 */
+	public function trim_to_limit( $files, $file_mask, $limit ) {
+		$limited = array();
+		foreach ( $files as $file ) {
+			$index = str_replace( $file_mask . "." , "", $file );
+			if ( $index <= $limit ) {
+				$limited[] = $file;
+			}
+		}
+		return $limited;
 	}
 	
 	/**
@@ -163,9 +177,7 @@ class trace_file_selector {
 	 * @param array $files files matching the $file_mask
 	 * @param string $file_mask - selector for the files
 	 * @return integer generation number of the oldest file.
-	 *  
-		
-	*/
+	 */
 	public function query_oldest_file( $files, $file_mask) {
 		array_multisort( array_map( 'filemtime', $files), SORT_ASC, $files);
 		//print_r( $files );
