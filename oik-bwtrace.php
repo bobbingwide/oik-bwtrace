@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 2.1.1
+Version: 2.2.0
 Author: bobbingwide
 Author URI: https://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-bwtrace
@@ -40,63 +40,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * @return bool - the determined value of $bw_trace_on 
  */
 function bw_trace_status() {
-	global $bw_trace_on, $bw_trace_options;
-	if ( defined( 'BW_TRACE_ON' ) && BW_TRACE_ON ) {
-		// $bw_trace_on should already be true... but can we turn it off?
-		// How does that affect reset?	
-		// Well, perhaps we can check the BW_TRACE_RESET constant and whether or not we started in wp-config
-	} else {
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			$bw_trace_on = bw_torf( $bw_trace_options, 'trace_ajax' );
-		} else {
-			$bw_trace_on = bw_torf( $bw_trace_options, 'trace' );
-		}
-	}	
+	global $bw_trace_on, $bw_trace;
+	//, $bw_trace_options;
+
+	$bw_trace_on = $bw_trace->status();
 	return $bw_trace_on;
 }
 
-/**
- * Determine the trace reset status
- *
- * We can reset the trace file regardless of the value of tracing
- * except when we're only tracing a specific IP
- * when we don't want to reset the trace file if we're not tracing this particular transaction.
- *
- * If the request contains '_bw_trace_reset' then we will force a reset.
- * 
- * @TODO Trace reset only affects the particular file we're dealing with.
- *  We'll need to find some way of resetting the AJAX trace file.
- * 
- * $bw_trace_ip | $tracing | $bw_trace_reset ?
- * ------------ | -------- | ---------------------
- * set          | false    | don't reset
- * set          | true		 | depends on the option 'reset' or 'reset_ajax'
- * not-set      | either   | depends on the option 'reset' or 'reset_ajax'
- *
- * @param string $bw_trace_ip - specific IP to trace
- * @param bool $tracing true if tracing
- * @return bool true if the trace file should be reset
- */
-function bw_trace_reset_status( $bw_trace_ip, $tracing ) {
-	global $bw_trace_options;
-	if ( $bw_trace_ip && !$tracing ) { 
-		$bw_trace_reset = false ;
-	} else {
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			$bw_trace_reset = bw_torf( $bw_trace_options, 'reset_ajax' );
-		} else {
-			$bw_trace_reset = bw_torf( $bw_trace_options, 'reset' );
-		}
-	}
-	if ( !empty( $_REQUEST['_bw_trace_reset'] ) ) {
-		$bw_trace_reset = true;
-	}
-	
-	if ( isset( $_REQUEST['wc-ajax'] ) ) {
-		$bw_trace_reset = false;
-	} 
-	return( $bw_trace_reset );
-} 
 
 /**
  * Determine the required trace level
@@ -112,25 +62,11 @@ function bw_trace_reset_status( $bw_trace_ip, $tracing ) {
  * @return integer trace level. Negative when tracing is off
  */
 function bw_trace_level() {
-	global $bw_trace_level, $bw_trace_options;
+	global $bw_trace_level, $bw_trace;
 	if ( !isset( $bw_trace_level ) ) {
-		$bw_trace_level = bw_array_get( $bw_trace_options, "level", BW_TRACE_INFO );
-		$bw_trace_level = (int) $bw_trace_level;
+		$bw_trace_level = $bw_trace->get_trace_level();
 	}
-	return( $bw_trace_level );
-}
-
-/**
- * Return TRUE if option is '1', FALSE otherwise 
- *
- * @param array $array the option array
- * @param string $option the option field
- * @return bool true if the option field is set 
- */
-function bw_torf( $array, $option ) {
-	$opt = bw_array_get( $array, $option );
-	$ret = $opt > '0';
-	return $ret;
+	return $bw_trace_level;
 }
 
 /**
@@ -146,23 +82,28 @@ function bw_torf( $array, $option ) {
  * 
  */
 function bw_trace_plugin_startup() {
-	global $bw_trace_options, $bw_action_options;
-	$bw_trace_options = get_option( 'bw_trace_options' );
-	if ( !isset( $bw_action_options ) ) {
-		$bw_action_options = get_option( 'bw_action_options' );
-	}
+	oik_require( "includes/class-bw-trace-controller.php", "oik-bwtrace" );
+	global $bw_trace;
+	$bw_trace = new BW_trace_controller();
+
+	//global $bw_trace_options, $bw_action_options;
+	global $bw_action_options;
+	//$bw_trace_options = get_option( 'bw_trace_options' );
+	//if ( !isset( $bw_action_options ) ) {
+	//	$bw_action_options = get_option( 'bw_action_options' );
+	//}
 	$tracing = bw_trace_status();
-	
-	$bw_trace_ip = bw_array_get( $bw_trace_options, "ip", null );
-	if ( $bw_trace_ip ) {
-	 	$server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
-		if ( $server ) {
-			$tracing = ( $server == $bw_trace_ip );
-		} else {
-			$tracing = ( $bw_trace_ip === php_sapi_name() );
-		}
-	}
-	$bw_trace_reset = bw_trace_reset_status( $bw_trace_ip, $tracing );
+	//$bw_trace_ip = bw_array_get( $bw_trace_options, "ip", null );
+	//if ( $bw_trace_ip ) {
+	// 	$server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
+	//		if ( $server ) {
+	//			$tracing = ( $server == $bw_trace_ip );
+	//		} else {
+	//			$tracing = ( $bw_trace_ip === php_sapi_name() );
+	//		}
+	//	}
+	$bw_trace_ip = $bw_trace->trace_ip();
+	$bw_trace_reset = $bw_trace->reset_status();
 	if ( $bw_trace_reset ) {
 		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
 		bw_trace_reset();
@@ -171,26 +112,9 @@ function bw_trace_plugin_startup() {
 	if ( $tracing ) {
 		$bw_trace_level = bw_trace_level(); 
 		bw_trace_on();
-		global $bw_include_trace_count
-				, $bw_include_trace_date
-				, $bw_trace_anonymous
-				, $bw_trace_memory
-				, $bw_trace_post_id
-				, $bw_trace_num_queries;
-		global $bw_trace_current_filter, $bw_trace_file_count;
-		$bw_include_trace_count = bw_torf( $bw_trace_options, 'count' );
-		$bw_include_trace_date = bw_torf( $bw_trace_options, 'date' );
-		$bw_trace_anonymous = !bw_torf( $bw_trace_options, 'qualified' );
-		$bw_trace_memory = bw_torf( $bw_trace_options, "memory" );
-		$bw_trace_post_id = bw_torf( $bw_trace_options, "post_id" );
-		$bw_trace_num_queries = bw_torf( $bw_trace_options, "num_queries" );
-		bw_trace_set_savequeries();
-		
-		$bw_trace_current_filter = bw_torf( $bw_trace_options, "filters" );
-		$bw_trace_file_count = bw_torf( $bw_trace_options, "files" );
     
     
-		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
+		//oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
 		
 	} else {
 		bw_trace_off();
@@ -375,6 +299,8 @@ function oik_bwtrace_loaded() {
 	
 	/*
 	 * Invoke the start up logic if "add_action" is available
+	 * 2018/01/30 - I can't see why we need this test but it probably does no harm.
+	 * 
 	 */ 
 	if ( function_exists( "add_action" ) ) {
 		bw_trace_plugin_startup();

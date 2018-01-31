@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2015-2017
+<?php // (C) Copyright Bobbing Wide 2015-2018
  
 /**
  * Load the global bw_action_options
@@ -102,6 +102,7 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_trace_selected_hooks_backtrace();
 	bw_trace_add_trace_stringwatch();
 	//bw_trace_add_trace_anychange();
+	bw_trace_add_trace_rest();
 }
 
 /**
@@ -450,13 +451,36 @@ function bw_trace_add_trace_stringwatch() {
 /**
  * Adds anychange logic if required
  */
-
 function bw_trace_add_trace_anychange() {
 	global $bw_action_options;
 	$anychange = bw_array_get( $bw_action_options, "anychange", null );
 	if ( $anychange || defined( "BW_TRACE_ANYCHANGE" ) ) {
 		oik_require( "includes/bwtrace-anychange.php", "oik-bwtrace" );
 	}
+}
+
+/**
+ * Adds logic to trace the REST result
+ */
+function bw_trace_add_trace_rest() {
+	add_filter( "rest_pre_echo_response", "bw_trace_rest_pre_echo_response", 9999, 3 );
+}
+
+/**
+ * Trace the REST result
+ *
+ * The server and request objects are very large so are only traced at verbose level.
+ * The result can also be large. Until there's finer control this is only traced at debug level.
+ * 
+ * @param array            $result  Response data to send to the client.
+ * @param WP_REST_Server   $server  Server instance.
+ * @param WP_REST_Request  $request Request used to generate the response.
+ */
+function bw_trace_rest_pre_echo_response( $result, $server, $request ) {
+	bw_trace2( $result, "result", false, BW_TRACE_DEBUG );
+	bw_trace2( $server, "server", false, BW_TRACE_VERBOSE );
+	bw_trace2( $request, "request", false, BW_TRACE_VERBOSE );
+	return $result;
 }
 
 /**

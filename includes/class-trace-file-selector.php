@@ -1,6 +1,17 @@
 <?php // (C) Copyright Bobbing Wide 2018
 
+/**
+ * @package oik-bwtrace
+ * 
+ * Trace file selector supporting trace file generations and sets
+ * 
+ */
+
 class trace_file_selector {
+
+	/**
+	 * File generation limit - see set_limit
+	 */
 
 	public $limit;
 	public $file_path;
@@ -9,6 +20,7 @@ class trace_file_selector {
 	public $file_generation;
 	public $trace_file_name;
 	public $trace_files;
+	public $request_type; // null | 'cli' | 'ajax' | 'rest' 
 	
 	/**
 	 * oik-bwtrace was developed as procedural code. 
@@ -27,6 +39,7 @@ class trace_file_selector {
 		$this->set_file_path();
 		$this->set_file_name();
 		$this->set_file_extension();
+		$this->set_request_type();
 	
 		//$generation = $this->query_next_generation();
 
@@ -87,13 +100,16 @@ class trace_file_selector {
 	/**
 	 * Sets the trace file path
 	 *
+	 * @TODO Should we add the trailing slash ourselves
+	 *
 	 * $file_path fully qualified location including trailing slash
 	 */
 	public function set_file_path( $file_path=null ) {
 		if ( !$file_path ) {
 			$file_path = $this->get_abspath();
 		}
-		$this->file_path = $file_path;
+		$this->file_path = trailingslashit( $file_path );
+		
 	}
 	
 	/**
@@ -127,7 +143,7 @@ class trace_file_selector {
 	 */
 	public function update_from_options() {
 		$file = null;
-		$request_type = $this->query_request_type();
+		$request_type = $this->get_request_type();
 		if ( $request_type ) {
       $file = bw_array_get( $this->trace_options, 'file_' . $request_type, null ); 
 		}
@@ -135,51 +151,31 @@ class trace_file_selector {
 			$file = bw_array_get( $this->trace_options, 'file', "bwtrace.loh" );
 		}
 		$file = trim( $file );
+		
+		$file_path = pathinfo( $file, PATHINFO_DIRNAME );
 		$file_name = pathinfo( $file, PATHINFO_FILENAME );
 		$file_extension = pathinfo( $file, PATHINFO_EXTENSION );
+		if ( $file_path ) {
+			$this->set_file_path( $this->get_abspath() . $file_path );
+		}
 		$this->set_file_name( $file_name );
 		$this->set_file_extension( $file_extension ? $file_extension : $request_type );
+	}
+	
+	/** 
+	 * 
+	 */
+	public function set_request_type( $request_type=null ) {
+		$this->request_type = $request_type;
 	}
 	
 	/**
 	 * Determines the request type from the available information
 	 */
-	public function query_request_type() {
-		$type = null;
-		if ( php_sapi_name() == "cli" ) {
-			$type = "cli";
-		}	elseif ( defined( 'DOING_AJAX' ) && DOING_AJAX  ) {
-			$type = "ajax";
-		} else {
-			$type = $this->maybe_rest();
-		}
-		return $type;
+	public function get_request_type() {
+		return $this->request_type;
 	}
 	
-	/** 
-	 * Determines if this request could be a REST request
-	 * 
-	 * @TODO Cater for custom REST routes
-	 * @return string|null 'rest' if we think or know it's a REST request
-	 */
-	function maybe_rest() {
-		$type = null;
-		$request_uri = bw_array_get( $_SERVER, 'REQUEST_URI' );
-		//$request_uri = $this->maybe_subdir_install( $request_uri );
-		$pos = strpos( $request_uri, "/wp-json/wp/v2/" );
-		if ( $pos === false ) {
-			$pos = strpos( $request_uri, "/index.php?rest_route=" );
-		}
-		if ( $pos !== false ) {
-			$type = "rest";
-		}
-	
-		if ( defined('REST_REQUEST') && REST_REQUEST ) {
-			$type = "rest";
-		}
-		return $type;
-	
-	}	
 	
 	/**
 	 * Builds the trace file mask

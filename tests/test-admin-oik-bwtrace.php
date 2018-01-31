@@ -149,6 +149,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 	
 		//$this->setExpectedDeprecated( "bw_translate" );
 		$_SERVER['REQUEST_URI'] = "/";
+		bw_trace_off();
 		
 		$this->update_trace_options();
 		$this->switch_to_locale( 'en_GB' );

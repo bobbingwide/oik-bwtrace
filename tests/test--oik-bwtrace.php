@@ -35,7 +35,6 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	 * Tests for bw_trace_status are rather limited by the values of constants
 	 * If the constants are already set then we haven't really got much choice.
 	 * If not then we can pretend to set tracing off!
-	 */
 	function test_bw_trace_status() {
 		global $bw_trace_on;
 		if ( defined( 'BW_TRACE_ON' ) && BW_TRACE_ON ) {
@@ -58,6 +57,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		}
 		$this->restore_bw_trace_options();
 	}
+	 */
 	
 	/**
 	 * Save the current trace options.
@@ -103,6 +103,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	 * Set the trace options to defined values
 	 * 
 	 * Here's an example of the array structure
+	 * @TODO Needs updating for rest_ and cli_ fields and limit
 	 * `
 
     [file] => bwtraces.loh
@@ -132,6 +133,16 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		$bw_trace_options['file_ajax'] = 'bwphpunit.ajax';
 		$bw_trace_options['reset_ajax'] = 'on';
 		$bw_trace_options['trace_ajax'] = 'on'; 
+		
+		$bw_trace_options['file_rest'] = 'bwphpunit.rest';
+		$bw_trace_options['reset_rest'] = 'on';
+		$bw_trace_options['trace_rest'] = 'on'; 
+		
+		$bw_trace_options['file_cli'] = 'bwphpunit.cli';
+		$bw_trace_options['reset_cli'] = 'on';
+		$bw_trace_options['trace_cli'] = '0'; 
+		
+		$bw_trace_options['limit'] = 10;
 		$bw_trace_options['level'] = BW_TRACE_INFO; // 16
 		
     $bw_trace_options['qualified'] = 'on';
@@ -167,36 +178,15 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	
 	/**
 	 * Tests bw_trace_reset_status
+	 * 
+	 * Function moved to class BW_trace_controller::reset_status
 	 */
-	function test_bw_trace_reset_status() {
-	
-		$reset = bw_trace_reset_status( "IP", false );
-		$this->assertFalse( $reset );
-		
-		$this->save_bw_trace_options(); 
-		$this->init_bw_trace_options();
-		$reset = bw_trace_reset_status( "IP", true );
-		$this->assertTrue( $reset );
-		$reset = bw_trace_reset_status( null, true );
-		$this->restore_bw_trace_options();
-		$this->assertTrue( $reset );
-		
-		$_REQUEST['_bw_trace_reset'] = 'on';
-		$reset = bw_trace_reset_status( "IP", false );
-		$_REQUEST['_bw_trace_reset'] = null;
-		$this->assertTrue( $reset );
-		
-		$_REQUEST['wc-ajax'] = 'on';
-		$reset = bw_trace_reset_status( "IP", false );
-		$_REQUEST['wc-ajax'] = null;
-		$this->assertFalse( $reset );
-	
-	}
 	
 	/** 
 	 * Tests bw_trace_level
 	 * 
-	 */
+	 * @TODO Transfer test to BW_trace_controller
+	 
 	function test_bw_trace_level() {
 	 	global $bw_trace_level;
 		$this->save_bw_trace_options(); 
@@ -211,36 +201,32 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		
 		$this->restore_bw_trace_options();
 	}
-	
-	/**
-	 * Tests bw_torf
 	 */
-	function test_bw_torf() {
-		global $bw_trace_options;
-		$this->save_bw_trace_options(); 
-		$this->init_bw_trace_options();
-		$ajax = bw_torf( $bw_trace_options, 'trace_ajax' );
-		$this->assertTrue( $ajax );
-		$trace = bw_torf( $bw_trace_options, 'trace' );
-		$this->assertFalse( $trace );
-		$this->restore_bw_trace_options();
-	}
+	
 	
 	/**
 	 * Test trace plugin startup with tracing off
 	 *
 	 * Note: There's a lot of faffing to cater for the fact that trace may already have been started.
+	 *
+	 * If BW_TRACE_ON is defined then we can't test this.
 	 */
 	function test_bw_trace_plugin_startup_tracing_off() {
+		if ( defined( 'BW_TRACE_ON' ) ) {
+			$this->markTestSkipped( "Constant BW_TRACE_ON is defined: " . BW_TRACE_ON ); 
+		}
 		global $bw_trace_options;
 		global $bw_action_options;
 	
 		$this->save_bw_trace_options(); 
-		if ( $bw_trace_options['trace'] == "on" ) {
-			$bw_trace_options['trace'] = '0';
+		
+		if ( $bw_trace_options['trace_cli'] == "on" ) {
+			$bw_trace_options['trace_cli'] = '0';
 			bw_trace_off();
 		}
 		$this->init_bw_trace_options();
+		$bw_trace_options['trace_cli'] = '0';
+		
 		$this->update_bw_trace_options();
 		$this->save_bw_action_options();
 		$this->init_bw_action_options();
@@ -248,6 +234,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		bw_trace_plugin_startup();
 		
 		$tracing = bw_trace_status();
+		
 		$this->assertFalse( $tracing );
 		
 		$this->restore_bw_trace_options();
@@ -266,7 +253,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	
 		$this->save_bw_trace_options(); 
 		$this->init_bw_trace_options();
-		$bw_trace_options['trace'] = 'on';
+		$bw_trace_options['trace_cli'] = 'on';
 		$this->update_bw_trace_options();
 		
 		$this->save_bw_action_options();
@@ -281,9 +268,9 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		$this->restore_bw_trace_options();
 		$this->restore_bw_action_options();
 		
-		if ( $bw_trace_options['trace'] == 0 ) {
-			bw_trace_off();
-		}
+		//if ( $bw_trace_options['trace'] == 0 ) {
+		//	bw_trace_off();
+		//}
 	}
 	
 	/** 
