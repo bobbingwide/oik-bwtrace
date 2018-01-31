@@ -96,70 +96,88 @@ class BW_trace_record {
 		global $bw_trace_functions;
     bw_array_inc( $bw_trace_functions, $function );
     $line = $this->flf( $function, $lineno, $file, $this->trace_count, $text, $text_label, $level );  
-    bw_trace_log( $line );  
+    $this->trace_log( $line );  
 	}
 	
 	
-/**
- * Format the trace record
- *
- * Note: flf is an abbreviation for function, line, file 
- * which become file(line) function in the trace record
- *
- * This is the minimum output required over and above the value of the field being traced. 
- * 
- * If you don't have this information you may as well not have the trace output.
- * 
- * 
- * The format of the trace record is something like this:
- *
- * | Part                | Example
- * |-------------------- | --------------
- * | Filename(line)      | /wp-content/plugins/oik-bwtrace/oik-bwtrace.php(143:0)
- * | function(count)     | bw_trace_plugin_startup(1) 
- * | trace record count  | 7
- * | timestamp           | 2015-06-04T13:53:35+00:00
- * | elapsed						 | 0.011437
- * | interval            | 0.001158 
- * | context             | cf=admin_menu
- * | number of queries   | 1
- * | post ID             | 3667
- * | memory/peak usage   | 14310144/14383168
- * | files loaded        | F=80 
- * | field               | tracelog
- * | value               | C:\apache\htdocs\wordpress/bwtraces.loh
- * | bwecho'd content    | see bw_trace_bwechos()
- *
- * Most parts are controlled by trace option settings.
- *
- * Each of the invoked functions should either return the value followed by a space OR a null string
- *
- * @param string $function the invoking function ( e.g. __FUNCTION__ )
- * @param string $lineno the invoking file line number ( e.g. __LINE__ )
- * @param string $file the invoking file normally ( e.g. __FILE__ )
- * @param integer $count the trace record count
- * @param string $text representing the information to trace
- * @param string $text_label identifying text label  
- */
-function flf( $function, $lineno, $file, $count, $text, $text_label = NULL, $level=BW_TRACE_ALWAYS ) {
-	$ref = bw_trace_file_part( $file );
-	$ref .= '('.$lineno.':'. $level .') ';
-	$ref .= bw_trace_function( $function );
-	$ref .= bw_trace_count( $count );
-	$ref .= bw_trace_date( DATE_W3C );
-	$ref .= bw_trace_elapsed();
-	$ref .= bw_trace_context();
-	$ref .= bw_get_num_queries();
-	$ref .= bw_trace_post_id();
-	$ref .= bw_get_memory_usage();
-	$ref .= bw_trace_file_count();
-	$ref .= $text_label;
-	$ref .= " ";
-	$ref .= bw_trace_print_r( $text );
-	$ref .= bw_trace_bwechos();
-	$ref .= "\n";
-	return( $ref );
-} 
+	/**
+	 * Format the trace record
+	 *
+	 * Note: flf is an abbreviation for function, line, file 
+	 * which become file(line) function in the trace record
+	 *
+	 * This is the minimum output required over and above the value of the field being traced. 
+	 * 
+	 * If you don't have this information you may as well not have the trace output.
+	 * 
+	 * 
+	 * The format of the trace record is something like this:
+	 *
+	 * | Part                | Example
+	 * |-------------------- | --------------
+	 * | Filename(line)      | /wp-content/plugins/oik-bwtrace/oik-bwtrace.php(143:0)
+	 * | function(count)     | bw_trace_plugin_startup(1) 
+	 * | trace record count  | 7
+	 * | timestamp           | 2015-06-04T13:53:35+00:00
+	 * | elapsed						 | 0.011437
+	 * | interval            | 0.001158 
+	 * | context             | cf=admin_menu
+	 * | number of queries   | 1
+	 * | post ID             | 3667
+	 * | memory/peak usage   | 14310144/14383168
+	 * | files loaded        | F=80 
+	 * | field               | tracelog
+	 * | value               | C:\apache\htdocs\wordpress/bwtraces.loh
+	 * | bwecho'd content    | see bw_trace_bwechos()
+	 *
+	 * Most parts are controlled by trace option settings.
+	 *
+	 * Each of the invoked functions should either return the value followed by a space OR a null string
+	 *
+	 * @param string $function the invoking function ( e.g. __FUNCTION__ )
+	 * @param string $lineno the invoking file line number ( e.g. __LINE__ )
+	 * @param string $file the invoking file normally ( e.g. __FILE__ )
+	 * @param integer $count the trace record count
+	 * @param string $text representing the information to trace
+	 * @param string $text_label identifying text label  
+	 */
+	function flf( $function, $lineno, $file, $count, $text, $text_label = NULL, $level=BW_TRACE_ALWAYS ) {
+		$ref = bw_trace_file_part( $file );
+		$ref .= '('.$lineno.':'. $level .') ';
+		$ref .= bw_trace_function( $function );
+		$ref .= bw_trace_count( $count );
+		$ref .= bw_trace_date( DATE_W3C );
+		$ref .= bw_trace_elapsed();
+		$ref .= bw_trace_context();
+		$ref .= bw_get_num_queries();
+		$ref .= bw_trace_post_id();
+		$ref .= bw_get_memory_usage();
+		$ref .= bw_trace_file_count();
+		$ref .= $text_label;
+		$ref .= " ";
+		$ref .= bw_trace_print_r( $text );
+		$ref .= bw_trace_bwechos();
+		$ref .= "\n";
+		return $ref ;
+	}	
+ 
+
+	/**
+	 * Log a record to a trace file
+	 *
+	 * @param string $line - this can be a very long string
+	 *
+	 */
+	function trace_log( $line ) {
+		//$file = bw_trace_file2();
+		$file = $this->trace_controller->get_trace_file_name();
+		
+		if ( $file ) {
+			bw_write( $file, $line ); 
+		} else {
+			_doing_wrong_thing();
+		}
+	}
 
 
 	

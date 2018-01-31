@@ -650,7 +650,7 @@ function bw_trace_batch() {
   //bw_trace_on();
   //bw_trace_errors( 3 );
   bw_trace( $_GET, __FUNCTION__, __LINE__, __FILE__, "_GET" );
-}  
+}
 
 /**
  * Log a record to a trace file
@@ -659,14 +659,9 @@ function bw_trace_batch() {
  *
  */
 function bw_trace_log( $line ) {
-	// echo '<!--bw_trace_log '.$file.$line.'-->';
-	$file = bw_trace_file2();
-	if ( $file ) {
-		bw_write( $file, $line ); 
-	} else {
-		_doing_wrong_thing();
-	}
-}
+	global $bw_trace;
+	$bw_trace->BW_trace_record->trace_log( $line );
+}  
 
 /**
  * write the trace line to the file

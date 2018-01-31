@@ -352,6 +352,17 @@ class BW_trace_controller {
 		$this->BW_trace_record->lazy_trace( $text, $function, $lineno, $file, $text_label, $level );
 	}
 	
+	/**
+	 * Returns the trace file name 
+	 */
+	public function get_trace_file_name() {
+		//if ( $this->trace_file_selector ) {
+		
+		$bw_trace_file2 = $this->trace_file_selector->get_trace_file_name();
+		//} 
+		return $bw_trace_file2;
+	}
+	
 
 
 

@@ -255,10 +255,14 @@ class trace_file_selector {
 		$this->trace_file_name = $file_name;
 	}
 	
+	/**
+	 * Gets the trace file to use
+	 */
 	public function get_trace_file_name() {
 		if ( !$this->trace_file_name ) {
 			$this->set_generation_for_limit();
 			$this->set_trace_file_name();
+			$this->reset_as_required();
 		}
 		return $this->trace_file_name;
 	}
@@ -331,10 +335,89 @@ class trace_file_selector {
 		
 	}
 	
-		
+	/** 
+	 * Resets the trace file as required
+	 * 
+	 * Reset depends on the setting for the request type and the generation
+	 * 
+	 * trace_reset? | generation | Perform reset
+	 * ------------ | ---------- | --------------
+	 * false        | null/blank | No
+	 * false        | 0          | No - new files are created for every request
+	 * false        | >0         | No - we append to the existing file
+	 * true         | null/blank | Yes
+	 * true         | 0          | No - new files are created for every request
+	 * true         | >0         | Yes
+	 * 
+	 */
+	function reset_as_required() {
+		switch ( $this->limit ) {
+			case 0:
+				break;
+					
+			case null;
+			case '':
+			default:
+				$trace_reset = $this->query_reset();
+				if ( $trace_reset )  {
+					$this->attempt_reset();
+				}
+		}
+	}
 	
-
-
+	/** 
+	 * Returns the reset value for the request_type
+	 */
+	function query_reset() {
+		if ( $this->request_type ) {
+			$trace_reset = bw_array_get( $this->trace_options, 'reset_' . $this->request_type, null ); 
+		} else {
+			$trace_reset = bw_array_get( $this->trace_options, 'reset', null );  
+		}
+		
+		if ( !empty( $_REQUEST['_bw_trace_reset'] ) ) {
+			$trace_reset = true;
+		}
+		// @TODO Is this still necessary? 
+		if ( isset( $_REQUEST['wc-ajax'] ) ) {
+			$trace_reset = false;
+		} 
+		return $trace_reset;
+	}
+	
+	/**
+	 * Attempts to reset the file by unlinking it.
+	 * 
+	 * - If it doesn't exist that's fine.
+	 * - If it's not writable that could be a problem.
+	 * - If we can't unlink it we could try another file
+	 * - But the problem may continue until it is possible to delete it.
+	 * 
+ 	 * @return bool true if the reset was successful
+	 *
+	 */
+	function attempt_reset() {
+		$unlinked = false;
+		if ( is_file( $this->trace_file_name ) ) {
+			if ( is_writable( $this->trace_file_name ) ) {
+				$unlinked = @unlink( $this->trace_file_name );
+				if ( $unlinked ) {
+					// Good! 
+				} else {
+					// That's a shame
+					gob();
+				}
+			} else {
+				// We can't unlink the file at the moment - never mind eh?
+				// unlinked remains false
+				gob();
+			} 
+		
+		} else {
+			$unlinked = true;
+		} 
+		return $unlinked;
+	} 
 
 
 }
