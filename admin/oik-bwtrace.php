@@ -287,9 +287,12 @@ function bw_action_options_validate( $input ) {
  * @return string the trace file URL
  */  
 function bw_trace_url( $option='bw_trace_options', $ajax=false ) {
-  $options = get_option( $option ); 
-	$file = bw_trace_file_name( $options, $ajax );
-  $bw_trace_url = get_site_url( NULL, $file );
+  //$options = get_option( $option ); 
+	//$file = bw_trace_file_name( $options, $ajax );
+  //$bw_trace_url = get_site_url( NULL, $file );
+	
+	global $bw_trace;
+	$bw_trace_url = $bw_trace->get_trace_file_url();
   return( $bw_trace_url );
 }
 

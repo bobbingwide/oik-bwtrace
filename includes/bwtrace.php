@@ -579,6 +579,9 @@ function bw_trace_file_name( $bw_trace_options, $ajax=false ) {
 	if ( !$file ) {
 		$file = 'bwtrace.loh';
 	}
+	//gob();
+	global $bw_trace;
+	$file = $bw_trace->get_trace_file_name();
 	return( $file );
 }	 
   
@@ -690,6 +693,8 @@ Call Stack:
 `
 
 * @TODO The unwritten logic needs to take into account the file we're trying to write to!
+* 
+* Also.. failed to open stream: Resource temporarily unavailable 
 
 */
 function bw_write( $file, $line ) {
@@ -699,7 +704,7 @@ function bw_write( $file, $line ) {
 	}
 	$handle = fopen( $file, "a" );
 	if ( $handle === FALSE ) {
-		//bw_trace_off();
+		bw_trace_off();
 		// It would be nice to let them know... 
 		$ret = "fopen failed";
 		if ( isset( $unwritten[ $file ] ) ) {

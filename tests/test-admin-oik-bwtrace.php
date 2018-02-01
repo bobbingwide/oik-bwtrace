@@ -158,6 +158,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$html = ob_get_contents();
 		ob_end_clean();
 		$this->assertNotNull( $html );
+		$html = $this->replace_trace_url( $html );
 		$html = $this->replace_admin_url( $html );
 		$html = $this->replace_home_url( $html );
 		$html = $this->replace_php_end_of_life( $html );
@@ -183,10 +184,12 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$html = ob_get_contents();
 		ob_end_clean();
 		$this->assertNotNull( $html );
+		$html = $this->replace_trace_url( $html );
 		$html = $this->replace_admin_url( $html );
 		$html = $this->replace_home_url( $html );
 		$html = $this->replace_php_end_of_life( $html );
 		$html = $this->replace_memory_limit( $html );
+		
 		$html_array = $this->tag_break( $html );
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
@@ -224,6 +227,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
     $bw_trace_options['files'] = 'on';
     $bw_trace_options['ip'] = php_sapi_name();
 		update_option( "bw_trace_options", $bw_trace_options );
+		
 	}
 	
 	/**
@@ -275,6 +279,13 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$html = str_replace( $memory_limit, "xyzM", $html );
 		return $html;
 	}
+	
+	function replace_trace_url( $html ) {
+		$trace_url = bw_trace_url();
+		$html = str_replace( $trace_url, "https://qw/src/bwphpunit.loh", $html );
+		return $html;
+	}
+		
 	
 	/**
 	 * Gets the PHP end of life message

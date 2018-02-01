@@ -9,7 +9,7 @@
  * - I suppose the trace controller is responsible for that! 
  * - Separate from trace summary
  * 
- *
+ * @package oik-bwtrace
  */
 
 
@@ -52,6 +52,7 @@ class BW_trace_record {
 	public function set_trace_options( $bw_trace_options ) {
 		$this->trace_options = $bw_trace_options;
 		$this->update_from_options();
+		$this->update_globals();
 	}
 	
 	/**
@@ -69,14 +70,39 @@ class BW_trace_record {
 		$this->trace_num_queries = $this->trace_controller->torf( "num_queries" );
 		$this->trace_current_filter = $this->trace_controller->torf( "filters" );
 		$this->trace_file_count = $this->trace_controller->torf( "files" );
-	
-	
 	}
 	
-	function trace() {
-	
-	
+	/**
+	 * Updates global variables
+	 * 
+	 * Some global variables are still being used during the transition from procedural to OO
+	 */
+	function update_globals() {
+		global $bw_trace_anonymous;
+		$bw_trace_anonymous = $this->trace_anonymous;
+		
+		global $bw_include_trace_count;
+		$bw_include_trace_count = $this->include_trace_count;
+		
+		global $bw_include_trace_date;
+		$bw_include_trace_date = $this->include_trace_date;
+		
+		global $bw_trace_current_filter;
+		$bw_trace_current_filter = $this->trace_current_filter;
+		
+		global $bw_trace_num_queries;
+		$bw_trace_num_queries = $this->trace_num_queries;
+		
+		global $bw_trace_post_id;
+		$bw_trace_post_id = $this->trace_post_id;
+		
+		global $bw_trace_memory;
+		$bw_trace_memory = $this->trace_memory;
+		
+		global $bw_trace_file_count;
+		$bw_trace_file_count = $this->trace_file_count;
 	}
+	
 	
 	public function init_trace_functions() {
 		global $bw_trace_functions;

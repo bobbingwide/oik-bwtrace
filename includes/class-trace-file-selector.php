@@ -267,6 +267,24 @@ class trace_file_selector {
 		return $this->trace_file_name;
 	}
 	
+	/**
+	 * Gets the trace file URL 
+	 *
+	 * @TODO Support $file parameter
+	 * @param string|null $file name to use
+	 * @return string trace file URL 
+	 */
+	public function get_trace_file_url() {
+		if ( $this->trace_file_name ) {
+			$file_name = str_replace( $this->get_abspath(), "", $this->trace_file_name );
+			$trace_file_url = get_site_url( null, $file_name );
+			
+		} else {
+			$trace_file_url = null;
+		}
+		return $trace_file_url;
+	}
+	
 	/** 
 	 * Sets the generation for the given limit
 	 * 
@@ -405,19 +423,34 @@ class trace_file_selector {
 					// Good! 
 				} else {
 					// That's a shame
-					gob();
+					$this->ohmy( "unlink failed" );
 				}
 			} else {
 				// We can't unlink the file at the moment - never mind eh?
 				// unlinked remains false
-				gob();
+				$this->ohmy( "file not writeable" );
 			} 
 		
 		} else {
 			$unlinked = true;
 		} 
 		return $unlinked;
-	} 
+	}
+	
+	/**
+	 * Log a message to the error log
+	 *
+	 */ 
+	
+	function ohmy( $message ) {
+		$text = __METHOD__;
+		$last_error = error_get_last();
+    $flat_value = bw_trace_print_r( $last_error ); 
+		$logged = error_log( "$text:$flat_value:$message", 0 );
+		echo $flat_value;
+		//gob();
+	}
+		
 
 
 }

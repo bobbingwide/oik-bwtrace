@@ -90,7 +90,7 @@ function bw_trace_plugin_startup() {
 	global $bw_action_options;
 	//$bw_trace_options = get_option( 'bw_trace_options' );
 	//if ( !isset( $bw_action_options ) ) {
-	//	$bw_action_options = get_option( 'bw_action_options' );
+	$bw_action_options = get_option( 'bw_action_options' );
 	//}
 	$tracing = bw_trace_status();
 	//$bw_trace_ip = bw_array_get( $bw_trace_options, "ip", null );
