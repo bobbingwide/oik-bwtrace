@@ -375,26 +375,22 @@ function bw_trace_results( $arg=null ) {
 }
 
 /**
- * Find the current priority
+ * Finds the current hook's priority
  * 
- * This super hack relies on the fact that you can define accepted args as a decimal value
- * So I append the priority to the accepted args, which is always 9.
- *
- * @lgedeon suggested this for fix to #33886
- *  $key = key( $wp_filter[current_filter()] ); 
+ * - Originally implemented with a super hack that relied on the fact that you can define accepted args as a decimal value
+ * - I appended the priority to the accepted args, which is always 9.
+ * - @lgedeon suggested an improvement to this as a solution for TRAC #33886
+ * - But this stopped working for WordPress 4.7
+ * - Now we can just use the method that WordPress provides in the WP_Hook class
+ * 
+ * @return integer the priority of the current hook
  */
 function bw_trace_inspect_current() {
 	global $wp_filter;
 	$tag = current_filter();
-	//$current = current( $wp_filter[ $tag ] );
-	//bw_trace2( $current, "current", false, BW_TRACE_VERBOSE );
-	//$priority = $current[ 'bw_trace_results']['accepted_args'];
-	//$priority = substr( $priority, 2 );
-	
-	$priority = key( $wp_filter[ $tag ] );
-	
-	//bw_trace2( $priority, "priority", false, BW_TRACE_VERBOSE );
-	return( $priority );
+	$current = $wp_filter[ $tag ];
+	$priority = $current->current_priority();
+	return $priority;
 }
 
 /**
