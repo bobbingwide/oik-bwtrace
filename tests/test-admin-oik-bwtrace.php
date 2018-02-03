@@ -210,7 +210,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$bw_trace_options['reset_ajax'] = 'on';
 		$bw_trace_options['trace_ajax'] = 'on'; 
 		$bw_trace_options['file_rest'] = 'bwphpunit.rest';
-		$bw_trace_options['reset_reset'] = 'on';
+		$bw_trace_options['reset_rest'] = '0';
 		$bw_trace_options['trace_rest'] = '0'; 
 		$bw_trace_options['file_cli'] = 'bwphpunit.cli';
 		$bw_trace_options['reset_cli'] = 'on';

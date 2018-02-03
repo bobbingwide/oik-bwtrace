@@ -14,7 +14,9 @@ function bw_trace_on( $default_options=false ) {
   global $bw_trace_on, $bw_trace;
 	
   $bw_trace_on = TRUE;
-	$bw_trace->trace_on();
+	if ( $bw_trace ) {
+		$bw_trace->trace_on();
+	}
 	
   if ( $default_options ) { 
     global $bw_include_trace_count, $bw_include_trace_date, $bw_trace_anonymous, $bw_trace_memory, $bw_trace_post_id, $bw_trace_num_queries;
@@ -39,7 +41,9 @@ function bw_trace_on( $default_options=false ) {
 function bw_trace_off() {
   global $bw_trace_on, $bw_trace;
   $bw_trace_on = FALSE;
-	$bw_trace->trace_off();
+	if ( $bw_trace ) {
+		$bw_trace->trace_off();
+	}
 }
 
 /**
@@ -628,6 +632,11 @@ function bw_trace_file() {
  */
 function bw_trace_file2() {
 	static $bw_trace_file2 = null;
+	global $bw_trace;
+	if ( $bw_trace ) {
+		$bw_trace_file2 = $bw_trace->get_trace_file_name();
+	}
+	/*
 	if ( null === $bw_trace_file2 ) {
 		global $bw_trace_options;
 		oik_require( "includes/class-trace-file-selector.php", "oik-bwtrace" );
@@ -635,6 +644,7 @@ function bw_trace_file2() {
 		$trace_file_selector->set_trace_options( $bw_trace_options );
 		$bw_trace_file2 = $trace_file_selector->get_trace_file_name();
 	}
+	*/
 	return $bw_trace_file2;
 
 }

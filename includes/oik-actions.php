@@ -323,6 +323,11 @@ function bw_trace_status_report() {
 		$wpdb->elapsed_query_time = "";
 	}
 	$func($wpdb->elapsed_query_time, "Query time", false);
+	
+	global $bw_trace;
+	if ( $bw_trace ) {
+		$bw_trace_count = $bw_trace->get_trace_count( "trace_count" );
+	}
 	if ( $bw_trace_count ) {
 		$func( bw_trace_file2(), "Trace file", false );
 		$func( $bw_trace_count, "Trace records", false );

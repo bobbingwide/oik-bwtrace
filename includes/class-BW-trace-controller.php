@@ -44,14 +44,15 @@ class BW_trace_controller {
 		// BW_trace_controller->trace_options->load();
 		$this->load_trace_options();
 		$this->request_type = $this->query_request_type();
+		
 		$this->set_trace_level( $this->query_trace_level() );
 		// BW_trace_controller->action_options->load(); 
 		
 		if ( $this->status() ) {
 		
-			$this->set_savequeries();
 			$this->load_trace_file_selector();
 			$this->load_trace_record();
+			$this->set_savequeries();
 		}
 	}
 	
@@ -71,8 +72,8 @@ class BW_trace_controller {
 	function load_trace_file_selector() {
 		oik_require( "includes/class-trace-file-selector.php", "oik-bwtrace" );
 		$trace_file_selector = new trace_file_selector();
-		$trace_file_selector->set_trace_options( $this->trace_options );
 		$trace_file_selector->set_request_type( $this->request_type );
+		$trace_file_selector->set_trace_options( $this->trace_options );
 		$this->trace_file_selector = $trace_file_selector;
 	
 	}
@@ -104,6 +105,7 @@ class BW_trace_controller {
 		} else {
 			$type = $this->maybe_rest();
 		}
+		$_SERVER['request_type'] = $type;
 		return $type;
 	}
 	
@@ -141,6 +143,7 @@ class BW_trace_controller {
 	public function status() {
 		if ( defined( 'BW_TRACE_ON' ) && BW_TRACE_ON ) {
 			$this->trace_on = BW_TRACE_ON;
+			gob();
 			// $bw_trace_on should already be true... but can we turn it off?
 			// How does that affect reset?	
 			// Well, perhaps we can check the BW_TRACE_RESET constant and whether or not we started in wp-config
@@ -356,10 +359,12 @@ class BW_trace_controller {
 	 * Returns the trace file name 
 	 */
 	public function get_trace_file_name() {
-		//if ( $this->trace_file_selector ) {
-		
-		$bw_trace_file2 = $this->trace_file_selector->get_trace_file_name();
-		//} 
+		$bw_trace_file2 = null;
+		if ( $this->trace_file_selector ) {
+			$bw_trace_file2 = $this->trace_file_selector->get_trace_file_name();
+		} else {
+			gob();
+		}
 		return $bw_trace_file2;
 	}
 	
@@ -368,6 +373,15 @@ class BW_trace_controller {
 		$bw_trace_file_url = $this->trace_file_selector->get_trace_file_url();
 		//} 
 		return $bw_trace_file_url;
+	}
+	
+	public function get_trace_count() {
+		//$bw_trace_count = $this->trace_file_selector->get_trace_count();
+		$bw_trace_count = null;
+		if ( $this->BW_trace_record ) {
+			$bw_trace_count = $this->BW_trace_record->trace_count;
+		}
+		return $bw_trace_count;
 	}
 		
 	

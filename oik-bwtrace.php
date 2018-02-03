@@ -102,12 +102,12 @@ function bw_trace_plugin_startup() {
 	//			$tracing = ( $bw_trace_ip === php_sapi_name() );
 	//		}
 	//	}
-	$bw_trace_ip = $bw_trace->trace_ip();
-	$bw_trace_reset = $bw_trace->reset_status();
-	if ( $bw_trace_reset ) {
-		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
-		bw_trace_reset();
-	}
+	//$bw_trace_ip = $bw_trace->trace_ip();
+	//$bw_trace_reset = $bw_trace->reset_status();
+	//if ( $bw_trace_reset ) {
+	//		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
+	//		bw_trace_reset();
+	//	}
   
 	if ( $tracing ) {
 		$bw_trace_level = bw_trace_level(); 
