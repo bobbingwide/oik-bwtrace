@@ -12,7 +12,6 @@ class trace_file_selector {
 	/**
 	 * File generation limit - see set_limit
 	 */
-
 	public $limit;
 	public $file_path;
 	public $file_name;
@@ -100,16 +99,13 @@ class trace_file_selector {
 	/**
 	 * Sets the trace file path
 	 *
-	 * @TODO Should we add the trailing slash ourselves
-	 *
-	 * $file_path fully qualified location including trailing slash
+	 * @param string $file_path fully qualified location including trailing slash
 	 */
 	public function set_file_path( $file_path=null ) {
 		if ( !$file_path ) {
 			$file_path = $this->get_abspath();
 		}
 		$this->file_path = trailingslashit( $file_path );
-		
 	}
 	
 	/**
@@ -155,7 +151,7 @@ class trace_file_selector {
 		$file_path = pathinfo( $file, PATHINFO_DIRNAME );
 		$file_name = pathinfo( $file, PATHINFO_FILENAME );
 		$file_extension = pathinfo( $file, PATHINFO_EXTENSION );
-		if ( $file_path ) {
+		if ( $file_path !== '.' ) {
 			$this->set_file_path( $this->get_abspath() . $file_path );
 		}
 		$this->set_file_name( $file_name );
@@ -297,7 +293,7 @@ class trace_file_selector {
 				break;
 			
 			case 0:
-				$this->set_generation( $_SERVER['REQUEST_TIME' ] );
+				$this->set_generation( $_SERVER['REQUEST_TIME_FLOAT' ] );
 				//$this->set_generation( time() );
 				break;
 			
