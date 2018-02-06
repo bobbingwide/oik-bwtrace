@@ -369,9 +369,10 @@ class BW_trace_controller {
 	}
 	
 	public function get_trace_file_url() {
-	
-		$bw_trace_file_url = $this->trace_file_selector->get_trace_file_url();
-		//} 
+		$bw_trace_file_url = null;
+		if ( $this->trace_file_selector ) {	
+			$bw_trace_file_url = $this->trace_file_selector->get_trace_file_url();
+		} 
 		return $bw_trace_file_url;
 	}
 	

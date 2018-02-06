@@ -292,7 +292,10 @@ function bw_trace_url( $option='bw_trace_options', $ajax=false ) {
   //$bw_trace_url = get_site_url( NULL, $file );
 	
 	global $bw_trace;
-	$bw_trace_url = $bw_trace->get_trace_file_url();
+	$bw_trace_url = null;
+	if ( $bw_trace ) {
+		$bw_trace_url = $bw_trace->get_trace_file_url();
+	}
   return( $bw_trace_url );
 }
 
