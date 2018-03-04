@@ -103,6 +103,7 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_trace_stringwatch();
 	//bw_trace_add_trace_anychange();
 	bw_trace_add_trace_rest();
+	bw_trace_http_raw_post_data();
 }
 
 /**
@@ -473,10 +474,16 @@ function bw_trace_add_trace_rest() {
  * @param WP_REST_Request  $request Request used to generate the response.
  */
 function bw_trace_rest_pre_echo_response( $result, $server, $request ) {
+	bw_trace_http_raw_post_data();
 	bw_trace2( $result, "result", false, BW_TRACE_DEBUG );
-	bw_trace2( $server, "server", false, BW_TRACE_VERBOSE );
-	bw_trace2( $request, "request", false, BW_TRACE_VERBOSE );
+	bw_trace2( $server, "server", false, BW_TRACE_DEBUG );
+	bw_trace2( $request, "request", false, BW_TRACE_DEBUG );
 	return $result;
+}
+
+function bw_trace_http_raw_post_data() {
+	global $HTTP_RAW_POST_DATA;
+	bw_trace2( $HTTP_RAW_POST_DATA, "HTTP_RAW_POST_DATA", false );
 }
 
 /**
