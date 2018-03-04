@@ -218,8 +218,12 @@ function bw_trace_create_hook_links( $action_counts, $heading, $implemented=fals
 function bw_trace_get_attached_hook_count( $hook ) {
 	$count_hooks = 0;
 	global $wp_filter;
-	$hooks = bw_array_get( $wp_filter, $hook, array() );
-	//print_r( $hooks );
+	$hooks = bw_array_get( $wp_filter, $hook, null );
+	if ( $hooks ) {
+		$hooks = $hooks->callbacks;
+	} else {
+		$hooks = array();
+	}
 	if ( is_array( $hooks ) ) { 
 		$count_hooks = count( $hooks );
 	}	
@@ -229,9 +233,6 @@ function bw_trace_get_attached_hook_count( $hook ) {
 			$count_hooks += count( $functions );
 		}
 	}
-	//echo $count_hooks;
-	//print_r( $hooks );
-	//bog();
 	return( $count_hooks );
 }
 
