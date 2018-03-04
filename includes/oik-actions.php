@@ -345,7 +345,9 @@ function bw_trace_status_report() {
 		$func = "bw_trace_c3";
 	}
 	$func( $elapsed, "Elapsed (secs)", false );
-	bw_flush();
+	if ( function_exists( "bw_flush" ) ) {
+		bw_flush();
+	}
 	bw_record_vt();
 }
 

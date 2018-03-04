@@ -221,8 +221,9 @@ function bw_trace_get_attached_hook_count( $hook ) {
 	$hooks = bw_array_get( $wp_filter, $hook, null );
 	if ( $hooks ) {
 		$hooks = $hooks->callbacks;
-	} 
-	//print_r( $hooks );
+	} else {
+		$hooks = array();
+	}
 	if ( is_array( $hooks ) ) { 
 		$count_hooks = count( $hooks );
 	}	
@@ -232,9 +233,6 @@ function bw_trace_get_attached_hook_count( $hook ) {
 			$count_hooks += count( $functions );
 		}
 	}
-	//echo $count_hooks;
-	//print_r( $hooks );
-	//bog();
 	return( $count_hooks );
 }
 
