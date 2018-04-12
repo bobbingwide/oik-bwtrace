@@ -95,7 +95,13 @@ function oik_yourehavingmeon( $file ) {
  * 
  */ 
 function bw_lazy_log( $value=null, $text=null, $show_args=true, $level='error' ) {
-	$flat_value = bw_trace_print_r( $value ); 
+	if ( function_exists( "bw_trace_print_r" ) ) {
+		$flat_value = bw_trace_print_r( $value ); 
+	} elseif ( is_scalar( $value ) ) {
+		$flat_value = $value;
+	} else {
+		$flat_value = "?";
+	}
 	if ( is_callable( $level ) ) { 
 		$extra = call_user_func( $level, $value, $text );
 	} else {
