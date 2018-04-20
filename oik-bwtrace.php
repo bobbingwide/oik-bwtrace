@@ -274,7 +274,7 @@ function oik_bwtrace_loaded() {
 		oik_require( "libs/bwtrace.php", "oik-bwtrace" );
 		oik_require( "libs/bwtrace_boot.php", "oik-bwtrace" );
 		oik_require( "libs/bwtrace_log.php", "oik-bwtrace" ); 
-		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
+		oik_require( "includes/bwtrace.php", "oik-bwtrace" );  // Don't use require2 as this file's no longer part of oik
 	}
 	
 	/** 
