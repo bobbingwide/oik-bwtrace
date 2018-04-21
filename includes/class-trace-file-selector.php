@@ -54,8 +54,10 @@ class trace_file_selector {
 	 * blank/null | Not used.        | null
 	 * 0          | Unlimited        | .timestamp
 	 * >0         | Cycling          | .generation
+	 * 
+	 * @param integer|null $limit
 	 */
-	public function set_limit( $limit=100 ) {
+	public function set_limit( $limit=null ) {
 		$limit = trim( $limit );
 		$this->limit = $limit;
 	}
@@ -127,10 +129,20 @@ class trace_file_selector {
 		return $abspath;
 	}
 	
+	/**
+	 * Sets trace options
+	 */
 	public function set_trace_options( $bw_trace_options ) {
 		$this->trace_options = $bw_trace_options;
 		$this->update_from_options();
-		$this->set_limit( bw_array_get( $this->trace_options, 'limit', $this->limit ) );
+		
+		$request_type = $this->get_request_type();
+		if ( $request_type ) {
+			$limit = 'limit_' . $request_type;
+		} else {
+			$limit = 'limit';
+		}
+		$this->set_limit( bw_array_get( $this->trace_options, $limit, $this->limit ) );
 	}
 	
 	/**

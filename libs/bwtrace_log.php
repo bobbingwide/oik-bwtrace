@@ -33,7 +33,7 @@ if ( !defined( "OIK_BWTRACE_LOG_INCLUDED" ) ) {
  
  * In most cases, where oik_require() has been invoked correctly we do expect the file to exist.
  * 
- * The second test checks that the file really doesn't exist
+ * The second test checks that the file really doesn't exist.
  * 
  * @param string $file - the fully qualified file name
  * @return string - some additional information that may help debugging.
@@ -44,22 +44,25 @@ function oik_yourehavingmeon( $file ) {
 		return $file;
 	}
 	if ( defined( 'WP_DEBUG') && WP_DEBUG ) {
-		echo "<!-- File does not exist:$file! -->" ;
-		if ( !is_file( $file ) ) {
-			echo "<!-- File is not a real file:$file! -->" ;
+		$type = bw_array_get( $_SERVER, 'request_type', null );
+		if ( $type != 'rest' ) {
+			echo "<!-- File does not exist:$file! -->" ;
+			if ( !is_file( $file ) ) {
+				echo "<!-- File is not a real file:$file! -->" ;
+			}
+			echo "<!-- ";
+			echo __FILE__ ; 
+			echo PHP_EOL;
+			print_r( debug_backtrace() );
+			echo " -->";
 		}
-		echo "<!-- ";
-		echo __FILE__ ; 
-		echo PHP_EOL;
-		print_r( debug_backtrace() );
-		echo " -->";
 	}
 	
 	if ( file_exists( $file ) ) {
 	
 		//gob(); this is not expected... but perhaps that's part of the problem!
 		
-		if ( defined( 'WP_DEBUG') && WP_DEBUG ) {
+		if ( defined( 'WP_DEBUG') && WP_DEBUG && $type != 'rest' ) {
 			echo "<!-- Oh. And now it does exist! $file -->";
 		}	
 		$file = "exists a bit later";
@@ -95,7 +98,13 @@ function oik_yourehavingmeon( $file ) {
  * 
  */ 
 function bw_lazy_log( $value=null, $text=null, $show_args=true, $level='error' ) {
-	$flat_value = bw_trace_print_r( $value ); 
+	if ( function_exists( "bw_trace_print_r" ) ) {
+		$flat_value = bw_trace_print_r( $value ); 
+	} elseif ( is_scalar( $value ) ) {
+		$flat_value = $value;
+	} else {
+		$flat_value = "?";
+	}
 	if ( is_callable( $level ) ) { 
 		$extra = call_user_func( $level, $value, $text );
 	} else {

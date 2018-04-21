@@ -48,7 +48,9 @@ if ( !function_exists( 'oik_path' ) ) {
 		define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' ); // full path, no trailing slash
 	}
 	function oik_path( $file=NULL, $plugin='oik') {
-		return( WP_PLUGIN_DIR . '/'. $plugin. '/' . $file );
+	
+		$wp_plugin_dir = str_replace( "\\", '/', WP_PLUGIN_DIR );
+		return( $wp_plugin_dir . '/'. $plugin. '/' . $file );
 	}
 }
 
