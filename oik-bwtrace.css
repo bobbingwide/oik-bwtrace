@@ -1,0 +1,9 @@
+/* oik-bwtrace.css 
+ * CSS for the oik-bwtrace plugin
+ * Applies only to the oik_trace_options and oik_action_options admin pages
+ * 
+ */
+#oik_trace_options .form-table td,
+#oik_action_options .form-table td {
+       padding: 0px;
+}

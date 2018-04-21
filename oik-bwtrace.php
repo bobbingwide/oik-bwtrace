@@ -234,6 +234,15 @@ function oik_bwtrace_admin_menu() {
   //oik_register_plugin_server( __FILE__ );
 	bw_load_plugin_textdomain( 'oik-bwtrace' );
 }
+
+function oik_bwtrace_wp_cli() {
+	if ( defined( "WP_CLI" ) && WP_CLI ) {
+		WP_CLI::debug( "WP-CLI is active. Loading trace command" );
+		oik_require( "includes/class-trace-command.php", "oik-bwtrace" );
+		WP_CLI::add_command( "trace", "trace_command" );
+		
+	}
+}
 										 
 /**
  * Logic invoked when oik-bwtrace is loaded
@@ -312,6 +321,12 @@ function oik_bwtrace_loaded() {
 	 */
 	oik_require( "includes/bwtrace-actions.php", "oik-bwtrace" );
 	bw_trace_add_selected_actions();
+	
+	
+	/**
+	 * Add trace command for WP-CLI
+	 */
+	oik_bwtrace_wp_cli();
 
 }
 

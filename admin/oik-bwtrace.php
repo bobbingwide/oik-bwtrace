@@ -50,6 +50,7 @@ function bw_trace_options_add_page() {
 	if ( oik_require_lib( "oik-admin" ) ) {
 		add_options_page( __('oik trace options', 'oik-bwtrace' ), __( 'oik trace options', 'oik-bwtrace' ), 'manage_options', 'bw_trace_options', 'bw_trace_options_do_page');
 	}
+	add_action( "admin_print_styles-settings_page_bw_trace_options", "bw_action_enqueue_styles" );
 }
 
 
@@ -59,6 +60,12 @@ function bw_trace_options_add_page() {
  */
 function bw_action_options_add_page() {
 	add_options_page( __('oik action options', 'oik-bwtrace') , __( 'oik action options', 'oik-bwtrace' ), 'manage_options', 'bw_action_options', 'bw_action_options_do_page');
+	add_action( "admin_print_styles-settings_page_bw_action_options", "bw_action_enqueue_styles" );
+}
+
+function bw_action_enqueue_styles() {
+	wp_register_style( 'oik-bwtrace', oik_url( 'oik-bwtrace.css', 'oik-bwtrace' ), false );
+	wp_enqueue_style( 'oik-bwtrace' ); 
 }
 
 /** 
@@ -141,26 +148,33 @@ function oik_trace_options() {
   stag( 'table class="form-table"' );
   bw_flush();
   settings_fields('bw_trace_options_options'); 
-  
+	bw_tablerow( array( __( "General browser requests", "oik-bwtrace" ) ), "tr", "th" );
   BW_::bw_textfield_arr( "bw_trace_options", __( "Trace file", "oik-bwtrace" ), $options, 'file', 60 );
-  bw_checkbox_arr( "bw_trace_options", __( "Reset trace file every transaction", "oik-bwtrace" ), $options, 'reset' );
   bw_checkbox_arr( "bw_trace_options", __( "Trace enabled", "oik-bwtrace" ), $options, 'trace' );
-	
-  BW_::bw_textfield_arr( "bw_trace_options", __( "AJAX trace file", "oik-bwtrace" ), $options, 'file_ajax', 60 );
-  bw_checkbox_arr( "bw_trace_options", __( "Reset AJAX trace file every AJAX transaction", "oik-bwtrace" ), $options, 'reset_ajax' );
-  bw_checkbox_arr( "bw_trace_options", __( "AJAX trace enabled", "oik-bwtrace" ), $options, 'trace_ajax' );
-	
-  BW_::bw_textfield_arr( "bw_trace_options", __( "REST trace file", "oik-bwtrace" ), $options, 'file_rest', 60 );
-  bw_checkbox_arr( "bw_trace_options", __( "Reset REST trace file every REST transaction", "oik-bwtrace" ), $options, 'reset_rest' );
-  bw_checkbox_arr( "bw_trace_options", __( "REST trace enabled", "oik-bwtrace" ), $options, 'trace_rest' );
-	
-  BW_::bw_textfield_arr( "bw_trace_options", __( "Batch trace file", "oik-bwtrace" ), $options, 'file_cli', 60 );
-  bw_checkbox_arr( "bw_trace_options", __( "Reset batch trace file each invocation", "oik-bwtrace" ), $options, 'reset_cli' );
-  bw_checkbox_arr( "bw_trace_options", __( "Batch trace enabled", "oik-bwtrace" ), $options, 'trace_cli' );
-	
+  bw_checkbox_arr( "bw_trace_options", __( "Reset trace file every transaction", "oik-bwtrace" ), $options, 'reset' );
 	BW_::bw_textfield_arr( "bw_trace_options", __( "Trace file generation limit", "oik-bwtrace" ), $options, 'limit', 5 ); 
 	
+	bw_tablerow( array( __( "AJAX requests", "oik-bwtrace" ) ), "tr", "th" );
+  BW_::bw_textfield_arr( "bw_trace_options", __( "AJAX trace file", "oik-bwtrace" ), $options, 'file_ajax', 60 );
+  bw_checkbox_arr( "bw_trace_options", __( "AJAX trace enabled", "oik-bwtrace" ), $options, 'trace_ajax' );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset AJAX trace file every AJAX transaction", "oik-bwtrace" ), $options, 'reset_ajax' );
+	BW_::bw_textfield_arr( "bw_trace_options", __( "AJAX trace file generation limit", "oik-bwtrace" ), $options, 'limit_ajax', 5 ); 
+	
+	bw_tablerow( array( __( "REST requests", "oik-bwtrace" ) ), "tr", "th" );
+  BW_::bw_textfield_arr( "bw_trace_options", __( "REST trace file", "oik-bwtrace" ), $options, 'file_rest', 60 );
+  bw_checkbox_arr( "bw_trace_options", __( "REST trace enabled", "oik-bwtrace" ), $options, 'trace_rest' );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset REST trace file every REST transaction", "oik-bwtrace" ), $options, 'reset_rest' );
+	BW_::bw_textfield_arr( "bw_trace_options", __( "REST trace file generation limit", "oik-bwtrace" ), $options, 'limit_rest', 5 ); 
+	
+	
+	bw_tablerow( array( __( "Batch requests", "oik-bwtrace" ) ), "tr", "th" );
+  BW_::bw_textfield_arr( "bw_trace_options", __( "Batch trace file", "oik-bwtrace" ), $options, 'file_cli', 60 );
+  bw_checkbox_arr( "bw_trace_options", __( "Batch trace enabled", "oik-bwtrace" ), $options, 'trace_cli' );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset batch trace file each invocation", "oik-bwtrace" ), $options, 'reset_cli' );
+	BW_::bw_textfield_arr( "bw_trace_options", __( "Batch trace file generation limit", "oik-bwtrace" ), $options, 'limit_cli', 5 ); 
+	
 	// Does this need includes/bwtrace.php?
+	bw_tablerow( array( __( "Common options", "oik-bwtrace" ) ), "tr", "th" );
 	$trace_levels = bw_list_trace_levels();
 	// Do we need to default this after upgrade?
 	//$options['level'] = bw_trace_level();
