@@ -174,7 +174,7 @@ function oik_trace_options() {
 	BW_::bw_textfield_arr( "bw_trace_options", __( "Batch trace file generation limit", "oik-bwtrace" ), $options, 'limit_cli', 5 ); 
 	
 	// Does this need includes/bwtrace.php?
-	bw_tablerow( array( __( "Common options", "oik-bwtrace" ) ), "tr", "th" );
+	bw_tablerow( array( __( "Trace records", "oik-bwtrace" ) ), "tr", "th" );
 	$trace_levels = bw_list_trace_levels();
 	// Do we need to default this after upgrade?
 	//$options['level'] = bw_trace_level();

@@ -239,15 +239,13 @@ class trace_command extends WP_CLI_Command {
 		if ( null !== $value ) {
 			$this->options[ $index ] =  $value;
 		} 
-	}	
+	}
 	
+	/**
+	 * Turns tracing off for the given type
+	 */	
 	public function off( $args, $assoc_args ) {
 		WP_CLI::log( "Turning trace off" );
-		
-		
-	
-	
-		WP_CLI::log( "Turning trace on" );
 		$type = bw_array_get( $args, 0, null );
 		if ( $type ) {
 			$type = $this->validate_type( $type ); 
@@ -257,12 +255,7 @@ class trace_command extends WP_CLI_Command {
 			WP_CLI::log( "Disabling default trace type: browser" );
 		}
 		$this->trace_off( $type, $args, $assoc_args );
-		
 	}
-	
-	
-	
-	
 	
 	private function get_options() {
 		$this->options = get_option('bw_trace_options');
@@ -298,7 +291,6 @@ class trace_command extends WP_CLI_Command {
 	 * @TODO log or line? How to do PHP_EOL?
 	 */
 	public function status( $args, $assoc_args ) {
-		
 	
 		$tracing = bw_trace_status();
 		if ( $tracing ) {
@@ -307,11 +299,7 @@ class trace_command extends WP_CLI_Command {
 			WP_CLI::log( "Batch tracing is off." );
 		}
 		
-		//oik_require( "admin/oik-bwtrace.php", "oik-bwtrace" );
-		//oik_trace_options();
-		
 		$this->get_options(); // = get_option('bw_trace_options');
-		//WP_CLI\Utils\format_items( 'table', $this->options, array(  );
 		
 		WP_CLI::log( "General browser requests" );
 		$this->display_option( __( "Trace file", "oik-bwtrace" ), "file" );
@@ -336,12 +324,45 @@ class trace_command extends WP_CLI_Command {
 		$this->display_option( __( "Batch trace file", "oik-bwtrace" ), 'file_cli' );
 		$this->display_option( __( "Batch trace enabled", "oik-bwtrace" ), 'trace_cli' );
 		$this->display_option( __( "Reset batch trace file each invocation", "oik-bwtrace" ), 'reset_cli' );
-		$this->display_option( __( "Batch trace file generation limit", "oik-bwtrace" ), 'limit_cli' ); 
- 
+		$this->display_option( __( "Batch trace file generation limit", "oik-bwtrace" ), 'limit_cli' );
+		 
+		$this->set_args( $args );
+		//$this->set_assoc_args( $assoc_args );
+		//print_r( $this->args );
+		
+		$details = bw_array_get( $this->args, 0, null );
+		if ( $details ) {
+			$this->display_record();
+		}
 	
-	} 
-
-
+	}
+	
+	/**
+	 * Displays trace record options
+	 * 
+	 * 
+	 */
+	public function detail( $args, $assoc_args ) {
+		
+		$this->get_options(); // = get_option('bw_trace_options');
+		$this->display_record();
+	}
+	
+	private function display_record() {
+		WP_CLI::log( __( "Trace records", "oik-bwtrace" ) );
+		// $trace_levels = bw_list_trace_levels();
+		$this->display_option( __( "Trace level", "oik-bwtrace" ), 'level' );
+		$this->display_option( __( "Fully qualified file names", "oik-bwtrace" ), 'qualified' );
+		$this->display_option( __( "Include trace record count", "oik-bwtrace" ), 'count' );
+		$this->display_option( __( "Include timestamp", "oik-bwtrace" ), 'date' );
+		$this->display_option( __( "Include current filter", "oik-bwtrace" ), 'filters' );
+		$this->display_option( __( "Include number of queries", "oik-bwtrace" ), "num_queries" );
+		$this->display_option( __( "Include post ID", "oik-bwtrace" ), "post_id" );
+		$memory_limit = ini_get( "memory_limit" );
+		$this->display_option( sprintf( __( 'Include memory/peak usage ( limit %1$s )', "oik-bwtrace" ), $memory_limit ), 'memory' );
+		$this->display_option( __( "Include files loaded count", "oik-bwtrace" ), 'files' );
+		$this->display_option( __( "Trace specific IP", "oik-bwtrace" ), 'ip' );
+	}
 
 
 }
