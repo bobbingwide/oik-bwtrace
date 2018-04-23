@@ -180,13 +180,13 @@ class trace_command extends WP_CLI_Command {
 		// No need to get_option for trace
 		$this->set_option( "trace", true, "on" );
 		
-		$trace_file = $this->get_option( "file", true );
+		$trace_file = $this->get_option( "file", false );
 		$this->set_option( "file", true, $trace_file );
 		
-		$reset = $this->get_option( "reset", true );
+		$reset = $this->get_option( "reset", false );
 		$this->set_option( "reset", true, $reset );
 		
-		$limit = $this->get_option( "limit", true );
+		$limit = $this->get_option( "limit", false );
 		$this->set_option( "limit", true, $limit );
 		
 		$this->update_options();
