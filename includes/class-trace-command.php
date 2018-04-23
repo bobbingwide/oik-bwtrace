@@ -33,8 +33,8 @@
  * 		# Display trace status
  *    $wp trace status
  *    
- *    # Enable tracing
- * 		$wp trace on
+ *    # Enable tracing for browser requests
+ * 		$wp trace on browser
  * 
  *    # Disable tracing for cli
  *		$wp trace off cli
@@ -69,7 +69,6 @@ class trace_command extends WP_CLI_Command {
 	 * - ajax
 	 * - rest
 	 * - cli
-	 * - all 
 	 * 
 	 * [--file=<trace_file_name>]
 	 * : Base name of the trace file, relative to ABSPATH
@@ -86,9 +85,9 @@ class trace_command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 * 
 	 * wp trace on browser 
-	 
-	 */
+   */
 	public function on( $args, $assoc_args) {
+	
 		WP_CLI::log( "Turning trace on" );
 		$type = bw_array_get( $args, 0, null );
 		if ( $type ) {
@@ -193,6 +192,22 @@ class trace_command extends WP_CLI_Command {
 	}
 	
 	/**
+	 * Turns tracing off for the given type
+	 */
+	private function trace_off( $type, $args, $assoc_args ) {
+		$this->get_options();
+		$this->set_type( $type );
+		$this->set_type_suffix( $type );
+		
+		// No need to get_option for trace
+		$this->set_option( "trace", true, "0" );
+		
+		$this->update_options();
+	}
+	
+		
+	
+	/**
 	 * Gets the option value from assoc_args
 	 * 
 	 * $args can potentially contain $assoc_args where the user forgot the -- prefix to the arg name
@@ -216,7 +231,7 @@ class trace_command extends WP_CLI_Command {
 	 * @param string $default - default value
 	 * @param bool $use_suffix -  true when the suffix is required
 	 */
-	public function set_option( $key, $use_suffix=false, $value ) {
+	private function set_option( $key, $use_suffix=false, $value ) {
 		$index = $key;
 		if ( $use_suffix ) {
 			$index .= $this->suffix;
@@ -226,8 +241,23 @@ class trace_command extends WP_CLI_Command {
 		} 
 	}	
 	
-	public function off() {
-		WP_CLI::line( "Turning trace off" );
+	public function off( $args, $assoc_args ) {
+		WP_CLI::log( "Turning trace off" );
+		
+		
+	
+	
+		WP_CLI::log( "Turning trace on" );
+		$type = bw_array_get( $args, 0, null );
+		if ( $type ) {
+			$type = $this->validate_type( $type ); 
+			WP_CLI::log( "Disabling trace type: $type" );
+		} else { 
+			$type = 'browser';
+			WP_CLI::log( "Disabling default trace type: browser" );
+		}
+		$this->trace_off( $type, $args, $assoc_args );
+		
 	}
 	
 	
