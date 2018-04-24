@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 2.2.0
+Version: 2.2.0-alpha-20180424
 Author: bobbingwide
 Author URI: https://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-bwtrace
@@ -82,7 +82,7 @@ function bw_trace_level() {
  * 
  */
 function bw_trace_plugin_startup() {
-	oik_require( "includes/class-bw-trace-controller.php", "oik-bwtrace" );
+	oik_require( "includes/class-BW-trace-controller.php", "oik-bwtrace" );
 	global $bw_trace;
 	$bw_trace = new BW_trace_controller();
 

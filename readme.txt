@@ -4,6 +4,7 @@ Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 Requires at least: 4.9
 Tested up to: 5.0-alpha
+Gutenberg compatible: Yes
 Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -161,7 +162,7 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
  
 == Upgrade Notice ==
-= 2.2.0 =
+= 2.2.0-alpha-20180424 =
 Update for improved support for tracing REST requests and the WP-CLI trace command.
 
 = 2.1.1 = 
@@ -268,7 +269,7 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
-= 2.2.0 = 
+= 2.2.0-alpha-20180424 = 
 * Added: WP-CLI support [github bobbingwide oik-bwtrace issues 54]
 * Added: Support trace limits by request type [github bobbingwide oik-bwtrace issues 16]
 * Changed: Change trace of SAVEQUERIES to verbose [github bobbingwide oik-bwtrace issues 34]
