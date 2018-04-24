@@ -40,6 +40,13 @@ function bw_action_options_init(){
   register_setting( 'bw_action_options_options', 'bw_action_options', 'bw_action_options_validate' );
 }
 
+/***
+ * Registers bw_summary_options
+ */
+function bw_summary_options_init() {
+  register_setting( 'bw_summary_options_options', 'bw_summary_options', 'bw_summary_options_validate' );
+}
+
 /**
  * Register the trace options page
  *
@@ -78,6 +85,7 @@ function bw_action_enqueue_styles() {
 function bw_action_options_do_page() {
   BW_::oik_menu_header( __( "action options", "oik-bwtrace" ), "w70pc" );
   BW_::oik_box( null, null, __( "Options", "oik-bwtrace" ) , "oik_action_options" ); 
+	BW_::oik_box( null, null, __( "Daily Trace Summary", "oik-bwtrace" ), "oik_trace_summary" );
   BW_::oik_box( null, null, __( "Information", "oik-bwtrace" ), "oik_trace_info" );
   oik_menu_footer();
   bw_flush();
@@ -106,7 +114,7 @@ function oik_action_options() {
   bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' saved queries", "oik-bwtrace" ), $options, 'trace_saved_queries' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' output buffer", "oik-bwtrace" ), $options, 'trace_output_buffer' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' trace functions count", "oik-bwtrace" ), $options, 'trace_functions' );
-  bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' status report and log in summary file", "oik-bwtrace" ), $options, 'trace_status_report' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' status report", "oik-bwtrace" ), $options, 'trace_status_report' );
 	
 	BW_::bw_textarea_arr( "bw_action_options", __( "Other hooks to trace", "oik-bwtrace" ), $options, "hooks", 80 );
 	BW_::bw_textarea_arr( "bw_action_options", __( "Filter results to trace", "oik-bwtrace" ), $options, "results", 80 );
@@ -126,6 +134,7 @@ function oik_action_options() {
 function bw_trace_options_do_page() { 
   BW_::oik_menu_header( __( "trace options", "oik-bwtrace" ) );
   BW_::oik_box( null, null, __( "Options", "oik-bwtrace" ), "oik_trace_options" );
+	BW_::oik_box( null, null, __( "Daily Trace Summary", "oik-bwtrace" ), "oik_trace_summary" );
   BW_::oik_box( null, null, __( "Information", "oik-bwtrace" ), "oik_trace_info" );
   BW_::oik_box( null, null, __( "Notes about oik trace", "oik-bwtrace" ), "oik_trace_notes" ); 
   BW_::oik_box( null, null, __( "Trace options and reset button", "oik-bwtrace" ), "oik_trace_reset_notes" ); 
@@ -212,16 +221,16 @@ function oik_trace_options() {
  */
 function oik_trace_notes() {
   BW_::p( __( "The tracing output produced by oik-bwtrace can be used for problem determination.", "oik-bwtrace" ) );
-  BW_::p( __( "It's not for the faint hearted.", "oik-bwtrace" ) );
+  //BW_::p( __( "It's not for the faint hearted.", "oik-bwtrace" ) );
   BW_::p( __( "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site.", "oik-bwtrace" ) );
   BW_::p( __( "If you do need to activate it, only do so for a short period of time.", "oik-bwtrace" )  );
  
   BW_::p( __( "You will need to specify the trace file name (e.g. bwtrace.loh )", "oik-bwtrace" )  );
   BW_::p( __( "When you want to trace processing check 'Trace enabled'", "oik-bwtrace" )  );
-  BW_::p( __( "Check 'Reset trace file every transaction' to cause the trace file to be cleared for every request, including AJAX requests.", "oik-bwtrace" )  );
-    
+  //BW_::p( __( "Check 'Reset trace file every transaction' to cause the trace file to be cleared for every request, including AJAX requests.", "oik-bwtrace" )  );
+  BW_::p( __( "Specifying a different file name and limit for each transaction can help you to trace multiple concurrent requests." ) );
   
-  BW_::p( __( "You may find the most recent trace output at...", "oik-bwtrace" )  );
+  BW_::p( __( "You may find the most recent browser trace output at...", "oik-bwtrace" )  );
   $bw_trace_url = bw_trace_url();
   
   BW_::alink( NULL, $bw_trace_url, $bw_trace_url, __( "View trace output in your browser.", "oik-bwtrace" ) );
@@ -265,6 +274,19 @@ function oik_trace_info() {
 }
 
 /**
+ * Displays Daily Trace summary box
+ * 
+ * Displays the daily trace summary settings
+ * 
+ * Replaces the 'trace_status_report' from bw_action_options
+ */
+function oik_trace_summary() {
+	oik_require( "admin/class-oik-trace-summary.php", "oik-bwtrace" );
+	$oik_trace_summary = new OIK_trace_summary();
+	$oik_trace_summary->display_summary();
+}
+
+/**
  * Sanitize and validate trace options input
  * 
  * @param $input array Accepts an array, 
@@ -286,9 +308,20 @@ function bw_trace_options_validate($input) {
  */ 
 function bw_action_options_validate( $input ) {
   bw_trace2( $input ); 
-  // oik_require( "admin/oik-replace.inc", "oik-bwtrace" );
-  // $immediate = bw_array_get( $input, "immediate", false );
-  // $result = bw_enable_action_trace( $immediate ) ;
+  return $input;
+}
+
+/** 
+ * Validate the bw_summary_options
+ * 
+ * Note: If the validation function does not exist then no value is returned and the options don't get saved.
+ * WordPress does not produce a warning message. 
+ * 
+ * @param array $input the options to be saved
+ * @return array validated input
+ */ 
+function bw_summary_options_validate( $input ) {
+  bw_trace2( $input ); 
   return $input;
 }
 

@@ -11,7 +11,7 @@ Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2011-2017 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2011-2018 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -174,6 +174,7 @@ function oik_bwtrace_plugins_loaded() {
 	
 	add_action( 'admin_init', 'bw_trace_options_init' );
 	add_action( 'admin_init', 'bw_action_options_init' );
+	add_action( 'admin_init', 'bw_summary_options_init' );
 	
 	/*
 	 * Load admin logic if is_admin() 
@@ -242,6 +243,18 @@ function oik_bwtrace_wp_cli() {
 		WP_CLI::add_command( "trace", "trace_command" );
 		
 	}
+}
+
+/**
+ * Initialises the daily trace summary processing
+ *
+ * 
+ */
+function oik_bwtrace_initialise_trace_summary() {	
+	global $bw_trace_summary;
+	oik_require( "admin/class-oik-trace-summary.php", "oik-bwtrace" );
+	$bw_trace_summary = new OIK_trace_summary();
+	$bw_trace_summary->initialise();
 }
 										 
 /**
@@ -322,11 +335,12 @@ function oik_bwtrace_loaded() {
 	oik_require( "includes/bwtrace-actions.php", "oik-bwtrace" );
 	bw_trace_add_selected_actions();
 	
-	
-	/**
+	/*
 	 * Add trace command for WP-CLI
 	 */
 	oik_bwtrace_wp_cli();
+	
+	oik_bwtrace_initialise_trace_summary();
 
 }
 

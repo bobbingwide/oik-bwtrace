@@ -348,7 +348,7 @@ function bw_trace_status_report() {
 	if ( function_exists( "bw_flush" ) ) {
 		bw_flush();
 	}
-	bw_record_vt();
+	//bw_record_vt();
 }
 
 /**
