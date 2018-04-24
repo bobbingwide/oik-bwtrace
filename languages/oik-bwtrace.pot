@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 2.1.1\n"
+"Project-Id-Version: oik bwtrace 2.2.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2018-01-29 18:16:32+00:00\n"
+"POT-Creation-Date: 2018-04-24 14:03:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,281 +36,322 @@ msgstr ""
 msgid "Multisite"
 msgstr ""
 
-#: admin/oik-bwtrace.php:51
-msgid "oik trace options"
+#: admin/class-oik-trace-summary.php:39
+msgid "Log transactions to daily trace summary file"
 msgstr ""
 
-#: admin/oik-bwtrace.php:61
-msgid "oik action options"
-msgstr ""
-
-#: admin/oik-bwtrace.php:72
-msgid "action options"
-msgstr ""
-
-#: admin/oik-bwtrace.php:73 admin/oik-bwtrace.php:121
-msgid "Options"
-msgstr ""
-
-#: admin/oik-bwtrace.php:74 admin/oik-bwtrace.php:122
-msgid "Information"
-msgstr ""
-
-#: admin/oik-bwtrace.php:93
-msgid "Count action hooks and filters"
-msgstr ""
-
-#: admin/oik-bwtrace.php:94
-msgid "Trace deprecated messages"
-msgstr ""
-
-#: admin/oik-bwtrace.php:95
-msgid "Trace Error, Warning and Notice messages"
-msgstr ""
-
-#: admin/oik-bwtrace.php:96
-msgid "Trace 'wp' action"
-msgstr ""
-
-#: admin/oik-bwtrace.php:97
-msgid "Trace 'wp' global wp_rewrite "
-msgstr ""
-
-#: admin/oik-bwtrace.php:98
-msgid "Trace 'shutdown' included files"
-msgstr ""
-
-#: admin/oik-bwtrace.php:99
-msgid "Trace 'shutdown' saved queries"
-msgstr ""
-
-#: admin/oik-bwtrace.php:100
-msgid "Trace 'shutdown' output buffer"
-msgstr ""
-
-#: admin/oik-bwtrace.php:101
-msgid "Trace 'shutdown' trace functions count"
-msgstr ""
-
-#: admin/oik-bwtrace.php:102
-msgid "Trace 'shutdown' status report and log in summary file"
-msgstr ""
-
-#: admin/oik-bwtrace.php:104
-msgid "Other hooks to trace"
-msgstr ""
-
-#: admin/oik-bwtrace.php:105
-msgid "Filter results to trace"
-msgstr ""
-
-#: admin/oik-bwtrace.php:106
-msgid "Trace the global post object"
-msgstr ""
-
-#: admin/oik-bwtrace.php:107
-msgid "Trace attached hook functions"
-msgstr ""
-
-#: admin/oik-bwtrace.php:108
-msgid "Hooks to debug backtrace"
-msgstr ""
-
-#: admin/oik-bwtrace.php:109
-msgid "'String watch' for this string"
-msgstr ""
-
-#: admin/oik-bwtrace.php:111 admin/oik-bwtrace.php:190
+#: admin/class-oik-trace-summary.php:41 admin/oik-bwtrace.php:126
+#: admin/oik-bwtrace.php:213
 msgid "Save changes"
 msgstr ""
 
+#: admin/oik-bwtrace.php:58
+msgid "oik trace options"
+msgstr ""
+
+#: admin/oik-bwtrace.php:69
+msgid "oik action options"
+msgstr ""
+
+#: admin/oik-bwtrace.php:86
+msgid "action options"
+msgstr ""
+
+#: admin/oik-bwtrace.php:87 admin/oik-bwtrace.php:136
+msgid "Options"
+msgstr ""
+
+#: admin/oik-bwtrace.php:88 admin/oik-bwtrace.php:137
+msgid "Daily Trace Summary"
+msgstr ""
+
+#: admin/oik-bwtrace.php:89 admin/oik-bwtrace.php:138
+msgid "Information"
+msgstr ""
+
+#: admin/oik-bwtrace.php:108
+msgid "Count action hooks and filters"
+msgstr ""
+
+#: admin/oik-bwtrace.php:109
+msgid "Trace deprecated messages"
+msgstr ""
+
+#: admin/oik-bwtrace.php:110
+msgid "Trace Error, Warning and Notice messages"
+msgstr ""
+
+#: admin/oik-bwtrace.php:111
+msgid "Trace 'wp' action"
+msgstr ""
+
+#: admin/oik-bwtrace.php:112
+msgid "Trace 'wp' global wp_rewrite "
+msgstr ""
+
+#: admin/oik-bwtrace.php:113
+msgid "Trace 'shutdown' included files"
+msgstr ""
+
+#: admin/oik-bwtrace.php:114
+msgid "Trace 'shutdown' saved queries"
+msgstr ""
+
+#: admin/oik-bwtrace.php:115
+msgid "Trace 'shutdown' output buffer"
+msgstr ""
+
+#: admin/oik-bwtrace.php:116
+msgid "Trace 'shutdown' trace functions count"
+msgstr ""
+
+#: admin/oik-bwtrace.php:117
+msgid "Trace 'shutdown' status report"
+msgstr ""
+
+#: admin/oik-bwtrace.php:119
+msgid "Other hooks to trace"
+msgstr ""
+
 #: admin/oik-bwtrace.php:120
-msgid "trace options"
+msgid "Filter results to trace"
+msgstr ""
+
+#: admin/oik-bwtrace.php:121
+msgid "Trace the global post object"
+msgstr ""
+
+#: admin/oik-bwtrace.php:122
+msgid "Trace attached hook functions"
 msgstr ""
 
 #: admin/oik-bwtrace.php:123
-msgid "Notes about oik trace"
+msgid "Hooks to debug backtrace"
 msgstr ""
 
 #: admin/oik-bwtrace.php:124
+msgid "'String watch' for this string"
+msgstr ""
+
+#: admin/oik-bwtrace.php:135
+msgid "trace options"
+msgstr ""
+
+#: admin/oik-bwtrace.php:139
+msgid "Notes about oik trace"
+msgstr ""
+
+#: admin/oik-bwtrace.php:140
 msgid "Trace options and reset button"
 msgstr ""
 
-#: admin/oik-bwtrace.php:145
+#: admin/oik-bwtrace.php:160
+msgid "General browser requests"
+msgstr ""
+
+#: admin/oik-bwtrace.php:161 includes/class-trace-command.php:305
 msgid "Trace file"
 msgstr ""
 
-#: admin/oik-bwtrace.php:146
-msgid "Reset trace file every transaction"
-msgstr ""
-
-#: admin/oik-bwtrace.php:147
+#: admin/oik-bwtrace.php:162 includes/class-trace-command.php:306
 msgid "Trace enabled"
 msgstr ""
 
-#: admin/oik-bwtrace.php:149
-msgid "AJAX trace file"
+#: admin/oik-bwtrace.php:163 includes/class-trace-command.php:307
+msgid "Reset trace file every transaction"
 msgstr ""
 
-#: admin/oik-bwtrace.php:150
-msgid "Reset AJAX trace file every AJAX transaction"
-msgstr ""
-
-#: admin/oik-bwtrace.php:151
-msgid "AJAX trace enabled"
-msgstr ""
-
-#: admin/oik-bwtrace.php:153
-msgid "REST trace file"
-msgstr ""
-
-#: admin/oik-bwtrace.php:154
-msgid "Reset REST trace file every REST transaction"
-msgstr ""
-
-#: admin/oik-bwtrace.php:155
-msgid "REST trace enabled"
-msgstr ""
-
-#: admin/oik-bwtrace.php:157
-msgid "Batch trace file"
-msgstr ""
-
-#: admin/oik-bwtrace.php:158
-msgid "Reset batch trace file each invocation"
-msgstr ""
-
-#: admin/oik-bwtrace.php:159
-msgid "Batch trace enabled"
-msgstr ""
-
-#: admin/oik-bwtrace.php:161
+#: admin/oik-bwtrace.php:164 includes/class-trace-command.php:308
 msgid "Trace file generation limit"
 msgstr ""
 
-#: admin/oik-bwtrace.php:167
-msgid "Trace level"
+#: admin/oik-bwtrace.php:166
+msgid "AJAX requests"
 msgstr ""
 
-#: admin/oik-bwtrace.php:168
-msgid "Fully qualified file names"
+#: admin/oik-bwtrace.php:167 includes/class-trace-command.php:311
+msgid "AJAX trace file"
+msgstr ""
+
+#: admin/oik-bwtrace.php:168 includes/class-trace-command.php:312
+msgid "AJAX trace enabled"
 msgstr ""
 
 #: admin/oik-bwtrace.php:169
+msgid "Reset AJAX trace file every AJAX transaction"
+msgstr ""
+
+#: admin/oik-bwtrace.php:170 includes/class-trace-command.php:314
+msgid "AJAX trace file generation limit"
+msgstr ""
+
+#: admin/oik-bwtrace.php:172 includes/class-trace-command.php:316
+msgid "REST requests"
+msgstr ""
+
+#: admin/oik-bwtrace.php:173 includes/class-trace-command.php:317
+msgid "REST trace file"
+msgstr ""
+
+#: admin/oik-bwtrace.php:174 includes/class-trace-command.php:318
+msgid "REST trace enabled"
+msgstr ""
+
+#: admin/oik-bwtrace.php:175 includes/class-trace-command.php:319
+msgid "Reset REST trace file every REST transaction"
+msgstr ""
+
+#: admin/oik-bwtrace.php:176 includes/class-trace-command.php:320
+msgid "REST trace file generation limit"
+msgstr ""
+
+#: admin/oik-bwtrace.php:179 includes/class-trace-command.php:323
+msgid "Batch requests"
+msgstr ""
+
+#: admin/oik-bwtrace.php:180 includes/class-trace-command.php:324
+msgid "Batch trace file"
+msgstr ""
+
+#: admin/oik-bwtrace.php:181 includes/class-trace-command.php:325
+msgid "Batch trace enabled"
+msgstr ""
+
+#: admin/oik-bwtrace.php:182 includes/class-trace-command.php:326
+msgid "Reset batch trace file each invocation"
+msgstr ""
+
+#: admin/oik-bwtrace.php:183 includes/class-trace-command.php:327
+msgid "Batch trace file generation limit"
+msgstr ""
+
+#: admin/oik-bwtrace.php:186 includes/class-trace-command.php:352
+msgid "Trace records"
+msgstr ""
+
+#: admin/oik-bwtrace.php:190 includes/class-trace-command.php:354
+msgid "Trace level"
+msgstr ""
+
+#: admin/oik-bwtrace.php:191 includes/class-trace-command.php:355
+msgid "Fully qualified file names"
+msgstr ""
+
+#: admin/oik-bwtrace.php:192 includes/class-trace-command.php:356
 msgid "Include trace record count"
 msgstr ""
 
-#: admin/oik-bwtrace.php:170
+#: admin/oik-bwtrace.php:193 includes/class-trace-command.php:357
 msgid "Include timestamp"
 msgstr ""
 
-#: admin/oik-bwtrace.php:171
+#: admin/oik-bwtrace.php:194 includes/class-trace-command.php:358
 msgid "Include current filter"
 msgstr ""
 
-#: admin/oik-bwtrace.php:172
+#: admin/oik-bwtrace.php:195 includes/class-trace-command.php:359
 msgid "Include number of queries"
 msgstr ""
 
-#: admin/oik-bwtrace.php:173
+#: admin/oik-bwtrace.php:196 includes/class-trace-command.php:360
 msgid "Include post ID"
 msgstr ""
 
-#: admin/oik-bwtrace.php:176
+#: admin/oik-bwtrace.php:199 includes/class-trace-command.php:362
 msgid "Include memory/peak usage ( limit %1$s )"
 msgstr ""
 
-#: admin/oik-bwtrace.php:177
+#: admin/oik-bwtrace.php:200 includes/class-trace-command.php:363
 msgid "Include files loaded count"
 msgstr ""
 
-#: admin/oik-bwtrace.php:181
+#: admin/oik-bwtrace.php:204
 msgid "Current IP: %1$s"
 msgstr ""
 
-#: admin/oik-bwtrace.php:183
+#: admin/oik-bwtrace.php:206 includes/class-trace-command.php:364
 msgid "Trace specific IP"
 msgstr ""
 
-#: admin/oik-bwtrace.php:200
+#: admin/oik-bwtrace.php:223
 msgid ""
 "The tracing output produced by oik-bwtrace can be used for problem "
 "determination."
 msgstr ""
 
-#: admin/oik-bwtrace.php:201
-msgid "It's not for the faint hearted."
-msgstr ""
-
-#: admin/oik-bwtrace.php:202
+#: admin/oik-bwtrace.php:225
 msgid ""
 "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site."
 msgstr ""
 
-#: admin/oik-bwtrace.php:203
+#: admin/oik-bwtrace.php:226
 msgid "If you do need to activate it, only do so for a short period of time."
 msgstr ""
 
-#: admin/oik-bwtrace.php:205
+#: admin/oik-bwtrace.php:228
 msgid "You will need to specify the trace file name (e.g. bwtrace.loh )"
 msgstr ""
 
-#: admin/oik-bwtrace.php:206
+#: admin/oik-bwtrace.php:229
 msgid "When you want to trace processing check 'Trace enabled'"
 msgstr ""
 
-#: admin/oik-bwtrace.php:207
+#: admin/oik-bwtrace.php:231
 msgid ""
-"Check 'Reset trace file every transaction' to cause the trace file to be "
-"cleared for every request, including AJAX requests."
+"Specifying a different file name and limit for each transaction can help you "
+"to trace multiple concurrent requests."
 msgstr ""
 
-#: admin/oik-bwtrace.php:210
-msgid "You may find the most recent trace output at..."
+#: admin/oik-bwtrace.php:233
+msgid "You may find the most recent browser trace output at..."
 msgstr ""
 
-#: admin/oik-bwtrace.php:213
+#: admin/oik-bwtrace.php:236
 msgid "View trace output in your browser."
 msgstr ""
 
-#: admin/oik-bwtrace.php:215
+#: admin/oik-bwtrace.php:238
 msgid ""
 "If you want to trace processing within some content you can use two "
 "shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off"
 msgstr ""
 
-#: admin/oik-bwtrace.php:230
+#: admin/oik-bwtrace.php:253
 msgid ""
 "Use the [bwtrace] shortcode in a widget to provide an instant trace reset "
 "and page reload."
 msgstr ""
 
-#: admin/oik-bwtrace.php:236
+#: admin/oik-bwtrace.php:259
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr ""
 
-#: includes/bwtrace.php:1097
+#: includes/bwtrace.php:1013
 msgid "Debug level"
 msgstr ""
 
-#: includes/bwtrace.php:1098
+#: includes/bwtrace.php:1014
 msgid "Information level - standard"
 msgstr ""
 
-#: includes/bwtrace.php:1099
+#: includes/bwtrace.php:1015
 msgid "Notice level"
 msgstr ""
 
-#: includes/bwtrace.php:1100
+#: includes/bwtrace.php:1016
 msgid "Warning level"
 msgstr ""
 
-#: includes/bwtrace.php:1101
+#: includes/bwtrace.php:1017
 msgid "Error level"
 msgstr ""
 
-#: includes/bwtrace.php:1102
+#: includes/bwtrace.php:1018
 msgid "Verbose level - noisier than Debug"
+msgstr ""
+
+#: includes/class-trace-command.php:313
+msgid "Reset AJAX trace file every transaction"
 msgstr ""
 
 #: libs/bobbforms.php:510

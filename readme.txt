@@ -161,6 +161,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
  
 == Upgrade Notice ==
+= 2.2.0 =
+Update for improved support for tracing REST requests and the WP-CLI trace command.
+
 = 2.1.1 = 
 Upgrade for PHP 7.2 support
 
@@ -265,6 +268,19 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 2.2.0 = 
+* Added: WP-CLI support [github bobbingwide oik-bwtrace issues 54]
+* Added: Support trace limits by request type [github bobbingwide oik-bwtrace issues 16]
+* Changed: Change trace of SAVEQUERIES to verbose [github bobbingwide oik-bwtrace issues 34]
+* Changed: Improve support for tracing REST requests [github bobbingwide oik-bwtrace issues 67]
+* Changed: Improved Daily Trace Summary logic [github bobbingwide oik-bwtrace issues 68]
+* Changed: Pre-detect REST API calls [github bobbingwide oik-bwtrace issues 52]
+* Fixed: bw_trace_get_attached_hook_count not working since WordPress 4.7 [github bobbingwide oik-bwtrace issues 66]
+* Fixed: bw_trace_inspect_current no longer determines the current priority [github bobbingwide oik-bwtrace issues 63]
+* Tested: With Gutenberg 2.7.0
+* Tested: With PHP 7.1 and 7.2
+* Tested: With WordPress 4.9.5 and 5.0-alpha and WordPress Multsite
+
 = 2.1.1 =
 * Added: Display information related to WPMS installations [github bobbingwide oik-bwtrace issues 51]
 * Changed: 100% translatable and localizable on wordpress.org [github bobbingwide oik-bwtrace issues 60]
