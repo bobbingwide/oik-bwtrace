@@ -184,6 +184,8 @@ function oik_bwtrace_plugins_loaded() {
 	}
 	
   add_action( "oik_admin_menu", "oik_bwtrace_admin_menu" );
+	
+  add_action( "oik_add_shortcodes", "oik_bwtrace_add_shortcodes", 11 );
 }
 
 /**
@@ -234,6 +236,17 @@ function oik_bwtrace_query_libs( $libraries ) {
 function oik_bwtrace_admin_menu() {
   //oik_register_plugin_server( __FILE__ );
 	bw_load_plugin_textdomain( 'oik-bwtrace' );
+}
+
+/**
+ * Adds the trace shortcodes
+ */
+function oik_bwtrace_add_shortcodes() {
+
+  bw_add_shortcode( 'bwtron', 'bw_trace_on', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace") , false );
+  bw_add_shortcode( 'bwtroff', 'bw_trace_off', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace" ) , false );
+  bw_add_shortcode( 'bwtrace', 'bw_trace_button', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace" ) , false );
+	
 }
 
 function oik_bwtrace_wp_cli() {

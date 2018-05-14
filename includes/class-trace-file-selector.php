@@ -115,6 +115,7 @@ class trace_file_selector {
 	 *
 	 * If the constant is not set it determines it based on this file's location.
 	 *
+	 * @return string fully qualified path with trailing slash
 	 */
 	public function get_abspath() {
 		if ( !defined('ABSPATH') ) {
