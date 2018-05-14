@@ -378,17 +378,11 @@ class trace_file_selector {
 	 * 
 	 */
 	function reset_as_required() {
-		switch ( $this->limit ) {
-			case 0:
-				break;
-					
-			case null;
-			case '':
-			default:
-				$trace_reset = $this->query_reset();
-				if ( $trace_reset )  {
-					$this->attempt_reset();
-				}
+		if ( $this->limit !== 0 ) {
+			$trace_reset = $this->query_reset();
+			if ( $trace_reset )  {
+				$this->attempt_reset();
+			}
 		}
 	}
 	
