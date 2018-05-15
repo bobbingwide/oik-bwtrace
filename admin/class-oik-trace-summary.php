@@ -36,6 +36,7 @@ class OIK_trace_summary {
 		stag( 'table class="form-table"' );
 		bw_flush();
 		settings_fields('bw_summary_options_options'); 
+		bw_textfield_arr( "bw_summary_options", __( "Daily trace summary file", "oik-bwtrace" ), $options, 'summary_file', 60 );
 		bw_checkbox_arr( "bw_summary_options", __( "Log transactions to daily trace summary file", "oik-bwtrace" ), $options, 'trace_status_report' );
 		etag( "table" ); 			
 		BW_::p( isubmit( "ok", __( "Save changes", "oik-bwtrace" ), null, "button-primary" ) );
@@ -79,7 +80,7 @@ class OIK_trace_summary {
 	 * Not needed while we're still using the original code.
 	 */
 	function get_summary_file_name() {
-		$file = bw_trace_vt_file();
+		$file = $this->bw_trace_vt_file();
 		return $file;
 	}
 	
@@ -89,8 +90,86 @@ class OIK_trace_summary {
 	 */
 	function record_vt() {
 		$this->populate_vt_values();
-    bw_record_vt();
+    $this->bw_record_vt();
 	}
+	
+/**
+ * Record the summary values for this transaction
+ *
+ * Note: The columns are dynamically created from the fields recorded by bw_trace_status_report()
+ *
+ * Index | Field
+ * ----- | ----------- 
+ * 0 | request
+ * 1 | AJAX action
+ * 2 | elapsed ( final figure )
+ * 3 | PHP version
+ * 4 | PHP functions
+ * 5 | User functions
+ * 6 | Classes
+ * 7 | Plugins
+ * 8 | Files
+ * 9 | Registered Widgets
+ * 10 | Post types
+ * 11 | Taxonomies
+ * 12 | Queries
+ * 13 | Query time
+ * 14 | Trace file
+ * 15 | Trace records
+ * 16 | Remote address ( IP address )
+ * 17 | Elapsed
+ * 18 | Date - ISO 8601 date 
+ * 19 | HTTP user agent
+ * 20 | REQUEST_METHOD
+ */
+function bw_record_vt( $vnoisy=false ) {
+  global $vt_values, $vt_text;
+  $line = bw_trace_determine_request();
+  $line .= ",";
+  $line .= bw_trace_timer_stop();
+  foreach ( $vt_values as $key=> $value ) {
+    $line .=  ",";
+    if ( $vnoisy ) {
+      $line .=   $vt_text[$key] . "=";
+    }   
+    $line .= $value ;
+  }
+  $line .= ",";
+  $line .= date( 'c' );
+	$line .= ",";
+	$line .= bw_trace_http_user_agent();
+	$line .= ",";
+	$line .= bw_array_get( $_SERVER, "REQUEST_METHOD", null );
+	
+  $line .= PHP_EOL;
+	$file = $this->bw_trace_vt_file();
+  bw_write( $file, $line );
+}
+
+
+/**
+ * Returns the 'vt' file name
+ * 
+ * Format: bwtrace.vt.ccyymmdd
+ * 
+ * For WPMS this includes the blog ID, but not the site ID
+ *
+ * Format: bwtrace.vt.mmdd.blog_ID
+ *
+ * @return string Fully qualified file name
+ */
+function bw_trace_vt_file() {
+	
+  $file = ABSPATH . "bwtrace.vt." .  date( "Ymd" );
+	global $blog_id; 
+	bw_trace2( $blog_id, "blog_id !$blog_id!", false, BW_TRACE_VERBOSE );
+	if ( $blog_id != 1 ) {
+		$file .= ".$blog_id";
+	} 
+	return( $file );
+}
+
+
 	
 	/**
 	 * Populate's the values if not already set.
