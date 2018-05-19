@@ -184,6 +184,7 @@ function oik_trace_options() {
 	
 	// Does this need includes/bwtrace.php?
 	bw_tablerow( array( __( "Trace records", "oik-bwtrace" ) ), "tr", "th" );
+	BW_::bw_textfield_arr( "bw_trace_options", __( "Trace files directory", "oik-bwtrace" ), $options, 'trace_directory', 60 );
 	$trace_levels = bw_list_trace_levels();
 	// Do we need to default this after upgrade?
 	//$options['level'] = bw_trace_level();
@@ -293,7 +294,9 @@ function oik_trace_summary() {
  * @return array sanitized array.
  */
 function bw_trace_options_validate($input) {
-        $input['ip'] = trim( $input['ip']);
+  bw_trace2(); 
+  $input['ip'] = trim( $input['ip']);
+	$valid = bw_trace_validate_directory( $input, 'trace_directory' );
 	return $input;
 }
 
@@ -323,6 +326,34 @@ function bw_action_options_validate( $input ) {
 function bw_summary_options_validate( $input ) {
   bw_trace2( $input ); 
   return $input;
+}
+
+/**
+ * Validate the trace file directory
+ *
+ */
+function bw_trace_validate_directory( $array, $key ) {
+	//print_r( $array );
+	$valid = false;
+	$directory = bw_array_get( $array, $key );
+	$directory = trim( $directory );
+	if ( empty( $directory ) ) {
+		//p( "Trace file directory must be specified" );
+		//gob();
+		add_settings_error( $key, $key, "Trace files directory must be specified." );
+	} else {
+		$valid = false;
+		
+		oik_require( "includes/class-trace-files-directory.php", "oik-bwtrace" );
+		$trace_files_directory = new trace_files_directory();
+		$trace_files_directory->validate_trace_files_directory( $directory );
+		$valid = $trace_files_directory->is_valid();
+		if ( !$valid ) {
+			add_settings_error( $key, $key, "Invalid trace files directory." );
+		}
+		
+	}
+	return $valid;
 }
 
 /**

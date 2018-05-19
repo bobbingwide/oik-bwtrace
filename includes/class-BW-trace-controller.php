@@ -11,6 +11,12 @@
 class BW_trace_controller {
 
 	/**
+	 * Instance of the trace files directory class.
+	 * If this is not set then we won't support tracing.
+	 */
+	public $trace_files_directory;
+
+	/**
 	 * Instance of the trace file selector. Only needed when we know we're tracing.
 	 */
 	public $trace_file_selector;
@@ -43,17 +49,22 @@ class BW_trace_controller {
 		//global $bw_trace = new BW_trace_controller;
 		// BW_trace_controller->trace_options->load();
 		$this->load_trace_options();
-		$this->request_type = $this->query_request_type();
+		$this->load_trace_files_directory();
+		if ( $this->trace_files_directory ) {
+			$this->request_type = $this->query_request_type();
 		
-		$this->set_trace_level( $this->query_trace_level() );
-		// BW_trace_controller->action_options->load(); 
+			$this->set_trace_level( $this->query_trace_level() );
+			// BW_trace_controller->action_options->load(); 
 		
-		if ( $this->status() ) {
-		
-			$this->load_trace_file_selector();
-			$this->load_trace_record();
-			$this->set_savequeries();
-		}
+			if ( $this->status() ) {
+			
+				$this->load_trace_file_selector();
+				$this->load_trace_record();
+				$this->set_savequeries();
+			}
+		} else {
+			// Invalid trace files directory so tracing cannot be enabled.
+		}	
 	}
 	
 	/**
@@ -63,6 +74,21 @@ class BW_trace_controller {
 	function load_trace_options() {
 		$this->trace_options = get_option( 'bw_trace_options' );
 		$this->action_options = get_option( 'bw_action_options' );
+	}
+	
+	/**
+	 * Loads the trace files directory object
+	 *
+	 * Note: If the trace files directory is not valid then we don't support tracing.
+	 */
+	function load_trace_files_directory() {
+		oik_require( "includes/class-trace-files-directory.php", "oik-bwtrace" );
+		$trace_files_directory = new trace_files_directory();
+		$trace_files_directory->set_options( $this->trace_options );
+		$trace_files_directory->validate_trace_files_directory();
+		if ( $trace_files_directory->is_valid() ) {
+			$this->trace_files_directory = $trace_files_directory;
+		}
 	}
 
 	/**
@@ -74,6 +100,7 @@ class BW_trace_controller {
 		$trace_file_selector = new trace_file_selector();
 		$trace_file_selector->set_request_type( $this->request_type );
 		$trace_file_selector->set_trace_options( $this->trace_options );
+		$trace_file_selector->set_trace_files_directory( $this->trace_files_directory );
 		$this->trace_file_selector = $trace_file_selector;
 	
 	}
@@ -141,20 +168,25 @@ class BW_trace_controller {
 	 * what we're going to do with regards trace file generation and
 	 */
 	public function status() {
-		if ( defined( 'BW_TRACE_ON' ) && BW_TRACE_ON ) {
-			$this->trace_on = BW_TRACE_ON;
-			gob();
-			// $bw_trace_on should already be true... but can we turn it off?
-			// How does that affect reset?	
-			// Well, perhaps we can check the BW_TRACE_RESET constant and whether or not we started in wp-config
-		} else {
-			//$request_type = $this->query_request_type();
-			if ( $this->request_type ) {
-				$this->trace_on = $this->torf( "trace_" . $this->request_type );
+	
+		if ( $this->trace_files_directory ) {
+			if ( defined( 'BW_TRACE_ON' ) && BW_TRACE_ON ) {
+				$this->trace_on = BW_TRACE_ON;
+				//gob();
+				// $bw_trace_on should already be true... but can we turn it off?
+				// How does that affect reset?	
+				// Well, perhaps we can check the BW_TRACE_RESET constant and whether or not we started in wp-config
 			} else {
-				$this->trace_on = $this->torf( "trace" );
-			}
-		}	
+				//$request_type = $this->query_request_type();
+				if ( $this->request_type ) {
+					$this->trace_on = $this->torf( "trace_" . $this->request_type );
+				} else {
+					$this->trace_on = $this->torf( "trace" );
+				}
+			}	
+		} else {
+			$this->trace_on = false;
+		}		
 		return $this->trace_on;
 	}
 	

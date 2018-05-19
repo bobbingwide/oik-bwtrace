@@ -75,13 +75,31 @@ class OIK_trace_summary {
 		bw_trace2( $this, "this", false, BW_TRACE_DEBUG );
 	}
 	
+	/**
+	 * Gets an option value
+	 *
+	 * Doesn't support defaults
+	 * 
+	 * @param string $name
+	 * @return string | null
+	 */
+	private function get_option_value( $name ) {
+		$value = bw_array_get( $this->bw_summary_options, $name, null );
+		return $value;
+	}
 	
 	/**
-	 * Not needed while we're still using the original code.
+	 * 
 	 */
-	function get_summary_file_name() {
-		$file = $this->bw_trace_vt_file();
-		return $file;
+	function get_summary_file_prefix() {
+		$file_prefix = $this->get_option_value( 'summary_file' );
+		$file_prefix = trim( $file_prefix );
+		if ( empty( $file_prefix ) ) {
+			$file_prefix = "bwtrace.vt";
+			gob();
+		}
+		return $file_prefix;
+		
 	}
 	
 	
@@ -143,6 +161,8 @@ function bw_record_vt( $vnoisy=false ) {
 	
   $line .= PHP_EOL;
 	$file = $this->bw_trace_vt_file();
+	
+	// How do we know that bw_write is loaded? 
   bw_write( $file, $line );
 }
 
@@ -159,8 +179,10 @@ function bw_record_vt( $vnoisy=false ) {
  * @return string Fully qualified file name
  */
 function bw_trace_vt_file() {
+
+	$bwtracevt = $this->get_summary_file_prefix();
 	
-  $file = ABSPATH . "bwtrace.vt." .  date( "Ymd" );
+  $file = ABSPATH . $bwtracevt . "." .  date( "Ymd" );
 	global $blog_id; 
 	bw_trace2( $blog_id, "blog_id !$blog_id!", false, BW_TRACE_VERBOSE );
 	if ( $blog_id != 1 ) {

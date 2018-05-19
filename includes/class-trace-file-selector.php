@@ -12,7 +12,13 @@ class trace_file_selector {
 	/**
 	 * File generation limit - see set_limit
 	 */
-	public $limit;
+	public $limit;     
+	
+	/**
+	 * Trace files directory object.
+	 */
+	public $trace_files_directory; 	
+	
 	public $file_path;
 	public $file_name;
 	public $file_extension;
@@ -34,6 +40,7 @@ class trace_file_selector {
 	public $trace_options;
 	
 	public function __construct() {
+		$this->set_trace_files_directory();
 		$this->set_limit();
 		$this->set_file_path();
 		$this->set_file_name();
@@ -44,6 +51,29 @@ class trace_file_selector {
 
 		//$this->set_generation( $generation );
 		//$this->set_trace_file_name();
+	}
+	
+	/**
+	 * Sets the trace files directory object
+	 * 
+	 * @param object $trace_files_directory
+	 */
+	public function set_trace_files_directory( $trace_files_directory=null ) {
+		$this->trace_files_directory = null;
+	}
+	
+	/**
+	 * Validates the trace directory
+	 * 
+	 * Trace files can contain sensitive data so should not be accessible to the general public.
+	 * This can be achieved by placing the files outside of the web root directory 
+	 * or in a folder protected by .htaccess
+	 * 
+	 * @param string $directory
+	 * @return bool validity
+	 */
+	public function validate_trace_directory( $directory ) {
+	
 	}
 	
 	/**

@@ -264,10 +264,13 @@ function oik_bwtrace_wp_cli() {
  * 
  */
 function oik_bwtrace_initialise_trace_summary() {	
-	global $bw_trace_summary;
-	oik_require( "admin/class-oik-trace-summary.php", "oik-bwtrace" );
-	$bw_trace_summary = new OIK_trace_summary();
-	$bw_trace_summary->initialise();
+	global $bw_trace;
+	if ( $bw_trace && $bw_trace->trace_files_directory ) {
+		global $bw_trace_summary;
+		oik_require( "admin/class-oik-trace-summary.php", "oik-bwtrace" );
+		$bw_trace_summary = new OIK_trace_summary();
+		$bw_trace_summary->initialise();
+	}
 }
 										 
 /**
