@@ -141,26 +141,6 @@ class trace_file_selector {
 	}
 	
 	/**
-	 * Gets a sanitized version of ABSPATH
-	 *
-	 * If the constant is not set it determines it based on this file's location.
-	 *
-	 * @return string fully qualified path with trailing slash
-	 */
-	public function get_abspath() {
-		if ( !defined('ABSPATH') ) {
-			$abspath = dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/';
-			$abspath = str_replace( "\\", "/", $abspath );
-			if ( ':' === substr( $abspath, 1, 1 ) ) {
-				$abspath = ucfirst( $abspath );
-			}
-		} else { 
-			$abspath = ABSPATH;
-		}
-		return $abspath;
-	}
-	
-	/**
 	 * Sets trace options
 	 */
 	public function set_trace_options( $bw_trace_options ) {
@@ -195,7 +175,7 @@ class trace_file_selector {
 		$file_name = pathinfo( $file, PATHINFO_FILENAME );
 		$file_extension = pathinfo( $file, PATHINFO_EXTENSION );
 		if ( $file_path !== '.' ) {
-			$this->set_file_path( $this->get_abspath() . $file_path );
+			$this->set_file_path( $file_path );
 		}
 		$this->set_file_name( $file_name );
 		$this->set_file_extension( $file_extension ? $file_extension : $request_type );
@@ -222,7 +202,8 @@ class trace_file_selector {
 	 * Format: path/filename.ext
 	 */			
 	public function get_trace_file_mask() {
-		$file_mask = $this->file_path;
+		$file_mask = $this->trace_files_directory->get_fq_trace_files_directory();
+		$file_mask .= $this->file_path;
 		$file_mask .= $this->file_name;
 		$file_mask .= ".";
 		$file_mask .= $this->file_extension;
@@ -315,7 +296,7 @@ class trace_file_selector {
 	 */
 	public function get_trace_file_url() {
 		if ( $this->trace_file_name ) {
-			$file_name = str_replace( $this->get_abspath(), "", $this->trace_file_name );
+			$file_name = str_replace( $this->trace_files_directory->get_abspath(), "", $this->trace_file_name );
 			$trace_file_url = get_site_url( null, $file_name );
 			
 		} else {

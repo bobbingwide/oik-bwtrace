@@ -46,13 +46,17 @@ class trace_files_directory {
 	public $options;
 	public $valid = false;
 	
+	/** 
+	 * Fully qualified trace files directory, with trailing slash
+	 */
+	public $fq_trace_files_directory;
+	
 	
 	function __construct() {
 		$this->valid = false;
 		$this->default_options();
 		$this->set_trace_files_directory();
-		
-	
+		$this->set_fq_trace_files_directory();
 	
 	}
 	
@@ -80,6 +84,37 @@ class trace_files_directory {
 		return $this->valid;
 	}
 	
+	function set_fq_trace_files_directory( $directory=null ) {
+		$this->fq_trace_files_directory = $directory;
+	}
+	
+	/**
+	 * Returns the fully qualified trace files directory
+	 * 
+	 */
+	function get_fq_trace_files_directory() {
+		return $this->fq_trace_files_directory;
+	}
+	
+	/**
+	 * Gets a sanitized version of ABSPATH
+	 *
+	 * If the constant is not set it determines it based on this file's location.
+	 *
+	 * @return string fully qualified path with trailing slash
+	 */
+	public function get_abspath() {
+		if ( !defined('ABSPATH') ) {
+			$abspath = dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/';
+			$abspath = str_replace( "\\", "/", $abspath );
+			if ( ':' === substr( $abspath, 1, 1 ) ) {
+				$abspath = ucfirst( $abspath );
+			}
+		} else { 
+			$abspath = ABSPATH;
+		}
+		return $abspath;
+	}
 
 }
 	
