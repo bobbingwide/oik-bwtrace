@@ -157,6 +157,8 @@ function oik_trace_options() {
   stag( 'table class="form-table"' );
   bw_flush();
   settings_fields('bw_trace_options_options'); 
+	
+	BW_::bw_textfield_arr( "bw_trace_options", __( "Trace files directory", "oik-bwtrace" ), $options, 'trace_directory', 60 );
 	bw_tablerow( array( __( "General browser requests", "oik-bwtrace" ) ), "tr", "th" );
   BW_::bw_textfield_arr( "bw_trace_options", __( "Trace file", "oik-bwtrace" ), $options, 'file', 60 );
   bw_checkbox_arr( "bw_trace_options", __( "Trace enabled", "oik-bwtrace" ), $options, 'trace' );
@@ -184,7 +186,6 @@ function oik_trace_options() {
 	
 	// Does this need includes/bwtrace.php?
 	bw_tablerow( array( __( "Trace records", "oik-bwtrace" ) ), "tr", "th" );
-	BW_::bw_textfield_arr( "bw_trace_options", __( "Trace files directory", "oik-bwtrace" ), $options, 'trace_directory', 60 );
 	$trace_levels = bw_list_trace_levels();
 	// Do we need to default this after upgrade?
 	//$options['level'] = bw_trace_level();
@@ -226,15 +227,15 @@ function oik_trace_notes() {
   BW_::p( __( "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site.", "oik-bwtrace" ) );
   BW_::p( __( "If you do need to activate it, only do so for a short period of time.", "oik-bwtrace" )  );
  
-  BW_::p( __( "You will need to specify the trace file name (e.g. bwtrace.loh )", "oik-bwtrace" )  );
+  BW_::p( __( "You will need to specify the trace files directory and trace file names.", "oik-bwtrace" )  );
   BW_::p( __( "When you want to trace processing check 'Trace enabled'", "oik-bwtrace" )  );
   //BW_::p( __( "Check 'Reset trace file every transaction' to cause the trace file to be cleared for every request, including AJAX requests.", "oik-bwtrace" )  );
   BW_::p( __( "Specifying a different file name and limit for each transaction can help you to trace multiple concurrent requests." ) );
   
-  BW_::p( __( "You may find the most recent browser trace output at...", "oik-bwtrace" )  );
-  $bw_trace_url = bw_trace_url();
+  //BW_::p( __( "You may find the most recent browser trace output at...", "oik-bwtrace" )  );
+  //$bw_trace_url = bw_trace_url();
   
-  BW_::alink( NULL, $bw_trace_url, $bw_trace_url, __( "View trace output in your browser.", "oik-bwtrace" ) );
+  //BW_::alink( NULL, $bw_trace_url, $bw_trace_url, __( "View trace output in your browser.", "oik-bwtrace" ) );
   
   BW_::p( __( "If you want to trace processing within some content you can use two shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off", "oik-bwtrace" )  );
   
@@ -349,7 +350,7 @@ function bw_trace_validate_directory( $array, $key ) {
 		$trace_files_directory->validate_trace_files_directory( $directory );
 		$valid = $trace_files_directory->is_valid();
 		if ( !$valid ) {
-			add_settings_error( $key, $key, "Invalid trace files directory." );
+			add_settings_error( $key, $key, "Invalid Trace files directory." );
 		}
 		
 	}

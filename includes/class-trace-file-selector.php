@@ -59,22 +59,9 @@ class trace_file_selector {
 	 * @param object $trace_files_directory
 	 */
 	public function set_trace_files_directory( $trace_files_directory=null ) {
-		$this->trace_files_directory = null;
+		$this->trace_files_directory = $trace_files_directory;
 	}
 	
-	/**
-	 * Validates the trace directory
-	 * 
-	 * Trace files can contain sensitive data so should not be accessible to the general public.
-	 * This can be achieved by placing the files outside of the web root directory 
-	 * or in a folder protected by .htaccess
-	 * 
-	 * @param string $directory
-	 * @return bool validity
-	 */
-	public function validate_trace_directory( $directory ) {
-	
-	}
 	
 	/**
 	 * Sets the limit
@@ -134,9 +121,9 @@ class trace_file_selector {
 	 * @param string $file_path fully qualified location including trailing slash
 	 */
 	public function set_file_path( $file_path=null ) {
-		if ( !$file_path ) {
-			$file_path = $this->get_abspath();
-		}
+		//if ( !$file_path ) {
+		//	$file_path = $this->get_abspath();
+		//}
 		$this->file_path = trailingslashit( $file_path );
 	}
 	

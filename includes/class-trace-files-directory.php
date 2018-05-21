@@ -20,79 +20,141 @@
  * ```
  * 
  * Note: If running locally this logic doesn't matter so much. 
- * We can't easily check we're running locally so we'll defer to the production strength logic.
+ * But, since we can't easily check we're running locally we'll defer to the production strength logic...
+ * even though we don't expect tracing to be run in production.
  * 
  * 
  * We should also ensure that the path is not a WordPress folder.
- *
- *
- * $directory | Processing
- * ---------- | ------------
- * null       | Don't support trace 
- * 0          | Don't support trace. Note: empty() returns true for "0"
- * starts /   | Treat as fully qualified
- * starts C:/ | Treat as fully qualified - Windows only	- where C is a drive letter
- * directory  | Prepend ABSPATH and check directory exists
- * starts .   | ?
- * starts ../ | ? 
- * 
  * 
  * 
  */
 
 class trace_files_directory {
 
+	/**
+	 * Value entered by user. 
+	 * May be set as a constant, in wp-config.php, for when tracing at startup is required.
+	 */
 	public $trace_files_directory; 
 	public $options;
 	public $valid = false;
 	
 	/** 
 	 * Fully qualified trace files directory, with trailing slash
+	 * Trace files are created in this directory, either directly or within subdirectories.
 	 */
 	public $fq_trace_files_directory;
 	
+	/**
+	 * Fully qualified prefix
+	 * 
+	 * Prefix for a fully qualified file name.
+	 */
+	private $fq_prefix;
 	
 	function __construct() {
 		$this->valid = false;
 		$this->default_options();
 		$this->set_trace_files_directory();
 		$this->set_fq_trace_files_directory();
+		$this->set_fq_prefix();
 	
 	}
+	
+	/**
+	 * Validates the trace files directory
+	 * 
+	 * Sets the FQ trace files directory if valid
+	 * 
+	 * Trace files can contain sensitive data so should not be accessible to the general public.
+	 * This can be achieved by placing the files outside of the web root directory. 
+	 * 
+	 * A less secure method is to place the files in a folder protected by .htaccess
+	 * 
+	 * $directory | Processing
+	 * ---------- | ------------
+	 * null       | Don't support trace 
+	 * 0          | Don't support trace. Note: empty() returns true for "0"
+	 * starts /   | Treat as fully qualified
+	 * starts C:/ | Treat as fully qualified - Windows only	- where C is a drive letter
+	 * directory  | Prepend ABSPATH and check directory exists
+	 * starts .   | ?
+	 * starts ../ | ? 
+	 * 
+	 * 
+	 * @param string $directory
+	 * @return bool validity
+	 */
+	function validate_trace_files_directory() {
+		
+		$this->valid = false;
+		$fq_directory = $this->set_fq_prefix();
+		$fq_directory = null;
+		$fq_directory .= $this->trace_files_directory;
+		if ( file_exists( $fq_directory ) ) {
+			if ( is_dir( $fq_directory ) ) {
+				$this->set_fq_trace_files_directory( $fq_directory );
+				$this->valid = true;
+			} else {
+				echo "File is not a directory";
+			}
+		} else {
+			//echo "Directory does not exist";
+			$this->valid = wp_mkdir_p( $fq_directory );
+			if ( !$this->valid ) {
+				echo "Cannot create directory";
+			}
+		}
+		return $this->valid;
+	
+	}
+	
 	
 	function default_options() {
 		$this->options = array();
 		$this->options[ 'trace_directory' ] = null;
 	}
 	
+	/**
+	 * Sets the trace files directory
+	 */
 	function set_trace_files_directory( $directory=null ) {
-		$this->trace_files_directory = null;
+		$this->trace_files_directory = $directory;
 	}
 		
-	
-	
+	/**
+	 * Sets local variables from the options array
+	 */	
 	function set_options( $options ) {
-		$this->trace_files_directory = bw_array_get( $options, 'trace_directory' );
-	
+		$this->set_trace_files_directory( bw_array_get( $options, 'trace_directory' ) );
 	}
 	
-	function validate_trace_files_directory() {
-		$this->valid = false;
+	/**
+	 */
+	public function validate_trace_directory( $directory ) {
 	}
 	
 	function is_valid() {
 		return $this->valid;
 	}
 	
+	/**
+	 * 
+	 * Stored with a trailing '/'
+	 */
 	function set_fq_trace_files_directory( $directory=null ) {
-		$this->fq_trace_files_directory = $directory;
+		$this->fq_trace_files_directory = trailingslashit( $directory );
 	}
 	
 	/**
 	 * Returns the fully qualified trace files directory
-	 * 
+	 *
+	 * Returned with a trailing slash - like ABSPATH 
 	 */
 	function get_fq_trace_files_directory() {
+		if ( !$this->fq_trace_files_directory ) {
+			gob();
+		}
 		return $this->fq_trace_files_directory;
 	}
 	
@@ -114,6 +176,72 @@ class trace_files_directory {
 			$abspath = ABSPATH;
 		}
 		return $abspath;
+	}
+	
+	/**
+	 * Builds the fully qualified prefix for a file
+	 *
+	 * Takes the operating system into account
+	 */
+	function set_fq_prefix() {
+		$new_file = $this->query_external_dir();
+		if ( PHP_OS == "WINNT" ) {
+			$new_file = $this->query_windows_homedrive();
+			$new_file .= '/';
+		} else {
+			$new_file = '/';
+		}
+		$this->fq_prefix = $new_file;
+		return $this->fq_prefix;
+	
+	}
+	
+	/**
+	 * Builds the external directory name
+	 * 
+	 * For non Windows servers (e.g. Linux) we need to find the "home" directory 
+	 
+	 * e.g.
+	 * If [DOCUMENT_ROOT] => /home/t10scom/public_html
+	 * and $dir parameter is '/zipdir/'
+	 * then external_directory will become "/home/t10scom/zipdir/"
+	 * 
+	 * @param string - required external directory name with leading and trailing slashes
+	 * @return string - external directory with "home" directory prepended
+	 */
+	function query_external_dir() {
+		$external_dir = dirname( $_SERVER['DOCUMENT_ROOT'] );
+		//print_r( $_SERVER['DOCUMENT_ROOT'] );
+		//print_r( $_SERVER );
+		return $external_dir;
+	}
+	
+	/**
+	 * Query Windows System Drive
+	 *
+	 * Obtains the drive letter to prefix a fully qualified file name in a Windows environment
+	 * 
+	 * Notes:	Variable settings vary depending on the invocation
+	 *
+	 * Value                      | CLI  | Server
+	 * -------------------------- | ---- | ----
+	 * $_ENV                      | null | set
+	 * getenv( "HOMEDRIVE" )      | set  | null
+	 * getenv( "ServerDrive" )    | set  | set
+	 * $_SERVER[ 'DOCUMENT_ROOT'] | null | set
+	 * 
+	 */
+	function query_windows_homedrive() {
+		//print_r( $_ENV );
+		//$home = getenv();
+		//print_r( $home );
+		//$homedrive = getenv( "HOMEDRIVE" );
+		$systemdrive = getenv( "SystemDrive" );
+    //print_r( $homedrive );
+		//print_r( $systemdrive);
+		//$homepath = getenv( "HOMEPATH" );
+		//print_r( $homepath );
+		return $systemdrive;
 	}
 
 }

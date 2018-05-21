@@ -96,8 +96,9 @@ class OIK_trace_summary {
 		$file_prefix = trim( $file_prefix );
 		if ( empty( $file_prefix ) ) {
 			$file_prefix = "bwtrace.vt";
-			gob();
+			
 		}
+		
 		return $file_prefix;
 		
 	}
@@ -179,10 +180,12 @@ function bw_record_vt( $vnoisy=false ) {
  * @return string Fully qualified file name
  */
 function bw_trace_vt_file() {
+	global $bw_trace;    
+	$fq_trace_files_directory = $bw_trace->trace_files_directory->get_fq_trace_files_directory();
 
 	$bwtracevt = $this->get_summary_file_prefix();
 	
-  $file = ABSPATH . $bwtracevt . "." .  date( "Ymd" );
+  $file = $fq_trace_files_directory . $bwtracevt . "." .  date( "Ymd" );
 	global $blog_id; 
 	bw_trace2( $blog_id, "blog_id !$blog_id!", false, BW_TRACE_VERBOSE );
 	if ( $blog_id != 1 ) {
