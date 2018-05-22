@@ -14,10 +14,16 @@ class trace_logs {
 	private $min_date;
 	private $max_date;
 	
+	/**
+	 * Constructor for trace logs
+	 */
 	public function __construct() {
 		$this->get_options();
 	}
 	
+	/**
+	 * Returns the daily trace summary file prefix
+	 */
 	public function get_summary_file_prefix() {
 		global $bw_trace_summary;
 		$summary_file = $bw_trace_summary->get_summary_file_prefix();
@@ -107,6 +113,8 @@ class trace_logs {
 
 	/**
 	 * Displays trace log summary
+	 * 
+	 * If the file name is not defined for the type then don't include it in the table.
 	 *
 	 * 
 	 * Type | Name | Files | Size | From | To
@@ -177,15 +185,15 @@ class trace_logs {
 		$record = array();
 		$record[] = $type;
 		$record[] = $path;
-		
-		$file_mask = $this->get_fq_trace_files_directory() . $path;
-		
-		$files = $this->query_files( $file_mask);
-		$record[] = count( $files );
-		$record[] = number_format( $this->size( $files ) );
-		$this->date_range( $files );
-		$record[] = $this->min_date;
-		$record[] = $this->max_date;
+		if ( $path ) {
+			$file_mask = $this->get_fq_trace_files_directory() . $path;
+			$files = $this->query_files( $file_mask);
+			$record[] = count( $files );
+			$record[] = number_format( $this->size( $files ) );
+			$this->date_range( $files );
+			$record[] = $this->min_date;
+			$record[] = $this->max_date;
+		}
 		bw_tablerow( $record );
 	}
 	
@@ -199,7 +207,7 @@ class trace_logs {
 	 * @return array of fully qualified file names
 	 */
 	public function query_files( $file_mask ) { 
-		$files = glob( $file_mask . ".*", GLOB_NOSORT );
+		$files = glob( $file_mask . "*", GLOB_NOSORT );
 		//$files = $this->trim_to_limit( $files, $file_mask, $this->limit );
  		natsort( $files );
 		$this->trace_files = $files; 		
