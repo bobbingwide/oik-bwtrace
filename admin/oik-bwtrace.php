@@ -28,6 +28,7 @@
  */
 function bw_trace_options_init(){
   register_setting( 'bw_trace_options_options', 'bw_trace_options', 'bw_trace_options_validate' );
+	register_setting( 'bw_trace_files_options', 'bw_trace_files_options', 'bw_trace_files_options_validate' );
   
   add_action( "activated_plugin", "bw_this_plugin_first", 10, 2 );
 }
@@ -133,6 +134,7 @@ function oik_action_options() {
  */
 function bw_trace_options_do_page() { 
   BW_::oik_menu_header( __( "trace options", "oik-bwtrace" ) );
+	BW_::oik_box( null, null, __( "Trace files", "oik-bwtrace" ), "oik_trace_files_options" );
   BW_::oik_box( null, null, __( "Options", "oik-bwtrace" ), "oik_trace_options" );
 	BW_::oik_box( null, null, __( "Daily Trace Summary", "oik-bwtrace" ), "oik_trace_summary" );
   BW_::oik_box( null, null, __( "Information", "oik-bwtrace" ), "oik_trace_info" );
@@ -141,6 +143,16 @@ function bw_trace_options_do_page() {
   oik_menu_footer();
   bw_flush();
 }
+
+/**
+ * Display the trace files options box
+ */
+function oik_trace_files_options() {
+	oik_require( 	"includes/class-trace-logs.php", "oik-bwtrace" );
+	$oik_trace_logs = new trace_logs();
+	$oik_trace_logs->display();
+}
+	
 
 /**
  * Display the trace options box
@@ -158,7 +170,6 @@ function oik_trace_options() {
   bw_flush();
   settings_fields('bw_trace_options_options'); 
 	
-	BW_::bw_textfield_arr( "bw_trace_options", __( "Trace files directory", "oik-bwtrace" ), $options, 'trace_directory', 60 );
 	bw_tablerow( array( __( "General browser requests", "oik-bwtrace" ) ), "tr", "th" );
   BW_::bw_textfield_arr( "bw_trace_options", __( "Trace file", "oik-bwtrace" ), $options, 'file', 60 );
   bw_checkbox_arr( "bw_trace_options", __( "Trace enabled", "oik-bwtrace" ), $options, 'trace' );
@@ -297,9 +308,19 @@ function oik_trace_summary() {
 function bw_trace_options_validate($input) {
   bw_trace2(); 
   $input['ip'] = trim( $input['ip']);
+	return $input;
+}
+
+/**
+ * Sanitize and validate trace files options input
+ */
+ 
+function bw_trace_files_options_validate( $input ) {
+  bw_trace2(); 
 	$valid = bw_trace_validate_directory( $input, 'trace_directory' );
 	return $input;
 }
+ 
 
 /** 
  * Validate the bw_action_options

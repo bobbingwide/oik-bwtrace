@@ -34,6 +34,76 @@ class trace_logs {
 		return $fq_trace_files_directory;
 	}
 	
+	public function get_retention_period() {
+		global $bw_trace;
+		if ( $bw_trace->trace_files_directory ) {
+			$retain = $bw_trace->trace_files_directory->get_retention_period();
+		} else {
+			$retain = null;
+		}
+		return $retain;
+	}
+		
+	
+	/**
+	 * Displays the trace files form(s)
+	 */
+	public function display() {
+		$this->display_options();
+		$this->perform_purge();
+		$this->display_summary();
+		//$this->purge();
+		$this->display_purge_form();
+	}
+	
+	/**
+	 * Displays the trace files options fields
+	 */
+	public function display_options() {
+		bw_form( "options.php" );
+		$options = get_option('bw_trace_files_options');     
+		stag( 'table class="form-table"' );
+		bw_flush();
+		settings_fields('bw_trace_files_options'); 
+		
+		BW_::bw_textfield_arr( "bw_trace_files_options", __( "Trace files directory", "oik-bwtrace" ), $options, 'trace_directory', 60 );
+		BW_::bw_textfield_arr( "bw_trace_files_options", __( "Retention period ( days )", "oik-bwtrace" ), $options, 'retain', 4 );
+	
+		etag( "table" ); 			
+		BW_::p( isubmit( "ok", __( "Save changes", 'oik-bwtrace' ), null, "button-primary" ) );
+		etag( "form" );
+		bw_flush();
+	}
+	
+	/**
+	 * Purge old trace files if requested
+	 */
+	public function perform_purge() {
+		$purge = bw_array_get( $_REQUEST, "_oik_trace_purge_submit", null );
+		if ( $purge ) {
+			$purge = bw_verify_nonce( "oik_trace_files_purge", "oik_trace_files_purge" );
+			if ( $purge ) {
+				p( "Purging old trace files" );
+				$this->purge();
+			} else {
+				p( "Norty" );
+				//gob();
+			}
+		} else {
+			// No request to purge trace files!
+		}
+	}
+	
+	/**
+	 * Displays the Purge trace files button
+	 */
+	public function display_purge_form() {
+		bw_form();
+		e( wp_nonce_field( "oik_trace_files_purge", "oik_trace_files_purge", false, false ) );
+		e( isubmit( "_oik_trace_purge_submit", "Purge trace files" ) ); 
+		etag( "form" );
+	}
+	
 
 	/**
 	 * Displays trace log summary
@@ -63,7 +133,7 @@ class trace_logs {
 		etag( "tbody" );
 		etag( "table" );
 		
-		$this->purge();
+		//$this->purge();
  
 	}
 	
@@ -234,11 +304,15 @@ class trace_logs {
 	 * 
 	 */ 
 	function query_purge_time() {
-		$retain = 30;
-		$time = time();
-		//echo "Time now: $time ";
-		$time -= ( 86400 * $retain );
-		//echo "Purging files older than: $time";
+		$retain = $this->get_retention_period();
+		if ( null !== $retain ) {
+			$time = time();
+			//echo "Time now: $time ";
+			$time -= ( 86400 * $retain );
+			//echo "Purging files older than: $time";
+		} else {
+			$time = 0;
+		}	
 		return $time;
 	}
 

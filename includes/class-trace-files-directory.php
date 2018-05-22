@@ -46,6 +46,11 @@ class trace_files_directory {
 	public $fq_trace_files_directory;
 	
 	/**
+	 * Retention period for trace files
+	 */
+	public $retain;
+	
+	/**
 	 * Fully qualified prefix
 	 * 
 	 * Prefix for a fully qualified file name.
@@ -113,6 +118,7 @@ class trace_files_directory {
 	function default_options() {
 		$this->options = array();
 		$this->options[ 'trace_directory' ] = null;
+		$this->options[ 'retain'] = 30;
 	}
 	
 	/**
@@ -121,12 +127,27 @@ class trace_files_directory {
 	function set_trace_files_directory( $directory=null ) {
 		$this->trace_files_directory = $directory;
 	}
+	
+	/**
+	 * Sets the retention period
+	 */
+	function set_retention_period( $retain=null ) {
+		$this->retain = $retain;
+	}
+	
+	/**
+	 * Returns the retention period
+	 */
+	function get_retention_period() {
+		return $this->retain;
+	}
 		
 	/**
 	 * Sets local variables from the options array
 	 */	
 	function set_options( $options ) {
 		$this->set_trace_files_directory( bw_array_get( $options, 'trace_directory' ) );
+		$this->set_retention_period( bw_array_get( $options, 'retain' ) );
 	}
 	
 	/**
@@ -140,7 +161,7 @@ class trace_files_directory {
 	
 	/**
 	 * 
-	 * Stored with a trailing '/'
+	 * Stored without a trailing '/' - to allow for null
 	 */
 	function set_fq_trace_files_directory( $directory=null ) {
 		$this->fq_trace_files_directory = $directory;

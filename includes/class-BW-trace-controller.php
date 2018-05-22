@@ -37,6 +37,8 @@ class BW_trace_controller {
 	public $trace_level;    // integer 
 	public $request_type;  	// null | 'cli' | 'ajax' | 'rest' 
 	
+	public $trace_files_options; // array 
+	
 	/**
 	 * Constructor for tracing
 	 */
@@ -44,6 +46,7 @@ class BW_trace_controller {
 		$this->trace_file_selector = null;
 		$this->trace_options = null;
 		$this->action_options = null;
+		$this->trace_files_options = null;
 		$this->trace_on = false;
 		$this->trace_level = null;
 		//global $bw_trace = new BW_trace_controller;
@@ -74,6 +77,7 @@ class BW_trace_controller {
 	function load_trace_options() {
 		$this->trace_options = get_option( 'bw_trace_options' );
 		$this->action_options = get_option( 'bw_action_options' );
+		$this->trace_files_options = get_option( 'bw_trace_files_options' );
 	}
 	
 	/**
@@ -84,7 +88,7 @@ class BW_trace_controller {
 	function load_trace_files_directory() {
 		oik_require( "includes/class-trace-files-directory.php", "oik-bwtrace" );
 		$trace_files_directory = new trace_files_directory();
-		$trace_files_directory->set_options( $this->trace_options );
+		$trace_files_directory->set_options( $this->trace_files_options );
 		$trace_files_directory->validate_trace_files_directory();
 		if ( $trace_files_directory->is_valid() ) {
 			$this->trace_files_directory = $trace_files_directory;
@@ -102,7 +106,6 @@ class BW_trace_controller {
 		$trace_file_selector->set_trace_options( $this->trace_options );
 		$trace_file_selector->set_trace_files_directory( $this->trace_files_directory );
 		$this->trace_file_selector = $trace_file_selector;
-	
 	}
 	
 	/**
@@ -116,7 +119,6 @@ class BW_trace_controller {
 		$trace_record->set_trace_options( $this->trace_options );
 		$this->BW_trace_record = $trace_record;
 	}
-		
 	
 	/**
 	 * Determines the request type from the available information
