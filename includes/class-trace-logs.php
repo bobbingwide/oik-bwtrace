@@ -17,12 +17,29 @@ class trace_logs {
 	public function __construct() {
 		$this->get_options();
 	}
+	
+	public function get_summary_file_prefix() {
+		global $bw_trace_summary;
+		$summary_file = $bw_trace_summary->get_summary_file_prefix();
+		return $summary_file;
+	}
+	
+	public function get_fq_trace_files_directory() {
+		global $bw_trace;
+		if ( $bw_trace->trace_files_directory ) {
+			$fq_trace_files_directory = $bw_trace->trace_files_directory->get_fq_trace_files_directory();
+		} else {
+			$fq_trace_files_directory = null;
+		}
+		return $fq_trace_files_directory;
+	}
+	
 
 	/**
 	 * Displays trace log summary
 	 *
 	 * 
-	 * Type | Path | Files | Size | From | To
+	 * Type | Name | Files | Size | From | To
 	 * -- | -- | -- | -- | -- | --
 	 * daily | bwtrace.vt | 161 | 3,956,420 | 2017-05-17 | 2018-04-27
 	 * browser | bwtraces.loh | 1095 | 1,908,844,717 | 2018-03-12 | 2018-04-27
@@ -33,16 +50,32 @@ class trace_logs {
 	function display_summary() {
     stag( "table", "widefat" );
     stag( "thead" ); 
-		bw_tablerow( bw_as_array( "Type,Path,Files,Size,From,To" ), "tr", "th" );
+		bw_tablerow( bw_as_array( "Type,Name,Files,Size,From,To" ), "tr", "th" );
 		etag( "thead" );
 		stag( "tbody" );
-		$this->summarise( "daily", "bwtrace.vt" );
+		
+		
+		$this->summarise( "daily", $this->get_summary_file_prefix() );
 		$this->summarise( "browser", $this->get_option_value( "file" ) );
 		$this->summarise( "ajax", $this->get_option_value( "file_ajax" ) );
 		$this->summarise( "rest", $this->get_option_value( "file_rest" ) );
 		$this->summarise( "cli", $this->get_option_value( "file_cli" ) );
 		etag( "tbody" );
 		etag( "table" );
+		
+		$this->purge();
+ 
+	}
+	
+	/**
+	 * Purges trace files
+	 */
+	function purge() {
+		$this->purge_files( "daily", $this->get_summary_file_prefix() );
+		$this->purge_files( "browser", $this->get_option_value( "file" ) );
+		$this->purge_files( "ajax", $this->get_option_value( "file_ajax" ) );
+		$this->purge_files( "rest", $this->get_option_value( "file_rest" ) );
+		$this->purge_files( "cli", $this->get_option_value( "file_cli" ) );
 	}
 	
 	/**
@@ -75,7 +108,7 @@ class trace_logs {
 		$record[] = $type;
 		$record[] = $path;
 		
-		$file_mask = ABSPATH . $path;
+		$file_mask = $this->get_fq_trace_files_directory() . $path;
 		
 		$files = $this->query_files( $file_mask);
 		$record[] = count( $files );
@@ -157,10 +190,56 @@ class trace_logs {
 	public function delete( $args, $assoc_args ) {
 	
 	
-	}	
+	}
 	
+	/**
+	 * Purges files with the given file mask $path
+	 *
+	 * If older than retention period
+	 
+	 * @param string $type 
+	 * @param string $path
+	 *
+	 */
+	public function purge_files( $type, $path ) {
+		$purge_time = $this->query_purge_time();
+		$file_mask = $this->get_fq_trace_files_directory() . $path;
+		$files = $this->query_files( $file_mask);
+		$count = 0;
+		foreach ( $files as $file ) {
+			$count++;
+			//echo "$count $file ";
+			$filemtime = filemtime( $file );
+			if ( $filemtime < $purge_time ) {
+				//echo "will be deleted";
+				unlink( $file );
+			} else { 
+				//echo "stays";
+			}
+			//echo PHP_EOL;
+		} 
+	}
 	
-
-
+	/**
+	 * Query the purge time
+	 * 
+	 * The purge time is based on the retention period.
+	 *
+	 * 
+	 * retain     | Action
+	 * -------    | ----------
+	 * null/blank | Don't purge	@TODO if really necessary
+	 * 0          | Purge all files
+	 * n          | Purge files older than time() - ( 86400 * n )
+	 * 
+	 */ 
+	function query_purge_time() {
+		$retain = 30;
+		$time = time();
+		//echo "Time now: $time ";
+		$time -= ( 86400 * $retain );
+		//echo "Purging files older than: $time";
+		return $time;
+	}
 
 }

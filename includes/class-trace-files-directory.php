@@ -143,19 +143,19 @@ class trace_files_directory {
 	 * Stored with a trailing '/'
 	 */
 	function set_fq_trace_files_directory( $directory=null ) {
-		$this->fq_trace_files_directory = trailingslashit( $directory );
+		$this->fq_trace_files_directory = $directory;
 	}
 	
 	/**
-	 * Returns the fully qualified trace files directory
+	 * Returns the fully qualified trace files directory, if set
 	 *
-	 * Returned with a trailing slash - like ABSPATH 
+	 * @return string|null Returned with a trailing slash - like ABSPATH 
 	 */
 	function get_fq_trace_files_directory() {
 		if ( !$this->fq_trace_files_directory ) {
-			gob();
+			return null;
 		}
-		return $this->fq_trace_files_directory;
+		return trailingslashit( $this->fq_trace_files_directory );
 	}
 	
 	/**

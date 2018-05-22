@@ -190,10 +190,13 @@ class trace_file_selector {
 	 */			
 	public function get_trace_file_mask() {
 		$file_mask = $this->trace_files_directory->get_fq_trace_files_directory();
-		$file_mask .= $this->file_path;
-		$file_mask .= $this->file_name;
-		$file_mask .= ".";
-		$file_mask .= $this->file_extension;
+		if ( $file_mask ) {
+			// Ignore the path. @TODO - either ensure it's not set or implement support.
+			//$file_mask .= $this->file_path;
+			$file_mask .= $this->file_name;
+			$file_mask .= ".";
+			$file_mask .= $this->file_extension;
+		}	
 		return $file_mask;
 	}
 	
