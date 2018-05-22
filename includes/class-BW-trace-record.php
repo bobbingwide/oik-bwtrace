@@ -186,23 +186,29 @@ class BW_trace_record {
 		$ref .= "\n";
 		return $ref ;
 	}	
- 
 
 	/**
 	 * Log a record to a trace file
 	 *
 	 * @param string $line - this can be a very long string
-	 *
 	 */
 	function trace_log( $line ) {
-		//$file = bw_trace_file2();
 		$file = $this->trace_controller->get_trace_file_name();
-		
 		if ( $file ) {
 			bw_write( $file, $line ); 
 		} else {
-			_doing_wrong_thing();
+			$this->_doing_wrong_thing();
 		}
+	}
+	
+	/**
+	 * Fails gracefully with a message in the PHP error log
+	 * 
+	 * Disables tracing then records the error.
+	 */
+	function _doing_wrong_thing() {
+		bw_trace_off();
+		bw_log( null, "oik-bwtrace unable to write trace records to null trace file name. Set the Trace files directory." );
 	}
 
 
