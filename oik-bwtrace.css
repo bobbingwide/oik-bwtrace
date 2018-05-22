@@ -5,6 +5,7 @@
  */
 #oik_trace_options .form-table td,
 #oik_action_options .form-table td,
-#oik_trace_summary .form-table td {
+#oik_trace_summary .form-table td, 
+#oik_trace_files_options .form-table td {
        padding: 0px;
 }
