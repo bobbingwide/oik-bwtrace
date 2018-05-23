@@ -64,6 +64,13 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_action( "shutdown", "trace_output_buffer", "includes/oik-actions.php", "bw_trace_output_buffer" );
 	bw_trace_add_action( "shutdown", "trace_functions", "includes/oik-actions.php", "bw_trace_functions_traced" );
 	bw_trace_add_action( "shutdown", "trace_status_report", "includes/oik-actions.php", "bw_trace_status_report" );
+	
+	/** 
+	 * @TODO - Add option to trace all attached hooks at shutdown. 
+	 * This logic is/was being used to investigate which hooks are attached when Gutenberg is running.
+	 * add_action( "shutdown", "bw_trace_all_attached_hooks" );
+	 */
+	 
 	/*
 	 * These option names are not defined in the admin interface 
 	 * so are not expected to be in the $bw_action_options array 

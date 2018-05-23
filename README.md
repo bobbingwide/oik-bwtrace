@@ -6,6 +6,7 @@
 * Requires at least: 4.9
 * Tested up to: 5.0-alpha
 * Gutenberg compatible: Yes
+* Requires PHP: 5.2
 * Stable tag: 2.1.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -27,6 +28,7 @@ You can also use the oik trace facilities to assist in problem determination in 
 
 Features:
 
+* Traces to a defined Trace files directory
 * Traces ALL server functionality, including AJAX and other background requests
 * Ability to choose the IP address to trace, defaults to ALL requests
 * Trace AJAX transactions separately, if required
@@ -80,6 +82,14 @@ The output for action tracing can include trace records showing:
 * Summary reports at 'shutdown'
 * Information about deprecated logic
 * Information related to Errors, Warnings and Notices
+
+New in v3.0.0
+
+* All trace files are written within the Trace files directory.
+* Tracing will not be activated if the Trace files directory is not specified or is not valid.
+* Purging of trace files from the Dashboard using a defined retention period.
+
+
 
 New in v2.0.12
 
@@ -163,6 +173,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
 
 ## Upgrade Notice 
+# 3.0.0-alpha-20180523 
+Now uses a Trace files directory for storing trace output files.
+
 # 2.2.0-alpha-20180424 
 Update for improved support for tracing REST requests and the WP-CLI trace command.
 
@@ -270,6 +283,17 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 3.0.0-alpha-20180523 
+* Added: Trace files Purge capability with defined retention period https://github.com/bobbingwide/oik-bwtrace/issues/71
+* Added: Trace files directory required before any tracing can be performed https://github.com/bobbingwide/oik-bwtrace/issues/71
+* Changed: Improvements to the Daily Trace Summary report https://github.com/bobbingwide/oik-bwtrace/issues/68
+* Changed: Move shortcodes from oik and add bwtrace option=logs https://github.com/bobbingwide/oik-bwtrace/issues/69
+* Fixed: Cater for Linux file name case sensitivity on includes/class-BW-trace-controller.php
+* Fixed: Fix trace file reset when $this->limit is null https://github.com/bobbingwide/oik-bwtrace/issues/16
+* Tested: With Gutenberg 2.9.0
+* Tested: With PHP 7.1 and 7.2
+* Tested: With WordPress 4.9.6 and 5.0-alpha and WordPress Multisite
+
 # 2.2.0-alpha-20180424 
 * Added: WP-CLI support https://github.com/bobbingwide/oik-bwtrace/issues/54
 * Added: Support trace limits by request type https://github.com/bobbingwide/oik-bwtrace/issues/16
