@@ -313,14 +313,14 @@ function bw_trace_options_validate($input) {
 
 /**
  * Sanitize and validate trace files options input
+ *
+ * @param array $input array of trace files options fields
  */
- 
 function bw_trace_files_options_validate( $input ) {
   bw_trace2(); 
 	$valid = bw_trace_validate_directory( $input, 'trace_directory' );
 	return $input;
 }
- 
 
 /** 
  * Validate the bw_action_options
@@ -353,25 +353,30 @@ function bw_summary_options_validate( $input ) {
 /**
  * Validate the trace file directory
  *
+ * @param array $array Input array which may contain $key
+ * @param string $key key of the field to validate
  */
 function bw_trace_validate_directory( $array, $key ) {
-	//print_r( $array );
 	$valid = false;
 	$directory = bw_array_get( $array, $key );
 	$directory = trim( $directory );
 	if ( empty( $directory ) ) {
-		//p( "Trace file directory must be specified" );
-		//gob();
 		add_settings_error( $key, $key, "Trace files directory must be specified." );
 	} else {
 		$valid = false;
 		
 		oik_require( "includes/class-trace-files-directory.php", "oik-bwtrace" );
 		$trace_files_directory = new trace_files_directory();
-		$trace_files_directory->validate_trace_files_directory( $directory );
+		$trace_files_directory->set_trace_files_directory( $directory );
+		$trace_files_directory->validate_trace_files_directory();
 		$valid = $trace_files_directory->is_valid();
 		if ( !$valid ) {
-			add_settings_error( $key, $key, "Invalid Trace files directory." );
+			$message = __( "Invalid Trace files directory.", 'oik-bwtrace' );
+			$message .= '&nbsp;';
+			$message .= $trace_files_directory->get_message();
+			add_settings_error( $key, $key, $message );
+		}	else {
+			// It's been validated! 
 		}
 		
 	}

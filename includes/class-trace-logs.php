@@ -56,10 +56,46 @@ class trace_logs {
 	 */
 	public function display() {
 		$this->display_options();
-		$this->perform_purge();
-		$this->display_summary();
-		//$this->purge();
-		$this->display_purge_form();
+		$valid = $this->display_trace_files_directory_notice();
+		if ( $valid ) { 
+			$this->perform_purge();
+			$this->display_summary();
+			//$this->purge();
+			$this->display_purge_form();
+		}	
+	}
+	
+	/**
+	 * Display notices about the Trace files directory
+	 *
+	 */
+	
+	public function display_trace_files_directory_notice() {
+		$valid = false;
+		$fq_trace_files_directory = bw_array_get( $_REQUEST, 'trace_directory', null );
+		if ( null === $fq_trace_files_directory ) {
+			$fq_trace_files_directory = $this->get_fq_trace_files_directory(); 
+		}
+		if ( null === $fq_trace_files_directory ) {
+			e( "Please specify a Trace files directory." );
+			e( '&nbsp;' );
+			e( "Preferably use a directory that's not accessible from the browser." );
+			e( '&nbsp;' );
+			$avoid_folders = array( $_SERVER['DOCUMENT_ROOT']
+														, ABSPATH
+														);
+			e( "Avoid using these folders or subdirectories of them:" ); 
+			e( '&nbsp;' );
+			e( str_replace( "\\", "/", implode( ", ", $avoid_folders ) ) );
+		} else {
+			global $bw_trace;
+			$valid = $bw_trace->trace_files_directory->validate_trace_files_directory( $fq_trace_files_directory );
+			if ( !$valid ) {
+				e( $bw_trace->trace_files_directory->get_message() );
+			} 
+			
+		}
+		return $valid;
 	}
 	
 	/**
@@ -71,6 +107,7 @@ class trace_logs {
 		stag( 'table class="form-table"' );
 		bw_flush();
 		settings_fields('bw_trace_files_options'); 
+		
 		
 		BW_::bw_textfield_arr( "bw_trace_files_options", __( "Trace files directory", "oik-bwtrace" ), $options, 'trace_directory', 60 );
 		BW_::bw_textfield_arr( "bw_trace_files_options", __( "Retention period ( days )", "oik-bwtrace" ), $options, 'retain', 4 );

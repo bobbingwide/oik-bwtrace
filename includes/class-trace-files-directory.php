@@ -93,7 +93,7 @@ class trace_files_directory {
 	function validate_trace_files_directory() {
 		
 		$this->valid = false;
-		$fq_directory = $this->set_fq_prefix();
+		//$fq_directory = $this->set_fq_prefix();
 		$fq_directory = null;
 		$fq_directory .= $this->trace_files_directory;
 		if ( file_exists( $fq_directory ) ) {
@@ -101,17 +101,27 @@ class trace_files_directory {
 				$this->set_fq_trace_files_directory( $fq_directory );
 				$this->valid = true;
 			} else {
-				echo "File is not a directory";
+				$this->message( "File is not a directory", $fq_directory );
 			}
 		} else {
 			//echo "Directory does not exist";
 			$this->valid = wp_mkdir_p( $fq_directory );
 			if ( !$this->valid ) {
-				echo "Cannot create directory";
+				$this->message( "Cannot create directory", $fq_directory );
 			}
 		}
 		return $this->valid;
 	
+	}
+	
+	function message( $text, $value ) {
+		$this->message = $text;
+		$this->message .= " ";
+		$this->message .= $value;
+	}
+	
+	function get_message() {
+		return $this->message;
 	}
 	
 	
@@ -148,11 +158,6 @@ class trace_files_directory {
 	function set_options( $options ) {
 		$this->set_trace_files_directory( bw_array_get( $options, 'trace_directory' ) );
 		$this->set_retention_period( bw_array_get( $options, 'retain' ) );
-	}
-	
-	/**
-	 */
-	public function validate_trace_directory( $directory ) {
 	}
 	
 	function is_valid() {
