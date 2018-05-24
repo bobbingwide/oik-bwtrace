@@ -1,6 +1,8 @@
 <?php // (C) Copyright Bobbing Wide 2018
 
 /**
+ * @package oik-bwtrace
+ * 
  * Controls tracing
  * - Uses trace_file_selector to pick the trace file to write to
  * - This should also be used when resetting the trace file
@@ -49,18 +51,12 @@ class BW_trace_controller {
 		$this->trace_files_options = null;
 		$this->trace_on = false;
 		$this->trace_level = null;
-		//global $bw_trace = new BW_trace_controller;
-		// BW_trace_controller->trace_options->load();
 		$this->load_trace_options();
 		$this->load_trace_files_directory();
 		if ( $this->trace_files_directory ) {
 			$this->request_type = $this->query_request_type();
-		
 			$this->set_trace_level( $this->query_trace_level() );
-			// BW_trace_controller->action_options->load(); 
-		
 			if ( $this->status() ) {
-			
 				$this->load_trace_file_selector();
 				$this->load_trace_record();
 				$this->set_savequeries();
@@ -71,8 +67,13 @@ class BW_trace_controller {
 	}
 	
 	/**
-	 * What do we do if the trace options are not defined?
+	 * Loads trace options
 	 * 
+	 * - bw_trace_options contains settings for controlling tracing of each request type
+	 * - bw_action_options contains settings for tracing specific actions
+	 * - bw_trace_files_options ( new for v3.0.0 ) contains the Trace files directory
+	 * 
+	 * If trace options are not defined then tracing should only performed if controlled programmatically.
 	 */
 	function load_trace_options() {
 		$this->trace_options = get_option( 'bw_trace_options' );
@@ -84,6 +85,7 @@ class BW_trace_controller {
 	 * Loads the trace files directory object
 	 *
 	 * Note: If the trace files directory is not valid then we don't support tracing.
+	 * 
 	 */
 	function load_trace_files_directory() {
 		oik_require( "includes/class-trace-files-directory.php", "oik-bwtrace" );
@@ -96,7 +98,9 @@ class BW_trace_controller {
 	}
 
 	/**
-	 * Loading the trace file selector means that $trace_options should already be set
+	 * Loads the trace file selector.
+	 * 
+	 * Loading the trace file selector means that $trace_options should already be set.
 	 * We also know that tracing is required.
 	 */
 	function load_trace_file_selector() {
@@ -211,8 +215,6 @@ class BW_trace_controller {
 		}
 		return $tracing_ip;
 	}
-	
-	
 
 	/**
 	 * Determine the trace reset status

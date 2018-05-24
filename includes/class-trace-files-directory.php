@@ -62,8 +62,6 @@ class trace_files_directory {
 		$this->default_options();
 		$this->set_trace_files_directory();
 		$this->set_fq_trace_files_directory();
-		$this->set_fq_prefix();
-	
 	}
 	
 	/**
@@ -75,6 +73,9 @@ class trace_files_directory {
 	 * This can be achieved by placing the files outside of the web root directory. 
 	 * 
 	 * A less secure method is to place the files in a folder protected by .htaccess
+	 * 
+	 * We could attempt to mess about with relative directories but it's a lot easier
+	 * if we simply ensure that the trace_files_directory starts with a '/' or, in Windows, C:/
 	 * 
 	 * $directory | Processing
 	 * ---------- | ------------
@@ -91,27 +92,27 @@ class trace_files_directory {
 	 * @return bool validity
 	 */
 	function validate_trace_files_directory() {
-		
 		$this->valid = false;
-		//$fq_directory = $this->set_fq_prefix();
-		$fq_directory = null;
-		$fq_directory .= $this->trace_files_directory;
-		if ( file_exists( $fq_directory ) ) {
-			if ( is_dir( $fq_directory ) ) {
-				$this->set_fq_trace_files_directory( $fq_directory );
-				$this->valid = true;
+		$fq_directory = $this->trace_files_directory;
+		if ( $this->validate_fq_prefix( $fq_directory ) ) {
+			if ( file_exists( $fq_directory ) ) {
+				if ( is_dir( $fq_directory ) ) {
+					$this->set_fq_trace_files_directory( $fq_directory );
+					$this->valid = true;
+				} else {
+					$this->message( "File is not a directory", $fq_directory );
+				}
 			} else {
-				$this->message( "File is not a directory", $fq_directory );
+				//echo "Directory does not exist";
+				$this->valid = wp_mkdir_p( $fq_directory );
+				if ( !$this->valid ) {
+					$this->message( "Cannot create directory", $fq_directory );
+				}
 			}
 		} else {
-			//echo "Directory does not exist";
-			$this->valid = wp_mkdir_p( $fq_directory );
-			if ( !$this->valid ) {
-				$this->message( "Cannot create directory", $fq_directory );
-			}
+			// Have we already dealt with this?
 		}
 		return $this->valid;
-	
 	}
 	
 	function message( $text, $value ) {
@@ -140,13 +141,20 @@ class trace_files_directory {
 	
 	/**
 	 * Sets the retention period
+	 * 
+	 * @param string $retain expected to be an integer but it doesn't really matter 
 	 */
 	function set_retention_period( $retain=null ) {
-		$this->retain = $retain;
+		$this->retain = null;
+		if ( is_numeric( $retain ) ) {
+			$this->retain = $retain;
+		} 
 	}
 	
 	/**
 	 * Returns the retention period
+	 * 
+	 * @returns string|null 
 	 */
 	function get_retention_period() {
 		return $this->retain;
@@ -209,16 +217,14 @@ class trace_files_directory {
 	 *
 	 * Takes the operating system into account
 	 */
-	function set_fq_prefix() {
-		$new_file = $this->query_external_dir();
+	function get_fq_prefix() {
 		if ( PHP_OS == "WINNT" ) {
-			$new_file = $this->query_windows_homedrive();
-			$new_file .= '/';
+			$fq_prefix = $this->query_windows_homedrive();
+			$fq_prefix .= '/';
 		} else {
-			$new_file = '/';
+			$fq_prefix = '/';
 		}
-		$this->fq_prefix = $new_file;
-		return $this->fq_prefix;
+		return $fq_prefix;
 	
 	}
 	
@@ -253,21 +259,25 @@ class trace_files_directory {
 	 * -------------------------- | ---- | ----
 	 * $_ENV                      | null | set
 	 * getenv( "HOMEDRIVE" )      | set  | null
-	 * getenv( "ServerDrive" )    | set  | set
+	 * getenv( "SystemDrive" )    | set  | set
 	 * $_SERVER[ 'DOCUMENT_ROOT'] | null | set
 	 * 
 	 */
 	function query_windows_homedrive() {
-		//print_r( $_ENV );
-		//$home = getenv();
-		//print_r( $home );
-		//$homedrive = getenv( "HOMEDRIVE" );
 		$systemdrive = getenv( "SystemDrive" );
-    //print_r( $homedrive );
-		//print_r( $systemdrive);
-		//$homepath = getenv( "HOMEPATH" );
-		//print_r( $homepath );
 		return $systemdrive;
+	}
+	
+	function validate_fq_prefix( $directory ) {
+		$valid = false;
+		$fq_prefix = $this->get_fq_prefix();
+		if ( 0 === strpos( $directory, $fq_prefix ) ) {
+			$valid = true;	
+		} else {
+			$this->message( "Directory must be fully qualified and start with: ",  $fq_prefix );
+		}
+		return $valid;
+			
 	}
 
 }

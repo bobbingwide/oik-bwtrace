@@ -257,11 +257,13 @@ class trace_file_selector {
 	 */
 	public function set_trace_file_name() {
 		$file_name = $this->get_trace_file_mask();
-		$generation = $this->get_generation();
-		if ( $generation ) {
-			$file_name .= ".";
-			$file_name .= $generation;
-		}	
+		if ( $file_name ) {
+			$generation = $this->get_generation();
+			if ( $generation ) {
+				$file_name .= ".";
+				$file_name .= $generation;
+			}	
+		}		
 		$this->trace_file_name = $file_name;
 	}
 	

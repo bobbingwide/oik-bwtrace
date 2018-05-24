@@ -81,9 +81,10 @@ class trace_logs {
 			e( '&nbsp;' );
 			e( "Preferably use a directory that's not accessible from the browser." );
 			e( '&nbsp;' );
-			$avoid_folders = array( $_SERVER['DOCUMENT_ROOT']
-														, ABSPATH
-														);
+			$avoid_folders = array( $_SERVER['DOCUMENT_ROOT'] );
+			if ( trailingslashit( $_SERVER['DOCUMENT_ROOT'] ) !== ABSPATH ) {
+				$avoid_folders[] = ABSPATH;
+			}
 			e( "Avoid using these folders or subdirectories of them:" ); 
 			e( '&nbsp;' );
 			e( str_replace( "\\", "/", implode( ", ", $avoid_folders ) ) );
@@ -214,18 +215,21 @@ class trace_logs {
 	}
 	
 	/**
-	 * Summarise log files for a tracing type
+	 * Summarises log files for a tracing type
 	 *
-	 * 
+	 * @param $type the tracing type
+	 * @param $path the file prefix for this tracing type
 	 */
 	private function summarise( $type, $path ) {
 		$record = array();
 		$record[] = $type;
+		$file_mask = $this->get_fq_trace_files_directory();
 		$record[] = $path;
-		if ( $path ) {
-			$file_mask = $this->get_fq_trace_files_directory() . $path;
+		if ( $file_mask && $path ) {
+			$file_mask = $file_mask . $path;
 			$files = $this->query_files( $file_mask);
 			$record[] = count( $files );
+			//$record[] = implode( " ", $files );
 			$record[] = number_format( $this->size( $files ) );
 			$this->date_range( $files );
 			$record[] = $this->min_date;
@@ -317,21 +321,23 @@ class trace_logs {
 	 *
 	 */
 	public function purge_files( $type, $path ) {
-		$purge_time = $this->query_purge_time();
-		$file_mask = $this->get_fq_trace_files_directory() . $path;
-		$files = $this->query_files( $file_mask);
-		$count = 0;
-		foreach ( $files as $file ) {
-			$count++;
-			//echo "$count $file ";
-			$filemtime = filemtime( $file );
-			if ( $filemtime < $purge_time ) {
-				//echo "will be deleted";
-				unlink( $file );
-			} else { 
-				//echo "stays";
+		if ( $path ) {
+			$purge_time = $this->query_purge_time();
+			$file_mask = $this->get_fq_trace_files_directory() . $path;
+			$files = $this->query_files( $file_mask);
+			$count = 0;
+			foreach ( $files as $file ) {
+				$count++;
+				//echo "$count $file ";
+				$filemtime = filemtime( $file );
+				if ( $filemtime < $purge_time ) {
+					//echo "will be deleted";
+					unlink( $file );
+				} else { 
+					//echo "stays";
+				}
+				//echo PHP_EOL;
 			}
-			//echo PHP_EOL;
 		} 
 	}
 	

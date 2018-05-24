@@ -677,7 +677,7 @@ function bw_trace_log( $line ) {
 }  
 
 /**
- * write the trace line to the file
+ * Writes the trace line to the file
  *
  * if we can't open the file turn tracing off
  * 
