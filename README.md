@@ -21,17 +21,23 @@ Debug trace for WordPress, including ad hoc action hook and filter tracing.
 * This plugin provides the admin interface to trace functions and methods and action and filter tracing.
 
 Except for HTML comments, oik bwtrace does not alter the output of your web pages.
-Output is written to files on the server which you can browse in a separate window.
+
 
 You can also use the oik trace facilities to assist in problem determination in a live site.
+Output is written to files on the server in a user defined trace files directory.
+When tracing a live or staging site you should ensure that the trace files directory is not publicly accessible.
 
 
 Features:
 
 * Traces to a defined Trace files directory
 * Traces ALL server functionality, including AJAX and other background requests
+* Writes summary trace record for each transaction into Daily Trace summary files
+* Traces browser transactions separately, if required
+* Traces AJAX transactions separately, if required
+* Traces REST requests separately, if required
+* Traces CLI requests separately, if required
 * Ability to choose the IP address to trace, defaults to ALL requests
-* Trace AJAX transactions separately, if required
 * Supports ad hoc tracing of user defined hooks
 * Action trace counts help you understand the sequence of actions and filters
 * Provides contextual information
@@ -39,7 +45,6 @@ Features:
 * Tracing can be enabled programmatically
 * Traces and backtraces PHP Error, Warning and Notice messages
 * Backtraces deprecated logic messages
-* Writes summary trace record for each transaction into a daily log
 * Does not require WP_DEBUG to be defined
 * Dynamically activates trace functions
 * Implemented as lazy just-in-time code
@@ -85,36 +90,20 @@ The output for action tracing can include trace records showing:
 
 New in v3.0.0
 
-* All trace files are written within the Trace files directory.
+* All trace files are written within a user defined Trace files directory.
 * Tracing will not be activated if the Trace files directory is not specified or is not valid.
-* Purging of trace files from the Dashboard using a defined retention period.
-
-
-
-New in v2.0.12
-
-* 'String watch' capability. Helps you track down the source of some output, whether it comes from code, content or elsewhere.
-
-New in v2.0.8
-
-* Ad hoc debug backtrace for selected hooks
-
-New in v2.0.7
-
-* Ability to control tracing of AJAX transactions
-
-New in v2.0.6
-
-* Parameters passed to user selected hooks
-* Returned values from user selected filters
-* Current status of the global post object for user selected hooks
-* Information about attached hook functions for user selected hooks
-
-If you select "Trace 'shutdown' status report and log in summary file"
-then you also get a daily summary log, named bwtrace.vt.mmdd
-
-The summary daily log contains information that can be used for performance analysis.
-This log is produced even when tracing is not enabled.
+* Supports purging of trace files from the Dashboard using a defined retention period.
+* The Daily Trace Summary file base name is now user defined.
+* Separated Trace 'shutdown' status report from Daily Trace summary.
+*	Improvements to the [bwtrace] shortcode; moved from the oik plugin.
+* Improved support for tracing REST requests.
+* Added support for WP-CLI; initial prototype of 'wp trace' command.
+* Supports trace file generation logic for tracing parallel requests.
+* Improved support for tracing REST requests, with early detection of REST API calls
+* Fixes to logic broken by WordPress 4.7
+* Tested: With Gutenberg
+* Tested: With PHP 7.1 and 7.2
+* Tested: With WordPress 4.9.6 and 5.0-alpha and WordPress Multsite
 
 
 See also:
@@ -129,6 +118,7 @@ See also:
 1. Activate the oik-bwtrace plugin through the 'Plugins' menu in WordPress
 1. Define your trace options using Settings > trace options
 1. Define your action trace options using Settings > action options
+1. Don't forget to purge the trace output when you no longer need it
 1. Don't forget to disable tracing when you no longer need it
 
 ## Frequently Asked Questions 
@@ -140,7 +130,7 @@ Use the contact form on the oik-plugins website.
 
 ## Is there a tutorial? 
 See this page and short video
-[Introduction to oik-bwtrace](http://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-trace-plugin/an-introduction-to-problem-determination-with-oik-bwtrace-debug-trace-for-wordpress)
+[Introduction to oik-bwtrace](https://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-trace-plugin/an-introduction-to-problem-determination-with-oik-bwtrace-debug-trace-for-wordpress)
 
 ## How do I trace from startup? 
 
@@ -173,6 +163,12 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
 
 ## Upgrade Notice 
+# 3.0.0-alpha-20180525 
+Fixes for problems detected in v3.0.0-alpha-20108054
+
+# 3.0.0-alpha-20108054 
+Fixes for problems detected in v3.0.0-alpha-20180523
+
 # 3.0.0-alpha-20180523 
 Now uses a Trace files directory for storing trace output files.
 
@@ -283,6 +279,13 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 3.0.0-alpha-20180525 
+* Fixed: Problems noted with v3.0.0-alpha-20180524 https://github.com/bobbingwide/oik-bwtrace/issues/71
+* Changed: Reconciled shared libraries; updating version numbers
+
+# 3.0.0-alpha-20180524 
+* Fixed: Problems noted with v3.0.0-alpha-20180523 https://github.com/bobbingwide/oik-bwtrace/issues/71
+
 # 3.0.0-alpha-20180523 
 * Added: Trace files Purge capability with defined retention period https://github.com/bobbingwide/oik-bwtrace/issues/71
 * Added: Trace files directory required before any tracing can be performed https://github.com/bobbingwide/oik-bwtrace/issues/71

@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2016, 2017
+<?php // (C) Copyright Bobbing Wide 2016, 2018
 if ( !defined( "OIK_BWTRACE_LOG_INCLUDED" ) ) {
-	define( "OIK_BWTRACE_LOG_INCLUDED", "0.0.2" );
+	define( "OIK_BWTRACE_LOG_INCLUDED", "0.0.3" );
 	
 /**
  * Logging library functions

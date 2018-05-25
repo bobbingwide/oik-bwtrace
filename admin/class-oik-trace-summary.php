@@ -205,6 +205,18 @@ function bw_trace_vt_file() {
 		global $vt_values, $vt_text;
 		if ( !isset( $vt_values[0] ) ) {
 			 $_REQUEST[ "short" ] = 1;
+			$this->call_bw_trace_status_report();
+		}
+	}
+	
+	/**
+	 * Calls the bw_trace_status_report
+	 */
+	function call_bw_trace_status_report() {
+		if ( !function_exists( "bw_trace_status_report" ) ) {
+			oik_require( "includes/oik-actions.php", "oik-bwtrace" );
+		}
+		if ( function_exists( "bw_trace_status_report" ) ) {
 			bw_trace_status_report();
 		}
 	}
