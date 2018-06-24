@@ -140,10 +140,21 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
     $bw_action_options['backtrace'] = '';
     $bw_action_options['stringwatch'] = '';
 		update_option( "bw_action_options", $bw_action_options );
+		
+		$this->update_trace_files_options();
+		$this->update_trace_summary_options();
 	}
 	
 	/** 
 	 * Tests the trace options page
+	 *
+	 * This should now consist of: 
+	 * - Trace files
+	 * - Options
+	 * - Daily Trace Summary
+	 * - Information
+	 * - Notes about oik trace
+	 * - Trace options and reset button
 	 */
 	function test_bw_trace_options_do_page() {
 	
@@ -167,16 +178,20 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array, "closedpostboxesnonce", "closedpostboxesnonce" );
+		
+		$html_array = $this->replace_trace_files_table( $html_array );
 		$html_array = $this->replace_oik_trace_info( $html_array );
 		//$this->generate_expected_file( $html_array );
 		$this->assertArrayEqualsFile( $html_array );
 	}
 	
 	/** 
-	 * Tests the trace options page
+	 * Tests the trace options page for bb_BB
 	 */
 	function test_bw_trace_options_do_page_bb_BB() {
 		$_SERVER['REQUEST_URI'] = "/";
+		bw_trace_off();
+		
 		$this->update_trace_options();
 		$this->switch_to_locale( 'bb_BB' );
 		ob_start(); 
@@ -194,6 +209,8 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array, "closedpostboxesnonce", "closedpostboxesnonce" );
+		
+		$html_array = $this->replace_trace_files_table( $html_array );
 		$html_array = $this->replace_oik_trace_info( $html_array );
 		//$this->generate_expected_file( $html_array );
 		$this->assertArrayEqualsFile( $html_array );
@@ -206,16 +223,19 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$bw_trace_options['file'] = 'bwphpunit.loh';
 		$bw_trace_options['reset'] = 'on';
 		$bw_trace_options['trace'] = '0';
+		$bw_trace_options['limit'] = ''; 
 		$bw_trace_options['file_ajax'] = 'bwphpunit.ajax';
 		$bw_trace_options['reset_ajax'] = 'on';
 		$bw_trace_options['trace_ajax'] = 'on'; 
+		$bw_trace_options['limit_ajax'] = ''; 
 		$bw_trace_options['file_rest'] = 'bwphpunit.rest';
 		$bw_trace_options['reset_rest'] = '0';
 		$bw_trace_options['trace_rest'] = '0'; 
+		$bw_trace_options['limit_rest'] = ''; 
 		$bw_trace_options['file_cli'] = 'bwphpunit.cli';
 		$bw_trace_options['reset_cli'] = 'on';
 		$bw_trace_options['trace_cli'] = '0'; 
-		$bw_trace_options['limit'] = ''; 
+		$bw_trace_options['limit_cli'] = ''; 
 		$bw_trace_options['level'] = BW_TRACE_INFO; // 16
     $bw_trace_options['qualified'] = 'on';
     $bw_trace_options['count'] = 'on';
@@ -228,7 +248,73 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
     $bw_trace_options['ip'] = php_sapi_name();
 		update_option( "bw_trace_options", $bw_trace_options );
 		
+		$this->update_trace_files_options();
+		$this->update_trace_summary_options();
+		
 	}
+	
+	function update_trace_files_options() {
+		$bw_trace_files_options = get_option( 'bw_trace_files_options' );
+		$bw_trace_files_options['trace_directory'] = str_replace( "\\", "/", __DIR__ ) . '/bwtrace';
+		//$bw_trace_files_options['trace_directory'] = null;
+		$bw_trace_files_options['retain'] = 1;
+		update_option( "bw_trace_files_options", $bw_trace_files_options );
+	}
+	
+	/**
+	 * Fiddles the bw_summary_options
+	 */
+	function update_trace_summary_options() {
+		$bw_trace_summary_options = get_option( 'bw_summary_options' );
+		$bw_trace_summary_options[ 'summary_file' ] = ' ';
+		$bw_trace_summary_options[ 'trace_status_report' ] = 'on';
+		update_option( 'bw_summary_options', $bw_trace_summary_options );
+	}
+	
+	/**
+	 * Sanitizes the Trace files table
+	 */
+	function replace_trace_files_table( $html_array ) {
+	
+		$found_trace_files_table = false; 
+		$count_td = 0; 				 
+		foreach ( $html_array as $index => $line ) {
+			
+			if ( !$found_trace_files_table ) {
+				$found_trace_files_table = ( false !== strpos( $line, '<table class="widefat">' ) );
+			}
+			if ( $found_trace_files_table ) {
+				if ( 0 === strpos( $line, "<td>" ) ) {
+					$count_td++;
+					switch ( $count_td ) {
+						case 0:
+						case 1:
+						case 2:
+						break;
+						
+						default:
+					
+						//case 2:
+							if ( $line !== "<td>" ) {
+								$html_array[$index] = "<td>$index</td>";
+							}
+							break;
+						
+						//case 3:
+						//	$count_td = 0;
+					}
+				}
+				if ( 0 === strpos( $line, "</tr>" ) ) {
+					$count_td = 0;
+				}
+				if ( 0 === strpos( $line, "</table>" ) ) {
+					break;
+				}
+			}
+		}
+		return $html_array;
+	}
+		
 	
 	/**
 	 * Replace the values in the oik_trace_info table with consistent values

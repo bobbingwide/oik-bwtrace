@@ -23,10 +23,16 @@ class trace_logs {
 	
 	/**
 	 * Returns the daily trace summary file prefix
+	 *
+	 * If the trace files directory is not set then bw_trace_summary won't be set.
 	 */
 	public function get_summary_file_prefix() {
 		global $bw_trace_summary;
-		$summary_file = $bw_trace_summary->get_summary_file_prefix();
+		if ( $bw_trace_summary ) {
+			$summary_file = $bw_trace_summary->get_summary_file_prefix();
+		} else {
+			$summary_file = null;
+		}
 		return $summary_file;
 	}
 	

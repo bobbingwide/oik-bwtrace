@@ -74,6 +74,17 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	}
 	
 	/**
+	 * Saves the setting for trace_files_directory
+	 * which may be null if the options value is not defined or invalid
+	 */
+	function save_bw_trace_files_options() {
+		//global $bw_trace;
+		//$this->bw_trace_files_directory = $bw_trace->trace_files_directory;
+		
+	
+	}
+	
+	/**
 	 * Restore the saved trace options
 	 */
 	function restore_bw_trace_options() {
@@ -89,6 +100,15 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		$bw_action_options = $this->bw_action_options;
 	}
 	
+	
+	/**
+	 * Restore the trace files options 
+	 */
+	function restore_bw_trace_files_options() {
+		//$bw_trace;
+		//$bw_trace->trace_files_directory = $this->bw_trace_files_directory;
+	}
+	
 	/**
 	 * Update bw_trace_options
 	 */
@@ -96,6 +116,14 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		global $bw_trace_options;
 		update_option( "bw_trace_options", $bw_trace_options );
 		//print_r( $bw_trace_options );
+	}
+	
+	/**
+	 * Update bw_trace_files_options
+	 */
+	function update_bw_trace_files_options() {
+		update_option( "bw_trace_files_options", $this->bw_trace_files_options );
+		//print_r( $this->bw_trace_files_options );
 	}
 	
 	
@@ -174,6 +202,14 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
     $bw_action_options['hook_funcs'] = '';
     $bw_action_options['backtrace'] = '';
     $bw_action_options['stringwatch'] = '';
+	}
+	
+	function init_bw_trace_files_options() {
+		//global $bw_trace;
+		$this->bw_trace_files_options = array();
+		$this->bw_trace_files_options['trace_directory'] = str_replace( "\\", "/", __DIR__ ) . '/bwtrace';
+		$this->bw_trace_files_options['retain'] = 1;
+		
 	} 
 	
 	/**
@@ -202,6 +238,46 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		$this->restore_bw_trace_options();
 	}
 	 */
+	 
+	
+	/**
+	 * Test trace plugin startup with tracing on
+	 * 
+	 * - We have to ensure tracing is on and to a file we control
+	 * - The trace file should be reset.
+	 */
+	function test_bw_trace_plugin_startup_tracing_on() {
+		global $bw_trace_options;
+		global $bw_action_options;
+	
+		$this->save_bw_trace_options(); 
+		$this->init_bw_trace_options();
+		$bw_trace_options['trace_cli'] = 'on';
+		
+		$this->init_bw_trace_files_options();
+		$this->update_bw_trace_options();
+		$this->update_bw_trace_files_options();
+		
+		$this->save_bw_action_options();
+		$this->init_bw_action_options();
+		
+		global $bw_trace;
+		//print_r( $bw_trace );
+		
+		bw_trace_plugin_startup();
+		//print_r( $bw_trace );
+		
+		$tracing = bw_trace_status();
+		$this->assertTrue( $tracing );
+		
+		
+		$this->restore_bw_trace_options();
+		$this->restore_bw_action_options();
+		
+		//if ( $bw_trace_options['trace'] == 0 ) {
+		//	bw_trace_off();
+		//}
+	}
 	
 	
 	/**
@@ -226,12 +302,17 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		}
 		$this->init_bw_trace_options();
 		$bw_trace_options['trace_cli'] = '0';
+		$this->init_bw_trace_files_options();
 		
 		$this->update_bw_trace_options();
+		$this->update_bw_trace_files_options();
 		$this->save_bw_action_options();
 		$this->init_bw_action_options();
+		global $bw_trace;
+		//print_r( $bw_trace );
 		
 		bw_trace_plugin_startup();
+		//print_r( $bw_trace );
 		
 		$tracing = bw_trace_status();
 		
@@ -239,38 +320,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		
 		$this->restore_bw_trace_options();
 		$this->restore_bw_action_options();
-	}
-	
-	/**
-	 * Test trace plugin startup with tracing on
-	 * 
-	 * - We have to ensure tracing is on and to a file we control
-	 * - The trace file should be reset.
-	 */
-	function test_bw_trace_plugin_startup_tracing_on() {
-		global $bw_trace_options;
-		global $bw_action_options;
-	
-		$this->save_bw_trace_options(); 
-		$this->init_bw_trace_options();
-		$bw_trace_options['trace_cli'] = 'on';
-		$this->update_bw_trace_options();
-		
-		$this->save_bw_action_options();
-		$this->init_bw_action_options();
-		
-		bw_trace_plugin_startup();
-		
-		$tracing = bw_trace_status();
-		$this->assertTrue( $tracing );
-		
-		
-		$this->restore_bw_trace_options();
-		$this->restore_bw_action_options();
-		
-		//if ( $bw_trace_options['trace'] == 0 ) {
-		//	bw_trace_off();
-		//}
+		$this->restore_bw_trace_files_options();
 	}
 	
 	/** 

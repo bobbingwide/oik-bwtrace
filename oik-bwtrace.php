@@ -85,37 +85,13 @@ function bw_trace_plugin_startup() {
 	oik_require( "includes/class-BW-trace-controller.php", "oik-bwtrace" );
 	global $bw_trace;
 	$bw_trace = new BW_trace_controller();
-
-	//global $bw_trace_options, $bw_action_options;
 	global $bw_action_options;
-	//$bw_trace_options = get_option( 'bw_trace_options' );
-	//if ( !isset( $bw_action_options ) ) {
 	$bw_action_options = get_option( 'bw_action_options' );
-	//}
 	$tracing = bw_trace_status();
-	//$bw_trace_ip = bw_array_get( $bw_trace_options, "ip", null );
-	//if ( $bw_trace_ip ) {
-	// 	$server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
-	//		if ( $server ) {
-	//			$tracing = ( $server == $bw_trace_ip );
-	//		} else {
-	//			$tracing = ( $bw_trace_ip === php_sapi_name() );
-	//		}
-	//	}
-	//$bw_trace_ip = $bw_trace->trace_ip();
-	//$bw_trace_reset = $bw_trace->reset_status();
-	//if ( $bw_trace_reset ) {
-	//		oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
-	//		bw_trace_reset();
-	//	}
   
 	if ( $tracing ) {
 		$bw_trace_level = bw_trace_level(); 
 		bw_trace_on();
-    
-    
-		//oik_require2( "includes/bwtrace.php", "oik-bwtrace" );
-		
 	} else {
 		bw_trace_off();
 	}
@@ -127,7 +103,7 @@ function bw_trace_plugin_startup() {
 		if ( defined( "BW_COUNT_ON" ) && true == BW_COUNT_ON ) {
 	
 			oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
-		 bw_trace_count_plugins_loaded( true );
+			bw_trace_count_plugins_loaded( true );
 			$count_hooks = true;
 		} else {
 			oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
@@ -146,9 +122,7 @@ function bw_trace_plugin_startup() {
   } 
 	add_action( "wp_loaded", "oik_bwtrace_plugins_loaded", 9 );
 	add_filter( "oik_query_libs", "oik_bwtrace_query_libs", 12 );
-	
 }
-
 
 /**
  * Implement "wp_loaded" filter for oik-bwtrace 

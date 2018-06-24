@@ -101,7 +101,7 @@
 </tr>
 <tr>
 <td>
-<label for="bw_action_options[trace_status_report]">Trace 'shutdown' status report and log in summary file</label>
+<label for="bw_action_options[trace_status_report]">Trace 'shutdown' status report</label>
 </td>
 <td>
 <input type="hidden" name="bw_action_options[trace_status_report]" value="0" />
@@ -169,6 +169,44 @@
 </form>
 </div>
 </div>
+<div class="postbox " id="oik_trace_summary">
+<button type="button" class="handlediv" aria-expanded="true">
+<span class="screen-reader-text">Toggle panel: Daily Trace Summary</span>
+<span class="toggle-indicator" aria-hidden="true">
+</span>
+</button>
+<h3 class="hndle">Daily Trace Summary</h3>
+<div class="inside">
+<form method="post" action="options.php">
+<table class="form-table">
+<input type='hidden' name='option_page' value='bw_summary_options_options' />
+<input type="hidden" name="action" value="update" />
+<input type="hidden" id="_wpnonce" name="_wpnonce" value="nonsense" />
+<input type="hidden" name="_wp_http_referer" value="/" />
+<tr>
+<td>
+<label for="bw_summary_options[summary_file]">Daily trace summary file</label>
+</td>
+<td>
+<input type="text" size="60"name="bw_summary_options[summary_file]" id="bw_summary_options[summary_file]" value=" " class="" />
+</td>
+</tr>
+<tr>
+<td>
+<label for="bw_summary_options[trace_status_report]">Log transactions to daily trace summary file</label>
+</td>
+<td>
+<input type="hidden" name="bw_summary_options[trace_status_report]" value="0" />
+<input type="checkbox" name="bw_summary_options[trace_status_report]" id="bw_summary_options[trace_status_report]" checked="checked"/>
+</td>
+</tr>
+</table>
+<p>
+<input type="submit" name="ok" value="Save changes" class="button-primary" />
+</p>
+</form>
+</div>
+</div>
 <div class="postbox " id="oik_trace_info">
 <button type="button" class="handlediv" aria-expanded="true">
 <span class="screen-reader-text">Toggle panel: Information</span>
@@ -188,99 +226,99 @@
 <tbody>
 <tr>
 <td>$wp_version</td>
-<td>190</td>
+<td>228</td>
 <td>WordPress version</td>
 </tr>
 <tr>
 <td>PHP_VERSION</td>
-<td>195</td>
+<td>233</td>
 <td>generic PHP end of life</td>
 </tr>
 <tr>
 <td>WP_DEBUG</td>
-<td>200</td>
+<td>238</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>WP_DEBUG_LOG</td>
-<td>206</td>
+<td>244</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>WP_DEBUG_DISPLAY</td>
-<td>212</td>
+<td>250</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>error_reporting</td>
-<td>218</td>
+<td>256</td>
 <td>
 <a href="http://php.net/manual/en/errorfunc.configuration.php#ini.error-reporting">http://php.net/manual/en/errorfunc.configuration.php#ini.error-reporting</a>
 </td>
 </tr>
 <tr>
 <td>display_errors</td>
-<td>225</td>
+<td>263</td>
 <td>
 <a href="http://php.net/manual/en/errorfunc.configuration.php#ini.display-errors">http://php.net/manual/en/errorfunc.configuration.php#ini.display-errors</a>
 </td>
 </tr>
 <tr>
 <td>log_errors</td>
-<td>232</td>
+<td>270</td>
 <td>
 <a href="http://php.net/manual/en/errorfunc.configuration.php#ini.log-errors">http://php.net/manual/en/errorfunc.configuration.php#ini.log-errors</a>
 </td>
 </tr>
 <tr>
 <td>error_log</td>
-<td>239</td>
+<td>277</td>
 <td>
 <a href="http://php.net/manual/en/errorfunc.configuration.php#ini.error-log">http://php.net/manual/en/errorfunc.configuration.php#ini.error-log</a>
 </td>
 </tr>
 <tr>
 <td>output_buffering</td>
-<td>246</td>
+<td>284</td>
 <td>Set to off for better detection of Notice: Undefined messages</td>
 </tr>
 <tr>
 <td>implicit_flush</td>
-<td>251</td>
+<td>289</td>
 <td>
 <a href="http://php.net/manual/en/outcontrol.configuration.php#ini.implicit-flush">http://php.net/manual/en/outcontrol.configuration.php#ini.implicit-flush</a>
 </td>
 </tr>
 <tr>
 <td>SCRIPT_DEBUG</td>
-<td>258</td>
+<td>296</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>JETPACK_DEV_DEBUG</td>
-<td>264</td>
+<td>302</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>Multisite</td>
-<td>270</td>
+<td>308</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>WP_SITEURL</td>
-<td>276</td>
+<td>314</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>siteurl</td>
-<td>282</td>
+<td>320</td>
 <a href="https://qw/src">https://qw/src</a>
 </td>
 <td>
@@ -288,13 +326,13 @@
 </tr>
 <tr>
 <td>WP_HOME</td>
-<td>290</td>
+<td>328</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>home</td>
-<td>296</td>
+<td>334</td>
 <a href="https://qw/src">https://qw/src</a>
 </td>
 <td>
@@ -302,91 +340,91 @@
 </tr>
 <tr>
 <td>ABSPATH</td>
-<td>304</td>
+<td>342</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>WP_MEMORY_LIMIT</td>
-<td>310</td>
+<td>348</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>BW_TRACE_CONFIG_STARTUP</td>
-<td>316</td>
+<td>354</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>BW_TRACE_ON</td>
-<td>322</td>
+<td>360</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>BW_COUNT_ON</td>
-<td>328</td>
+<td>366</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>BW_TRACE_LEVEL</td>
-<td>334</td>
+<td>372</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>BW_TRACE_RESET</td>
-<td>340</td>
+<td>378</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>DB_NAME</td>
-<td>346</td>
+<td>384</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>MULTISITE</td>
-<td>352</td>
+<td>390</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>SUBDOMAIN_INSTALL</td>
-<td>358</td>
+<td>396</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>DOMAIN_CURRENT_SITE</td>
-<td>364</td>
+<td>402</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>PATH_CURRENT_SITE</td>
-<td>370</td>
+<td>408</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>SITE_ID_CURRENT_SITE</td>
-<td>376</td>
+<td>414</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>BLOG_ID_CURRENT_SITE</td>
-<td>382</td>
+<td>420</td>
 <td>
 </td>
 </tr>
 <tr>
 <td>SUNRISE</td>
-<td>388</td>
+<td>426</td>
 <td>
 </td>
 </tr>
