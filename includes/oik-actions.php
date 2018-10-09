@@ -335,7 +335,7 @@ function bw_trace_status_report() {
 		$func( null, "Trace file", false );
 		$func( null, "Trace records", false );
 	}	
-	$remote_addr = bw_array_get( $_SERVER, 'REMOTE_ADDR', false );
+	$remote_addr = bwtrace_get_remote_addr();
 	$func( $remote_addr, "Remote addr", false );
 	$elapsed = bw_trace_timer_stop( false, 6 );
 	// Do this regardless 
@@ -349,6 +349,33 @@ function bw_trace_status_report() {
 		bw_flush();
 	}
 	//bw_record_vt();
+}
+
+/**
+ * Gets the remote IP address
+ * 
+ * Index   | May contain
+ * ------  | ----------
+ * HTTP_CF_CONNECTING_IP | Real IP set by Cloudflare
+ * HTTP_X_REAL_IP | IP extracted from HTTP_X_FORWARDED_FOR - set by Nginx?
+ * HTTP_X_FORWARDED_FOR | From X-Forwarded-For header. Series of IP addresses, comma separated. First is the user's IP, rest are proxy IPs
+ * REMOTE_ADDR | Server forwarding the request
+ *
+ * @return string|null Remote IP address
+ */
+function bwtrace_get_remote_addr() {
+	$ip = null;
+	if ( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
+		$ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+	} elseif ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+		$ip = $_SERVER['HTTP_X_REAL_IP'];
+	} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+		$ip = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		$ip = array_shift( $ip );
+	} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+		$ip = $_SERVER['REMOTE_ADDR'];
+	}
+	return $ip;
 }
 
 /**
