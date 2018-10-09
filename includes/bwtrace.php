@@ -433,19 +433,19 @@ function bw_trace_file_count() {
  * Attempt to protect from a crash in print_r() when output buffering is active
  *
  * Note: ob_get_level() may return 1 when ouput buffering is not really nested.
- * 
+ * @param mixed $text
+ * @return string formatted output
  */
 function bw_trace_print_r( $text ) {
-	//echo "counting handlers" . PHP_EOL;
 	$handlers = ob_list_handlers();
-	//echo "handlers:" . count( $handlers ) . PHP_EOL;
 	if ( count( $handlers ) > 1 ) {
-	// if ( ob_get_level() ) {
-		$output = bw_trace_obsafe_print_r( $text );
+		$output = implode( ",", $handlers );
+		$output .= "\n";
+		$output .= bw_trace_obsafe_print_r( $text );
 	} else {  
 		$output = print_r( $text, TRUE) ; 
 	}
-	return( $output );
+	return $output;
 }
 
 /**
