@@ -212,7 +212,8 @@ function oik_trace_options() {
   bw_checkbox_arr( "bw_trace_options", sprintf( __( 'Include memory/peak usage ( limit %1$s )', "oik-bwtrace" ), $memory_limit ), $options, 'memory' );
   bw_checkbox_arr( "bw_trace_options", __( "Include files loaded count", "oik-bwtrace" ), $options, 'files' );
 	
-  $current_ip = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
+  //$current_ip = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
+	$current_ip = bwtrace_get_remote_addr();
   $current_ip_text = "<br />";
 	$current_ip_text .= sprintf( __( 'Current IP: %1$s', "oik-bwtrace" ), $current_ip );
 	
