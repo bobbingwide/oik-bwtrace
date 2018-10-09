@@ -46,6 +46,8 @@ class BW_trace_controller {
 	 */
 	function __construct() {
 		$this->trace_file_selector = null;
+		$this->BW_trace_record = null;
+
 		$this->trace_options = null;
 		$this->action_options = null;
 		$this->trace_files_options = null;
@@ -63,6 +65,7 @@ class BW_trace_controller {
 			}
 		} else {
 			// Invalid trace files directory so tracing cannot be enabled.
+			
 		}	
 	}
 	
@@ -94,6 +97,9 @@ class BW_trace_controller {
 		$trace_files_directory->validate_trace_files_directory();
 		if ( $trace_files_directory->is_valid() ) {
 			$this->trace_files_directory = $trace_files_directory;
+		}	else { 
+			//echo "Invalid trace_files_directory" . PHP_EOL;
+			//print_r( $trace_files_directory );
 		}
 	}
 
@@ -206,7 +212,8 @@ class BW_trace_controller {
 		$tracing_ip = false;
 		$bw_trace_ip = bw_array_get( $this->trace_options, "ip", null );
 		if ( $bw_trace_ip ) {
-			$server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
+			//$server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
+			$server = bwtrace_get_remote_addr();
 			if ( $server ) {
 				$tracing_ip = ( $server == $bw_trace_ip );
 			} else {
@@ -239,6 +246,7 @@ class BW_trace_controller {
 	 * @return bool true if the trace file should be reset
 	 */
 	function reset_status() {
+	
 		$tracing_ip = $this->trace_ip();
 		if ( $tracing_ip && !$this->trace_on ) { 
 			$trace_reset = false;
@@ -364,8 +372,12 @@ class BW_trace_controller {
 		$trace_level_text = bw_array_get( $levels, $bw_trace_level, "Unknown" );
 		bw_trace2( $bw_trace_level, "Trace level: $trace_level_text", false );
 		//bw_lazy_backtrace(  );
-		bw_lazy_trace( $_SERVER, __FUNCTION__, __LINE__, __FILE__, "_SERVER" );
-		bw_lazy_trace( $_REQUEST, __FUNCTION__, __LINE__, __FILE__, "_REQUEST" );
+		
+		if ( $bw_trace_level >= BW_TRACE_INFO ) {
+		
+			bw_lazy_trace( $_SERVER, __FUNCTION__, __LINE__, __FILE__, "_SERVER" );
+			bw_lazy_trace( $_REQUEST, __FUNCTION__, __LINE__, __FILE__, "_REQUEST" );
+		}
 		if ( $bw_trace_level >= BW_TRACE_DEBUG ) {
 			bw_lazy_trace( $_GET, __FUNCTION__, __LINE__, __FILE__, "_GET" );
 			bw_lazy_trace( $_POST, __FUNCTION__, __LINE__, __FILE__, "_POST" );
@@ -386,9 +398,13 @@ class BW_trace_controller {
 	
 	/**
 	 * Forwards the trace request to the BW_trace_record class
+	 *
+	 * We can only do this if BW_trace_record has been set. See load_trace_record 
 	 */
 	public function lazy_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=__FILE__, $text_label=null, $level=BW_TRACE_ALWAYS ) {
-		$this->BW_trace_record->lazy_trace( $text, $function, $lineno, $file, $text_label, $level );
+		if ( $this->BW_trace_record ) {
+			$this->BW_trace_record->lazy_trace( $text, $function, $lineno, $file, $text_label, $level );
+		}
 	}
 	
 	/**
