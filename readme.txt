@@ -162,6 +162,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
  
 == Upgrade Notice ==
+= 3.0.0-alpha-20181009 =
+Upgrade for better reporting of client IP addresses
+
 = 3.0.0-alpha-20180525 = 
 Fixes for problems detected in v3.0.0-alpha-20108054 
 
@@ -278,6 +281,11 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 3.0.0-alpha-20181009 = 
+* Changed: Improve logic to get the remote IP address [github bobbingwide oik-bwtrace issues 71]
+* Changed: Check trace levels before tracing $_SERVER [github bobbingwide oik-bwtrace issues 72]
+* Changed: Include list of output buffer handlers in bw_trace_print_r [github bobbingwide oik-bwtrace issues 74] 
+
 = 3.0.0-alpha-20180525 = 
 * Fixed: Problems noted with v3.0.0-alpha-20180524 [github bobbingwide oik-bwtrace issues 71]
 * Changed: Reconciled shared libraries; updating version numbers
