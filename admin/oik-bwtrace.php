@@ -213,6 +213,7 @@ function oik_trace_options() {
   bw_checkbox_arr( "bw_trace_options", __( "Include files loaded count", "oik-bwtrace" ), $options, 'files' );
 	
   //$current_ip = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
+	oik_require( "includes/oik-actions.php", "oik-bwtrace" );
 	$current_ip = bwtrace_get_remote_addr();
   $current_ip_text = "<br />";
 	$current_ip_text .= sprintf( __( 'Current IP: %1$s', "oik-bwtrace" ), $current_ip );
