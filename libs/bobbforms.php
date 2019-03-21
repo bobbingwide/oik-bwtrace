@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2017
+<?php // (C) Copyright Bobbing Wide 2009-2018
 if ( !defined( "BOBBFORMS_INCLUDED" ) ) {
-define( "BOBBFORMS_INCLUDED", "3.2.0" );
+define( "BOBBFORMS_INCLUDED", "3.2.8" );
 
 /**
  * Library: bobbforms
@@ -94,7 +94,7 @@ function itext( $name, $len, $value, $class=null, $extras=null, $args=null ) {
 	$it = "<input";
 	$it.= kv( "type", $type );
 	$it.= kv( "size", $len );
-	$it.= "name=\"";
+	$it.= " name=\"";
 	$it.= $name;
 	$it.= "\" id=\"";
 	$it.= $name;
