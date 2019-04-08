@@ -546,6 +546,7 @@ function bw_trace_get_hook_type( $hook ) {
  * * the request is a SiteGround cache check
  * * and other situations we don't yet know about
  * * the request was implemented as a REST API !
+ * * the request is WordPress Health Check wp-admin/?health-check-test-wp_version_check=1
  */
 function bw_trace_ok_to_echo() {
 	$ok = true;
@@ -565,6 +566,9 @@ function bw_trace_ok_to_echo() {
     $short = bw_array_get( $_REQUEST, "short", null );
     if ( !$short ) {
       $short = bw_array_get( $_REQUEST, "sgCacheCheck", null );
+    }
+    if ( !$short ) {
+        $short = bw_array_get( $_REQUEST, "health-check-test-wp_version_check", null );
     }
     if ( $short ) {
       $ok = false;
