@@ -1,16 +1,16 @@
-# Copyright (C) 2018 oik bwtrace
+# Copyright (C) 2019 oik bwtrace
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 3.0.0-alpha-20180523\n"
+"Project-Id-Version: oik bwtrace 3.0.0-RC1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2018-05-23 09:51:37+00:00\n"
+"POT-Creation-Date: 2019-04-11 17:16:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: en_GB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 #: admin/class-oik-trace-info.php:25
@@ -46,7 +46,7 @@ msgid "Log transactions to daily trace summary file"
 msgstr "Log transactions to daily trace summary file"
 
 #: admin/class-oik-trace-summary.php:42 admin/oik-bwtrace.php:127
-#: admin/oik-bwtrace.php:226 includes/class-trace-logs.php:116
+#: admin/oik-bwtrace.php:228 includes/class-trace-logs.php:123
 msgid "Save changes"
 msgstr "Save changes"
 
@@ -149,10 +149,6 @@ msgstr "Trace files"
 #: admin/oik-bwtrace.php:141
 msgid "Notes about oik trace"
 msgstr "Notes about oik trace"
-
-#: admin/oik-bwtrace.php:142
-msgid "Trace options and reset button"
-msgstr "Trace options and reset button"
 
 #: admin/oik-bwtrace.php:173
 msgid "General browser requests"
@@ -274,85 +270,79 @@ msgstr "Include memory/peak usage ( limit %1$s )"
 msgid "Include files loaded count"
 msgstr "Include files loaded count"
 
-#: admin/oik-bwtrace.php:217
+#: admin/oik-bwtrace.php:219
 msgid "Current IP: %1$s"
 msgstr "Current IP: %1$s"
 
-#: admin/oik-bwtrace.php:219 includes/class-trace-command.php:364
+#: admin/oik-bwtrace.php:221 includes/class-trace-command.php:364
 msgid "Trace specific IP"
 msgstr "Trace specific IP"
 
-#: admin/oik-bwtrace.php:236
+#: admin/oik-bwtrace.php:238
 msgid ""
 "The tracing output produced by oik-bwtrace can be used for problem "
 "determination."
 msgstr "The tracing output produced by oik-bwtrace can be used for problem determination."
 
-#: admin/oik-bwtrace.php:238
+#: admin/oik-bwtrace.php:240
 msgid ""
 "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site."
 msgstr "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site."
 
-#: admin/oik-bwtrace.php:239
+#: admin/oik-bwtrace.php:241
 msgid "If you do need to activate it, only do so for a short period of time."
 msgstr "If you do need to activate it, only do so for a short period of time."
 
-#: admin/oik-bwtrace.php:241
+#: admin/oik-bwtrace.php:243
 msgid ""
 "You will need to specify the trace files directory and trace file names."
 msgstr "You will need to specify the trace files directory and trace file names."
 
-#: admin/oik-bwtrace.php:242
+#: admin/oik-bwtrace.php:244
 msgid "When you want to trace processing check 'Trace enabled'"
 msgstr "When you want to trace processing check 'Trace enabled'"
 
-#: admin/oik-bwtrace.php:244
+#: admin/oik-bwtrace.php:246
 msgid ""
 "Specifying a different file name and limit for each transaction can help you "
 "to trace multiple concurrent requests."
 msgstr "Specifying a different file name and limit for each transaction can help you to trace multiple concurrent requests."
 
-#: admin/oik-bwtrace.php:251
-msgid ""
-"If you want to trace processing within some content you can use two "
-"shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off"
-msgstr "If you want to trace processing within some content you can use two shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off"
-
-#: admin/oik-bwtrace.php:266
+#: admin/oik-bwtrace.php:268
 msgid ""
 "Use the [bwtrace] shortcode in a widget to provide an instant trace reset "
 "and page reload."
 msgstr "Use the [bwtrace] shortcode in a widget to provide an instant trace reset and page reload."
 
-#: admin/oik-bwtrace.php:272
+#: admin/oik-bwtrace.php:274
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr "Activate the oik base plugin to enable the [bwtrace] shortcode"
 
-#: admin/oik-bwtrace.php:374
+#: admin/oik-bwtrace.php:376
 msgid "Invalid Trace files directory."
 msgstr "Invalid Trace files directory."
 
-#: includes/bwtrace.php:1013
+#: includes/bwtrace.php:1017
 msgid "Debug level"
 msgstr "Debug level"
 
-#: includes/bwtrace.php:1014
+#: includes/bwtrace.php:1018
 msgid "Information level - standard"
 msgstr "Information level - standard"
 
-#: includes/bwtrace.php:1015
+#: includes/bwtrace.php:1019
 msgid "Notice level"
 msgstr "Notice level"
 
-#: includes/bwtrace.php:1016
+#: includes/bwtrace.php:1020
 msgid "Warning level"
 msgstr "Warning level"
 
-#: includes/bwtrace.php:1017
+#: includes/bwtrace.php:1021
 msgid "Error level"
 msgstr "Error level"
 
-#: includes/bwtrace.php:1018
+#: includes/bwtrace.php:1022
 msgid "Verbose level - noisier than Debug"
 msgstr "Verbose level - noisier than Debug"
 
@@ -360,21 +350,25 @@ msgstr "Verbose level - noisier than Debug"
 msgid "Reset AJAX trace file every transaction"
 msgstr "Reset AJAX trace file every transaction"
 
-#: includes/class-trace-logs.php:112
+#: includes/class-trace-logs.php:119
 msgid "Trace files directory"
 msgstr "Trace files directory"
 
-#: includes/class-trace-logs.php:113
+#: includes/class-trace-logs.php:120
 msgid "Retention period ( days )"
 msgstr "Retention period ( days )"
 
-#: includes/class-trace-logs.php:129
+#: includes/class-trace-logs.php:136
 msgid "Purging old trace files"
 msgstr "Purging old trace files"
 
-#: includes/class-trace-logs.php:132
+#: includes/class-trace-logs.php:139
 msgid "Norty"
 msgstr "Norty"
+
+#: includes/deprecated.php:36
+msgid "Trace reset"
+msgstr "Trace reset"
 
 #: libs/bobbforms.php:510
 msgid "None"
@@ -392,41 +386,13 @@ msgstr "text"
 msgid "text for the trace button"
 msgstr "text for the trace button"
 
-#: shortcodes/oik-trace.php:33
-msgid "trace control links to display"
-msgstr "trace control links to display"
-
-#: shortcodes/oik-trace.php:34
-msgid "Trace type"
-msgstr "Trace type"
-
 #: shortcodes/oik-trace.php:43
-msgid "To display the trace options and trace reset buttons."
-msgstr "To display the trace options and trace reset buttons."
+msgid "Display a link to trace options."
+msgstr "Display a link to trace options."
 
-#: shortcodes/oik-trace.php:44
-msgid "To display a link to the active trace file."
-msgstr "To display a link to the active trace file."
-
-#: shortcodes/oik-trace.php:45
-msgid "To display the trace reset only"
-msgstr "To display the trace reset only"
-
-#: shortcodes/oik-trace.php:68
-msgid "View trace log"
-msgstr "View trace log"
-
-#: shortcodes/oik-trace.php:68
-msgid "View trace output in your browser. %1$s"
-msgstr "View trace output in your browser. %1$s"
-
-#: shortcodes/oik-trace.php:81
+#: shortcodes/oik-trace.php:63
 msgid "Trace options"
 msgstr "Trace options"
-
-#: shortcodes/oik-trace.php:100
-msgid "Trace reset"
-msgstr "Trace reset"
 
 #. Plugin Name of the plugin/theme
 msgid "oik bwtrace"
