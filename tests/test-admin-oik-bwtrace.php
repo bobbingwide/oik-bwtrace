@@ -178,6 +178,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array, "closedpostboxesnonce", "closedpostboxesnonce" );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array, "oik_trace_files_purge", "oik_trace_files_purge" );
 		
 		$html_array = $this->replace_trace_files_table( $html_array );
 		$html_array = $this->replace_oik_trace_info( $html_array );
@@ -209,6 +210,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->assertNotNull( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array );
 		$html_array = $this->replace_nonce_with_nonsense( $html_array, "closedpostboxesnonce", "closedpostboxesnonce" );
+		$html_array = $this->replace_nonce_with_nonsense( $html_array, "oik_trace_files_purge", "oik_trace_files_purge" );
 		
 		$html_array = $this->replace_trace_files_table( $html_array );
 		$html_array = $this->replace_oik_trace_info( $html_array );
