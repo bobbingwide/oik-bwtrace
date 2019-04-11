@@ -139,7 +139,7 @@ function bw_trace_options_do_page() {
 	BW_::oik_box( null, null, __( "Daily Trace Summary", "oik-bwtrace" ), "oik_trace_summary" );
   BW_::oik_box( null, null, __( "Information", "oik-bwtrace" ), "oik_trace_info" );
   BW_::oik_box( null, null, __( "Notes about oik trace", "oik-bwtrace" ), "oik_trace_notes" ); 
-  BW_::oik_box( null, null, __( "Trace options and reset button", "oik-bwtrace" ), "oik_trace_reset_notes" ); 
+  //BW_::oik_box( null, null, __( "Trace options and reset button", "oik-bwtrace" ), "oik_trace_reset_notes" );
   oik_menu_footer();
   bw_flush();
 }
@@ -243,14 +243,14 @@ function oik_trace_notes() {
   BW_::p( __( "You will need to specify the trace files directory and trace file names.", "oik-bwtrace" )  );
   BW_::p( __( "When you want to trace processing check 'Trace enabled'", "oik-bwtrace" )  );
   //BW_::p( __( "Check 'Reset trace file every transaction' to cause the trace file to be cleared for every request, including AJAX requests.", "oik-bwtrace" )  );
-  BW_::p( __( "Specifying a different file name and limit for each transaction can help you to trace multiple concurrent requests." ) );
+  BW_::p( __( "Specifying a different file name and limit for each transaction can help you to trace multiple concurrent requests.", "oik-bwtrace" ) );
   
   //BW_::p( __( "You may find the most recent browser trace output at...", "oik-bwtrace" )  );
   //$bw_trace_url = bw_trace_url();
   
   //BW_::alink( NULL, $bw_trace_url, $bw_trace_url, __( "View trace output in your browser.", "oik-bwtrace" ) );
   
-  BW_::p( __( "If you want to trace processing within some content you can use two shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off", "oik-bwtrace" )  );
+  //BW_::p( __( "If you want to trace processing within some content you can use two shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off", "oik-bwtrace" )  );
   
   bw_flush();
 
