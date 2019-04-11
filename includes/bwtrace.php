@@ -673,7 +673,11 @@ function bw_trace_batch() {
  */
 function bw_trace_log( $line ) {
 	global $bw_trace;
-	$bw_trace->BW_trace_record->trace_log( $line );
+	if ( $bw_trace->BW_trace_record ) {
+		$bw_trace->BW_trace_record->trace_log( $line );
+	} else {
+		// We can't do anything if BW_trace_record is not set!
+	}
 }  
 
 /**
