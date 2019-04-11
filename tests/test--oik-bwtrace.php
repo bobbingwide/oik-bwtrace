@@ -269,6 +269,9 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		
 		$tracing = bw_trace_status();
 		$this->assertTrue( $tracing );
+
+		$this->bw_trace2_issue56();
+		$this->bw_lazy_backtrace_issue56();
 		
 		
 		$this->restore_bw_trace_options();
@@ -321,6 +324,58 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		$this->restore_bw_trace_options();
 		$this->restore_bw_action_options();
 		$this->restore_bw_trace_files_options();
+	}
+
+	/**
+	 * Test we can trace an incomplete object
+	 *
+	 * Not that it caused a problem in the first place.
+	 */
+	function bw_trace2_issue56() {
+		$incomplete_object = $this->incomplete_object();
+		$this->trace2( $incomplete_object );
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Test for Issue #56
+	 *
+	 * We should not see a Catchable Fatal Error or Recoverable Fatal Error
+	 *
+	 * depends test_bw_trace2_issue56
+	 */
+	function bw_lazy_backtrace_issue56() {
+		$incomplete_object = $this->incomplete_object();
+		$this->backtrace( $incomplete_object );
+		$this->assertTrue( true );
+	}
+	/**
+	 * Returns an incomplete object.
+	 *
+	 * That would print_r() like this
+	 *
+	 * `__PHP_Incomplete_Class Object
+	(
+	[__PHP_Incomplete_Class_Name] => IncompleteObject
+	[pi] => 3.142
+	)
+	 * `
+	 */
+	function incomplete_object() {
+		$incomplete_object = unserialize( 'O:16:"IncompleteObject":1:{s:2:"pi";d:3.142;}' );
+		return( $incomplete_object );
+	}
+	/**
+	 * Traces the incomplete object
+	 */
+	function trace2( $incomplete_object ) {
+		bw_trace2();
+	}
+	/**
+	 * Debug backtraces the incomplete object
+	 */
+	function backtrace( $incomplete_object ) {
+		bw_backtrace();
 	}
 	
 	/** 
