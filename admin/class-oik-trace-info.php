@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2016,2017
+<?php // (C) Copyright Bobbing Wide 2016,2017,2019
 /**
  * Class: OIK_trace_info
  *
@@ -209,7 +209,7 @@ class OIK_trace_info {
 	/** 
 	 * Tell them the truth about PHP end of life
 	 * 
-	 * {@link http://php.net/supported-versions.php} 
+	 * {@link https://php.net/supported-versions.php}
 	 * 
 	 * @return string 
 	 */
@@ -224,6 +224,8 @@ class OIK_trace_info {
 											, "7.0" => "2018-12-03"
 											, "7.1" => "2019-12-01"
 											, "7.2" => "2020-11-30"
+											, '7.3' => '2021-12-06'
+											, '7.4' => 'to be determined'
 											); 
 			$eol = $php_eol[ PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ]; 
 			if ( $eol < date( "Y-m-d" ) ) {
