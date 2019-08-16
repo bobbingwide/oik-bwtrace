@@ -3,7 +3,7 @@
 Plugin Name: oik bwtrace 
 Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress, including action and filter tracing
-Version: 3.0.0-alpha-20181009
+Version: 3.0.0-RC1
 Author: bobbingwide
 Author URI: https://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-bwtrace
@@ -11,7 +11,7 @@ Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2011-2018 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2011-2019 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -122,6 +122,7 @@ function bw_trace_plugin_startup() {
   } 
 	add_action( "wp_loaded", "oik_bwtrace_plugins_loaded", 9 );
 	add_filter( "oik_query_libs", "oik_bwtrace_query_libs", 12 );
+	//add_filter( "get_the_generator_xhtml", "oik_bwtrace_get_the_generator", 10, 2 );
 }
 
 /**
@@ -217,8 +218,8 @@ function oik_bwtrace_admin_menu() {
  */
 function oik_bwtrace_add_shortcodes() {
 
-  bw_add_shortcode( 'bwtron', 'bw_trace_on', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace") , false );
-  bw_add_shortcode( 'bwtroff', 'bw_trace_off', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace" ) , false );
+  //bw_add_shortcode( 'bwtron', 'bw_trace_on', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace") , false );
+  //bw_add_shortcode( 'bwtroff', 'bw_trace_off', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace" ) , false );
   bw_add_shortcode( 'bwtrace', 'bw_trace_button', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace" ) , false );
 	
 }
@@ -332,6 +333,12 @@ function oik_bwtrace_loaded() {
 	
 	oik_bwtrace_initialise_trace_summary();
 
+}
+
+function oik_bwtrace_get_the_generator( $gen, $type ) {
+	$php_version = '<!--PHP Version:'. phpversion() . ' -->';
+	$gen .= $php_version;
+	return $gen;
 }
 
 global $bw_trace_options, $bw_trace_on, $bw_trace_level;
