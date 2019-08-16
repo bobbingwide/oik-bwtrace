@@ -20,8 +20,26 @@ define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
  * 
  * Artisteer 4.0 saves information in $theme_ob_stack, so we trace that in case it contains Warnings or Fatal messages.
  *
+ *
+ * When zlib.output_compression is on then ob_get_status() may return an array like the following.
+ * ```
+ * Array
+ * [name] => (string) "zlib output compression"
+ * [type] => (integer) 0
+ * [flags] => (integer) 20512
+ * [level] => (integer) 1
+ * [chunk_size] => (integer) 16384
+ * [buffer_size] => (integer) 20480
+ * [buffer_used] => (integer) 3935
+ * ```
+ *
+ * In this case should not try to call ob_get_flush() because we get another Notice, due to output handler incompatibilities.
+ * As a workaround we first check if zlib.output_compression is set in the php.ini file
  */
-function bw_trace_output_buffer() {  
+function bw_trace_output_buffer() {
+	if ( ini_get( 'zlib.output_compression') ) {
+		return;
+	}
   //$ob = ob_get_contents();
 	$status = ob_get_status();
 	
@@ -569,6 +587,13 @@ function bw_trace_ok_to_echo() {
     }
     if ( !$short ) {
         $short = bw_array_get( $_REQUEST, "health-check-test-wp_version_check", null );
+    }
+    if ( !$short ) {
+    	$action = bw_array_get( $_REQUEST, 'action', null );
+    	$short = $action == 'download_product_csv';
+    }
+    if ( !$short ) {
+    	$short = bw_array_get( $_REQUEST, 'block_data_export', null );
     }
     if ( $short ) {
       $ok = false;
