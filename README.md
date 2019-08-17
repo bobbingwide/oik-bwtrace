@@ -4,7 +4,7 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 * Requires at least: 4.9
-* Tested up to: 5.0-alpha
+* Tested up to: 5.2.2
 * Gutenberg compatible: Yes
 * Requires PHP: 5.2
 * Stable tag: 2.1.1
@@ -102,8 +102,8 @@ New in v3.0.0
 * Improved support for tracing REST requests, with early detection of REST API calls
 * Fixes to logic broken by WordPress 4.7
 * Tested: With Gutenberg
-* Tested: With PHP 7.1 and 7.2
-* Tested: With WordPress 4.9.6 and 5.0-alpha and WordPress Multsite
+* Tested: With PHP 7.1,7.2 and 7.3
+* Tested: With WordPress 4.9.6 to 5.2.2 and WordPress Multsite
 
 
 See also:
@@ -163,6 +163,12 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
 
 ## Upgrade Notice 
+# 3.0.0-RC1 
+Upgrade for PHP 7.3 support
+
+# 3.0.0-beta-20190404 
+One-off package for EBPS - the British Fern Society
+
 # 3.0.0-alpha-20181009 
 Upgrade for better reporting of client IP addresses
 
@@ -282,6 +288,26 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 3.0.0-RC1 
+* Changed: No longer register [bwtron] and [bwtroff] shortcodes,https://github.com/bobbingwide/oik-bwtrace/issues/71
+* Changed: Ignore any files in tests\bwtrace
+* Changed: Add end of life date for PHP 7.3 and prepare for 7.4,https://github.com/bobbingwide/oik-bwtrace/issues/79
+* Fixed: Don't write trace status report when ...,https://github.com/bobbingwide/oik-bwtrace/issues/78
+* Changed: Update language files,https://github.com/bobbingwide/oik-bwtrace/issues/69
+* Changed: Simplify [bwtrace] shortcode,https://github.com/bobbingwide/oik-bwtrace/issues/69
+* Changed: Adjust tests for bwtrace shortcode,https://github.com/bobbingwide/oik-bwtrace/issues/69
+* Changed: Delete deprecated functions from deprecated.php,https://github.com/bobbingwide/oik-bwtrace/issues/69
+* Changed: Update oik_trace_notes, don't call oik_trace_reset_notes,https://github.com/bobbingwide/oik-bwtrace/issues/71
+* Changed: Start increasing robustness of bw_trace_log
+* Changed: Correct class trace_file_selector tests,https://github.com/bobbingwide/oik-bwtrace/issues/16
+* Tested: Incomplete object class tracing tested elsewhere,https://github.com/bobbingwide/oik-bwtrace/issues/56
+* Tested: Update tests for trace options page,https://github.com/bobbingwide/oik-bwtrace/issues/71
+
+# 3.0.0-beta-20190404 
+* Fixed: Don't write trace summary for site health check,https://github.com/bobbingwide/oik-bwtrace/issues/77
+* Changed: Update bobbforms library file and adjust tests accordingly
+* Fixed: Ensure includes\oik-actions.php loaded for bwtrace_get_remote_addr call,https://github.com/bobbingwide/oik-bwtrace/issues/71
+
 # 3.0.0-alpha-20181009 
 * Changed: Improve logic to get the remote IP address https://github.com/bobbingwide/oik-bwtrace/issues/71
 * Changed: Check trace levels before tracing $_SERVER https://github.com/bobbingwide/oik-bwtrace/issues/72
