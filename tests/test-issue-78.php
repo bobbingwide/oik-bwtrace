@@ -26,7 +26,7 @@ class Tests_issue_78 extends BW_UnitTestCase {
 		$ok = bw_trace_ok_to_echo();
 		$this->assertFalse( $ok );
 	}
-	
+
 	function test_bw_trace_ok_to_echo_edd_api() {
 		$_REQUEST['edd-api'] = 'Easy Digital Downloads API sets this';
 		$ok = bw_trace_ok_to_echo();
