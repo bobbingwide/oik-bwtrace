@@ -432,7 +432,7 @@ function bw_trace_file_count() {
  * 
  * Attempt to protect from a crash in print_r() when output buffering is active
  *
- * Note: ob_get_level() may return 1 when ouput buffering is not really nested.
+ * Note: ob_get_level() may return 1 when output buffering is not really nested.
  * @param mixed $text
  * @return string formatted output
  */
