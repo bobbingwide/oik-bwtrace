@@ -1,9 +1,9 @@
-<?php // (C) Copyright Bobbing Wide 2018
+<?php // (C) Copyright Bobbing Wide 2018, 2019
 
 class Tests_includes_class_trace_file_selector extends BW_UnitTestCase {
 
 
-	function setUp() { 
+	function setUp() : void {
 		oik_require( "includes/class-trace-file-selector.php", "oik-bwtrace" );
 	}
 	

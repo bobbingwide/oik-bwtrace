@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2017
+<?php // (C) Copyright Bobbing Wide 2017, 2019
 
 /**
  * @package 
@@ -7,7 +7,7 @@
  */
 class Tests_includes_bwtrace extends BW_UnitTestCase {
 
-	function setUp() { 
+	function setUp() : void {
 		bw_trace_on();
 	}
 	

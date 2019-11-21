@@ -1,9 +1,9 @@
-<?php // (C) Copyright Bobbing Wide 2018
+<?php // (C) Copyright Bobbing Wide 2018, 2019
 
 class Tests_includes_class_BW_trace_controller extends BW_UnitTestCase {
 
 
-	function setUp() { 
+	function setUp() : void {
 		parent::setUp();
 		oik_require( "includes/class-BW-trace-controller.php", "oik-bwtrace" );
 	}

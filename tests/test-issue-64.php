@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2018
+<?php // (C) Copyright Bobbing Wide 2018, 2019
 
 /**
  * @package oik-bwtrace 
@@ -7,7 +7,7 @@
  */
 class Tests_issue_64 extends BW_UnitTestCase {
 
-	function setUp() { 
+	function setUp() : void {
 		parent::setUp();
 		oik_require( "includes/oik-action-counts.php", "oik-bwtrace" );
 	}

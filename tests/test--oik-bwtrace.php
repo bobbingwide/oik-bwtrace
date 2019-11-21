@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2017
+<?php // (C) Copyright Bobbing Wide 2017,2019
 
 /**
  * @package oik-bwtrace 
@@ -9,7 +9,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 
 	public $bw_trace_on = null;
 
-	function setUp() { 
+	function setUp() : void {
 		parent::setUp();
 	}
 	
