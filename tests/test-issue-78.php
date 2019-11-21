@@ -32,5 +32,4 @@ class Tests_issue_78 extends BW_UnitTestCase {
 		$ok = bw_trace_ok_to_echo();
 		$this->assertFalse( $ok );
 	}
-
 }
