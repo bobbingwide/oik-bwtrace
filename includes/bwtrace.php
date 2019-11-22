@@ -1037,7 +1037,24 @@ function bw_list_trace_levels() {
 function bw_trace_trace_startup() {
 	global $bw_trace;
 	$bw_trace->trace_startup();
-}    
+}
+
+/**
+ * Returns a hexdump version of the string
+ *
+ * @param string $string
+ * @return string
+ */
+function bw_trace_hexdump( $string ) {
+	if ( !function_exists( "oik_hexdump") ) {
+		oik_require_lib( 'hexdump' );
+	}
+	if ( function_exists( "oik_hexdump" ) ) {
+		$string = oik_hexdump( $string );
+	}
+	return $string;
+
+}
    
    
 }

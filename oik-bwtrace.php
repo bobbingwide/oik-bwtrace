@@ -178,7 +178,7 @@ function oik_bwtrace_plugins_loaded() {
  */
 function oik_bwtrace_query_libs( $libraries ) {
 	$lib_args = array();
-	$libs = array( "bobbfunc" => null, "bobbforms" => "bobbfunc", "oik-admin" => "bobbforms" );
+	$libs = array( "bobbfunc" => null, "bobbforms" => "bobbfunc", "oik-admin" => "bobbforms", 'hexdump' => null );
 	$versions = array( "bobbfunc" => "3.2.0", "bobbforms" => "3.2.0", "oik-admin" => "3.2.0" );
 	foreach ( $libs as $library => $depends ) {
 		$lib_args['library'] = $library;
