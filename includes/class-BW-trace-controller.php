@@ -76,7 +76,7 @@ class BW_trace_controller {
 	 * - bw_action_options contains settings for tracing specific actions
 	 * - bw_trace_files_options ( new for v3.0.0 ) contains the Trace files directory
 	 * 
-	 * If trace options are not defined then tracing should only performed if controlled programmatically.
+	 * If trace options are not defined then tracing should only be performed if controlled programmatically.
 	 */
 	function load_trace_options() {
 		$this->trace_options = get_option( 'bw_trace_options' );
@@ -384,11 +384,11 @@ class BW_trace_controller {
 			if ( $bw_trace_level >= BW_TRACE_VERBOSE ) {
 				bw_lazy_trace( $_COOKIE, __FUNCTION__, __LINE__, __FILE__, "_COOKIE" );
 			}
-			
-			// Change this to the value returned from trace file selector 
-			bw_lazy_trace( ABSPATH . $this->trace_options['file'], __FUNCTION__, __LINE__, __FILE__, 'tracelog' );
-			
 			bw_lazy_trace( bw_getlocale(), __FUNCTION__, __LINE__, __FILE__, "locale" );
+			if ( $bw_trace_level >= BW_TRACE_VERBOSE ) {
+				bw_lazy_trace( $this->trace_options, __FUNCTION__, __LINE__, __FILE__, "trace_options" );
+				bw_lazy_trace( $this->trace_files_options, __FUNCTION__, __LINE__, __FILE__, "trace_files_options" );
+			}
 			bw_lazy_trace( $this->action_options, __FUNCTION__, __LINE__, __FILE__, "action_options" );
 			// Load oik-actions.php ?
 			oik_require( "includes/oik-actions.php", "oik-bwtrace" );
