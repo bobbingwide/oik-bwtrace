@@ -8,8 +8,6 @@
  */
 class Tests_issue_77 extends BW_UnitTestCase {
 
-	public $bw_trace_on = null;
-
 	function setUp() : void {
 		parent::setUp();
 		oik_require( "includes/oik-actions.php", "oik-bwtrace" );
