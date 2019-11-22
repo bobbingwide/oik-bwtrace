@@ -438,12 +438,15 @@ function bw_trace_file_count() {
  */
 function bw_trace_print_r( $text ) {
 	$handlers = ob_list_handlers();
+	$output = null;
 	if ( count( $handlers ) > 1 ) {
 		$output = implode( ",", $handlers );
 		$output .= "\n";
+	}
+	if ( count( $handlers ) > 1 ) {
 		$output .= bw_trace_obsafe_print_r( $text );
 	} else {  
-		$output = print_r( $text, TRUE) ; 
+		$output .= print_r( $text, TRUE) ;
 	}
 	return $output;
 }
