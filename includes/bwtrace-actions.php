@@ -64,6 +64,7 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_action( "shutdown", "trace_output_buffer", "includes/oik-actions.php", "bw_trace_output_buffer" );
 	bw_trace_add_action( "shutdown", "trace_functions", "includes/oik-actions.php", "bw_trace_functions_traced" );
 	bw_trace_add_action( "shutdown", "trace_status_report", "includes/oik-actions.php", "bw_trace_status_report" );
+	bw_trace_add_action( 'shutdown', 'trace_purge_if_no_errors', 'includes/oik-actions.php', 'bw_trace_purge_if_no_errors' );
 	
 	/** 
 	 * @TODO - Add option to trace all attached hooks at shutdown. 
@@ -275,7 +276,7 @@ function bw_trace_error_handler( $errno, $errstr, $errfile=null, $errline=null, 
 	$err_string .= ": ";
 	$err_string .= $errstr;
 	$err = array( $errno, $err_string, $errfile, $errline );
-	bw_trace2( $err, "err", false, BW_TRACE_ALWAYS );
+	bw_trace2( $err, "err", false, BW_TRACE_ERROR );
 	bw_trace2( $errcontext, "errcontext", false, BW_TRACE_VERBOSE );
 	//bw_trace( "errno", __FUNCTION__, __LINE__, __FILE__, $errno);
 	//bw_trace( "errstr", __FUNCTION__, __LINE__, __FILE__, $errstr );

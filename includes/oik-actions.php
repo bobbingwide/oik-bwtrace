@@ -345,13 +345,16 @@ function bw_trace_status_report() {
 	global $bw_trace;
 	if ( $bw_trace ) {
 		$bw_trace_count = $bw_trace->get_trace_count( "trace_count" );
+		$bw_trace_count_errors = $bw_trace->get_trace_error_count();
 	}
 	if ( $bw_trace_count ) {
 		$func( bw_trace_file2(), "Trace file", false );
 		$func( $bw_trace_count, "Trace records", false );
+		$func( $bw_trace_count_errors, 'Trace errors', false );
 	} else {
 		$func( null, "Trace file", false );
 		$func( null, "Trace records", false );
+		$func( null, 'Trace errors', false );
 	}	
 	$remote_addr = bwtrace_get_remote_addr();
 	$func( $remote_addr, "Remote addr", false );
@@ -610,6 +613,16 @@ function bw_trace_ok_to_echo() {
 		}
 	}
 	return( $ok );
+}
+
+function bw_trace_purge_if_no_errors() {
+
+	global $bw_trace;
+	if ( $bw_trace ) {
+		$bw_trace->purge_trace_file_if_no_errors();
+
+	}
+
 }
 
 

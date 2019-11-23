@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2018
+<?php // (C) Copyright Bobbing Wide 2018, 2019
 
 /**
  * @package oik-bwtrace
@@ -435,6 +435,27 @@ class BW_trace_controller {
 			$bw_trace_count = $this->BW_trace_record->trace_count;
 		}
 		return $bw_trace_count;
+	}
+
+	public function get_trace_error_count() {
+		$bw_trace_error_count = null;
+		if ( $this->BW_trace_record ) {
+			$bw_trace_error_count = $this->BW_trace_record->trace_error_count();
+		}
+		return $bw_trace_error_count;
+	}
+
+	public function purge_trace_file_if_no_errors() {
+		$bw_trace_error_count = $this->get_trace_error_count();
+
+		if ( $bw_trace_error_count ) {
+			bw_trace2( $bw_trace_error_count, 'Not purging the trace file' );
+		} else {
+			//echo "Purging the trace file";
+			bw_trace2( $this->trace_file_selector );
+			$this->trace_file_selector->attempt_reset();
+		}
+
 	}
 		
 	

@@ -111,6 +111,7 @@ function oik_action_options() {
 	bw_checkbox_arr( "bw_action_options", __( "Trace Error, Warning and Notice messages", "oik-bwtrace" ), $options, 'trace_errors' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'wp' action", "oik-bwtrace" ), $options, 'trace_wp_action' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'wp' global wp_rewrite ", "oik-bwtrace" ), $options, 'trace_wp_rewrite' );
+  bw_checkbox_arr( 'bw_action_options', __( 'Purge trace file if no errors', 'oik-btrace'), $options, 'trace_purge_if_no_errors' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' included files", "oik-bwtrace" ), $options, 'trace_included_files' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' saved queries", "oik-bwtrace" ), $options, 'trace_saved_queries' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' output buffer", "oik-bwtrace" ), $options, 'trace_output_buffer' );

@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2018
+<?php // (C) Copyright Bobbing Wide 2018, 2019
 
 /**
  * Trace record writer
@@ -36,6 +36,7 @@ class BW_trace_record {
 	public $trace_file_count = true;
 	
 	public $trace_count;
+	public $trace_error_count;
 	//public $trace_functions;
 	
 	
@@ -45,6 +46,7 @@ class BW_trace_record {
 	function __construct( $trace_controller ) {
 		$this->trace_controller = $trace_controller;
 		$this->trace_count = 0;
+		$this->trace_error_count = 0;
 		$this->init_trace_functions(); 
 		
 	}
@@ -115,6 +117,7 @@ class BW_trace_record {
 	 */
 	public function lazy_trace( $text, $function=__FUNCTION__, $lineno=__LINE__, $file=__FILE__, $text_label=null, $level=BW_TRACE_ALWAYS ) {
 		$this->trace_count++;
+		$this->set_trace_error_count( $level );
     /*
 		 * Note: $bw_trace_functions does not hold the number of times that the function is called. 
      * It's the number of times that bw_trace() is called for the $function
@@ -172,6 +175,8 @@ class BW_trace_record {
 		$ref .= '('.$lineno.':'. $level .') ';
 		$ref .= bw_trace_function( $function );
 		$ref .= bw_trace_count( $count );
+		$ref .= $this->trace_error_count();
+		$ref .= ' ';
 		$ref .= bw_trace_date( DATE_W3C );
 		$ref .= bw_trace_elapsed();
 		$ref .= bw_trace_context();
@@ -209,6 +214,25 @@ class BW_trace_record {
 	function _doing_wrong_thing() {
 		bw_trace_off();
 		bw_log( null, "oik-bwtrace unable to write trace records to null trace file name. Set the Trace files directory." );
+	}
+
+	function set_trace_error_count( $level ) {
+		switch ( $level ) {
+			case BW_TRACE_ALWAYS:
+			case BW_TRACE_DEBUG:
+			case BW_TRACE_VERBOSE:
+				break;
+
+			case BW_TRACE_NOTICE:
+			case BW_TRACE_ERROR:
+			case BW_TRACE_INFO:
+			case BW_TRACE_WARNING:
+				$this->trace_error_count++;
+		}
+	}
+
+	function trace_error_count() {
+		return $this->trace_error_count;
 	}
 
 
