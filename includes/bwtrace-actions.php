@@ -34,7 +34,7 @@ function bw_trace_add_action( $action, $option, $file, $function, $count=1 ) {
 		if ( function_exists( $function ) ) {
 		  add_action( $action, $function, 10, $count );
 		}	else {
-			gob();
+			bw_trace2( $function, "Function does not exist", true, BW_TRACE_ERROR );
 		}
 	}
 	return( $bw_trace_action );
@@ -143,7 +143,7 @@ function bw_trace_deprecated_argument_trigger_error( $trigger_error=true ) {
  * @param string $version The version of WordPress that deprecated the argument used
  */
 function bw_trace_deprecated_argument_run( $function=null, $message=null, $version=null) {
-	bw_trace2();
+	bw_trace2( null, null, true, BW_TRACE_ERROR );
 	bw_backtrace();
 }
 
@@ -155,7 +155,7 @@ function bw_trace_deprecated_argument_run( $function=null, $message=null, $versi
  * @param string $version version
  */
 function bw_trace_deprecated_constructor_run( $class=null, $version=null ) {
-	bw_trace2();
+	bw_trace2( null, null, true, BW_TRACE_ERROR );
 	bw_backtrace();
 }
 
@@ -163,7 +163,7 @@ function bw_trace_deprecated_constructor_run( $class=null, $version=null ) {
  * Implement "deprecated_file_included" action for oik-bwtrace
  */
 function bw_trace_deprecated_file_included( $file=null, $replacement=null, $version=null, $message=null ) {
-	bw_trace2();
+	bw_trace2( null, null, true, BW_TRACE_ERROR );
 	bw_backtrace();
 }
 
@@ -176,7 +176,7 @@ function bw_trace_deprecated_file_included( $file=null, $replacement=null, $vers
  * @param string $version The version of WordPress that deprecated the function
  */
 function bw_trace_deprecated_function_run( $function=null, $replacement=null, $version=null) {
-	bw_trace2();
+	bw_trace2( null, null, true, BW_TRACE_ERROR );
 	bw_backtrace();
 }
 
@@ -188,7 +188,7 @@ function bw_trace_deprecated_function_run( $function=null, $replacement=null, $v
  * @param string $version The version of WordPress that deprecated the function
  */
 function bw_trace_doing_it_wrong_run( $function=null, $message=null, $version=null) {
-	bw_trace2();
+	bw_trace2( null, null, true, BW_TRACE_ERROR );
 	bw_backtrace();
 }
 
