@@ -511,28 +511,14 @@ function bw_trace_determine_request() {
 } 
 
 /**
- * Extract the HTTP_USER_AGENT 
- *
- * @TODO Don't use get_browser unless 1. It's requested, 2. It's enabled
- * How can we tell which version it's using?
- * {@link http://browscap.org/}
+ * Extracts the HTTP_USER_AGENT
  *
  * @return string a slightly sanitized value for HTTP_USER_AGENT
  */
 function bw_trace_http_user_agent() {
 	$http_user_agent = bw_array_get( $_SERVER, "HTTP_USER_AGENT", null );
 	$http_user_agent = str_replace( ",", ";", $http_user_agent );
-	/*
-	$browscap = ini_get( "browscap" ); 
-	if ( false !== $browscap ) {
-		bw_trace2( $browscap, "browscap", false, BW_TRACE_VERBOSE );
-		$browser = get_browser( $http_user_agent, true );
-		bw_trace2( $browser, "browser", false, BW_TRACE_VERBOSE );
-	} else {	
-		gob();
-	}
-	*/
-	return( $http_user_agent );
+	return $http_user_agent;
 }
 
 /** 
