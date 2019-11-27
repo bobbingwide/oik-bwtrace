@@ -587,6 +587,9 @@ function bw_trace_ok_to_echo() {
     if ( !$short ) {
     	$short = bw_array_get( $_REQUEST, 'edd-api', null );
     }
+	  if ( !$short ) {
+		  $short = bw_array_get( $_REQUEST, 'edd_action', null );
+	  }
 
     if ( !$short ) {
         $short = bw_array_get( $_REQUEST, 'downloadBackup', null );
