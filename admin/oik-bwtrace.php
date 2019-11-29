@@ -236,25 +236,14 @@ function oik_trace_options() {
  * Display trace notes
  */
 function oik_trace_notes() {
-  BW_::p( __( "The tracing output produced by oik-bwtrace can be used for problem determination.", "oik-bwtrace" ) );
-  //BW_::p( __( "It's not for the faint hearted.", "oik-bwtrace" ) );
-  BW_::p( __( "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site.", "oik-bwtrace" ) );
-  BW_::p( __( "If you do need to activate it, only do so for a short period of time.", "oik-bwtrace" )  );
+	BW_::p( __( "The tracing output produced by oik-bwtrace can be used for problem determination.", "oik-bwtrace" ) );
+	BW_::p( __( "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site.", "oik-bwtrace" ) );
+	BW_::p( __( "If you do need to activate it, only do so for a short period of time.", "oik-bwtrace" )  );
  
-  BW_::p( __( "You will need to specify the trace files directory and trace file names.", "oik-bwtrace" )  );
-  BW_::p( __( "When you want to trace processing check 'Trace enabled'", "oik-bwtrace" )  );
-  //BW_::p( __( "Check 'Reset trace file every transaction' to cause the trace file to be cleared for every request, including AJAX requests.", "oik-bwtrace" )  );
-  BW_::p( __( "Specifying a different file name and limit for each transaction can help you to trace multiple concurrent requests.", "oik-bwtrace" ) );
-  
-  //BW_::p( __( "You may find the most recent browser trace output at...", "oik-bwtrace" )  );
-  //$bw_trace_url = bw_trace_url();
-  
-  //BW_::alink( NULL, $bw_trace_url, $bw_trace_url, __( "View trace output in your browser.", "oik-bwtrace" ) );
-  
-  //BW_::p( __( "If you want to trace processing within some content you can use two shortcodes: [bwtron] to turn trace on and [bwtroff] to turn it off", "oik-bwtrace" )  );
-  
-  bw_flush();
-
+	BW_::p( __( "You will need to specify the trace files directory and trace file names.", "oik-bwtrace" )  );
+	BW_::p( __( "When you want to trace processing check 'Trace enabled'", "oik-bwtrace" )  );
+	BW_::p( __( "Specifying a different file name and limit for each transaction can help you to trace multiple concurrent requests.", "oik-bwtrace" ) );
+	bw_flush();
 }
 
 /**

@@ -214,14 +214,10 @@ function oik_bwtrace_admin_menu() {
 }
 
 /**
- * Adds the trace shortcodes
+ * Adds the trace shortcode
  */
 function oik_bwtrace_add_shortcodes() {
-
-  //bw_add_shortcode( 'bwtron', 'bw_trace_on', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace") , false );
-  //bw_add_shortcode( 'bwtroff', 'bw_trace_off', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace" ) , false );
-  bw_add_shortcode( 'bwtrace', 'bw_trace_button', oik_path( "shortcodes/oik-trace.php", "oik-bwtrace" ) , false );
-	
+	bw_add_shortcode( 'bwtrace', 'bw_trace_button', oik_path( 'shortcodes/oik-trace.php', 'oik-bwtrace' ), false );
 }
 
 function oik_bwtrace_wp_cli() {
