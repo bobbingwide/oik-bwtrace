@@ -444,17 +444,18 @@ class trace_file_selector {
 	}
 	
 	/**
-	 * Log a message to the error log
+	 * Logs a message to the error log
 	 *
-	 */ 
-	
+	 * This is where we don't know what to do.
+	 *
+	 * @param string $message The message to log, along with the last error
+	 */
 	function ohmy( $message ) {
-		$text = __METHOD__;
+		$text       = __METHOD__;
 		$last_error = error_get_last();
-    $flat_value = bw_trace_print_r( $last_error ); 
-		$logged = error_log( "$text:$flat_value:$message", 0 );
+        $flat_value = bw_trace_print_r( $last_error );
+		$logged     = error_log( "$text:$flat_value:$message", 0 );
 		echo $flat_value;
-		//gob();
 	}
 		
 

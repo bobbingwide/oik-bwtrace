@@ -184,7 +184,6 @@ class BW_trace_controller {
 		if ( $this->trace_files_directory ) {
 			if ( defined( 'BW_TRACE_ON' ) && BW_TRACE_ON ) {
 				$this->trace_on = BW_TRACE_ON;
-				//gob();
 				// $bw_trace_on should already be true... but can we turn it off?
 				// How does that affect reset?	
 				// Well, perhaps we can check the BW_TRACE_RESET constant and whether or not we started in wp-config
