@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * @copyright (C) Copyright Bobbing Wide 2018
+ * @copyright (C) Copyright Bobbing Wide 2018-2019
  * @package oik-bwtrace
  * 
  * Trace logs: Summary and purging
@@ -65,8 +65,8 @@ class trace_logs {
 		$valid = $this->display_trace_files_directory_notice();
 		if ( $valid ) { 
 			$this->perform_purge();
+			$this->perform_purge_summary();
 			$this->display_summary();
-			//$this->purge();
 			$this->display_purge_form();
 		}	
 	}
@@ -143,6 +143,26 @@ class trace_logs {
 			// No request to purge trace files!
 		}
 	}
+
+	/**
+	 * Purge summary files if requested
+	 */
+	public function perform_purge_summary() {
+		$purge = bw_array_get( $_REQUEST, "_oik_trace_purge_summary_submit", null );
+		if ( $purge ) {
+			$purge = bw_verify_nonce( "oik_trace_files_purge", "oik_trace_files_purge" );
+			if ( $purge ) {
+				p( "Purging old daily summary trace files" );
+				$this->purge_summary();
+			} else {
+				p( "Norty" );
+				//gob();
+			}
+		} else {
+			// No request to purge trace files!
+		}
+
+	}
 	
 	/**
 	 * Displays the Purge trace files button
@@ -150,7 +170,8 @@ class trace_logs {
 	public function display_purge_form() {
 		bw_form();
 		e( wp_nonce_field( "oik_trace_files_purge", "oik_trace_files_purge", false, false ) );
-		e( isubmit( "_oik_trace_purge_submit", "Purge trace files" ) ); 
+		e( isubmit( "_oik_trace_purge_submit", "Purge trace files" ) );
+		e( isubmit( '_oik_trace_purge_summary_submit', 'Purge daily trace summary files' ) );
 		etag( "form" );
 	}
 	
@@ -190,14 +211,21 @@ class trace_logs {
 	}
 	
 	/**
-	 * Purges trace files
+	 * Purges trace files, excluding the summary files
 	 */
 	function purge() {
-		$this->purge_files( "daily", $this->get_summary_file_prefix() );
+
 		$this->purge_files( "browser", $this->get_option_value( "file" ) );
 		$this->purge_files( "ajax", $this->get_option_value( "file_ajax" ) );
 		$this->purge_files( "rest", $this->get_option_value( "file_rest" ) );
 		$this->purge_files( "cli", $this->get_option_value( "file_cli" ) );
+	}
+
+	/**
+	 * Purges the daily trace summary files.
+	 */
+	function purge_summary() {
+		$this->purge_files( 'daily', $this->get_summary_file_prefix() );
 	}
 	
 	/**
