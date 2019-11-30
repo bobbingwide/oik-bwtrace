@@ -34,7 +34,7 @@ class BW_trace_controller {
 	 * During initialisation, if the globals already exist then we could consider using them.
 	 */
 	public $trace_options;  // array Replacement for global $bw_trace_options
-	public $action_options; // array Replacement for global $bw_trace_options
+	public $action_options; // array Replacement for global $bw_action_options
 	public $trace_on;				// bool Replacement for global $bw_trace_on
 	public $trace_level;    // integer 
 	public $request_type;  	// null | 'cli' | 'ajax' | 'rest' 
@@ -62,6 +62,9 @@ class BW_trace_controller {
 				$this->load_trace_file_selector();
 				$this->load_trace_record();
 				$this->set_savequeries();
+			}
+			if ( $this->is_trace_hook_counting() ) {
+				add_action( 'all', [$this, 'set_trace_hook_count']);
 			}
 		} else {
 			// Invalid trace files directory so tracing cannot be enabled.
@@ -177,7 +180,7 @@ class BW_trace_controller {
 	 * Determines trace status
 	 * 
 	 * We need to determine the request type at some stage in order to find out
-	 * what we're going to do with regards trace file generation and
+	 * what we're going to do with regards trace file generation
 	 */
 	public function status() {
 	
@@ -455,6 +458,25 @@ class BW_trace_controller {
 			$this->trace_file_selector->attempt_reset();
 		}
 
+	}
+
+	/**
+	 * Determines if we're trace action counting
+	 *
+	 */
+	public function is_trace_hook_counting() {
+		$counting = $this->torf_action( 'count' );
+		return $counting;
+	}
+
+	/**
+	 * Increments and returns the number of hooks ( actions and filters ) performed
+	 * @return int
+	 */
+	public function set_trace_hook_count() {
+		static $trace_hook_count = 0;
+		$trace_hook_count++;
+		return $trace_hook_count;
 	}
 		
 	

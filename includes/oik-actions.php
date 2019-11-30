@@ -355,7 +355,14 @@ function bw_trace_status_report() {
 		$func( null, "Trace file", false );
 		$func( null, "Trace records", false );
 		$func( null, 'Trace errors', false );
-	}	
+	}
+	$hook_count = null;
+	if ( $bw_trace ) {
+		if ( $bw_trace->is_trace_hook_counting() ) {
+			$hook_count = $bw_trace->set_trace_hook_count();
+		}
+	}
+	$func( $hook_count , 'Hook count', false );
 	$remote_addr = bwtrace_get_remote_addr();
 	$func( $remote_addr, "Remote addr", false );
 	$elapsed = bw_trace_timer_stop( false, 6 );
