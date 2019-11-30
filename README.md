@@ -3,10 +3,10 @@
 * Contributors: bobbingwide, vsgloik
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
-* Requires at least: 4.9
-* Tested up to: 5.2.2
+* Requires at least: 5.0
+* Tested up to: 5.3.0
 * Gutenberg compatible: Yes
-* Requires PHP: 5.2
+* Requires PHP: 5.6
 * Stable tag: 2.1.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -95,15 +95,15 @@ New in v3.0.0
 * Supports purging of trace files from the Dashboard using a defined retention period.
 * The Daily Trace Summary file base name is now user defined.
 * Separated Trace 'shutdown' status report from Daily Trace summary.
-*	Improvements to the [bwtrace] shortcode; moved from the oik plugin.
+* Improvements to the [bwtrace] shortcode; moved from the oik plugin.
 * Improved support for tracing REST requests.
 * Added support for WP-CLI; initial prototype of 'wp trace' command.
 * Supports trace file generation logic for tracing parallel requests.
 * Improved support for tracing REST requests, with early detection of REST API calls
 * Fixes to logic broken by WordPress 4.7
 * Tested: With Gutenberg
-* Tested: With PHP 7.1,7.2 and 7.3
-* Tested: With WordPress 4.9.6 to 5.2.2 and WordPress Multsite
+* Tested: With PHP 7.2 and 7.3
+* Tested: With WordPress 5.3 and WordPress Multi Site
 
 
 See also:
@@ -163,6 +163,9 @@ Don't forget to remove or comment out this code when you no longer need it.
 5. Daily summary log
 
 ## Upgrade Notice 
+# 3.0.0-RC2 
+Many more issues fixed. Tested with WordPress 5.3
+
 # 3.0.0-RC1 
 Upgrade for PHP 7.3 support
 
@@ -288,6 +291,28 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 3.0.0-RC2 
+* Changed: Tidy up bw_trace_http_user_agent,https://github.com/bobbingwide/oik-bwtrace/issues/22
+* Added: Hook count in daily trace summary and trace records,https://github.com/bobbingwide/oik-bwtrace/issues/53
+* Fixed: check for edd_action in bw_trace_oik_to_echo,https://github.com/bobbingwide/oik-bwtrace/issues/41
+* Changed: Eliminate gob() - gobang - calls,https://github.com/bobbingwide/oik-bwtrace/issues/70
+* Changed: Add button to purge daily trace summary files separately from other trace files,https://github.com/bobbingwide/oik-bwtrace/issues/71
+* Changed: Remove anything to do with bwtron and bwtroff,https://github.com/bobbingwide/oik-bwtrace/issues/71
+* Changed: Further changes to fields traced at startup,https://github.com/bobbingwide/oik-bwtrace/issues/72
+* Changed: Add option to purge the trace file if no errors traced,https://github.com/bobbingwide/oik-bwtrace/issues/73
+* Changed: Change bw_trace2()'s to make them BW_TRACE_ERROR level,https://github.com/bobbingwide/oik-bwtrace/issues/73
+* Changed: Check count( $handlers ) when reporting active output buffering handlers,https://github.com/bobbingwide/oik-bwtrace/issues/74
+* Fixed: Don't append Trace Summary when Wordfence is downloading .htaccess,https://github.com/bobbingwide/oik-bwtrace/issues/75
+* Fixed: Add hex dump support for trace output wth helper function bw_trace_hexdump,https://github.com/bobbingwide/oik-bwtrace/issues/76
+* Fixed: Don't echo trace summary for health check,https://github.com/bobbingwide/oik-bwtrace/issues/77
+* Changed: Don't write trace status report when request is edd-api,https://github.com/bobbingwide/oik-bwtrace/issues/78
+* Fixed: Add tests for PHP 7.3 end-of-life and zlib.output_compression,https://github.com/bobbingwide/oik-bwtrace/issues/79
+* Fixed: Tested under PHPUnit 8,https://github.com/bobbingwide/oik-bwtrace/issues/80
+* Tested: Add PHPUnit test for bw_trace_inspect_current,https://github.com/bobbingwide/oik-bwtrace/issues/63
+* Tested: With WordPress 5.3 and WordPress Multi Site
+* Tested: With PHP 7.3
+* Tested: With PHPUnit 8
+
 # 3.0.0-RC1 
 * Changed: No longer register [bwtron] and [bwtroff] shortcodes,https://github.com/bobbingwide/oik-bwtrace/issues/71
 * Changed: Ignore any files in tests\bwtrace
