@@ -471,11 +471,14 @@ class BW_trace_controller {
 
 	/**
 	 * Increments and returns the number of hooks ( actions and filters ) performed
+	 * @param $args - if null we want the current value
 	 * @return int
 	 */
-	public function set_trace_hook_count() {
+	public function set_trace_hook_count( $args=null ) {
 		static $trace_hook_count = 0;
-		$trace_hook_count++;
+		if ( null !== $args ) {
+			$trace_hook_count ++;
+		}
 		return $trace_hook_count;
 	}
 		

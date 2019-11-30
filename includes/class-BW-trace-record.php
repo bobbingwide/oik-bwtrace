@@ -151,6 +151,7 @@ class BW_trace_record {
 	 * | elapsed						 | 0.011437
 	 * | interval            | 0.001158 
 	 * | context             | cf=admin_menu
+	 * | hook count          | 1234
 	 * | number of queries   | 1
 	 * | post ID             | 3667
 	 * | memory/peak usage   | 14310144/14383168
@@ -180,6 +181,7 @@ class BW_trace_record {
 		$ref .= bw_trace_date( DATE_W3C );
 		$ref .= bw_trace_elapsed();
 		$ref .= bw_trace_context();
+		$ref .= $this->trace_hook_count();
 		$ref .= bw_get_num_queries();
 		$ref .= bw_trace_post_id();
 		$ref .= bw_get_memory_usage();
@@ -233,6 +235,15 @@ class BW_trace_record {
 
 	function trace_error_count() {
 		return $this->trace_error_count;
+	}
+
+	function trace_hook_count() {
+		$trace_hook_count = null;
+		if ( $this->trace_controller->is_trace_hook_counting() ) {
+			$trace_hook_count=$this->trace_controller->set_trace_hook_count();
+			$trace_hook_count .= ' ';
+		}
+		return $trace_hook_count;
 	}
 
 
