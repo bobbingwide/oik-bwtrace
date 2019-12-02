@@ -225,7 +225,8 @@ class OIK_trace_info {
 											, "7.1" => "2019-12-01"
 											, "7.2" => "2020-11-30"
 											, '7.3' => '2021-12-06'
-											, '7.4' => 'to be determined'
+											, '7.4' => '2022-11-28'
+											, '7.5' => 'to be determined'
 											); 
 			$eol = $php_eol[ PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ]; 
 			if ( $eol < date( "Y-m-d" ) ) {
