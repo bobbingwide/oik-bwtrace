@@ -19,8 +19,20 @@ class Tests_issue_79 extends BW_UnitTestCase {
 	 * That'll do for now.
 	 */
 	function test_php_end_of_life() {
+		$phpversion = explode( '.', phpversion() );
+		switch ( $phpversion[1] ) {
+			case '3':
+				$expected = 'End of life for your version of PHP is: 2021-12-06';
+				break;
+			case '4':
+				$expected = 'End of life for your version of PHP is: 2022-11-28';
+				break;
+
+			default:
+				echo 'Not catered for' . PHP_EOL;
+		}
 		$trace_info = new OIK_trace_info();
-		$expected = 'End of life for your version of PHP is: 2021-12-06';
+		//$expected = 'End of life for your version of PHP is: 2021-12-06';
 		$message = $trace_info->php_end_of_life();
 		$this->assertEquals( $expected, $message );
 	}
