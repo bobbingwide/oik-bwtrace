@@ -392,19 +392,16 @@ function bw_trace_status_report() {
  * @return string|null Remote IP address
  */
 function bwtrace_get_remote_addr() {
-	$ip = null;
-	if ( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
-		$ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
-	} elseif ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
-		$ip = $_SERVER['HTTP_X_REAL_IP'];
-	} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-		$ip = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
-		$ip = array_shift( $ip );
-	} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-		$ip = $_SERVER['REMOTE_ADDR'];
+	global $bw_trace;
+	$ip=null;
+	if ( $bw_trace ) {
+		$ip = $bw_trace->get_remote_addr();
 	}
+
 	return $ip;
 }
+
+
 
 /**
  * Determine the elapsed time in seconds and microseconds

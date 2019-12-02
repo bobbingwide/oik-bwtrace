@@ -58,7 +58,7 @@ class BW_trace_controller {
 		if ( $this->trace_files_directory ) {
 			$this->request_type = $this->query_request_type();
 			$this->set_trace_level( $this->query_trace_level() );
-			if ( $this->status() ) {
+			if ( $this->status() && $this->trace_ip() ) {
 				$this->load_trace_file_selector();
 				$this->load_trace_record();
 				$this->set_savequeries();
@@ -205,24 +205,57 @@ class BW_trace_controller {
 	}
 	
 	/**
-	 * Determines if we're only tracing a particular IP
+	 * Determines if we're tracing a particular IP
+	 *
+	 * Pre-requisite to this function is that tracing is enabled for the request type.
+	 *
+	 * ip       | remote_addr | trace?
+	 * -------  | ---------  | ------
+	 *  x       |    x       | true
+	 *  x       |    y       | false
+	 *  not set |    any     | true
 	 *
 	 * The logic to compare the IP with the server API will be deprecated
+	 *
+	 * @return bool true if we're tracing the IP or we don't care
 	 */
 	function trace_ip() {
-	
-		$tracing_ip = false;
-		$bw_trace_ip = bw_array_get( $this->trace_options, "ip", null );
+		$tracing_ip  = true;
+		$bw_trace_ip = bw_array_get( $this->trace_options, 'ip', null );
 		if ( $bw_trace_ip ) {
-			//$server = bw_array_get( $_SERVER, "REMOTE_ADDR", null );
-			$server = bwtrace_get_remote_addr();
+			$server = $this->get_remote_addr();
 			if ( $server ) {
-				$tracing_ip = ( $server == $bw_trace_ip );
-			} else {
-				$tracing_ip = ( $bw_trace_ip === php_sapi_name() );
+				$tracing_ip = ( $server === $bw_trace_ip );
 			}
 		}
 		return $tracing_ip;
+	}
+
+	/**
+	 * Returns what we believe to be the remote address
+	 *
+	 * Index   | May contain
+	 * ------  | ----------
+	 * HTTP_CF_CONNECTING_IP | Real IP set by Cloudflare
+	 * HTTP_X_REAL_IP | IP extracted from HTTP_X_FORWARDED_FOR - set by Nginx?
+	 * HTTP_X_FORWARDED_FOR | From X-Forwarded-For header. Series of IP addresses, comma separated. First is the user's IP, rest are proxy IPs
+	 * REMOTE_ADDR | Server forwarding the request
+	 *
+	 * @return string|null Remote IP address
+	 */
+	function get_remote_addr() {
+		$ip = null;
+		if ( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
+			$ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+		} elseif ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+			$ip = $_SERVER['HTTP_X_REAL_IP'];
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			$ip = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+			$ip = array_shift( $ip );
+		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+		return $ip;
 	}
 
 	/**
@@ -390,8 +423,8 @@ class BW_trace_controller {
 			if ( $bw_trace_level >= BW_TRACE_VERBOSE ) {
 				bw_lazy_trace( $this->trace_options, __FUNCTION__, __LINE__, __FILE__, "trace_options" );
 				bw_lazy_trace( $this->trace_files_options, __FUNCTION__, __LINE__, __FILE__, "trace_files_options" );
+				bw_lazy_trace( $this->action_options, __FUNCTION__, __LINE__, __FILE__, "action_options" );
 			}
-			bw_lazy_trace( $this->action_options, __FUNCTION__, __LINE__, __FILE__, "action_options" );
 			// Load oik-actions.php ?
 			oik_require( "includes/oik-actions.php", "oik-bwtrace" );
 			add_action( "plugins_loaded", "bw_trace_plugin_paths" );
