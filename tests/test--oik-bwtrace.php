@@ -298,10 +298,12 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		global $bw_action_options;
 	
 		$this->save_bw_trace_options(); 
-		
-		if ( $bw_trace_options['trace_cli'] == "on" ) {
-			$bw_trace_options['trace_cli'] = '0';
-			bw_trace_off();
+
+		if ( null !== $bw_trace_options) {
+			if ( $bw_trace_options['trace_cli'] == "on" ) {
+				$bw_trace_options['trace_cli']='0';
+				bw_trace_off();
+			}
 		}
 		$this->init_bw_trace_options();
 		$bw_trace_options['trace_cli'] = '0';
