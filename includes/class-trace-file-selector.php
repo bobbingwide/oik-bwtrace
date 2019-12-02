@@ -402,10 +402,6 @@ class trace_file_selector {
 		if ( !empty( $_REQUEST['_bw_trace_reset'] ) ) {
 			$trace_reset = true;
 		}
-		// @TODO Is this still necessary? 
-		if ( isset( $_REQUEST['wc-ajax'] ) ) {
-			$trace_reset = false;
-		} 
 		return $trace_reset;
 	}
 	
