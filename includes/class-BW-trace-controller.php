@@ -208,6 +208,9 @@ class BW_trace_controller {
 	 * Determines if we're tracing a particular IP
 	 *
 	 * Pre-requisite to this function is that tracing is enabled for the request type.
+	 * When the value of the $initial parameter is true then we're testing if
+	 * we can continue to trace this request.
+	 * When it's false the test finds out if we're actually tracing a specific IP.
 	 *
 	 * ip       | remote_addr | trace?
 	 * -------  | ---------  | ------
@@ -216,11 +219,11 @@ class BW_trace_controller {
 	 *  not set |    any     | true
 	 *
 	 * The logic to compare the IP with the server API will be deprecated
-	 *
+	 * @param bool $default Default reply.
 	 * @return bool true if we're tracing the IP or we don't care
 	 */
-	function trace_ip() {
-		$tracing_ip  = true;
+	function trace_ip( $initial=true ) {
+		$tracing_ip  = $initial;
 		$bw_trace_ip = bw_array_get( $this->trace_options, 'ip', null );
 		if ( $bw_trace_ip ) {
 			$server = $this->get_remote_addr();
@@ -265,29 +268,28 @@ class BW_trace_controller {
 	 * except when we're only tracing a specific IP
 	 * when we don't want to reset the trace file if we're not tracing this particular transaction.
 	 *
+	 * When we only had one trace file then the logic documented above applied.
+	 * With trace file generation it's not so important. But which routine do we trust?
+	 * In order to make the tests pass, we need to fiddle trace_ip() passing a parameter for the default reply.
+	 *
 	 * If the request contains '_bw_trace_reset' then we will force a reset.
 	 * 
-	 * @TODO Trace reset only affects the particular file we're dealing with.
-	 *  We'll need to find some way of resetting the AJAX trace file.
-	 * 
+	 *
 	 * $bw_trace_ip | $tracing | $bw_trace_reset ?
 	 * ------------ | -------- | ---------------------
 	 * set          | false    | don't reset
 	 * set          | true		 | depends on the option 'reset' or 'reset_ajax'
 	 * not-set      | either   | depends on the option 'reset' or 'reset_ajax'
 	 *
-	 * @param string $bw_trace_ip - specific IP to trace
-	 * @param bool $tracing true if tracing
 	 * @return bool true if the trace file should be reset
 	 */
 	function reset_status() {
-	
-		$tracing_ip = $this->trace_ip();
+		$tracing_ip = $this->trace_ip( false );
 		if ( $tracing_ip && !$this->trace_on ) { 
 			$trace_reset = false;
 		} else {
 			$trace_reset = $this->query_reset();
-    }
+        }
 		return $trace_reset;
 	}
 	
