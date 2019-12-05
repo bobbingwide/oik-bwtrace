@@ -136,11 +136,12 @@ class OIK_trace_summary {
  * 14 | Trace file
  * 15 | Trace records
  * 16 | Trace errors
- * 17 | Remote address ( IP address )
- * 18 | Elapsed
- * 19 | Date - ISO 8601 date
- * 20 | HTTP user agent
- * 21 | REQUEST_METHOD
+ * 17 | Hook count
+ * 18 | Remote address ( IP address )
+ * 19 | Elapsed
+ * 20 | Date - ISO 8601 date
+ * 21 | HTTP user agent
+ * 22 | REQUEST_METHOD
  */
 function bw_record_vt( $vnoisy=false ) {
   global $vt_values, $vt_text;
