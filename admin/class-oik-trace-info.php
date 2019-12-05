@@ -216,11 +216,11 @@ class OIK_trace_info {
 	function php_end_of_life() {
 		$ok = version_compare( PHP_VERSION, "5.2", "gt" );
 		if ( $ok ) { 
-			$php_eol = array( "5.2" => "2011-01-06" // This is still supported by WordPress
+			$php_eol = array( "5.2" => "2011-01-06"
 											, "5.3" => "2014-08-14"
 											, "5.4" => "2015-09-03"
 											, "5.5" => "2016-07-21"
-											, "5.6" => "2018-12-31"
+											, "5.6" => "2018-12-31"// This is the minimum supported by WordPress
 											, "7.0" => "2018-12-03"
 											, "7.1" => "2019-12-01"
 											, "7.2" => "2020-11-30"
@@ -235,7 +235,7 @@ class OIK_trace_info {
 				$message = "End of life for your version of PHP is: $eol";
 			}	
 		} else {
-			$message = "You're out of support by over 6 years!";
+			$message = "You're out of support by over 9 years!";
 		}
 		return( $message ); 
 	}
