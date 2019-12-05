@@ -31,7 +31,7 @@ When tracing a live or staging site you should ensure that the trace files direc
 Features:
 
 * Traces to a defined Trace files directory
-* Traces ALL server functionality, including AJAX and other background requests
+* Traces ALL server functionality, including AJAX, REST and other background requests
 * Writes summary trace record for each transaction into Daily Trace summary files
 * Traces browser transactions separately, if required
 * Traces AJAX transactions separately, if required
@@ -46,14 +46,15 @@ Features:
 * Traces and backtraces PHP Error, Warning and Notice messages
 * Backtraces deprecated logic messages
 * Does not require WP_DEBUG to be defined
+* Does not require SAVEQUERIES to be defined
 * Dynamically activates trace functions
 * Implemented as lazy just-in-time code
 * Can be used during regression testing
 * Can be activated in wp-config.php and db.php to trace code before WordPress is fully loaded
 * Plugin does not need to be activated if started programmatically or from wp-config.php
-* Operates as a standalone plugin; independent of the oik base plugin
+* Operates as a standalone plugin
 * Integrated with oik-lib shared library management
-* Easy to code APIs: bw_trace2(), bw_backtrace() and bw_trace()
+* Easy to code APIs: bw_trace2(), bw_backtrace().
 * API supports multiple trace levels
 
 Ad hoc tracing allows you to:
@@ -70,9 +71,10 @@ Ad hoc tracing allows you to:
 The trace record output can include:
 
 * Fully qualified source file name
-* Trace record count
+* Trace record count and trace error count
 * Time stamp
 * Current filter information
+* Hook count
 * Number of database queries that have been performed.
 * Current post ID
 * Current and peak memory usage (in bytes)
@@ -102,7 +104,7 @@ New in v3.0.0
 * Improved support for tracing REST requests, with early detection of REST API calls
 * Fixes to logic broken by WordPress 4.7
 * Tested: With Gutenberg
-* Tested: With PHP 7.2 and 7.3
+* Tested: With PHP 7.2 thru' 7.4
 * Tested: With WordPress 5.3 and WordPress Multi Site
 
 
@@ -110,57 +112,44 @@ See also:
 
 * [bw_trace2()](https://www.oik-plugins.com/oik_api/bw_trace2)
 * [bw_backtrace()](https://www.oik-plugins.com/oik_api/bw_backtrace)
-* [bw_trace()](https://www.oik-plugins.com/oik_api/bw_trace)
 
 
 ## Installation 
 1. Upload the contents of the oik-bwtrace plugin to the `/wp-content/plugins/oik-bwtrace' directory
 1. Activate the oik-bwtrace plugin through the 'Plugins' menu in WordPress
-1. Define your trace options using Settings > trace options
-1. Define your action trace options using Settings > action options
-1. Don't forget to purge the trace output when you no longer need it
+1. Define your trace options using Settings > oik trace options
+1. Define your action trace options using Settings > oik action options
 1. Don't forget to disable tracing when you no longer need it
+1. Don't forget to purge the trace output when you no longer need it
 
 ## Frequently Asked Questions 
+
 # Where is the FAQ? 
 [oik-bwtrace FAQ](https://www.oik-plugins.com/oik-plugins/oik-bwtrace-debug-trace-for-wordpress/?oik-tab=faq)
 
-# Can I get support? 
-Use the contact form on the oik-plugins website.
+# Where is the documentation? 
+[oik-bwtrace - debug trace for WordPress](https://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-trace-plugin/)
 
 ## Is there a tutorial? 
 See this page and short video
 [Introduction to oik-bwtrace](https://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-trace-plugin/an-introduction-to-problem-determination-with-oik-bwtrace-debug-trace-for-wordpress)
 
-## How do I trace from startup? 
+# Can I get support? 
+Use the contact form on the oik-plugins website.
 
-If we want to include bw_trace(), bw_trace2() or bw_backtrace() calls in WordPress core
-then we need to define the functions, so we include /libs/bwtrace.php.
-
-If we want trace and action count to be enabled and reset at WordPress startup then we also need to define these as TRUE
-
-Put the following in your wp-config.php file
-
-```
-define( 'BW_TRACE_CONFIG_STARTUP', true );
-define( 'BW_TRACE_ON', true );
-define( 'BW_COUNT_ON', true );
-define( 'BW_TRACE_RESET', true );
-
-if ( file_exists( ABSPATH . '/wp-content/plugins/oik-bwtrace/libs/bwtrace.php' ) ) {
-  require_once( ABSPATH . '/wp-content/plugins/oik-bwtrace/libs/bwtrace.php' );
-}
-```
-
-Don't forget to remove or comment out this code when you no longer need it.
-
+# How can I contribute? 
+https://github.com/bobbingwide/oik-bwtrace
 
 ## Screenshots 
-1. Trace options
-2. Action options - part 1
-3. Action options - part 2
-4. Raw trace output
-5. Daily summary log
+1. Trace files directory box
+2. Trace options - Requests sections
+3. Trace options - Trace records
+4. Daily Trace Summary box
+5. Action options - Options
+6. Action options - Ad hoc tracing
+7. Trace information box
+8. Raw trace output
+9. Daily Trace Summary file
 
 ## Upgrade Notice 
 # 3.0.0-RC2 
@@ -628,5 +617,7 @@ This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Further reading 
 If you want to read more about the oik plugins then please visit the
-[oik plugin](http://www.oik-plugins.com/oik)
+[oik plugin](https://www.oik-plugins.com/oik)
 **"the oik plugin - for often included key-information"**
+
+
