@@ -218,17 +218,23 @@ class BW_trace_record {
 		bw_log( null, "oik-bwtrace unable to write trace records to null trace file name. Set the Trace files directory." );
 	}
 
+	/**
+	 * Increments trace error count for trace records considered to be Errors
+	 *
+	 * @param integer $level - the trace level
+	 */
 	function set_trace_error_count( $level ) {
 		switch ( $level ) {
 			case BW_TRACE_ALWAYS:
-			case BW_TRACE_DEBUG:
 			case BW_TRACE_VERBOSE:
-				break;
-
-			case BW_TRACE_NOTICE:
-			case BW_TRACE_ERROR:
+			case BW_TRACE_DEBUG:
 			case BW_TRACE_INFO:
+			break;
+
+
+			case BW_TRACE_ERROR:
 			case BW_TRACE_WARNING:
+			case BW_TRACE_NOTICE:
 				$this->trace_error_count++;
 		}
 	}
