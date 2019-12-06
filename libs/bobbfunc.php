@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2017
+<?php // (C) Copyright Bobbing Wide 2009-2019
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.2.1" );
+define( "BOBBFUNC_INCLUDED", "3.3.8" );
 
 /**
  * HTML output library functions
@@ -1090,9 +1090,15 @@ function bw_jtorf( &$parms ) {
  * @return array $assoc_array
 */ 
 function bw_assoc( $array ) {
-  $assoc_array = array();
+	$assoc_array = array();
   foreach ( $array as $key => $value  ) {
-    $assoc_array[$value] = $value;
+  	if ( $value ) {
+  		if ( is_scalar( $value ) ) {
+		    $assoc_array[ $value ]=$value;
+	    } else {
+  			bw_trace2( $value, 'Not scalar', true, BW_TRACE_ERROR );
+	    }
+    }
   }
   return( $assoc_array );
 }    
