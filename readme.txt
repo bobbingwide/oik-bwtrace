@@ -6,7 +6,7 @@ Requires at least: 5.0
 Tested up to: 5.3.0
 Gutenberg compatible: Yes
 Requires PHP: 5.6
-Stable tag: 2.1.1
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,10 @@ Use the contact form on the oik-plugins website.
 9. Daily Trace Summary file
  
 == Upgrade Notice ==
+= 3.0.0 = 
+Major update to support tracing of browser requests, AJAX, REST and CLI to a trace files directory. 
+Tested with WordPress 5.3, PHP 7.3 and PHP 7.4.
+
 = 3.0.0-RC2 = 
 Many more issues fixed. Tested with WordPress 5.3
 
@@ -279,6 +283,13 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 3.0.0 = 
+* Changed: Reintroduced logic to only trace a specific IP,[github bobbingwide oik-bwtrace issues 17]
+* Changed: Remove test on $_REQUEST['wc-ajax'] now that trace file generation limit logic's available,[github bobbingwide oik-bwtrace issues 49]
+* Changed: Document Hook count in the Daily Trace Summary file,[github bobbingwide oik-bwtrace issues 53]
+* Changed: Don't count BW_TRACE_INFO as a Trace error,[github bobbingwide oik-bwtrace issues 73]
+* Changed: Support PHP 7.4,[github bobbingwide oik-bwtrace issues 81]
+
 = 3.0.0-RC2 =
 * Changed: Tidy up bw_trace_http_user_agent,[github bobbingwide oik-bwtrace issues 22]
 * Added: Hook count in daily trace summary and trace records,[github bobbingwide oik-bwtrace issues 53]
