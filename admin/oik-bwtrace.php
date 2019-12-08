@@ -298,10 +298,34 @@ function oik_trace_summary() {
  * @return array sanitized array.
  */
 function bw_trace_options_validate($input) {
-  bw_trace2(); 
-  $input['ip'] = trim( $input['ip']);
+	bw_trace2();
+	$input['ip']=trim( $input['ip'] );
+	bw_trace_file_name_validate( $input,'trace', 'file', '' );
+	bw_trace_file_name_validate( $input,'trace_ajax', 'file_ajax', 'AJAX' );
+	bw_trace_file_name_validate( $input,'trace_rest', 'file_rest', 'REST' );
+	bw_trace_file_name_validate( $input,'trace_cli', 'file_cli', 'batch' );
+
 	return $input;
 }
+
+function bw_trace_file_name_validate( &$array, $checkbox_field, $file_field, $type ) {
+	$filename = bw_array_get( $array, $file_field, null );
+	$filename = trim( $filename );
+	$array[ $file_field] = $filename;
+	$enabled = bw_validate_torf( $array[ $checkbox_field ] );
+	if ( $enabled ) {
+		if ( empty( $filename ) ) {
+			$message=__( sprintf( 'Enter trace file name before %s enabling trace.', $type ), 'oik-bwtrace' );
+			//$message.='&nbsp;';
+			//$message.=$trace_files_directory->get_message();
+			add_settings_error( $file_field, $file_field, $message );
+			$array[ $checkbox_field ] = '0';
+		} else {
+			// It's been validated!
+		}
+	}
+}
+
 
 /**
  * Sanitize and validate trace files options input
