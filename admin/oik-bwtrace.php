@@ -299,7 +299,7 @@ function oik_trace_summary() {
  */
 function bw_trace_options_validate($input) {
 	bw_trace2();
-	$input['ip']=trim( $input['ip'] );
+	$input['ip']=trim( bw_array_get( $input, 'ip', null ) );
 	bw_trace_file_name_validate( $input,'trace', 'file', '' );
 	bw_trace_file_name_validate( $input,'trace_ajax', 'file_ajax', 'AJAX' );
 	bw_trace_file_name_validate( $input,'trace_rest', 'file_rest', 'REST' );
