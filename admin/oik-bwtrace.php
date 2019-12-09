@@ -352,11 +352,9 @@ function bw_trace_file_name_validate( &$array, $checkbox_field, $file_field, $ty
 	$enabled = bw_validate_torf( $array[ $checkbox_field ] );
 	if ( $enabled ) {
 		if ( empty( $filename ) ) {
-			$message=__( sprintf( 'Enter trace file name before %s enabling trace.', $type ), 'oik-bwtrace' );
-			//$message.='&nbsp;';
-			//$message.=$trace_files_directory->get_message();
-			add_settings_error( $file_field, $file_field, $message );
-			$array[ $checkbox_field ] = '0';
+			$message=__( 'Trace file name set to default: bwtrace.log', 'oik-bwtrace' );
+			add_settings_error( $file_field, $file_field, $message, 'info' );
+			$array[ $file_field ] = 'bwtrace.log';
 		} else {
 			// It's been validated!
 		}
