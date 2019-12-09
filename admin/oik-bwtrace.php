@@ -308,9 +308,28 @@ function bw_trace_options_validate($input) {
 	return $input;
 }
 
+function bw_trace_validate_filename( $filename, $file_field ) {
+	$filename = trim( $filename );
+	if ( !empty( $filename ) ) {
+		$file_path = pathinfo( $filename, PATHINFO_DIRNAME );
+		if ( '.' !== $file_path ) {
+			add_settings_error( $file_field, $file_field, "Trace file name path ( $file_path ) ignored.",'info' );
+		}
+		$file_name = pathinfo( $filename, PATHINFO_FILENAME );
+		$file_extension = pathinfo( $filename, PATHINFO_EXTENSION );
+		if ( '' === $file_extension ) {
+			add_settings_error( $file_field, $file_field, 'Assuming file extension: .log', 'info' );
+			$file_extension = 'log';
+		}
+		$filename = $file_name . '.' . $file_extension;
+
+	}
+	return $filename;
+}
+
 function bw_trace_file_name_validate( &$array, $checkbox_field, $file_field, $type ) {
 	$filename = bw_array_get( $array, $file_field, null );
-	$filename = trim( $filename );
+	$filename = bw_trace_validate_filename( $filename, $file_field );
 	$array[ $file_field] = $filename;
 	$enabled = bw_validate_torf( $array[ $checkbox_field ] );
 	if ( $enabled ) {
