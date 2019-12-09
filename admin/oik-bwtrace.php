@@ -308,6 +308,21 @@ function bw_trace_options_validate($input) {
 	return $input;
 }
 
+/**
+ * Performs some basic validation of the trace file name
+ *
+ * - Path is not allowed.
+ * - Default file name is `bwtrace`
+ * - Default file extension is `.log`
+ * - Doesn't allow for really silly names with invalid characters.
+ * - If the user enters . the default name is `bwtrace.log`
+ * - Issues a settings error ( type 'info' ) if the entered value is altered.
+ *
+ * @param $filename
+ * @param $file_field
+ * @return string
+ */
+
 function bw_trace_validate_filename( $filename, $file_field ) {
 	$filename = trim( $filename );
 	if ( !empty( $filename ) ) {
@@ -316,13 +331,16 @@ function bw_trace_validate_filename( $filename, $file_field ) {
 			add_settings_error( $file_field, $file_field, "Trace file name path ( $file_path ) ignored.",'info' );
 		}
 		$file_name = pathinfo( $filename, PATHINFO_FILENAME );
+		if ( '' === $file_name ) {
+			add_settings_error( $file_field, $file_field, 'Assuming file name: bwtrace', 'info' );
+			$file_name = 'bwtrace';
+		}
 		$file_extension = pathinfo( $filename, PATHINFO_EXTENSION );
 		if ( '' === $file_extension ) {
 			add_settings_error( $file_field, $file_field, 'Assuming file extension: .log', 'info' );
 			$file_extension = 'log';
 		}
 		$filename = $file_name . '.' . $file_extension;
-
 	}
 	return $filename;
 }
