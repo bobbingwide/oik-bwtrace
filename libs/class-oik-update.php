@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2011-2017
+<?php // (C) Copyright Bobbing Wide 2011-2020
 if ( !defined( "CLASS_OIK_UPDATE_INCLUDED" ) ) {
-define( "CLASS_OIK_UPDATE_INCLUDED", "3.2.3" );
+define( "CLASS_OIK_UPDATE_INCLUDED", "3.4.0" );
 
 /**
  *
@@ -53,13 +53,15 @@ static function oik_register_theme_server( $file, $server=null, $apikey=null ) {
 }
 
 /** 
- * Only register our plugin server when needed
+ * Only register our plugin server when needed.
  * 
  * 
  */
 static function oik_lazy_altapi_init() {
 	add_action( "pre_set_site_transient_update_plugins", "oik_update::oik_altapi_check" );
 	add_action( "site_transient_update_plugins", "oik_update::oik_site_transient_update_plugins", 10, 1 );
+	add_filter( 'site_transient_update_plugins', 'oik_update::oik_site_transient_filter_symlinked_plugins' );
+	add_filter( 'site_transient_update_plugins', 'oik_update::oik_site_transient_filter_git_plugins' );
 	add_action( "plugins_api", "oik_update::oik_pluginsapi", 10, 3 );
 }
 
@@ -74,26 +76,24 @@ static function oik_lazy_alttheme_init() {
 }
 
 /**
- * Check for plugin updates
+ * Checks for plugin updates.
  *
  * @param Object $transient
  * @return Object the updated transient
  */  
 static function oik_altapi_check( $transient ) {
-	//bw_backtrace();
 	oik_require_lib( "class-oik-remote" );
 	return( oik_remote::oik_lazy_altapi_check( $transient ) );
 }
 
 
 /**
- * Check for theme updates
+ * Checks for theme updates.
  *
  * @param Object $transient
  * @return Object the updated transient
  */  
 static function oik_alttheme_check( $transient ) {
-	//bw_backtrace();
 	oik_require_lib( "class-oik-remote" );
 	return( oik_remote::oik_lazy_alttheme_check( $transient ) );
 }
@@ -115,13 +115,101 @@ static function oik_site_transient_update_plugins( $transient ) {
 		} else {     
 			//bw_backtrace();
 		}
-	}    
+	}
 	return( $transient );
-} 
+}
+
+	/**
+	 * Removes symlinked plugins from the update list.
+	 *
+	 * Note: They are only removed on the update-core page.
+	 *
+	 * @param object $transient The 'transient' for plugin updates.
+	 * @return mixed Updated transient.
+	 */
+static function oik_site_transient_filter_symlinked_plugins( $transient ) {
+	if ( oik_update::is_update_core() ) {
+		foreach ( $transient->response as $plugin_file=>$plugin_object ) {
+			if ( oik_update::is_symlinked( $plugin_file ) ) {
+				unset( $transient->response[ $plugin_file ] );
+			}
+		}
+	}
+	return $transient;
+}
+
+	/**
+	 * Checks if it's the update-core page.
+	 *
+	 * Note: This can't be done early since global $current_screen may not be set.
+	 *
+	 * @return bool
+	 */
+static function is_update_core() {
+	$is_update_core=false;
+	$current_screen=get_current_screen();
+	bw_trace2( $current_screen, "current_screen", false, BW_TRACE_VERBOSE );
+	if ( $current_screen && $current_screen->id === 'update-core' ) {
+		$is_update_core=true;
+	}
+	return $is_update_core;
+}
+	/**
+	 * Checks if a plugin is symlinked.
+	 *
+	 * @param string $plugin_file Plugin file e.g. oik/oik.php
+	 * @return bool true if the plugin is symlinked
+	 */
+static function is_symlinked( $plugin_file ) {
+	$normalized = wp_normalize_path( WP_PLUGIN_DIR );
+	$plugin_path = $normalized . '/' . $plugin_file;
+	$real_path = realpath( $plugin_path );
+	$real_path = wp_normalize_path( $real_path );
+	$symlinked = ( $real_path != $plugin_path ) ;
+	return $symlinked;
+}
+
+	/**
+	 * Removes git plugins from the update list.
+	 *
+	 * Plugins are only removed on the update-core page.
+	 *
+	 * @param object $transient The transient for plugin_updates.
+	 * @return mixed
+	 */
+static function oik_site_transient_filter_git_plugins( $transient ) {
+	if ( oik_update::is_update_core() ) {
+		foreach ( $transient->response as $plugin_file=>$plugin_object ) {
+			if ( oik_update::is_git( $plugin_file ) ) {
+				unset( $transient->response[ $plugin_file ] );
+			}
+		}
+	}
+	return $transient;
+}
+
+	/**
+	 * Determines if the plugin is a Git repository.
+	 *
+	 * @param string $plugin_file Plugin file name e.g. oik/oik.php.
+	 * @return bool true if we consider this to be a Git repo.
+	 */
+	static function is_git( $plugin_file ) {
+		$is_git = false;
+		$dot_git = dirname( WP_PLUGIN_DIR . '/' . $plugin_file );
+		$dot_git .= '/.git';
+		$dot_git = str_replace( "/", DIRECTORY_SEPARATOR, $dot_git );
+		if ( file_exists( $dot_git ) && is_dir( $dot_git ) ) {
+			$is_git = true;
+		}
+		return $is_git;
+	}
  
 /**
- * If required, unset last_checked to force another "check for updates" for themes
- * 
+ * Updates site transient for theme updates.
+ *
+ * If required, unset last_checked to force another "check for updates" for themes.
+ *
  * Note: Only use this when testing the oik theme update logic
  */
 static function oik_site_transient_update_themes( $transient ) {
