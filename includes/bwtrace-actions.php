@@ -472,10 +472,16 @@ function bw_trace_add_trace_rest() {
 }
 
 /**
- * Trace the REST result
+ * Traces the REST result.
  *
- * The server and request objects are very large so are only traced at verbose level.
- * The result can also be large. Until there's finer control this is only traced at debug level.
+ * When plugins such as WordPress SEO are activated the trace output can be huge.
+ * I have decided to disable the trace logic for the individual parameters
+ * to avoid out of memory situations, which will lead to 500 internal errors,
+ * and which may subsequently cause the block editor to fail.
+ *
+ * The previous comment was:
+ * - The server and request objects are very large so are only traced at verbose level.
+ * - The result can also be large. Until there's finer control this is only traced at debug level.
  * 
  * @param array            $result  Response data to send to the client.
  * @param WP_REST_Server   $server  Server instance.
@@ -483,9 +489,13 @@ function bw_trace_add_trace_rest() {
  */
 function bw_trace_rest_pre_echo_response( $result, $server, $request ) {
 	bw_trace_http_raw_post_data();
-	bw_trace2( $result, "result", false, BW_TRACE_DEBUG );
-	bw_trace2( $server, "server", false, BW_TRACE_DEBUG );
-	bw_trace2( $request, "request", false, BW_TRACE_DEBUG );
+	//bw_trace2( $result, "result", false, BW_TRACE_VERBOSE );
+	//bw_trace2( $server, "server", false, BW_TRACE_DEBUG );
+	//bw_trace2( $request, "request", false, BW_TRACE_VERBOSE );
+	if ( BW_TRACE_VERBOSE === bw_trace_level() ) {
+		$json_encoded=wp_json_encode( $result, JSON_UNESCAPED_SLASHES );
+		bw_trace2( $json_encoded, "json_encoded result", false, BW_TRACE_VERBOSE );
+	}
 	return $result;
 }
 
