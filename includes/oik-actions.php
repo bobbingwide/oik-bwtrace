@@ -165,6 +165,7 @@ function bw_trace_saved_queries() {
 		$queries = bw_trace_reaccumulate_execution_time( $queries );
         bw_trace_saved_queries_to_csv( $queries, "Queries by Time DESC" );
 
+        bw_trace_saved_queries_grouped_by_function( $queries );
 	}
 }
 
@@ -289,7 +290,7 @@ function bw_trace_fetch_queries_execution_time() {
     return $accumed;
 }
 
- function bw_trace_saved_queries_to_csv( $queries, $heading="Queries" ) {
+function bw_trace_saved_queries_to_csv( $queries, $heading="Queries" ) {
     global $wpdb;
     $record = PHP_EOL . "<h3>$heading</h3>" . PHP_EOL;
     $record .= "#,Time,Accum,Function,SQL" . PHP_EOL;
@@ -312,6 +313,41 @@ function bw_trace_get_last_query_function( $backtrace ) {
 	$last = trim( $last );
 	$last = str_replace( "->", "::", $last );
 	return( $last );
+}
+
+function bw_trace_saved_queries_grouped_by_function( $queries ) {
+    global $wpdb;
+    $functions = [];
+    $counts = [];
+    $count = 0;
+    foreach ( $queries as $query ) {
+        $function = $query[3];
+        if ( !isset( $functions[ $function ] ) ) {
+            $functions[ $function ] = 0;
+            $counts[ $function ] = 0;
+        }
+        $functions[$function] += $query[1];
+        $counts[ $function ] += 1;
+        $count++;
+    }
+    $functions["Total"] = $wpdb->elapsed_query_time;
+    $counts['Total'] = $count;
+    arsort( $functions);
+    //bw_trace2( $functions, "Grouped by functions", false );
+    $report = PHP_EOL;
+    $report .= "Function | Count | Elapsed" . PHP_EOL;
+    $report .= "-------- | ----- | -------" . PHP_EOL;
+    foreach ( $functions as $key => $value ) {
+        $report .= $key;
+        $report .= ' | ';
+        $report .= $counts[ $key ];
+        $report .= ' | ';
+        $report .= $value;
+        $report .= PHP_EOL;
+    }
+    //print_r( $counts );
+    //print_r( $functions );
+    bw_trace2( $report, "Grouped by function", false );
 }
 
 
