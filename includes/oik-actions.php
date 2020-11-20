@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2016,2019
+<?php // (C) Copyright Bobbing Wide 2012-2016,2019,2020
 if ( !defined( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED' ) ) {
 define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
 
@@ -150,10 +150,21 @@ function bw_trace_get_included_files() {
 function bw_trace_saved_queries() {
 	global $wpdb;
 	if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES == true ) {
-		bw_trace2( $wpdb, "saved queries", false ); 
+		bw_trace2( $wpdb, "saved queries", false );
+        /*
 		$record = PHP_EOL . "<h3>Queries</h3>" . PHP_EOL;
-		$record .= bw_trace_get_saved_queries();
+		$record .= bw_trace_get_saved_queries_bwsql();
 		bw_trace2( $record, "Queries: {$wpdb->num_queries} in {$wpdb->elapsed_query_time}", false );
+        */
+
+        // Trace to CSV format
+        $queries = bw_trace_fetch_queries_execution_time();
+        bw_trace_saved_queries_to_csv( $queries );
+        // Order by execution time, recalculate the accumulated figure and trace again
+		$queries = bw_trace_sort_queries_by_execution_time( $queries );
+		$queries = bw_trace_reaccumulate_execution_time( $queries );
+        bw_trace_saved_queries_to_csv( $queries, "Queries by Time DESC" );
+
 	}
 }
 
@@ -168,7 +179,7 @@ function bw_trace_saved_queries() {
  *
  * @return string saved queries 
  */
-function bw_trace_get_saved_queries() {
+function bw_trace_get_saved_queries_bwsql() {
 	global $wpdb;
 	$elapsed_query_time = 0;
 	$wpdb->elapsed_query_time = $elapsed_query_time;
@@ -201,6 +212,94 @@ function bw_trace_get_saved_queries() {
 	return( $record );
 }
 
+ /**
+  * Returns the query string suitable for CSV.
+  *
+  * Excel has a limit of 32,767 characters per cell.
+  *
+  * https://support.microsoft.com/en-us/office/excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3
+  *
+  * @param $query_string
+  * @return string|string[]
+  */
+function bw_trace_query_string_to_csv( $query_string ) {
+    // Limit the length of the SQL query to something sensible.
+    // Don't worry about truncating at strange places.
+    // Perform the replaces after truncating
+    // Assuming the content isn't just commas.
+    $query_string = substr( $query_string, 0, 5000);
+    $query_string = str_replace( array( ",", "\n", "\r" ) , array( "&comma; ", " " ), $query_string );
+    return $query_string;
+}
+
+ /**
+  * Returns summary array of queries execution times.
+  *
+  * Creates an array containing:
+  * - index of original query
+  * - query execution time
+  * - accumulated execution time
+  * - function invoking the query
+  * - enough of the query to be useful in the spreadsheet
+  *
+  * Calculates the $wpdb->elapsed_query_time
+  * 
+  * @return array
+  */
+function bw_trace_fetch_queries_execution_time() {
+    global $wpdb;
+    $wpdb->elapsed_query_time = 0;
+    $queries = [];
+    if (count($wpdb->queries)) {
+         $count = 0;
+         $accum = 0;
+         foreach ($wpdb->queries as $key => $query) {
+             $execution = $query[1];
+             $accum += $execution;
+             $query_string = bw_trace_query_string_to_csv( $query[0]);
+             $function =  bw_trace_get_last_query_function( $query[2] );
+             $queries[] = [ $count, $execution, $accum, $function, $query_string ];
+             $count++;
+         }
+    }
+    $wpdb->elapsed_query_time = $accum;
+    return $queries;
+ }
+
+    /**
+     * Sorts the $queries array by execution time - column 1
+     * @param $queries
+     * @return mixed
+     */
+
+
+ function bw_trace_sort_queries_by_execution_time( $queries ) {
+     $execution = array_column( $queries, 1 );
+     array_multisort( $execution, SORT_DESC, $queries );
+     return $queries;
+ }
+ function bw_trace_reaccumulate_execution_time( $queries ) {
+     $accum = 0;
+     $accumed = [];
+     foreach ( $queries as $query ) {
+         $accum += $query[1];
+         $query[2] = $accum;
+         $accumed[] = $query;
+     }
+    return $accumed;
+}
+
+ function bw_trace_saved_queries_to_csv( $queries, $heading="Queries" ) {
+    global $wpdb;
+    $record = PHP_EOL . "<h3>$heading</h3>" . PHP_EOL;
+    $record .= "#,Time,Accum,Function,SQL" . PHP_EOL;
+    foreach ( $queries as $query ) {
+        $record .= implode(',', $query);
+        $record .= PHP_EOL;
+    }
+    bw_trace2( $record, "Queries: {$wpdb->num_queries} in {$wpdb->elapsed_query_time}", false );
+
+ }
 /**
  * Find the function that performed the query
  *
@@ -597,6 +696,10 @@ function bw_trace_ok_to_echo() {
 
     if ( !$short ) {
         $short = bw_array_get( $_REQUEST, 'downloadBackup', null );
+    }
+
+    if ( !$short ) {
+    	$short = bw_array_get( $_REQUEST, '_wp-find-template');
     }
 
     if ( $short ) {
