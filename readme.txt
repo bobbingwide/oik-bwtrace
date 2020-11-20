@@ -3,10 +3,10 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 Requires at least: 5.0
-Tested up to: 5.3.0
+Tested up to: 5.6-beta4
 Gutenberg compatible: Yes
 Requires PHP: 5.6
-Stable tag: 3.0.0
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,10 @@ Use the contact form on the oik-plugins website.
 9. Daily Trace Summary file
  
 == Upgrade Notice ==
+= 3.1.0 = 
+Update for improved reporting of saved queries.
+Tested with WordPress 5.6-beta4 and PHP 7.4. 
+
 = 3.0.0 = 
 Major update to support tracing of browser requests, AJAX, REST and CLI to a trace files directory. 
 Tested with WordPress 5.3, PHP 7.3 and PHP 7.4.
@@ -283,6 +287,18 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 3.1.0 =
+* Added: Add saved queries report ordered by longest query time,[github bobbingwide oik-bwtrace issues 93]
+* Added: Add saved queries report grouped by calling function,[github bobbingwide oik-bwtrace issues 93]
+* Changed: Updated saved queries report to make it easier to load into a spreadsheet,[github bobbingwide oik-bwtrace issues 93]
+* Fixed: Trace 'shutdown' status report causes Gutenberg's Site Editor (beta) to fail,[github bobbingwide oik-bwtrace issues 92]
+* Fixed: Avoid tracing enormous objects with little value. Use wp_json_encode to see what the $result actually contains,[github bobbingwide oik-bwtrace issues 88]
+* Changed: Update shared library for plugin updates,[github bobbingwide oik-bwtrace issues 89]
+* Fixed: Trace fails if you don't complete a file name but check the Enabled checkbox,[github bobbingwide oik-bwtrace issues 85]
+* Tested: With WordPress 5.6-beta4 and WordPress Multi Site
+* Tested: With Gutenberg 9.3.0
+* Tested: With PHP 7.4
+
 = 3.0.0 = 
 * Changed: Reintroduced logic to only trace a specific IP,[github bobbingwide oik-bwtrace issues 17]
 * Changed: Remove test on $_REQUEST['wc-ajax'] now that trace file generation limit logic's available,[github bobbingwide oik-bwtrace issues 49]
