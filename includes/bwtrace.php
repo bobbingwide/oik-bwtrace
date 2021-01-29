@@ -426,6 +426,37 @@ function bw_trace_file_count() {
 	return( $filecount );
 }
 
+/**
+ *
+ * Link https://www.php.net/manual/en/function.ini-get.php
+ * @param $val
+ *
+ * @return int|string
+ */
+function bw_trace_return_bytes($val) {
+	$val = trim($val);
+	$last = strtolower($val[strlen($val)-1]);
+	$val = (int) $val;
+	switch($last) {
+		// The 'G' modifier is available since PHP 5.1.0
+		case 'g':
+			$val *= 1024;
+		case 'm':
+			$val *= 1024;
+		case 'k':
+			$val *= 1024;
+	}
+	return $val;
+}
+
+function bw_trace_memory_limit_bytes( $update=false ) {
+	static $memory_limit_bytes = null;
+	if ( null === $memory_limit_bytes || $update ) {
+		$memory_limit = ini_get( "memory_limit" );
+		$memory_limit_bytes = bw_trace_return_bytes( $memory_limit );
+	}
+	return $memory_limit_bytes;
+}
 
 /**
  * safe print_r ?
@@ -445,8 +476,33 @@ function bw_trace_print_r( $text ) {
 	}
 	if ( count( $handlers ) > 1 ) {
 		$output .= bw_trace_obsafe_print_r( $text );
-	} else {  
-		$output .= print_r( $text, TRUE) ;
+	} else {
+		// Sometimes we can run out of memory.
+		// can we check current memory limit?
+		$memusage = memory_get_usage( true );
+		$peak_before = memory_get_peak_usage( true );
+		$memory_limit = bw_trace_memory_limit_bytes();
+		if ( ( $memory_limit - $memusage ) < 50000000 ) {
+			bw_log( $memusage, $_SERVER['REQUEST_URI'] . ": Possible memory issues < 50MB free", false );
+		}
+
+		//$output .= bw_trace_obsafe_print_r( $text );
+		$print_red =null;
+		//$print_red =print_r( $text, true );
+		$print_red .= bw_trace_obsafe_print_r( $text );
+		$peak_after=memory_get_peak_usage( true );
+		//$output    .=$memusage;
+		$len = strlen( $print_red );
+		if (  $len < 2097152 ) {
+			$output.=$print_red;
+		} else {
+			$text = ": Too much data to trace: $len $memusage $peak_before $peak_after $memory_limit";
+			bw_log( $len, $_SERVER['REQUEST_URI'] . $text, false  );
+			$output.= $text;
+			$output .= substr( $print_red, 0, 2097152 );
+			//bw_backtrace();
+		}
+
 	}
 	return $output;
 }
@@ -469,6 +525,10 @@ function bw_trace_print_r( $text ) {
  * @return string print_r() like output IF $return is true 
  */
 function bw_trace_obsafe_print_r( $var, $level=0, &$visitedVars = array()) {
+
+	if ( $level > 10 ) {
+		//return( 'Max Level Reached');
+	}
 	$spaces = "";
 	$space = " ";
 	$newline = "\n";
