@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2019
+<?php // (C) Copyright Bobbing Wide 2009-2020
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.3.8" );
+define( "BOBBFUNC_INCLUDED", "3.4.1" );
 
 /**
  * HTML output library functions
@@ -1291,22 +1291,21 @@ function bw_global_post_id() {
 }
 
 /**
- * Set/return the current post ID
+ * Sets/returns the current post ID.
  * 
  * When processing nested posts we need to determine the current post_id rather than the global post id
  * So we provide a routine to set/query the current post id
  *
  * @param ID/null $id - ID to set for the current post ID, if this is reset to 0 then we revert to using the bw_global_post_id()
  * @return ID - the value of the current post, if set.
- *
  */
 function bw_current_post_id( $id=null ) {
   static $current_post_id = null;
   if ( $id !== null ) {
     $current_post_id = $id;
   }
-  if ( !$current_post_id ) { 
-    $current_post_id = bw_global_post_id();
+  if ( !$current_post_id ) {
+    return( bw_global_post_id() );
   }
   //bw_trace2( $current_post_id, "current_post_id", true );
   return( $current_post_id ); 
@@ -1522,6 +1521,32 @@ function bw_as_array( $mixed ) {
 		$mixed_array = array();
 	}      
 	return( $mixed_array );
+}
+
+/**
+ * Return the value from a list of possible parameters
+ *
+ * @param array $atts - an array of key value pairs
+ * @param mixed $from - a list e.g. ( "api,func" ) or array of key names
+ * @param string $default - the default value if not set
+ * @return string - the first value found or the default
+ */
+if ( !function_exists( 'bw_array_get_from')) {
+	function bw_array_get_from( $atts, $from, $default ) {
+		$from  =bw_as_array( $from );
+		$fc    =count( $from );
+		$f     =0;
+		$result=null;
+		while ( ( $f < $fc ) && $result === null ) {
+			$result=bw_array_get( $atts, $from[ $f ], null );
+			$f ++;
+		}
+		if ( ! $result ) {
+			$result=$default;
+		}
+
+		return ( $result );
+	}
 }
 
 } /* end !defined */

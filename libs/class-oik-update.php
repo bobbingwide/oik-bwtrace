@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2011-2020
 if ( !defined( "CLASS_OIK_UPDATE_INCLUDED" ) ) {
-define( "CLASS_OIK_UPDATE_INCLUDED", "3.4.0" );
+define( "CLASS_OIK_UPDATE_INCLUDED", "3.4.1" );
 
 /**
  *
@@ -128,7 +128,7 @@ static function oik_site_transient_update_plugins( $transient ) {
 	 * @return mixed Updated transient.
 	 */
 static function oik_site_transient_filter_symlinked_plugins( $transient ) {
-	if ( oik_update::is_update_core() ) {
+	if ( $transient && oik_update::is_update_core() ) {
 		foreach ( $transient->response as $plugin_file=>$plugin_object ) {
 			if ( oik_update::is_symlinked( $plugin_file ) ) {
 				unset( $transient->response[ $plugin_file ] );
@@ -178,7 +178,7 @@ static function is_symlinked( $plugin_file ) {
 	 * @return mixed
 	 */
 static function oik_site_transient_filter_git_plugins( $transient ) {
-	if ( oik_update::is_update_core() ) {
+	if ( $transient && oik_update::is_update_core() ) {
 		foreach ( $transient->response as $plugin_file=>$plugin_object ) {
 			if ( oik_update::is_git( $plugin_file ) ) {
 				unset( $transient->response[ $plugin_file ] );
