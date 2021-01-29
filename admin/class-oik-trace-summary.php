@@ -161,6 +161,8 @@ function bw_record_vt( $vnoisy=false ) {
 	$line .= bw_trace_http_user_agent();
 	$line .= ",";
 	$line .= bw_array_get( $_SERVER, "REQUEST_METHOD", null );
+	$line .= ',';
+	$line .= http_response_code();
 	
   $line .= PHP_EOL;
 	$file = $this->bw_trace_vt_file();
