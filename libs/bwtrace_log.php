@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2016, 2018
+<?php // (C) Copyright Bobbing Wide 2016-2021
 if ( !defined( "OIK_BWTRACE_LOG_INCLUDED" ) ) {
-	define( "OIK_BWTRACE_LOG_INCLUDED", "0.0.3" );
+	define( "OIK_BWTRACE_LOG_INCLUDED", "0.1.0" );
 	
 /**
  * Logging library functions
@@ -98,10 +98,10 @@ function oik_yourehavingmeon( $file ) {
  * 
  */ 
 function bw_lazy_log( $value=null, $text=null, $show_args=true, $level='error' ) {
-	if ( function_exists( "bw_trace_print_r" ) ) {
-		$flat_value = bw_trace_print_r( $value ); 
-	} elseif ( is_scalar( $value ) ) {
+	if ( is_scalar( $value ) ) {
 		$flat_value = $value;
+	} elseif ( function_exists( "bw_trace_print_r" ) ) {
+		$flat_value = bw_trace_print_r( $value ); 
 	} else {
 		$flat_value = "?";
 	}
@@ -114,7 +114,9 @@ function bw_lazy_log( $value=null, $text=null, $show_args=true, $level='error' )
 	$logged = error_log( "$text:$flat_value:$extra", 0 );
 	
 	if ( function_exists( "bw_lazy_trace2" ) ) {
-		bw_lazy_trace2( $value, $text, $show_args );
+		if ( $show_args ) {
+			bw_lazy_trace2( $value, $text, $show_args );
+		}
 	}
 	
 	if ( function_exists( "bw_lazy_backtrace" ) ) {	
