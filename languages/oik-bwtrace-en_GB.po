@@ -1,16 +1,16 @@
-# Copyright (C) 2019 oik bwtrace
+# Copyright (C) 2020 oik bwtrace
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 3.0.0-RC2\n"
+"Project-Id-Version: oik bwtrace 3.1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2019-12-06 12:59:20+00:00\n"
+"POT-Creation-Date: 2020-12-15 20:36:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: en_GB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 #: admin/class-oik-trace-info.php:25
@@ -322,7 +322,11 @@ msgstr "Use the [bwtrace] shortcode in a widget to provide an instant trace rese
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr "Activate the oik base plugin to enable the [bwtrace] shortcode"
 
-#: admin/oik-bwtrace.php:366
+#: admin/oik-bwtrace.php:355
+msgid "Trace file name set to default: bwtrace.log"
+msgstr "Trace file name set to default: bwtrace.log"
+
+#: admin/oik-bwtrace.php:425
 msgid "Invalid Trace files directory."
 msgstr "Invalid Trace files directory."
 
@@ -402,23 +406,18 @@ msgstr "Display a link to trace options."
 msgid "Trace options"
 msgstr "Trace options"
 
-#. Plugin Name of the plugin/theme
 msgid "oik bwtrace"
 msgstr "oik bwtrace"
 
-#. Plugin URI of the plugin/theme
 msgid "https://www.oik-plugins.com/oik-plugins/oik-bwtrace"
 msgstr "https://www.oik-plugins.com/oik-plugins/oik-bwtrace"
 
-#. Description of the plugin/theme
 msgid "Debug trace for WordPress, including action and filter tracing"
 msgstr "Debug trace for WordPress, including action and filter tracing"
 
-#. Author of the plugin/theme
 msgid "bobbingwide"
 msgstr "bobbingwide"
 
-#. Author URI of the plugin/theme
 msgid "https://www.bobbingwide.com/about-bobbing-wide"
 msgstr "https://www.bobbingwide.com/about-bobbing-wide"
 

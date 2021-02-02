@@ -1,14 +1,14 @@
-# Copyright (C) 2019 oik bwtrace
+# Copyright (C) 2020 oik bwtrace
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 3.0.0-RC2\n"
+"Project-Id-Version: oik bwtrace 3.1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2019-12-06 12:59:20+00:00\n"
+"POT-Creation-Date: 2020-12-15 20:36:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -321,7 +321,11 @@ msgstr ""
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr ""
 
-#: admin/oik-bwtrace.php:366
+#: admin/oik-bwtrace.php:355
+msgid "Trace file name set to default: bwtrace.log"
+msgstr ""
+
+#: admin/oik-bwtrace.php:425
 msgid "Invalid Trace files directory."
 msgstr ""
 
