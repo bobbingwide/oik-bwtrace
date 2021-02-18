@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2018
+<?php // (C) Copyright Bobbing Wide 2011-2021
 if ( !defined( 'OIK_BWTRACE_INCLUDES_INCLUDED' ) )  {
 define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  
@@ -847,7 +847,7 @@ function bw_trace_errors( $level ) {
  */
  
 if ( !function_exists( 'bw_array_get' ) ) { 
-  function bw_array_get( $array = NULL, $index, $default=NULL ) {   
+  function bw_array_get( $array, $index, $default=NULL ) {
     if ( isset( $array ) ) {
       if ( is_array( $array ) ) {
         if ( isset( $array[$index] ) || array_key_exists( $index, $array ) ) {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) Copyright Bobbing Wide 2018
+ * @copyright (C) Copyright Bobbing Wide 2018, 2021
  * @package oik-bwtrace
  */
  
@@ -225,13 +225,13 @@ class trace_command extends WP_CLI_Command {
 	}
 	
 	/**
-	 * Sets an option value
+	 * Sets an option value.
 	 * 
 	 * @param string $key - option name
-	 * @param string $default - default value
 	 * @param bool $use_suffix -  true when the suffix is required
+	 * @param string $default - default value
 	 */
-	private function set_option( $key, $use_suffix=false, $value ) {
+	private function set_option( $key, $use_suffix=false, $value=null ) {
 		$index = $key;
 		if ( $use_suffix ) {
 			$index .= $this->suffix;

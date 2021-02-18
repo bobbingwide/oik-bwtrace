@@ -1,6 +1,6 @@
-<?php // (C) Copyright BobbingWide 2016
+<?php // (C) Copyright BobbingWide 2016-2021
 if ( !defined( "CLASS_BOBBCOMP_INCLUDED" ) ) {
-define( "CLASS_BOBBCOMP_INCLUDED", "3.1.0" );
+define( "CLASS_BOBBCOMP_INCLUDED", "3.1.1" );
 
 /**
  * HTML output library functions
@@ -63,7 +63,7 @@ class bobbcomp {
 	 * @param mixed $default - parameter to the $callback function 
 	 * @param string $callback - function name to invoke - defaults to invoking __()
 	 */
-	static function bw_array_get_dcb( $array = array(), $index, $default = NULL, $callback='__', $text_domain="oik" ) {
+	static function bw_array_get_dcb( $array, $index, $default = NULL, $callback='__', $text_domain="oik" ) {
 		$value = bw_array_get( $array, $index, $default );
 		if ( $value === $default ) {
 			if ( is_callable( $callback ) ) {

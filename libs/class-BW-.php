@@ -1,6 +1,6 @@
-<?php // (C) Copyright BobbingWide 2017
+<?php // (C) Copyright BobbingWide 2017-2021
 if ( !defined( "CLASS_BW__INCLUDED" ) ) {
-define( "CLASS_BW__INCLUDED", "3.2.0" );
+define( "CLASS_BW__INCLUDED", "3.2.1" );
 
 /**
  * More HTML output library functions
@@ -44,14 +44,14 @@ class BW_ {
 	 * 
 	 * _alink() and alink() both map to BW_::alink()
 	 *
-	 * @param string $class optional CSS class(es)
+	 * @param string|null $class optional CSS class(es)
 	 * @param string $url URL
 	 * @param string $linktori translated link text or image 
 	 * @param string $alt translated alternate text	or null
 	 * @param string $id optional CSS id
 	 * @param string $extra additional HTML
 	 */
-	static function alink( $class=null, $url, $linktori=null, $alt=null, $id=null, $extra=null ) {
+	static function alink( $class, $url, $linktori=null, $alt=null, $id=null, $extra=null ) {
 		$link = retlink( $class, $url, $linktori, $alt, $id, $extra );
 		e( $link );
 	}

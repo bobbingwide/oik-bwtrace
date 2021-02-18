@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2020
+<?php // (C) Copyright Bobbing Wide 2009-2021
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.4.1" );
+define( "BOBBFUNC_INCLUDED", "3.4.2" );
 
 /**
  * HTML output library functions
@@ -209,7 +209,7 @@ function aname( $name, $text=null ) {
 /**
  * Create a translatable link
  */
-function _alink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL ) {
+function _alink( $class, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL ) {
   $linktoril10n = bw_translate( $linktori );
   if ( is_null( $alt ) || $linktori == $alt ) {
     $altl10n = $linktoril10n;
@@ -223,7 +223,7 @@ function _alink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=
 /**
  * Create a link
  * 
- * @param string $class - the classes for the anchor tag
+ * @param string|null $class - the classes for the anchor tag
  * @param string $url - the fully formed URL e.g. http://www.oik-plugins.com
  * @param string $linktori - is the text or image
  * @param string $alt - text for title= attribute. a11y recommendations are to leave this null
@@ -233,7 +233,7 @@ function _alink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=
  * @uses retlink()
  * 
 */   
-function alink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL ) {
+function alink( $class, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL ) {
   $link = retlink( $class, $url, $linktori, $alt, $id, $extra );
   e( $link ); 
 }
@@ -243,7 +243,7 @@ function alink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=N
  *
  * Parameters as for `alink()`
  *
- * @param string $class - the classes for the anchor tag
+ * @param string|null $class - the classes for the anchor tag
  * @param string $url - the fully formed URL e.g. https://www.oik-plugins.com
  * @param string $linktori - is the text or image
  * @param string $alt - text for title= attribute. a11y recommendations are to leave this null
@@ -252,7 +252,7 @@ function alink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=N
  * @return string the link
  * 
  */
-function retlink( $class=NULL, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL  ) {
+function retlink( $class, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL  ) {
   if ( is_null( $linktori ) )	{
     $linktori = $url;
 	}

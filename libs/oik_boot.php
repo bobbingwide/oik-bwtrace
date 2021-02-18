@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2012-2018
+<?php // (C) Copyright Bobbing Wide 2012-2021
 if ( !defined( 'OIK_BOOT_INCLUDED' ) ) {
-define( 'OIK_BOOT_INCLUDED', "3.2.5" );
+define( 'OIK_BOOT_INCLUDED', "3.2.6" );
 define( 'OIK_BOOT_FILE', __FILE__ );
 /**
  * Library: oik_boot
@@ -83,7 +83,7 @@ if( !function_exists( "oik_require2" )) {
  * Note: this code does not allow for files to be renamed during relocation
  * This code does REQUIRE the file to exist somewhere! 
  */
-	function oik_require2( $include_file="bobbfunc.inc", $to_plugin, $from_plugin="oik" ) {
+	function oik_require2( $include_file="bobbfunc.inc", $to_plugin="oik", $from_plugin="oik" ) {
 		$new_path = oik_path( $include_file, $to_plugin );
 		if ( file_exists( $new_path ) ) {
 			require_once( $new_path );
@@ -122,7 +122,7 @@ if ( !function_exists( "oik_init" ) ) {
  *
  */
 if ( !function_exists( 'bw_array_get' ) ) {
-	function bw_array_get( $array = NULL, $index, $default=NULL ) { 
+	function bw_array_get( $array, $index, $default=NULL ) {
 		//  sometimes we get passed an empty array as the index to the array - what should we do in this case **?** Herb 2013/10/24
 		if ( is_array( $index ) ) {
 			bw_backtrace( BW_TRACE_WARNING );
