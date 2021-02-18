@@ -3,10 +3,10 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 Requires at least: 5.0
-Tested up to: 5.6-beta4
+Tested up to: 5.6
 Gutenberg compatible: Yes
 Requires PHP: 5.6
-Stable tag: 3.1.0
+Stable tag: 3.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,9 @@ The output for action tracing can include trace records showing:
 * Information about deprecated logic
 * Information related to Errors, Warnings and Notices
 
+New in v3.2.0
+* Daily trace summary records contains the http response code
+
 New in v3.0.0
  
 * All trace files are written within a user defined Trace files directory.
@@ -151,6 +154,9 @@ Use the contact form on the oik-plugins website.
 9. Daily Trace Summary file
  
 == Upgrade Notice ==
+= 3.2.0 = 
+Update for http response code in the daily trace summary records.
+
 = 3.1.0 = 
 Update for improved reporting of saved queries.
 Tested with WordPress 5.6-beta4 and PHP 7.4. 
@@ -287,6 +293,16 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 3.2.0 = 
+* Added: Add http_response_code output to daily trace summary record,[github bobbingwide oik-bwtrace issues 96]
+* Changed: Set trace admin block width to 100%
+* Changed: Updated some shared library files
+* Fixed: Attempt to avoid out of memory tracing large objects,[github bobbingwide oik-bwtrace issues 97]
+* Fixed: In bw_lazy_log() check if the $value is scalar first; avoid calling bw_trace_print_r(),[github bobbingwide oik-bwtrace issues 97]
+* Tested: With WordPress 5.6 and WordPress Multi Site 
+* Tested: With Gutenberg 9.8.2
+* Tested: With PHP 7.4
+
 = 3.1.0 =
 * Added: Add saved queries report ordered by longest query time,[github bobbingwide oik-bwtrace issues 93]
 * Added: Add saved queries report grouped by calling function,[github bobbingwide oik-bwtrace issues 93]
