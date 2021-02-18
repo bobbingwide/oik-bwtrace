@@ -1,16 +1,16 @@
-# Copyright (C) 2020 oik bwtrace
+# Copyright (C) 2021 oik bwtrace
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 3.1.0\n"
+"Project-Id-Version: oik bwtrace 3.2.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2020-12-15 20:36:11+00:00\n"
+"POT-Creation-Date: 2021-02-18 18:21:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: bb_BB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 #: admin/class-oik-trace-info.php:25
@@ -330,27 +330,27 @@ msgstr "Tarce flie nmae sEt tO dfeualt: btwarce.lOg"
 msgid "Invalid Trace files directory."
 msgstr "Ivnlaid Tarce flies driceotry."
 
-#: includes/bwtrace.php:1020
+#: includes/bwtrace.php:1080
 msgid "Debug level"
 msgstr "Dbeug lveel"
 
-#: includes/bwtrace.php:1021
+#: includes/bwtrace.php:1081
 msgid "Information level - standard"
 msgstr "Ifnroamiton lveel - satdnrad"
 
-#: includes/bwtrace.php:1022
+#: includes/bwtrace.php:1082
 msgid "Notice level"
 msgstr "Ntocie lveel"
 
-#: includes/bwtrace.php:1023
+#: includes/bwtrace.php:1083
 msgid "Warning level"
 msgstr "Wrainng lveel"
 
-#: includes/bwtrace.php:1024
+#: includes/bwtrace.php:1084
 msgid "Error level"
 msgstr "Error lveel"
 
-#: includes/bwtrace.php:1025
+#: includes/bwtrace.php:1085
 msgid "Verbose level - noisier than Debug"
 msgstr "Vreobse lveel - nioiser tahn Dbeug"
 
@@ -382,7 +382,7 @@ msgstr "Pruigng Old dialy smuamry tarce flies"
 msgid "Trace reset"
 msgstr "Tarce rseet"
 
-#: libs/bobbforms.php:510
+#: libs/bobbforms.php:509
 msgid "None"
 msgstr "Nnoe"
 

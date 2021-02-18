@@ -23,15 +23,22 @@ class Tests_issue_74 extends BW_UnitTestCase {
 
 	/**
 	 * We don't really need to know what print_r returns
-	 * just that when there are no handlers we use it
+	 * just that when there are no handlers we use it.
+	 * ... Well, that used to be the case.
+	 * Now, from version 3.2.0 we use bw_trace_obsafe_print_r() for everything.
 	 */
 	function test_bw_trace_print_r_no_handlers() {
 		$tests = array( "test" );
 		$output = bw_trace_print_r( "test");
 		$this->assertEquals( "test", $output );
 		$output = bw_trace_print_r( $tests );
-		$print_r = print_r( $tests, true );
-		$this->assertEquals( $print_r, $output );
+		//echo $output;
+		//$print_r = print_r( $tests, true );
+		//echo $print_r;
+		$expected = "Array\n\n    [0] => (string) \"test\"\n";
+		//echo $expected;
+
+		$this->assertEquals( $expected, $output );
 	}
 
 	/**

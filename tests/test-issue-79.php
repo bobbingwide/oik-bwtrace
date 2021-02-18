@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @copyright Bobbing Wide 2019
+ * @copyright Bobbing Wide 2019-2021
  * @package oik-bwtrace
  *
- * Tests for Issue 79
+ * Tests for Issue 79, 81 and 98 - different versions of PHP's EOL
  */
 class Tests_issue_79 extends BW_UnitTestCase {
 
@@ -15,8 +15,7 @@ class Tests_issue_79 extends BW_UnitTestCase {
 
 	/**
 	 * Need to check that PHP end-of-life is returned for PHP 7.3
-	 * If this fails we're not running PHP 7.3
-	 * That'll do for now.
+	 *
 	 */
 	function test_php_end_of_life() {
 		$phpversion = explode( '.', phpversion() );
@@ -26,6 +25,10 @@ class Tests_issue_79 extends BW_UnitTestCase {
 				break;
 			case '4':
 				$expected = 'End of life for your version of PHP is: 2022-11-28';
+				break;
+
+			case '0':
+				$expected = 'End of life for your version of PHP is: 2023-11-26';
 				break;
 
 			default:
