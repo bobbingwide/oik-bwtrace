@@ -4,10 +4,10 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 * Requires at least: 5.0
-* Tested up to: 5.6
+* Tested up to: 5.7
 * Gutenberg compatible: Yes
 * Requires PHP: 5.6
-* Stable tag: 3.2.0
+* Stable tag: 3.2.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,9 @@ https://github.com/bobbingwide/oik-bwtrace
 9. Daily Trace Summary file
 
 ## Upgrade Notice 
+# 3.2.1 
+Tested with PHP 8.0
+
 # 3.2.0 
 Update for http response code in the daily trace summary records.
 
@@ -294,6 +297,17 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+
+# 3.2.1 
+* Changed: Set EOL date for PHP 8.0 to 2023/11/26,https://github.com/bobbingwide/oik-bwtrace/issues/98
+* Changed: Support PHP 8.0,https://github.com/bobbingwide/oik-bwtrace/issues/98
+* Changed: Update language files
+* Fixed: Avoid deprecated messages from PHP 8.0,https://github.com/bobbingwide/oik-bwtrace/issues/98
+* Fixed: Don't call attempt_reset when there's no trace file selector instance,https://github.com/bobbingwide/oik-bwtrace/issues/99
+* Tested: With PHP 8.0
+* Tested: With PHPUnit 9
+* Tested: With WordPress 5.7 and WordPress Multi Site
+
 # 3.2.0 
 * Added: Add http_response_code output to daily trace summary record,https://github.com/bobbingwide/oik-bwtrace/issues/96
 * Changed: Set trace admin block width to 100%
