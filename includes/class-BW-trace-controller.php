@@ -482,17 +482,22 @@ class BW_trace_controller {
 		return $bw_trace_error_count;
 	}
 
+	/**
+	 * Purges the trace file if no trace errors encountered.
+	 *
+	 * If the trace error count is zero then we purge the trace
+	 * file if there is one to purge.
+	 */
 	public function purge_trace_file_if_no_errors() {
 		$bw_trace_error_count = $this->get_trace_error_count();
-
 		if ( $bw_trace_error_count ) {
 			bw_trace2( $bw_trace_error_count, 'Not purging the trace file' );
 		} else {
-			//echo "Purging the trace file";
 			bw_trace2( $this->trace_file_selector );
-			$this->trace_file_selector->attempt_reset();
+			if ( $this->trace_file_selector ) {
+				$this->trace_file_selector->attempt_reset();
+			}
 		}
-
 	}
 
 	/**
