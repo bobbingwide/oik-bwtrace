@@ -738,6 +738,10 @@ function bw_trace_ok_to_echo() {
     	$short = bw_array_get( $_REQUEST, '_wp-find-template');
     }
 
+    if ( !$short ) {
+        $short = bw_array_get( $_REQUEST, 'vfb-content');
+    }
+
     if ( $short ) {
       $ok = false;
     } else {
