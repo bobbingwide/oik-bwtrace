@@ -690,9 +690,10 @@ function bw_trace_get_hook_type( $hook ) {
  * * the request is an async|upload 
  * * the request is an async-upload of a new file ( $_REQUEST contains "short" )
  * * the request is a SiteGround cache check
- * * and other situations we don't yet know about
  * * the request was implemented as a REST API !
  * * the request is WordPress Health Check wp-admin/?health-check-test-wp_version_check=1
+ * * the request is an export from Visual-Form-Builder ( VFB )
+ * * ... and other situations we don't yet know about
  */
 function bw_trace_ok_to_echo() {
 	$ok = true;
