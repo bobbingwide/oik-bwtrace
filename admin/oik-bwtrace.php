@@ -368,9 +368,10 @@ function bw_trace_file_name_validate( &$array, $checkbox_field, $file_field, $ty
  * @param array $input array of trace files options fields
  */
 function bw_trace_files_options_validate( $input ) {
-  bw_trace2(); 
+    bw_trace2();
+    $input['trace_directory']=trim( bw_array_get( $input, 'trace_directory', null ) );
 	$valid = bw_trace_validate_directory( $input, 'trace_directory' );
-	return $input;
+   	return $input;
 }
 
 /** 
@@ -397,7 +398,7 @@ function bw_action_options_validate( $input ) {
  * @return array validated input
  */ 
 function bw_summary_options_validate( $input ) {
-  bw_trace2( $input ); 
+  bw_trace2( $input );
   return $input;
 }
 
@@ -427,7 +428,7 @@ function bw_trace_validate_directory( $array, $key ) {
 			$message .= $trace_files_directory->get_message();
 			add_settings_error( $key, $key, $message );
 		}	else {
-			// It's been validated! 
+			// It's been validated!
 		}
 		
 	}
