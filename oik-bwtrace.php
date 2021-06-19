@@ -217,7 +217,9 @@ function oik_bwtrace_admin_menu() {
  * Adds the trace shortcode
  */
 function oik_bwtrace_add_shortcodes() {
-	bw_add_shortcode( 'bwtrace', 'bw_trace_button', oik_path( 'shortcodes/oik-trace.php', 'oik-bwtrace' ), false );
+	if ( function_exists( "bw_add_shortcode") ) {
+		bw_add_shortcode( 'bwtrace', 'bw_trace_button', oik_path( 'shortcodes/oik-trace.php', 'oik-bwtrace' ), false );
+	}
 }
 
 function oik_bwtrace_wp_cli() {
