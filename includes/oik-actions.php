@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2016,2019,2020
+<?php // (C) Copyright Bobbing Wide 2012-2016,2019,2020,2021
 if ( !defined( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED' ) ) {
 define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
 
@@ -741,6 +741,10 @@ function bw_trace_ok_to_echo() {
 
     if ( !$short ) {
         $short = bw_array_get( $_REQUEST, 'vfb-content');
+    }
+
+    if ( !$short ) {
+        $short = bw_array_get( $_REQUEST, 'customize_changeset_uuid');
     }
 
     if ( $short ) {
