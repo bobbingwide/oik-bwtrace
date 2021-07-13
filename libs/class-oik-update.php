@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2011-2020
+<?php // (C) Copyright Bobbing Wide 2011-2021
 if ( !defined( "CLASS_OIK_UPDATE_INCLUDED" ) ) {
-define( "CLASS_OIK_UPDATE_INCLUDED", "3.4.1" );
+define( "CLASS_OIK_UPDATE_INCLUDED", "3.4.2" );
 
 /**
  *
@@ -142,13 +142,17 @@ static function oik_site_transient_filter_symlinked_plugins( $transient ) {
 	 * Checks if it's the update-core page.
 	 *
 	 * Note: This can't be done early since global $current_screen may not be set.
+     * Worse than that, the get_current_screen() function may not be available.
 	 *
 	 * @return bool
 	 */
 static function is_update_core() {
-	$is_update_core=false;
-	$current_screen=get_current_screen();
-	bw_trace2( $current_screen, "current_screen", false, BW_TRACE_VERBOSE );
+    $is_update_core=false;
+	$current_screen = null;
+	if ( function_exists( "get_current_screen" )) {
+        $current_screen = get_current_screen();
+        bw_trace2($current_screen, "current_screen", false, BW_TRACE_VERBOSE);
+    }
 	if ( $current_screen && $current_screen->id === 'update-core' ) {
 		$is_update_core=true;
 	}
