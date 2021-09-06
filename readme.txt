@@ -3,10 +3,10 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 Requires at least: 5.0
-Tested up to: 5.7
+Tested up to: 5.8
 Gutenberg compatible: Yes
 Requires PHP: 5.6
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -154,6 +154,9 @@ Use the contact form on the oik-plugins website.
 9. Daily Trace Summary file
  
 == Upgrade Notice ==
+= 3.2.2 =
+Tested with WordPress 5.8
+
 = 3.2.1 = 
 Tested with PHP 8.0
 
@@ -296,6 +299,15 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 3.2.2 =
+* Fixed: Check get_current_screen is available before calling it,[github bobbingwide oik-bwtrace issues 104]
+* Fixed: Check bw_add_shortcode exists before calling it, [github bobbingwide oik-bwtrace issues 103]
+* Fixed: Don't write trace summary report for customizer; when request contains customize_changeset_uuid,[github bobbingwide oik-bwtrace issues 102]
+* Fixed: Trim trace_directory before storing.,[github bobbingwide oik-bwtrace issue 101]
+* Fixed: Don't write trace summary report when exporting from Visual-Form-Builder (VFB),[github bobbingwide oik-bwtrace issues 100]
+* Tested: With PHP 8.0
+* Tested: With PHPUnit 9
+* Tested: With WordPress 5.8 and WordPress Multi Site
 
 = 3.2.1 = 
 * Changed: Set EOL date for PHP 8.0 to 2023/11/26,[github bobbingwide oik-bwtrace issues 98]
