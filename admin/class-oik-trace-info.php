@@ -220,13 +220,14 @@ class OIK_trace_info {
 											, "5.3" => "2014-08-14"
 											, "5.4" => "2015-09-03"
 											, "5.5" => "2016-07-21"
-											, "5.6" => "2018-12-31"// This is the minimum supported by WordPress
+											, "5.6" => "2018-12-31" // Minimum for legacy
 											, "7.0" => "2018-12-03"
 											, "7.1" => "2019-12-01"
 											, "7.2" => "2020-11-30"
 											, '7.3' => '2021-12-06'
-											, '7.4' => '2022-11-28' // This is recommended
+											, '7.4' => '2022-11-28' // Recommended
 											, '8.0' => '2023-11-26'
+											, '8.1' => '2024-11-25'
 											); 
 			$eol = $php_eol[ PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ]; 
 			if ( $eol < date( "Y-m-d" ) ) {
@@ -235,7 +236,7 @@ class OIK_trace_info {
 				$message = "End of life for your version of PHP is: $eol";
 			}	
 		} else {
-			$message = "You're out of support by over 9 years!";
+			$message = "You're out of support by over 10 years!";
 		}
 		return( $message ); 
 	}
