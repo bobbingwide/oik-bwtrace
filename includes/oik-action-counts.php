@@ -103,9 +103,11 @@ function bw_trace_wp_early( $WP_Environment_Instance ) {
 function bw_trace_count_all( $tag, $args2=null ) {
   global $bw_action_counts; 
 	global $bw_action_parms;
+	global $bw_action_time;
   if ( !isset( $bw_action_counts[ $tag ] ) ) {
-    $bw_action_counts[ $tag ] = 1;
+        $bw_action_counts[ $tag ] = 1;
 		$bw_action_parms[ $tag ] = func_num_args() - 1;
+		$bw_action_time[ $tag ] = microtime( true );
   } else {
     $bw_action_counts[ $tag ] += 1; 
   }
@@ -137,7 +139,8 @@ function bw_trace_count_all( $tag, $args2=null ) {
  * 4. bw_action_counts sorted by name.
  * 5. Count of the number of unique hooks invoked
  * 6. Count of the total number of action/filter hooks invoked.
- * 7. First view of the counts taking into account nested actions and filters  
+ * 7. First view of the counts taking into account nested actions and filters
+ * 8. Action timings timing of $wp_actions that have implementing functions.
  */
 function bw_trace_count_report() {
   global $wp_actions;
@@ -166,6 +169,8 @@ function bw_trace_count_report() {
 	//bw_trace( $bw_action_counts_tree, __FUNCTION__, __LINE__, __FILE__, "action counts tree" );
 	
   bw_trace_create_hook_links( $bw_action_counts_tree, "bw_action_counts_tree" );
+
+  bw_trace_action_timings( $wp_actions, "Action timings");
  
 }
 
@@ -201,6 +206,9 @@ function bw_trace_get_hook_num_args( $hook ) {
  */
 function bw_trace_create_hook_links( $action_counts, $heading, $implemented=false ) {
 	$hook_links = "<h3>$heading</h3>";
+	$hook_links .= PHP_EOL;
+	$hook_links .= '<!-- [hook $hook $type $num_args $count $attached] -->';
+    $hook_links .= PHP_EOL;
 	$hook_links .= bw_trace_get_hook_links( $action_counts, $implemented );
 	bw_trace2( $hook_links, "hook_links", false ); 
 }
@@ -266,7 +274,95 @@ function bw_trace_get_hook_links( $action_counts, $implemented=false ) {
 	}
 	//$hook_links .= "[/bw_csv]";
 	return( $hook_links );
-}	
+}
+
+function bw_trace_action_timings( $action_counts, $heading ) {
+    bw_trace_get_hook_start_time();
+    $hook_links = "<h3>$heading</h3>";
+    $hook_links .= PHP_EOL;
+    $hook_links .= 'hook,total,elapsed';
+    $hook_links .= PHP_EOL;
+    if ( count( $action_counts ) ) {
+        foreach ( $action_counts as $hook => $count ) {
+            $hooks = explode( ";", $hook );
+            $end_hook = end( $hooks );
+            $attached = bw_trace_get_attached_hook_count( $end_hook );
+            if ( !$attached ) {
+            	$attached = bw_trace_is_timing_point_hook( $end_hook );
+            }
+            if ( $attached ) {
+                $hook_links .= bw_trace_get_hook_start_time($end_hook);
+                $hook_links .= PHP_EOL;
+            }
+        }
+    }
+    bw_trace2( $hook_links, "action timings", false );
+}
+
+/**
+ * Checks if the hook is a timing point hook.
+ *
+ * @param string $hook hook name
+ * @return bool true if this is a timing point hook. false otherwise
+ */
+function bw_trace_is_timing_point_hook( $hook ) {
+	static $timing_point_hooks = null;
+	if ( null === $timing_point_hooks ) {
+		$timing_point_hooks = bw_trace_get_timing_point_hooks();
+	}
+	$found = bw_array_get( $timing_point_hooks, $hook, false );
+	if ( false !== $found ) {
+		$found = true;
+	}
+	return $found;
+}
+
+/**
+ * Returns associative array of timing point hooks.
+ *
+ * @return array Hooks that'll be used for timing points even if not implemented.
+ */
+function bw_trace_get_timing_point_hooks() {
+ $timing_point_hooks = bw_assoc( bw_as_array( 'the_post' ));
+ return $timing_point_hooks;
+}
+/**
+ * Returns the time that the hook was invoked
+ *
+ * $microtime is the current time stored as a floating point number
+ * we need to subtract the request start time to show the elapsed time.
+ *
+ * And we can determine the elapsed time from the previous request
+ * if we save that figure as well.
+ *
+ * @param $end_hook
+ * @return mixed
+ */
+
+function bw_trace_get_hook_start_time( $end_hook=null ) {
+    global $bw_action_time;
+    static $previous = 0;
+    static $total = 0;
+    if ( null === $end_hook) {
+        $previous = reset( $bw_action_time );
+        $microtime = $previous;
+        $total = 0;
+    } else {
+        $microtime = $bw_action_time[$end_hook];
+    }
+    $elapsed = $microtime - $previous;
+    $total += $elapsed;
+
+    $previous = $microtime;
+
+    $formatted = $end_hook;
+    $formatted .= ',';
+    $formatted .= number_format( $total, 6);
+    $formatted .= ',';
+    $formatted .= number_format( $elapsed, 6 );
+
+    return $formatted;
+}
 
 /**
  * Implement "plugins_loaded" for oik-bwtrace
