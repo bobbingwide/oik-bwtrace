@@ -59,13 +59,18 @@ function bw_trace_add_action( $action, $option, $file, $function, $count=1 ) {
 function bw_trace_add_selected_actions() {
 	bw_trace_add_action( "wp", "trace_wp_action", "includes/oik-actions.php", "bw_trace_wp" );
 	bw_trace_add_action( "wp", "trace_wp_rewrite", "includes/oik-actions.php", "bw_trace_wp_rewrite" );
+	//bw_trace_add_action( 'shutdown', 'trace_plugin_loaded', 'includes/oik-actions.php', 'bw_trace_plugin_loaded_report' );
+	bw_trace_add_action( 'shutdown','trace_status_report', 'includes/oik-actions.php', 'bw_trace_plugin_loaded_report' );
 	bw_trace_add_action( "shutdown", "trace_included_files", "includes/oik-actions.php", "bw_trace_included_files" );
 	bw_trace_add_action( "shutdown", "trace_saved_queries", "includes/oik-actions.php", "bw_trace_saved_queries" );
 	bw_trace_add_action( "shutdown", "trace_output_buffer", "includes/oik-actions.php", "bw_trace_output_buffer" );
 	bw_trace_add_action( "shutdown", "trace_functions", "includes/oik-actions.php", "bw_trace_functions_traced" );
 	bw_trace_add_action( "shutdown", "trace_status_report", "includes/oik-actions.php", "bw_trace_status_report" );
 	bw_trace_add_action( 'shutdown', 'trace_purge_if_no_errors', 'includes/oik-actions.php', 'bw_trace_purge_if_no_errors' );
-	
+
+
+
+
 	/** 
 	 * @TODO - Add option to trace all attached hooks at shutdown. 
 	 * This logic is/was being used to investigate which hooks are attached when Gutenberg is running.
@@ -112,6 +117,7 @@ function bw_trace_add_selected_actions() {
 	//bw_trace_add_trace_anychange();
 	bw_trace_add_trace_rest();
 	bw_trace_http_raw_post_data();
+	bw_trace_plugins_loaded();
 }
 
 /**
@@ -470,6 +476,35 @@ function bw_trace_add_trace_anychange() {
 function bw_trace_add_trace_rest() {
 	add_filter( "rest_pre_echo_response", "bw_trace_rest_pre_echo_response", 9999, 3 );
 }
+
+function bw_trace_plugins_loaded() {
+	global $bw_trace_plugins_loaded;
+	global $bw_trace_plugins_loaded_unkeyed;
+	$bw_trace_plugins_loaded = [ 'REQUEST_TIME_FLOAT' =>$_SERVER['REQUEST_TIME_FLOAT'], 'WP_START_TIMESTAMP' => WP_START_TIMESTAMP ];
+	$bw_trace_plugins_loaded_unkeyed = [];
+	$bw_trace_plugins_loaded_unkeyed = ['REQUEST_TIME_FLOAT', $_SERVER['REQUEST_TIME_FLOAT'] ];
+	$bw_trace_plugins_loaded_unkeyed = [ 'WP_START_TIMESTAMP', WP_START_TIMESTAMP ];
+	add_action( "plugin_loaded", 'bw_trace_time_plugin_loaded',-9999);
+	add_action( 'mu_plugin_loaded', 'bw_trace_time_plugin_loaded',-9999);
+	add_action( 'network_plugin_loaded', 'bw_trace_time_plugin_loaded',-9999);
+
+	add_action( 'plugins_loaded', 'bw_trace_time_plugin_loaded',-9999);
+	// This hook caters for network activated plugins as well.
+	add_action( 'muplugins_loaded', 'bw_trace_time_plugin_loaded',-9999);
+}
+
+function  bw_trace_time_plugin_loaded( $plugin=null ) {
+	global $bw_trace_plugins_loaded;
+	global $bw_trace_plugins_loaded_unkeyed;
+	if ( '' === $plugin ) {
+		$plugin = bw_current_filter();
+	}
+	$microtime = microtime( true );
+	$bw_trace_plugins_loaded[ $plugin ] = $microtime;
+	$bw_trace_plugins_loaded_unkeyed[] = [ $plugin, $microtime ];
+}
+
+
 
 /**
  * Traces the REST result.

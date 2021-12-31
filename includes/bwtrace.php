@@ -154,7 +154,7 @@ function bw_trace_elapsed( ) {
 	if ( $bw_include_trace_date ) {
 		static $timer_start, $timer_latest;
 		if ( !isset( $timer_start ) ) {
-			$timer_start = microtime( true );
+			$timer_start = $_SERVER['REQUEST_TIME_FLOAT'];//microtime( true );
 			$timer_latest = $timer_start;
 		} 
 		$timer_end = microtime( true );

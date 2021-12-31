@@ -363,6 +363,36 @@ function bw_trace_functions_traced() {
 }
 
 /**
+ * Reports the time to load each plugin.
+ *
+ * This output also includes values for REQUEST_TIME_FLOAT, WP_START_TIMESTAMP
+ * muplugins_loaded and plugins_loaded.
+ */
+function bw_trace_plugin_loaded_report() {
+	global $bw_trace_plugins_loaded;
+	global $bw_trace_plugins_loaded_unkeyed;
+	global $bw_trace_anonymous;
+	$saved_anon = $bw_trace_anonymous;
+	$bw_trace_anonymous = true;
+	bw_trace2( $bw_trace_plugins_loaded, 'bw_trace_plugins_loaded', false);
+	bw_trace2( $bw_trace_plugins_loaded_unkeyed, 'bw_trace_plugins_loaded_unkeyed', false);
+	$prev = $_SERVER['REQUEST_TIME_FLOAT'];
+	$accum = 0;
+	$output = "Plugin,Load time (msecs),$accum\n";
+	foreach ( $bw_trace_plugins_loaded as $plugin => $time ) {
+		$plugin = bw_trace_file_part( $plugin );
+		$elapsed = $time - $prev;
+		$accum += $elapsed;
+		$elapsed6 = number_format( $elapsed, 6 );
+		$accum6 = number_format( $accum, 6 );
+		$output .= "$plugin,$elapsed6,$accum6\n";
+		$prev = $time;
+	}
+	$bw_trace_anonymous = $saved_anon;
+	bw_trace2( $output, "Plugin load times", false );
+}
+
+/**
  * Trace the results and echo a comment?
  *
  * @param string $value

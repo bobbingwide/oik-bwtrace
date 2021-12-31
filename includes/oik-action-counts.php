@@ -72,7 +72,7 @@ function bw_lazy_trace_count() {
 	bw_trace2( "Initialising action counts", null, false, BW_TRACE_VERBOSE );
 	oik_require( "includes/oik-actions.php", "oik-bwtrace" );
 	add_action( "all", "bw_trace_count_all", 10, 2 );
-	add_action( "shutdown", "bw_trace_count_report" ); 
+	add_action( "shutdown", "bw_trace_count_report", 99 );
 }
 
 /**
@@ -276,11 +276,24 @@ function bw_trace_get_hook_links( $action_counts, $implemented=false ) {
 	return( $hook_links );
 }
 
+/**
+ * Reports relevant Action timings.
+ *
+ * Reports the first time that an action is invoked.
+ * - Ignores actions which do not have implementing hooks
+ * -
+ *
+ * @param $action_counts
+ * @param $heading
+ */
 function bw_trace_action_timings( $action_counts, $heading ) {
+	//bw_trace2();
+	global $bw_action_time;
+	//bw_trace2( $bw_action_time, 'bw_action_time', false );
     bw_trace_get_hook_start_time();
     $hook_links = "<h3>$heading</h3>";
     $hook_links .= PHP_EOL;
-    $hook_links .= 'hook,total,elapsed';
+    $hook_links .= 'hook,total,elapsed,time';
     $hook_links .= PHP_EOL;
     if ( count( $action_counts ) ) {
         foreach ( $action_counts as $hook => $count ) {
@@ -321,6 +334,7 @@ function bw_trace_is_timing_point_hook( $hook ) {
  * Returns associative array of timing point hooks.
  *
  * @return array Hooks that'll be used for timing points even if not implemented.
+ *
  */
 function bw_trace_get_timing_point_hooks() {
  $timing_point_hooks = bw_assoc( bw_as_array( 'the_post' ));
@@ -344,11 +358,16 @@ function bw_trace_get_hook_start_time( $end_hook=null ) {
     static $previous = 0;
     static $total = 0;
     if ( null === $end_hook) {
-        $previous = reset( $bw_action_time );
+        reset( $bw_action_time );
+        $previous = $_SERVER['REQUEST_TIME_FLOAT'];
         $microtime = $previous;
         $total = 0;
     } else {
-        $microtime = $bw_action_time[$end_hook];
+    	if ( isset( $bw_action_time[ $end_hook ])) {
+		    $microtime=$bw_action_time[ $end_hook ];
+	    } else {
+    		$microtime = $previous;
+	    }
     }
     $elapsed = $microtime - $previous;
     $total += $elapsed;
@@ -356,10 +375,13 @@ function bw_trace_get_hook_start_time( $end_hook=null ) {
     $previous = $microtime;
 
     $formatted = $end_hook;
-    $formatted .= ',';
-    $formatted .= number_format( $total, 6);
+
     $formatted .= ',';
     $formatted .= number_format( $elapsed, 6 );
+    $formatted .= ',';
+	$formatted .= number_format( $total, 6);
+    //$formatted .= ',';
+    //$formatted .= $microtime;
 
     return $formatted;
 }
