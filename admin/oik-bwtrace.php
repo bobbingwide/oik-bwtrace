@@ -107,8 +107,9 @@ function oik_action_options() {
   settings_fields('bw_action_options_options'); 
   
   bw_checkbox_arr( "bw_action_options", __( "Count action hooks and filters", "oik-bwtrace" ), $options, 'count' );
+  bw_checkbox_arr( 'bw_action_options', __( 'Time plugin loading', 'oik-bwtrace'), $options, 'trace_plugin_load' );
   bw_checkbox_arr( "bw_action_options", __( "Trace deprecated messages", "oik-bwtrace" ), $options, 'trace_deprecated' );
-	bw_checkbox_arr( "bw_action_options", __( "Trace Error, Warning and Notice messages", "oik-bwtrace" ), $options, 'trace_errors' );
+  bw_checkbox_arr( "bw_action_options", __( "Trace Error, Warning and Notice messages", "oik-bwtrace" ), $options, 'trace_errors' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'wp' action", "oik-bwtrace" ), $options, 'trace_wp_action' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'wp' global wp_rewrite ", "oik-bwtrace" ), $options, 'trace_wp_rewrite' );
   bw_checkbox_arr( 'bw_action_options', __( 'Purge trace file if no errors', 'oik-btrace'), $options, 'trace_purge_if_no_errors' );
