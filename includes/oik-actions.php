@@ -370,12 +370,12 @@ function bw_trace_functions_traced() {
  */
 function bw_trace_plugin_loaded_report() {
 	global $bw_trace_plugins_loaded;
-	global $bw_trace_plugins_loaded_unkeyed;
+	//global $bw_trace_plugins_loaded_unkeyed;
 	global $bw_trace_anonymous;
 	$saved_anon = $bw_trace_anonymous;
 	$bw_trace_anonymous = true;
 	bw_trace2( $bw_trace_plugins_loaded, 'bw_trace_plugins_loaded', false);
-	bw_trace2( $bw_trace_plugins_loaded_unkeyed, 'bw_trace_plugins_loaded_unkeyed', false);
+	//bw_trace2( $bw_trace_plugins_loaded_unkeyed, 'bw_trace_plugins_loaded_unkeyed', false);
 	$prev = $_SERVER['REQUEST_TIME_FLOAT'];
 	$accum = 0;
 	$output = "Plugin,Load time (msecs),$accum\n";
