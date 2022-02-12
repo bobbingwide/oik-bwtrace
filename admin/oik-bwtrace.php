@@ -125,6 +125,8 @@ function oik_action_options() {
 	BW_::bw_textarea_arr( "bw_action_options", __( "Trace attached hook functions", "oik-bwtrace" ), $options, "hook_funcs", 80 );
 	BW_::bw_textarea_arr( "bw_action_options", __( "Hooks to debug backtrace", "oik-bwtrace" ), $options, "backtrace", 80 );
 	BW_::bw_textarea_arr( "bw_action_options", __( "'String watch' for this string", "oik-bwtrace" ), $options, "stringwatch", 80 );
+	BW_::bw_textarea_arr( "bw_action_options", __( 'Action timing points', 'oik-bwtrace'), $options, 'action_timing', 80 );
+
   etag( "table" ); 			
   BW_::p( isubmit( "ok", __( "Save changes", "oik-bwtrace" ), null, "button-primary" ) );
   etag( "form" );

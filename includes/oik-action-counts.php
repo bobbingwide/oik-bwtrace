@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2014-2016
+<?php // (C) Copyright Bobbing Wide 2014-2016,2021
 
 /**
  * Activate / deactivate _oik-bwtrace-mu processing
@@ -337,8 +337,10 @@ function bw_trace_is_timing_point_hook( $hook ) {
  *
  */
 function bw_trace_get_timing_point_hooks() {
- $timing_point_hooks = bw_assoc( bw_as_array( 'the_post' ));
- return $timing_point_hooks;
+	global $bw_action_options;
+	$action_timing = bw_array_get( $bw_action_options, "action_timing", [] );
+    $timing_point_hooks = bw_assoc( bw_as_array( $action_timing ));
+    return $timing_point_hooks;
 }
 /**
  * Returns the time that the hook was invoked
@@ -346,8 +348,7 @@ function bw_trace_get_timing_point_hooks() {
  * $microtime is the current time stored as a floating point number
  * we need to subtract the request start time to show the elapsed time.
  *
- * And we can determine the elapsed time from the previous request
- * if we save that figure as well.
+ * And we can determine the elapsed time from the previous request if we save that figure as well.
  *
  * @param $end_hook
  * @return mixed
@@ -370,6 +371,14 @@ function bw_trace_get_hook_start_time( $end_hook=null ) {
 	    }
     }
     $elapsed = $microtime - $previous;
+	/**
+	 * If the event appears to have happened earlier than the previous event then ignore this, but still produce the output.
+	 * This can happen if the action was run before timing logic kicked in.
+	 * eg when __oik-lib-mu is loaded before __oik-bwtrace-mu.
+	 */
+    if ( $elapsed < 0 ) {
+    	$elapsed = 0;
+    }
     $total += $elapsed;
 
     $previous = $microtime;

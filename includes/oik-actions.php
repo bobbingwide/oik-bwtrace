@@ -251,9 +251,10 @@ function bw_trace_fetch_queries_execution_time() {
     global $wpdb;
     $wpdb->elapsed_query_time = 0;
     $queries = [];
+    $accum = 0;
     if (count($wpdb->queries)) {
          $count = 0;
-         $accum = 0;
+
          foreach ($wpdb->queries as $key => $query) {
              $execution = $query[1];
              $accum += $execution;
@@ -374,7 +375,7 @@ function bw_trace_plugin_loaded_report() {
 	global $bw_trace_anonymous;
 	$saved_anon = $bw_trace_anonymous;
 	$bw_trace_anonymous = true;
-	bw_trace2( $bw_trace_plugins_loaded, 'bw_trace_plugins_loaded', false);
+	//bw_trace2( $bw_trace_plugins_loaded, 'bw_trace_plugins_loaded', false);
 	//bw_trace2( $bw_trace_plugins_loaded_unkeyed, 'bw_trace_plugins_loaded_unkeyed', false);
 	$prev = $_SERVER['REQUEST_TIME_FLOAT'];
 	$accum = 0;
