@@ -4,10 +4,10 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 * Requires at least: 5.0
-* Tested up to: 5.8
+* Tested up to: 5.9
 * Gutenberg compatible: Yes
 * Requires PHP: 5.6
-* Stable tag: 3.2.2
+* Stable tag: 3.3.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,9 @@ https://github.com/bobbingwide/oik-bwtrace
 9. Daily Trace Summary file
 
 ## Upgrade Notice 
+# 3.3.0 
+Update for Action timing points
+
 # 3.2.2 
 Tested with WordPress 5.8
 
@@ -300,6 +303,11 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 ## Changelog 
+# 3.3.0 
+* Added: Action timing points #87
+* Tested: With WordPress 5.9 and WordPress Multi Site
+
+
 # 3.2.2 
 * Fixed: Check get_current_screen is available before calling it,https://github.com/bobbingwide/oik-bwtrace/issues/104
 * Fixed: Check bw_add_shortcode exists before calling it, https://github.com/bobbingwide/oik-bwtrace/issues/103
