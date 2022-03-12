@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2016,2019,2020,2021
+<?php // (C) Copyright Bobbing Wide 2012-2016,2019,2020,2021,2022
 if ( !defined( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED' ) ) {
 define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
 
@@ -379,7 +379,7 @@ function bw_trace_plugin_loaded_report() {
 	//bw_trace2( $bw_trace_plugins_loaded_unkeyed, 'bw_trace_plugins_loaded_unkeyed', false);
 	$prev = $_SERVER['REQUEST_TIME_FLOAT'];
 	$accum = 0;
-	$output = "Plugin,Load time (msecs),$accum\n";
+	$output = "Plugin,Load time (secs),Accum\n";
 	foreach ( $bw_trace_plugins_loaded as $plugin => $time ) {
 		$plugin = bw_trace_file_part( $plugin );
 		$elapsed = $time - $prev;
