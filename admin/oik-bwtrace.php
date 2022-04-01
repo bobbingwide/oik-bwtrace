@@ -486,3 +486,22 @@ function bw_this_plugin_first( $plugin, $network_wide ) {
 }
 
 
+function bw_trace_options_sync() {
+    //bw_trace2();
+    add_action( 'update_option_bw_trace_files_options', 'bw_trace_update_option_sync', 10, 3 );
+    add_action( 'update_option_bw_trace_options', 'bw_trace_update_option_sync', 10, 3 );
+    add_action( 'update_option_bw_action_options', 'bw_trace_update_option_sync', 10, 3 );
+    add_action( 'update_option_bw_summary_options', 'bw_trace_update_option_sync', 10, 3 );
+}
+
+/**
+ * Synchronises oik-bwtrace options to .json files.
+ *
+ * We should only do this if the MU plugins folder exists and we want to do performance tracing.
+ *
+ */
+function bw_trace_update_option_sync( $old_value, $new_value, $option ) {
+    bw_trace2();
+    global $bw_trace;
+    $bw_trace->trace_json_options->maybe_trace_sync_to_json( $old_value, $new_value, $option );
+}

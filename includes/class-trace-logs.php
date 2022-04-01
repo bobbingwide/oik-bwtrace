@@ -118,8 +118,10 @@ class trace_logs {
 		
 		BW_::bw_textfield_arr( "bw_trace_files_options", __( "Trace files directory", "oik-bwtrace" ), $options, 'trace_directory', 60 );
 		BW_::bw_textfield_arr( "bw_trace_files_options", __( "Retention period ( days )", "oik-bwtrace" ), $options, 'retain', 4 );
-	
-		etag( "table" ); 			
+        bw_checkbox_arr( "bw_trace_files_options", __( "Enable performance trace", "oik-bwtrace" ), $options, 'performance_trace' );
+
+
+        etag( "table" );
 		BW_::p( isubmit( "ok", __( "Save changes", 'oik-bwtrace' ), null, "button-primary" ) );
 		etag( "form" );
 		bw_flush();

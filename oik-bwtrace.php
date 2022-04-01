@@ -146,17 +146,20 @@ function oik_bwtrace_plugins_loaded() {
 		bw_trace2( "Unable to activate oik-bwtrace admin" );
 	}
 	
-	
+	// Do we know if $is_admin ?
 	add_action( 'admin_init', 'bw_trace_options_init' );
 	add_action( 'admin_init', 'bw_action_options_init' );
 	add_action( 'admin_init', 'bw_summary_options_init' );
+    add_action( 'admin_init', 'bw_trace_options_sync' );
 	
 	/*
 	 * Load admin logic if is_admin() 
 	 */
 	if ( $is_admin ) {   
 		oik_require( "admin/oik-bwtrace.php", "oik-bwtrace" );
-	}
+
+
+    }
 	
   add_action( "oik_admin_menu", "oik_bwtrace_admin_menu" );
 	

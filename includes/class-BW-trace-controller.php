@@ -39,12 +39,15 @@ class BW_trace_controller {
 	public $trace_level;    // integer 
 	public $request_type;  	// null | 'cli' | 'ajax' | 'rest' 
 	
-	public $trace_files_options; // array 
+	public $trace_files_options; // array
+
+    public $trace_json_options; // Instance of the trace_json_options class
 	
 	/**
 	 * Constructor for tracing
 	 */
 	function __construct() {
+	    $this->trace_json_options = null;
 		$this->trace_file_selector = null;
 		$this->BW_trace_record = null;
 
@@ -53,6 +56,7 @@ class BW_trace_controller {
 		$this->trace_files_options = null;
 		$this->trace_on = false;
 		$this->trace_level = null;
+		$this->load_trace_json_options();
 		$this->load_trace_options();
 		$this->load_trace_files_directory();
 		if ( $this->trace_files_directory ) {
@@ -71,7 +75,15 @@ class BW_trace_controller {
 			
 		}	
 	}
-	
+
+    /**
+     * Loads trace JSON options class.
+     */
+    function load_trace_json_options() {
+        oik_require( "includes/class-trace-json-options.php", "oik-bwtrace" );
+        $trace_json_options = new trace_json_options();
+        $this->trace_json_options = $trace_json_options;
+    }
 	/**
 	 * Loads trace options
 	 * 
