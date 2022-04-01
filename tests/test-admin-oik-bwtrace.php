@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2017, 2018, 2019
+<?php // (C) Copyright Bobbing Wide 2017, 2018, 2019, 2022
 
 /**
  * @package oik-bwtrace 

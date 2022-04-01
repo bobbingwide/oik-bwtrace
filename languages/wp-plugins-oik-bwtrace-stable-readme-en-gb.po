@@ -1,0 +1,1597 @@
+# Translation of Plugins - oik-bwtrace - Stable Readme (latest release) in English (UK)
+# This file is distributed under the same license as the Plugins - oik-bwtrace - Stable Readme (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-09-17 12:42+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 3.0\n"
+"Language: en_GB\n"
+"Project-Id-Version: Plugins - oik-bwtrace - Stable Readme (latest release)\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+
+#. Found in description paragraph.
+msgid "Features:"
+msgstr "Features:"
+
+#. Found in description header.
+msgid "Further reading"
+msgstr "Further reading"
+
+#. Plugin name.
+msgid "oik-bwtrace"
+msgstr "oik-bwtrace"
+
+#. Screenshot description.
+msgid "Raw trace output"
+msgstr "Raw trace output"
+
+#. Found in description list item.
+msgid "The primary purpose of debug trace is to help in the development of PHP code: plugins or themes."
+msgstr "The primary purpose of debug trace is to help in the development of PHP code: plugins or themes."
+
+#. Found in description list item.
+msgid "The primary purpose of action trace is to help you understand the sequence of events in the server."
+msgstr "The primary purpose of action trace is to help you understand the sequence of events in the server."
+
+#. Found in description list item.
+msgid "The primary purpose of ad hoc tracing is to let you see what's happening without changing any code."
+msgstr "The primary purpose of ad hoc tracing is to let you see what's happening without changing any code."
+
+#. Found in description list item.
+msgid "This plugin provides the admin interface to trace functions and methods and action and filter tracing."
+msgstr "This plugin provides the admin interface to trace functions and methods and action and filter tracing."
+
+#. Found in description list item.
+msgid "Traces ALL server functionality, including AJAX, REST and other background requests"
+msgstr "Traces ALL server functionality, including AJAX, REST and other background requests"
+
+#. Found in description list item.
+msgid "Ability to choose the IP address to trace, defaults to ALL requests"
+msgstr "Ability to choose the IP address to trace, defaults to ALL requests"
+
+#. Found in description list item.
+msgid "Traces AJAX transactions separately, if required "
+msgstr "Traces AJAX transactions separately, if required "
+
+#. Found in description list item.
+msgid "Supports ad hoc tracing of user defined hooks"
+msgstr "Supports ad hoc tracing of user defined hooks"
+
+#. Found in description list item.
+msgid "Action trace counts help you understand the sequence of actions and filters"
+msgstr "Action trace counts help you understand the sequence of actions and filters"
+
+#. Found in description list item.
+msgid "Provides contextual information"
+msgstr "Provides contextual information"
+
+#. Found in description list item.
+msgid "Minimum performance overhead when tracing is not enabled"
+msgstr "Minimum performance overhead when tracing is not enabled"
+
+#. Found in description list item.
+msgid "Tracing can be enabled programmatically"
+msgstr "Tracing can be enabled programmatically"
+
+#. Found in description list item.
+msgid "Traces and backtraces PHP Error, Warning and Notice messages"
+msgstr "Traces and backtraces PHP Error, Warning and Notice messages"
+
+#. Found in description list item.
+msgid "Backtraces deprecated logic messages"
+msgstr "Backtraces deprecated logic messages"
+
+#. Found in description list item.
+msgid "Does not require WP_DEBUG to be defined"
+msgstr "Does not require WP_DEBUG to be defined"
+
+#. Found in description list item.
+msgid "Dynamically activates trace functions"
+msgstr "Dynamically activates trace functions"
+
+#. Found in description list item.
+msgid "Implemented as lazy just-in-time code"
+msgstr "Implemented as lazy just-in-time code"
+
+#. Found in description list item.
+msgid "Can be used during regression testing"
+msgstr "Can be used during regression testing"
+
+#. Found in description list item.
+msgid "Can be activated in wp-config.php and db.php to trace code before WordPress is fully loaded"
+msgstr "Can be activated in wp-config.php and db.php to trace code before WordPress is fully loaded"
+
+#. Found in description list item.
+msgid "Plugin does not need to be activated if started programmatically or from wp-config.php"
+msgstr "Plugin does not need to be activated if started programmatically or from wp-config.php"
+
+#. Found in description list item.
+msgid "Integrated with oik-lib shared library management"
+msgstr "Integrated with oik-lib shared library management"
+
+#. Found in description list item.
+msgid "API supports multiple trace levels"
+msgstr "API supports multiple trace levels"
+
+#. Found in description list item.
+msgid "trace parameters"
+msgstr "trace parameters"
+
+#. Found in description list item.
+msgid "trace results"
+msgstr "trace results"
+
+#. Found in description list item.
+msgid "trace registered functions"
+msgstr "trace registered functions"
+
+#. Found in description list item.
+msgid "trace the global post"
+msgstr "trace the global post"
+
+#. Found in description list item.
+msgid "set the priority for the trace hook"
+msgstr "set the priority for the trace hook"
+
+#. Found in description list item.
+msgid "debug backtrace hook invocation"
+msgstr "debug backtrace hook invocation"
+
+#. Found in description list item.
+msgid "Fully qualified source file name"
+msgstr "Fully qualified source file name"
+
+#. Found in description list item.
+msgid "Time stamp"
+msgstr "Time stamp"
+
+#. Found in description list item.
+msgid "Current filter information"
+msgstr "Current filter information"
+
+#. Found in description list item.
+msgid "Number of database queries that have been performed."
+msgstr "Number of database queries that have been performed."
+
+#. Found in description list item.
+msgid "Current post ID"
+msgstr "Current post ID"
+
+#. Found in description list item.
+msgid "Current and peak memory usage (in bytes)"
+msgstr "Current and peak memory usage (in bytes)"
+
+#. Found in description list item.
+msgid "Files loaded count"
+msgstr "Files loaded count"
+
+#. Found in description list item.
+msgid "Contextual information"
+msgstr "Contextual information"
+
+#. Found in description list item.
+msgid "Count of action hooks and filters"
+msgstr "Count of action hooks and filters"
+
+#. Found in description list item.
+msgid "Invocation of the 'wp' actions"
+msgstr "Invocation of the 'wp' actions"
+
+#. Found in description list item.
+msgid "Contents of the global wp_rewrite for the 'wp' action"
+msgstr "Contents of the global wp_rewrite for the 'wp' action"
+
+#. Found in description list item.
+msgid "Summary reports at 'shutdown'"
+msgstr "Summary reports at 'shutdown'"
+
+#. Found in description list item.
+msgid "Information about deprecated logic"
+msgstr "Information about deprecated logic"
+
+#. Found in description list item.
+msgid "Information related to Errors, Warnings and Notices"
+msgstr "Information related to Errors, Warnings and Notices"
+
+#. Found in description list item.
+msgid "<a href=\"https://www.oik-plugins.com/oik_api/bw_trace2\">bw_trace2()</a>"
+msgstr "<a href=\"https://www.oik-plugins.com/oik_api/bw_trace2\">bw_trace2()</a>"
+
+#. Found in description list item.
+msgid "<a href=\"https://www.oik-plugins.com/oik_api/bw_backtrace\">bw_backtrace()</a>"
+msgstr "<a href=\"https://www.oik-plugins.com/oik_api/bw_backtrace\">bw_backtrace()</a>"
+
+#. Found in description paragraph.
+msgid "Debug trace for WordPress, including ad hoc action hook and filter tracing."
+msgstr "Debug trace for WordPress, including ad hoc action hook and filter tracing."
+
+#. Found in description paragraph.
+msgid "Ad hoc tracing allows you to:"
+msgstr "Ad hoc tracing allows you to:"
+
+#. Found in description paragraph.
+msgid "The trace record output can include:"
+msgstr "The trace record output can include:"
+
+#. Found in description paragraph.
+msgid "The output for action tracing can include trace records showing:"
+msgstr "The output for action tracing can include trace records showing:"
+
+#. Found in description paragraph.
+msgid "New in v3.0.0"
+msgstr "New in v3.0.0"
+
+#. Found in description paragraph.
+msgid "See also:"
+msgstr "See also:"
+
+#. Found in installation list item.
+msgid "Upload the contents of the oik-bwtrace plugin to the `/wp-content/plugins/oik-bwtrace' directory"
+msgstr "Upload the contents of the oik-bwtrace plugin to the `/wp-content/plugins/oik-bwtrace' directory"
+
+#. Found in installation list item.
+msgid "Activate the oik-bwtrace plugin through the 'Plugins' menu in WordPress"
+msgstr "Activate the oik-bwtrace plugin through the 'Plugins' menu in WordPress"
+
+#. Found in installation list item.
+msgid "Define your trace options using Settings &gt; oik trace options"
+msgstr "Define your trace options using Settings &gt; oik trace options"
+
+#. Found in installation list item.
+msgid "Define your action trace options using Settings &gt; oik action options"
+msgstr "Define your action trace options using Settings &gt; oik action options"
+
+#. Found in installation list item.
+msgid "Don't forget to disable tracing when you no longer need it"
+msgstr "Don't forget to disable tracing when you no longer need it"
+
+#. Found in changelog list item.
+msgid "Fixed: Issue github issue 15 - Handle WP_Error from oik_require_lib() in bw_trace_query_plugins"
+msgstr "Fixed: Issue github issue 15 - Handle WP_Error from oik_require_lib() in bw_trace_query_plugins"
+
+#. Found in changelog list item.
+msgid "Tested: Tested with WordPress 4.4 and WordPress MultiSite"
+msgstr "Tested: Tested with WordPress 4.4 and WordPress MultiSite"
+
+#. Found in changelog list item.
+msgid "Added: Ad hoc debug backtracing of selected hooks ( github issue 14 )"
+msgstr "Added: Ad hoc debug backtracing of selected hooks ( github issue 14 )"
+
+#. Found in changelog list item.
+msgid "Changed: No longer calls oik_register_plugin_server() ( github issue 13 )"
+msgstr "Changed: No longer calls oik_register_plugin_server() ( github issue 13 )"
+
+#. Found in changelog list item.
+msgid "Changed: Updated readme to better reflect ad hoc tracing"
+msgstr "Changed: Updated readme to better reflect ad hoc tracing"
+
+#. Found in changelog list item.
+msgid "Added: Trace AJAX transactions to a separate file, if defined"
+msgstr "Added: Trace AJAX transactions to a separate file, if defined"
+
+#. Found in changelog list item.
+msgid "Added: Control tracing of AJAX transactions"
+msgstr "Added: Control tracing of AJAX transactions"
+
+#. Found in changelog list item.
+msgid "Changed: Improve setting of ABSPATH for Windows"
+msgstr "Changed: Improve setting of ABSPATH for Windows"
+
+#. Found in changelog list item.
+msgid "Changed: Removed unused constants"
+msgstr "Changed: Removed unused constants"
+
+#. Found in changelog list item.
+msgid "Changed: Support trace level parameter on bw_trace()"
+msgstr "Changed: Support trace level parameter on bw_trace()"
+
+#. Found in changelog list item.
+msgid "Changed: Improve output from bw_trace_included_files()"
+msgstr "Changed: Improve output from bw_trace_included_files()"
+
+#. Found in changelog list item.
+msgid "Changed: Cater for failure to fopen() in bw_write() - store results for later"
+msgstr "Changed: Cater for failure to fopen() in bw_write() - store results for later"
+
+#. Found in changelog list item.
+msgid "Changed: Delete some previously commented out code"
+msgstr "Changed: Delete some previously commented out code"
+
+#. Found in changelog list item.
+msgid "Changed: bw_trace_the_post() trace level should be ALWAYS"
+msgstr "Changed: bw_trace_the_post() trace level should be ALWAYS"
+
+#. Found in changelog list item.
+msgid "Fixed: Issue #10 - Ad hoc tracing should allow selection of the hook priority"
+msgstr "Fixed: Issue #10 - Ad hoc tracing should allow selection of the hook priority"
+
+#. Found in changelog list item.
+msgid "Fixed: Issue #11 - Re-enable the logic for the Trace enabled checkbox"
+msgstr "Fixed: Issue #11 - Re-enable the logic for the Trace enabled checkbox"
+
+#. Found in changelog list item.
+msgid "Added: Ad hoc tracing of filter functions for selected hooks ( Issue #3 )"
+msgstr "Added: Ad hoc tracing of filter functions for selected hooks ( Issue #3 )"
+
+#. Found in changelog list item.
+msgid "Added: Ad hoc tracing of parameters to selected hooks ( Issue #2 )"
+msgstr "Added: Ad hoc tracing of parameters to selected hooks ( Issue #2 )"
+
+#. Found in changelog list item.
+msgid "Added: Ad hoc tracing of the global post object on selected hooks ( Issue #2 )"
+msgstr "Added: Ad hoc tracing of the global post object on selected hooks ( Issue #2 )"
+
+#. Found in changelog list item.
+msgid "Added: Ad hoc tracing of filter results ( Issue #6 )"
+msgstr "Added: Ad hoc tracing of filter results ( Issue #6 )"
+
+#. Found in changelog list item.
+msgid "Added: Ad hoc tracing should allow selection of the hook priority ( Issue #10 )"
+msgstr "Added: Ad hoc tracing should allow selection of the hook priority ( Issue #10 )"
+
+#. Found in changelog list item.
+msgid "Added: BW_TRACE_VERBOSE ( 64 ) level, which is even more detailed than BW_TRACE_DEBUG ( 32 )"
+msgstr "Added: BW_TRACE_VERBOSE ( 64 ) level, which is even more detailed than BW_TRACE_DEBUG ( 32 )"
+
+#. Found in changelog list item.
+msgid "Changed: Enhanced output from Count action hooks and filters ( Issue #7 )"
+msgstr "Changed: Enhanced output from Count action hooks and filters ( Issue #7 )"
+
+#. Found in changelog list item.
+msgid "Changed: Functions traced should allow OO methods invoking trace ( Issue #8 )"
+msgstr "Changed: Functions traced should allow OO methods invoking trace ( Issue #8 )"
+
+#. Found in changelog list item.
+msgid "Fixed: Ensure BW_TRACE_level constants are defined ( Issue #4 )"
+msgstr "Fixed: Ensure BW_TRACE_level constants are defined ( Issue #4 )"
+
+#. Found in changelog list item.
+msgid "Fixed: Fix for problem with symlinked file's drive letters ( similar to TRAC #33265 )"
+msgstr "Fixed: Fix for problem with symlinked file's drive letters ( similar to TRAC #33265 )"
+
+#. Found in changelog list item.
+msgid "Fixed: Only trace $errcontext when tracing with BW_TRACE_VERBOSE ( Issue #5 )"
+msgstr "Fixed: Only trace $errcontext when tracing with BW_TRACE_VERBOSE ( Issue #5 )"
+
+#. Found in changelog list item.
+msgid "Fixed: Strings containing commas in the trace summary file should be wrapped in quotes ( Issue #9 )"
+msgstr "Fixed: Strings containing commas in the trace summary file should be wrapped in quotes ( Issue #9 )"
+
+#. Found in changelog list item.
+msgid "Added: $level parameter (default BW_TRACE_ALWAYS) to the bw_trace2() and bw_backtrace() APIs"
+msgstr "Added: $level parameter (default BW_TRACE_ALWAYS) to the bw_trace2() and bw_backtrace() APIs"
+
+#. Found in changelog list item.
+msgid "Added: Select box to choose the level of tracing "
+msgstr "Added: Select box to choose the level of tracing "
+
+#. Found in changelog list item.
+msgid "Changed: Some bw_trace2() and bw_backtrace() calls to make use of the level capability "
+msgstr "Changed: Some bw_trace2() and bw_backtrace() calls to make use of the level capability "
+
+#. Found in changelog list item.
+msgid "Fixed: Problem when BW_COUNT_ON defined in wp-config.php"
+msgstr "Fixed: Problem when BW_COUNT_ON defined in wp-config.php"
+
+#. Found in changelog list item.
+msgid "Changed: Now detects when output buffering is in place and uses an alternative function to print_r()"
+msgstr "Changed: Now detects when output buffering is in place and uses an alternative function to print_r()"
+
+#. Found in changelog list item.
+msgid "Added: bw_trace_error_handler() logic for Error, Warning and Notice type messages"
+msgstr "Added: bw_trace_error_handler() logic for Error, Warning and Notice type messages"
+
+#. Found in changelog list item.
+msgid "Added: Add logic for each deprecated action or filter"
+msgstr "Added: Add logic for each deprecated action or filter"
+
+#. Found in changelog list item.
+msgid "Changed: Anonymize path in output from bw_trace_included_files()"
+msgstr "Changed: Anonymize path in output from bw_trace_included_files()"
+
+#. Found in changelog list item.
+msgid "Changed: Updated bw_trace_count_report()"
+msgstr "Changed: Updated bw_trace_count_report()"
+
+#. Found in changelog list item.
+msgid "Changed: Now supports deprecated filters and actions"
+msgstr "Changed: Now supports deprecated filters and actions"
+
+#. Found in changelog list item.
+msgid "Changed: Enabled using \"Trace deprecated messages\" checkbox"
+msgstr "Changed: Enabled using \"Trace deprecated messages\" checkbox"
+
+#. Found in changelog list item.
+msgid "Changed: libs/bwtrace.php now at 2.0.1"
+msgstr "Changed: libs/bwtrace.php now at 2.0.1"
+
+#. Found in changelog list item.
+msgid "Changed: libs/oik-lib.php now at 0.0.2"
+msgstr "Changed: libs/oik-lib.php now at 0.0.2"
+
+#. Found in changelog list item.
+msgid "Changed: libs/oik_boot.php now at 3.0.0"
+msgstr "Changed: libs/oik_boot.php now at 3.0.0"
+
+#. Found in changelog list item.
+msgid "Changed: libs/bobbfunc.php now at 3.0.0"
+msgstr "Changed: libs/bobbfunc.php now at 3.0.0"
+
+#. Found in changelog list item.
+msgid "Changed: libs/oik-admin.php now at 3.0.0 and uses _bw_c() instead of c()"
+msgstr "Changed: libs/oik-admin.php now at 3.0.0 and uses _bw_c() instead of c()"
+
+#. Found in changelog list item.
+msgid "Changed: Uses \"wp_loaded\" to test for shared libraries for admin logic"
+msgstr "Changed: Uses \"wp_loaded\" to test for shared libraries for admin logic"
+
+#. Found in changelog list item.
+msgid "Changed: Implements \"oik_query_libs\" with priority 12, was 10"
+msgstr "Changed: Implements \"oik_query_libs\" with priority 12, was 10"
+
+#. Found in changelog list item.
+msgid "Changed: Summary trace record doesn't show trace file name if 0 trace records produced"
+msgstr "Changed: Summary trace record doesn't show trace file name if 0 trace records produced"
+
+#. Found in changelog list item.
+msgid "Changed: Merged shared libraries with oik-libs v0.0.1  "
+msgstr "Changed: Merged shared libraries with oik-libs v0.0.1  "
+
+#. Found in changelog list item.
+msgid "Changed: Reversioned using semantic versioning, to reflect incompatibility with oik v2.5"
+msgstr "Changed: Reversioned using semantic versioning, to reflect incompatibility with oik v2.5"
+
+#. Found in changelog list item.
+msgid "Changed: Must Use plugin also version 2.0.0"
+msgstr "Changed: Must Use plugin also version 2.0.0"
+
+#. Found in changelog list item.
+msgid "Changed: Some docblock comment updates"
+msgstr "Changed: Some docblock comment updates"
+
+#. Found in changelog list item.
+msgid "Deleted: Some commented out code removed"
+msgstr "Deleted: Some commented out code removed"
+
+#. Found in changelog list item.
+msgid "Added: Shared library files in /libs folder to enable standalone operation"
+msgstr "Added: Shared library files in /libs folder to enable standalone operation"
+
+#. Found in changelog list item.
+msgid "Added: includes/bwtrace_actions.php to register trace action processing"
+msgstr "Added: includes/bwtrace_actions.php to register trace action processing"
+
+#. Found in changelog list item.
+msgid "Added: option to control inclusion of the current filter ( cf=aaa ) in trace records"
+msgstr "Added: option to control inclusion of the current filter ( cf=aaa ) in trace records"
+
+#. Found in changelog list item.
+msgid "Added: option to control the files loaded count ( F=nnn ) in trace records"
+msgstr "Added: option to control the files loaded count ( F=nnn ) in trace records"
+
+#. Found in changelog list item.
+msgid "Changed: Admin pages no longer display \"oik documentation\" or \"support oik\" boxes"
+msgstr "Changed: Admin pages no longer display \"oik documentation\" or \"support oik\" boxes"
+
+#. Found in changelog list item.
+msgid "Changed: Sequence of input fields in the oik trace options page"
+msgstr "Changed: Sequence of input fields in the oik trace options page"
+
+#. Found in changelog list item.
+msgid "Changed: Some functions deleted from libs/bobbfunc.php"
+msgstr "Changed: Some functions deleted from libs/bobbfunc.php"
+
+#. Found in changelog list item.
+msgid "Changed: Some functions renamed in libs/bobbfunc.php"
+msgstr "Changed: Some functions renamed in libs/bobbfunc.php"
+
+#. Found in changelog list item.
+msgid "Changed: Trace options and action options admin pages are only available when \"oik-admin\" library is available"
+msgstr "Changed: Trace options and action options admin pages are only available when \"oik-admin\" library is available"
+
+#. Found in changelog list item.
+msgid "Changed: Uses bw_trace_anonymize_symlinked_file() to cater for symlinked files"
+msgstr "Changed: Uses bw_trace_anonymize_symlinked_file() to cater for symlinked files"
+
+#. Found in changelog list item.
+msgid "Changed: admin/oik-bwaction.inc is now redundant; but not yet deleted. "
+msgstr "Changed: admin/oik-bwaction.inc is now redundant; but not yet deleted. "
+
+#. Found in changelog list item.
+msgid "Changed: oik_trace_reset_notes() checks for \"oik-sc-help\" library."
+msgstr "Changed: oik_trace_reset_notes() checks for \"oik-sc-help\" library."
+
+#. Found in changelog list item.
+msgid "Deleted: oik_action_summary()"
+msgstr "Deleted: oik_action_summary()"
+
+#. Found in changelog list item.
+msgid "Fixed: br() does not attempt to translate null text"
+msgstr "Fixed: br() does not attempt to translate null text"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress and WPMS 4.2 and above. "
+msgstr "Tested: With WordPress and WPMS 4.2 and above. "
+
+#. Found in changelog list item.
+msgid "Tested: With and without: oik-lib v0.1 and oik v2.6"
+msgstr "Tested: With and without: oik-lib v0.1 and oik v2.6"
+
+#. Found in changelog list item.
+msgid "Changed: current filter now shows the full tree. No longer necessary to trace the array separately"
+msgstr "Changed: current filter now shows the full tree. No longer necessary to trace the array separately"
+
+#. Found in changelog list item.
+msgid "Fixed: Trace function count no longer doubly incremented."
+msgstr "Fixed: Trace function count no longer doubly incremented."
+
+#. Found in changelog list item.
+msgid "Added: Option to report the $bw_trace_functions array at shutdown. bw_trace_functions_traced()"
+msgstr "Added: Option to report the $bw_trace_functions array at shutdown. bw_trace_functions_traced()"
+
+#. Found in changelog list item.
+msgid "Changed: Sequence of action hooks invoked for 'shutdown': included files, saved queries, output buffer, functions traced, status report"
+msgstr "Changed: Sequence of action hooks invoked for 'shutdown': included files, saved queries, output buffer, functions traced, status report"
+
+#. Found in changelog list item.
+msgid "Changed: Improved more docblock comments and some programming style"
+msgstr "Changed: Improved more docblock comments and some programming style"
+
+#. Found in changelog list item.
+msgid "Changed: Improved activating/de-activating of the oik-bwtrace MU plugin when BW_COUNT_ON is not defined true"
+msgstr "Changed: Improved activating/de-activating of the oik-bwtrace MU plugin when BW_COUNT_ON is not defined true"
+
+#. Found in changelog list item.
+msgid "Deprecated: Moved more deprecated functions and logic related to the original action tracing and logging to includes/deprecated.php"
+msgstr "Deprecated: Moved more deprecated functions and logic related to the original action tracing and logging to includes/deprecated.php"
+
+#. Found in changelog list item.
+msgid "Changed: bw_lazy_trace_config_startup() no longer references BW_ACTIONS_ON nor BW_ACTIONS_RESET; deprecated constants"
+msgstr "Changed: bw_lazy_trace_config_startup() no longer references BW_ACTIONS_ON nor BW_ACTIONS_RESET; deprecated constants"
+
+#. Found in changelog list item.
+msgid "Changed: bw_trace_plugin_startup() loads global $bw_action_options regardless of the $bw_trace_options settings."
+msgstr "Changed: bw_trace_plugin_startup() loads global $bw_action_options regardless of the $bw_trace_options settings."
+
+#. Found in changelog list item.
+msgid "Changed: bw_trace_count_plugins_loaded() now uses global $bw_action_options"
+msgstr "Changed: bw_trace_count_plugins_loaded() now uses global $bw_action_options"
+
+#. Found in changelog list item.
+msgid "Changed: bw_trace_output_buffer() checks the output buffer status"
+msgstr "Changed: bw_trace_output_buffer() checks the output buffer status"
+
+#. Found in changelog list item.
+msgid "Added: includes/deprecated.php for deprecated functions, excluding original immediate action tracing"
+msgstr "Added: includes/deprecated.php for deprecated functions, excluding original immediate action tracing"
+
+#. Found in changelog list item.
+msgid "Changed: Dependent upon oik v2.6-alpha.0525 for .php versions of include files"
+msgstr "Changed: Dependent upon oik v2.6-alpha.0525 for .php versions of include files"
+
+#. Found in changelog list item.
+msgid "Changed: Deprecated some .inc files in favour of .php files. "
+msgstr "Changed: Deprecated some .inc files in favour of .php files. "
+
+#. Found in changelog list item.
+msgid "Changed: Moved bw_this_plugin_first() to admin/oik-bwtrace.inc"
+msgstr "Changed: Moved bw_this_plugin_first() to admin/oik-bwtrace.inc"
+
+#. Found in changelog list item.
+msgid "Changed: Relabelled 'Count immediate actions' to 'Count action hooks and filters'"
+msgstr "Changed: Relabelled 'Count immediate actions' to 'Count action hooks and filters'"
+
+#. Found in changelog list item.
+msgid "Changed: Added options for specific action tracing functionality that was previously hardcoded"
+msgstr "Changed: Added options for specific action tracing functionality that was previously hardcoded"
+
+#. Found in changelog list item.
+msgid "Changed: bw_summarise_actions() - deprecated; no longer called by bw_action_summary()"
+msgstr "Changed: bw_summarise_actions() - deprecated; no longer called by bw_action_summary()"
+
+#. Found in changelog list item.
+msgid "Changed: oik action options page rewrite; "
+msgstr "Changed: oik action options page rewrite; "
+
+#. Found in changelog list item.
+msgid "Changed: removed the slow action trace logic."
+msgstr "Changed: removed the slow action trace logic."
+
+#. Found in changelog list item.
+msgid "Disabled: Disabled immediate action tracing... the last WordPress version for which this logic was supported was 3.6"
+msgstr "Disabled: Disabled immediate action tracing... the last WordPress version for which this logic was supported was 3.6"
+
+#. Found in changelog list item.
+msgid "Changed: Improved some docblock comments"
+msgstr "Changed: Improved some docblock comments"
+
+#. Found in changelog list item.
+msgid "Added: includes/_oik-bwtrace-mu.php - implements the MU version of the plugin"
+msgstr "Added: includes/_oik-bwtrace-mu.php - implements the MU version of the plugin"
+
+#. Found in changelog list item.
+msgid "Changed: Moved bw_lazy_trace_config_startup() to includes/bwtrace-config.php"
+msgstr "Changed: Moved bw_lazy_trace_config_startup() to includes/bwtrace-config.php"
+
+#. Found in changelog list item.
+msgid "Changed: bw_lazy_trace_config_startup() now supports BW_COUNT_ON constant. When true it loads the action hook and filter counting logic and 'activates' the MU version of the plugin"
+msgstr "Changed: bw_lazy_trace_config_startup() now supports BW_COUNT_ON constant. When true it loads the action hook and filter counting logic and 'activates' the MU version of the plugin"
+
+#. Found in changelog list item.
+msgid "Changed: oik-bwtrace.php now uses oik_bwtrace_loaded() to perform startup processing  "
+msgstr "Changed: oik-bwtrace.php now uses oik_bwtrace_loaded() to perform startup processing  "
+
+#. Found in changelog list item.
+msgid "Added: records the trace file name in the summary log file"
+msgstr "Added: records the trace file name in the summary log file"
+
+#. Found in changelog list item.
+msgid "Added: remote IP address included in the summary log file"
+msgstr "Added: remote IP address included in the summary log file"
+
+#. Found in changelog list item.
+msgid "Fixed: Doesn't write HTML comments for JSON or XMLRPC requests"
+msgstr "Fixed: Doesn't write HTML comments for JSON or XMLRPC requests"
+
+#. Found in changelog list item.
+msgid "Fixed: Doesn't write HTML comments for SiteGround cache check: sgCacheCheck"
+msgstr "Fixed: Doesn't write HTML comments for SiteGround cache check: sgCacheCheck"
+
+#. Found in changelog list item.
+msgid "Changed: Commented out tracing of global wp_rewrite"
+msgstr "Changed: Commented out tracing of global wp_rewrite"
+
+#. Found in changelog list item.
+msgid "Fixed: Warning $wpdb-&gt;elapsed_query_time property missing"
+msgstr "Fixed: Warning $wpdb-&gt;elapsed_query_time property missing"
+
+#. Found in changelog list item.
+msgid "Changed: Documented the fields in the bwtrace.vt.mmdd log file; where vt is simply an abbreviation of value and text"
+msgstr "Changed: Documented the fields in the bwtrace.vt.mmdd log file; where vt is simply an abbreviation of value and text"
+
+#. Found in changelog list item.
+msgid "Added: Automatically sets SAVEQUERIES if recording the total number of queries performed"
+msgstr "Added: Automatically sets SAVEQUERIES if recording the total number of queries performed"
+
+#. Found in changelog list item.
+msgid "Changed: bw_trace_saved_queries() formats the output in the trace log"
+msgstr "Changed: bw_trace_saved_queries() formats the output in the trace log"
+
+#. Found in changelog list item.
+msgid "Changed: bw_trace_included_files() formats the output in the trace log"
+msgstr "Changed: bw_trace_included_files() formats the output in the trace log"
+
+#. Found in changelog list item.
+msgid "Fixed: bw_trace_c3() now detects \"short\" parameter - set for async-upload of a new file"
+msgstr "Fixed: bw_trace_c3() now detects \"short\" parameter - set for async-upload of a new file"
+
+#. Found in changelog list item.
+msgid "Added: bwtrace.vt file stores summary of all activity"
+msgstr "Added: bwtrace.vt file stores summary of all activity"
+
+#. Found in changelog list item.
+msgid "Added: trace action counting - with \"Count immediate actions\" checkbox"
+msgstr "Added: trace action counting - with \"Count immediate actions\" checkbox"
+
+#. Found in changelog list item.
+msgid "Added: Responds to \"plugins_loaded\" to start trace count logic"
+msgstr "Added: Responds to \"plugins_loaded\" to start trace count logic"
+
+#. Found in changelog list item.
+msgid "Added: bw_trace_wp()"
+msgstr "Added: bw_trace_wp()"
+
+#. Found in changelog list item.
+msgid "Added: bw_trace_add_shutdown_actions() to defer adding actions responding to \"shutdown\"  "
+msgstr "Added: bw_trace_add_shutdown_actions() to defer adding actions responding to \"shutdown\"  "
+
+#. Found in changelog list item.
+msgid "Added: Logic originally developed for oik-shortcodes to display summary information at shutdown"
+msgstr "Added: Logic originally developed for oik-shortcodes to display summary information at shutdown"
+
+#. Found in changelog list item.
+msgid "Added: Logic to trace included files: at startup and shutdown"
+msgstr "Added: Logic to trace included files: at startup and shutdown"
+
+#. Found in changelog list item.
+msgid "Added: Logic to trace saved queries: at startup and shutdown"
+msgstr "Added: Logic to trace saved queries: at startup and shutdown"
+
+#. Found in changelog list item.
+msgid "Added: Trace elapsed time - displayed after current timestamp"
+msgstr "Added: Trace elapsed time - displayed after current timestamp"
+
+#. Found in changelog list item.
+msgid "Added: Trace number of included files as F=nnnn"
+msgstr "Added: Trace number of included files as F=nnnn"
+
+#. Found in changelog list item.
+msgid "Changed: bw_lazy_backtrace() handles args which are arrays"
+msgstr "Changed: bw_lazy_backtrace() handles args which are arrays"
+
+#. Found in changelog list item.
+msgid "Fixed: oik action tracing is not invoked if oik action settings have not been defined"
+msgstr "Fixed: oik action tracing is not invoked if oik action settings have not been defined"
+
+#. Found in changelog list item.
+msgid "Added: Lists loaded files during shutdown processing"
+msgstr "Added: Lists loaded files during shutdown processing"
+
+#. Found in changelog list item.
+msgid "Changed: trace IP is trimmed on input validation"
+msgstr "Changed: trace IP is trimmed on input validation"
+
+#. Found in changelog list item.
+msgid "Added: Support for action trace output to be written in CSV format"
+msgstr "Added: Support for action trace output to be written in CSV format"
+
+#. Found in changelog list item.
+msgid "Added: bw_trace_bwechos()  "
+msgstr "Added: bw_trace_bwechos()  "
+
+#. Found in changelog list item.
+msgid "Added: tracing will attempt to use obsafe_print_r() instead of print_r() "
+msgstr "Added: tracing will attempt to use obsafe_print_r() instead of print_r() "
+
+#. Found in changelog list item.
+msgid "Changed: Minor improvement in determining the calling function"
+msgstr "Changed: Minor improvement in determining the calling function"
+
+#. Found in changelog list item.
+msgid "Added: bw_trace_hook_all() for performing immediate action tracing. Makes original solution partially redundant."
+msgstr "Added: bw_trace_hook_all() for performing immediate action tracing. Makes original solution partially redundant."
+
+#. Found in changelog list item.
+msgid "Changed: bw_action_file() - minor performance improvements"
+msgstr "Changed: bw_action_file() - minor performance improvements"
+
+#. Found in changelog list item.
+msgid "Changed: bw_lazy_trace_action_immediate() also logs $arg3 "
+msgstr "Changed: bw_lazy_trace_action_immediate() also logs $arg3 "
+
+#. Found in changelog list item.
+msgid "Added support for WordPress 3.5.1-alpha (as of 2012/12/19)"
+msgstr "Added support for WordPress 3.5.1-alpha (as of 2012/12/19)"
+
+#. Found in changelog list item.
+msgid "Added: Immediate action tracing helps you discover ALL the actions and filters"
+msgstr "Added: Immediate action tracing helps you discover ALL the actions and filters"
+
+#. Found in changelog list item.
+msgid "Added: Immediate action tracing automatically replaces wp-includes/plugin.php"
+msgstr "Added: Immediate action tracing automatically replaces wp-includes/plugin.php"
+
+#. Found in changelog list item.
+msgid "Added: Trace record may includes current and peak memory usage (in bytes) "
+msgstr "Added: Trace record may includes current and peak memory usage (in bytes) "
+
+#. Found in changelog list item.
+msgid "Added: Inclusion of post ID and number of queries now optional"
+msgstr "Added: Inclusion of post ID and number of queries now optional"
+
+#. Found in changelog list item.
+msgid "Added: Code to relocate from part of oik to a separate plugin"
+msgstr "Added: Code to relocate from part of oik to a separate plugin"
+
+#. Found in changelog list item.
+msgid "Added: Updates are provided from oik-plugins"
+msgstr "Added: Updates are provided from oik-plugins"
+
+#. Found in changelog list item.
+msgid "Please see the change log in oik for versions prior to 1.17"
+msgstr "Please see the change log in oik for versions prior to 1.17"
+
+#. Found in changelog paragraph.
+msgid ""
+"= 1.19.0307\n"
+"* Added official support for WordPress 3.5.1\n"
+"* Added support for  WordPress 3.6-alpha-23627  - there have been some minor comment changes in plugin.php"
+msgstr ""
+"= 1.19.0307\n"
+"* Added official support for WordPress 3.5.1\n"
+"* Added support for  WordPress 3.6-alpha-23627  - there have been some minor comment changes in plugin.php"
+
+#. Found in changelog paragraph.
+msgid ""
+"= 1.18.1218.2100\n"
+"* Fixed: New optional values no longer included in the action log"
+msgstr ""
+"= 1.18.1218.2100\n"
+"* Fixed: New optional values no longer included in the action log"
+
+#. Found in faq header.
+msgid "Where is the FAQ?"
+msgstr "Where is the FAQ?"
+
+#. Found in description header.
+msgid "Can I get support?"
+msgstr "Can I get support?"
+
+#. Found in faq paragraph.
+msgid "<a href=\"https://www.oik-plugins.com/oik-plugins/oik-bwtrace-debug-trace-for-wordpress/?oik-tab=faq\">oik-bwtrace FAQ</a>"
+msgstr "<a href=\"https://www.oik-plugins.com/oik-plugins/oik-bwtrace-debug-trace-for-wordpress/?oik-tab=faq\">oik-bwtrace FAQ</a>"
+
+#. Found in description paragraph.
+msgid "Use the contact form on the oik-plugins website."
+msgstr "Use the contact form on the oik-plugins website."
+
+#. Found in description header.
+msgid "Is there a tutorial?"
+msgstr "Is there a tutorial?"
+
+#. Found in description paragraph.
+msgid ""
+"See this page and short video\n"
+"<a href=\"https://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-trace-plugin/an-introduction-to-problem-determination-with-oik-bwtrace-debug-trace-for-wordpress\">Introduction to oik-bwtrace</a>"
+msgstr ""
+"See this page and short video\n"
+"<a href=\"https://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-trace-plugin/an-introduction-to-problem-determination-with-oik-bwtrace-debug-trace-for-wordpress\">Introduction to oik-bwtrace</a>"
+
+#. Found in description paragraph.
+msgid ""
+"If you want to read more about the oik plugins then please visit the\n"
+"<a href=\"https://www.oik-plugins.com/oik\">oik plugin</a>\n"
+"<strong>\"the oik plugin - for often included key-information\"</strong>"
+msgstr ""
+"If you want to read more about the oik plugins then please visit the\n"
+"<a href=\"https://www.oik-plugins.com/oik\">oik plugin</a>\n"
+"<strong>\"the oik plugin - for often included key-information\"</strong>"
+
+#. Found in changelog list item.
+msgid "Added: github issue 21 - Show intentions to work on issue - though not yet implemented "
+msgstr "Added: github issue 21 - Show intentions to work on issue - though not yet implemented "
+
+#. Found in changelog list item.
+msgid "Fixed: github issue 19 - don't use timer_stop()"
+msgstr "Fixed: github issue 19 - don't use timer_stop()"
+
+#. Found in changelog list item.
+msgid "Fixed: github issue 20 - don't write trace summary output to robots.txt"
+msgstr "Fixed: github issue 20 - don't write trace summary output to robots.txt"
+
+#. Found in changelog list item.
+msgid "Fixed: github issue 22 - Record additional information in the daily trace summary report"
+msgstr "Fixed: github issue 22 - Record additional information in the daily trace summary report"
+
+#. Found in changelog list item.
+msgid "Fixed: github issue 23 - Support tracing of Closures and protected fields in bw_trace_obsafe_print_r()"
+msgstr "Fixed: github issue 23 - Support tracing of Closures and protected fields in bw_trace_obsafe_print_r()"
+
+#. Found in changelog list item.
+msgid "Fixed: github issue 24 - Update bw_trace_inspect_current() with better solution"
+msgstr "Fixed: github issue 24 - Update bw_trace_inspect_current() with better solution"
+
+#. Found in changelog list item.
+msgid "Fixed: github issue 25 - Uncaught Error: Call to undefined function bw_invoke_shortcode()"
+msgstr "Fixed: github issue 25 - Uncaught Error: Call to undefined function bw_invoke_shortcode()"
+
+#. Found in changelog list item.
+msgid "Tested: up to WordPress 4.4.2 and WordPress MultiSite"
+msgstr "Tested: up to WordPress 4.4.2 and WordPress MultiSite"
+
+#. Found in changelog list item.
+msgid "Fixed: Tracing being performed when the specific IP does not match. github issues 17"
+msgstr "Fixed: Tracing being performed when the specific IP does not match. github issues 17"
+
+#. Found in description list item.
+msgid "The primary purpose of 'string watch' is to track the source of some output."
+msgstr "The primary purpose of 'string watch' is to track the source of some output."
+
+#. Found in description list item.
+msgid "perform 'string watch' to watch for a particular string"
+msgstr "perform 'string watch' to watch for a particular string"
+
+#. Found in changelog list item.
+msgid "Added: Display information related to WPMS installations [github bobbingwide oik-bwtrace issues 51]"
+msgstr "Added: Display information related to WPMS installations [github bobbingwide oik-bwtrace issues 51]"
+
+#. Found in changelog list item.
+msgid "Changed: 100% translatable and localizable on wordpress.org [github bobbingwide oik-bwtrace issues 60]"
+msgstr "Changed: 100% translatable and localizable on wordpress.org [github bobbingwide oik-bwtrace issues 60]"
+
+#. Found in changelog list item.
+msgid "Changed: Convert php.net URLs into links [github bobbingwide oik-bwtrace issues 51]"
+msgstr "Changed: Convert php.net URLs into links [github bobbingwide oik-bwtrace issues 51]"
+
+#. Found in changelog list item.
+msgid "Changed: Display End of Life for PHP 7.2 [github bobbingwide oik-bwtrace issues 55]"
+msgstr "Changed: Display End of Life for PHP 7.2 [github bobbingwide oik-bwtrace issues 55]"
+
+#. Found in changelog list item.
+msgid "Changed: First pass at tracing $_GET and $_POST as well as $_REQUEST [github bobbingwide oik-bwtrace issues 61]"
+msgstr "Changed: First pass at tracing $_GET and $_POST as well as $_REQUEST [github bobbingwide oik-bwtrace issues 61]"
+
+#. Found in changelog list item.
+msgid "Changed: Fix Warning: Count() messages for PHP 7.2"
+msgstr "Changed: Fix Warning: Count() messages for PHP 7.2"
+
+#. Found in changelog list item.
+msgid "Changed: Logic to watch for a constant changing [github bobbingwide oik-bwtrace issues 57]"
+msgstr "Changed: Logic to watch for a constant changing [github bobbingwide oik-bwtrace issues 57]"
+
+#. Found in changelog list item.
+msgid "Changed: Test bw_invoke_shortcode exists even if oik-sc-help loaded [github bobbingwide oik-bwtrace issues 62]"
+msgstr "Changed: Test bw_invoke_shortcode exists even if oik-sc-help loaded [github bobbingwide oik-bwtrace issues 62]"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress 4.9.1 and WordPress Multisite"
+msgstr "Tested: With WordPress 4.9.1 and WordPress Multisite"
+
+#. Found in changelog list item.
+msgid "Tested: With PHP 7.1 and 7.2 "
+msgstr "Tested: With PHP 7.1 and 7.2 "
+
+#. Found in changelog list item.
+msgid "Changed: Synchronized shared libraries with oik v3.2.0-RC1, "
+msgstr "Changed: Synchronized shared libraries with oik v3.2.0-RC1, "
+
+#. Found in changelog list item.
+msgid "Changed: Regenerate language files for en_GB and bb_BB"
+msgstr "Changed: Regenerate language files for en_GB and bb_BB"
+
+#. Found in changelog list item.
+msgid "Added: bw_trace_all_attached_hooks() for when problem determination gets serious"
+msgstr "Added: bw_trace_all_attached_hooks() for when problem determination gets serious"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress 4.8.2 and 4.9-beta3"
+msgstr "Tested: With WordPress 4.8.2 and 4.9-beta3"
+
+#. Found in changelog list item.
+msgid "Added: Logic to limit tracing to CLI processing [github bobbingwide oik-bwtrace issues 58]"
+msgstr "Added: Logic to limit tracing to CLI processing [github bobbingwide oik-bwtrace issues 58]"
+
+#. Found in changelog list item.
+msgid "Changed: Logic to detect changes to a constant ( e.g. PHP_SAPI ) [github bobbingwide oik-bwtrace issue 57]"
+msgstr "Changed: Logic to detect changes to a constant ( e.g. PHP_SAPI ) [github bobbingwide oik-bwtrace issue 57]"
+
+#. Found in changelog list item.
+msgid "Changed: Further analysis in oik_yourehavingmeon()"
+msgstr "Changed: Further analysis in oik_yourehavingmeon()"
+
+#. Found in changelog list item.
+msgid "Fixed: Catchable fatal error when tracing __PHP_Incomplete_Class [github bobbingwide oik-bwtrace issues 56]"
+msgstr "Fixed: Catchable fatal error when tracing __PHP_Incomplete_Class [github bobbingwide oik-bwtrace issues 56]"
+
+#. Found in changelog list item.
+msgid "Changed: Reduce messages produced by bw_trace_reset() [github bobbingwide oik-bwtrace issues 46]"
+msgstr "Changed: Reduce messages produced by bw_trace_reset() [github bobbingwide oik-bwtrace issues 46]"
+
+#. Found in changelog list item.
+msgid "Changed: Improve handling of temporary (random?) problems with file_exists() "
+msgstr "Changed: Improve handling of temporary (random?) problems with file_exists() "
+
+#. Found in changelog list item.
+msgid "Added: Add an Information section to improve problem determination [github bobbingwide oik-bwtrace issues 51]"
+msgstr "Added: Add an Information section to improve problem determination [github bobbingwide oik-bwtrace issues 51]"
+
+#. Found in changelog list item.
+msgid "Added: Include output_buffering and implicit_flush, EOL for PHP 7.1 [github bobbingwide oik-bwtrace issues 51]"
+msgstr "Added: Include output_buffering and implicit_flush, EOL for PHP 7.1 [github bobbingwide oik-bwtrace issues 51]"
+
+#. Found in changelog list item.
+msgid "Changed: Add logging library functions under bw_log [github bobbingwide oik-bwtrace issues 50]"
+msgstr "Changed: Add logging library functions under bw_log [github bobbingwide oik-bwtrace issues 50]"
+
+#. Found in changelog list item.
+msgid "Changed: Cater for REST API v2 [github bobbingwide oik-bwtrace issues 42]"
+msgstr "Changed: Cater for REST API v2 [github bobbingwide oik-bwtrace issues 42]"
+
+#. Found in changelog list item.
+msgid "Changed: Do not enqueue jQuery when DOING_AJAX [github bobbingwide oik-bwtrace issues 47]"
+msgstr "Changed: Do not enqueue jQuery when DOING_AJAX [github bobbingwide oik-bwtrace issues 47]"
+
+#. Found in changelog list item.
+msgid "Changed: Improve bw_trace_error_handler output [github bobbingwide oik-bwtrace issues 44]"
+msgstr "Changed: Improve bw_trace_error_handler output [github bobbingwide oik-bwtrace issues 44]"
+
+#. Found in changelog list item.
+msgid "Changed: Make bw_trace_reset_status() more context sensitive [github bobbingwide oik-bwtrace issues 49]"
+msgstr "Changed: Make bw_trace_reset_status() more context sensitive [github bobbingwide oik-bwtrace issues 49]"
+
+#. Found in changelog list item.
+msgid "Changed: Part 1 - include yyyy in the file name [github bobbingwide oik-bwtrace issues 45]"
+msgstr "Changed: Part 1 - include yyyy in the file name [github bobbingwide oik-bwtrace issues 45]"
+
+#. Found in changelog list item.
+msgid "Changed: Reconcile shared libraries with oik v3.1.0"
+msgstr "Changed: Reconcile shared libraries with oik v3.1.0"
+
+#. Found in changelog list item.
+msgid "Changed: Reduce messages produced by trace reset [github bobbingwide oik-bwtrace issue 46]"
+msgstr "Changed: Reduce messages produced by trace reset [github bobbingwide oik-bwtrace issue 46]"
+
+#. Found in changelog list item.
+msgid "Fixed: trace shutdown sometimes can't find all the functions it needs; Wrong type of slash [github bobbingwide oik-bwtrace issues 43]"
+msgstr "Fixed: trace shutdown sometimes can't find all the functions it needs; Wrong type of slash [github bobbingwide oik-bwtrace issues 43]"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress 4.7-RC1 "
+msgstr "Tested: With WordPress 4.7-RC1 "
+
+#. Found in changelog list item.
+msgid "Added: 'String watch' capability [github bobbingwide oik-bwtrace issues 36]"
+msgstr "Added: 'String watch' capability [github bobbingwide oik-bwtrace issues 36]"
+
+#. Found in changelog list item.
+msgid "Changed: Support tracing of nested Closures in bw_trace_obsafe_print_r() [github bobbingwide oik-bwtrace issues 28]"
+msgstr "Changed: Support tracing of nested Closures in bw_trace_obsafe_print_r() [github bobbingwide oik-bwtrace issues 28]"
+
+#. Found in changelog list item.
+msgid "Changed: Improve output for saved queries [github bobbingwide oik-bwtrace issues 29]"
+msgstr "Changed: Improve output for saved queries [github bobbingwide oik-bwtrace issues 29]"
+
+#. Found in changelog list item.
+msgid "Changed: Improve formatting of included files [github bobbingwide oik-bwtrace issues 32]"
+msgstr "Changed: Improve formatting of included files [github bobbingwide oik-bwtrace issues 32]"
+
+#. Found in changelog list item.
+msgid "Changed: Improve formatting of hooks [github bobbingwide oik-bwtrace issues 33]"
+msgstr "Changed: Improve formatting of hooks [github bobbingwide oik-bwtrace issues 33]"
+
+#. Found in changelog list item.
+msgid "Changed: Blessed task - reduce trace output produced [github bobbingwide oik-bwtrace issues 34]"
+msgstr "Changed: Blessed task - reduce trace output produced [github bobbingwide oik-bwtrace issues 34]"
+
+#. Found in changelog list item.
+msgid "Changed: Add attached functions to hook shortcode [github bobbingwide oik-bwtrace issues 35]"
+msgstr "Changed: Add attached functions to hook shortcode [github bobbingwide oik-bwtrace issues 35]"
+
+#. Found in changelog list item.
+msgid "Changed: Trace real memory usage [github bobbingwide oik-bwtrace issue 40]"
+msgstr "Changed: Trace real memory usage [github bobbingwide oik-bwtrace issue 40]"
+
+#. Found in changelog list item.
+msgid "Changed: Sync shared libraries with oik and oik-libs"
+msgstr "Changed: Sync shared libraries with oik and oik-libs"
+
+#. Found in changelog list item.
+msgid "Fixed: Don't call undefined c()  function from bw_trace_c3() [github bobbingwide oik-bwtrace issues 37]"
+msgstr "Fixed: Don't call undefined c()  function from bw_trace_c3() [github bobbingwide oik-bwtrace issues 37]"
+
+#. Found in changelog list item.
+msgid "Fixed: bw_trace_c3() should not produce comments after \"load-async-upload.php\" action [github bobbingwide oik-bwtrace issues 38]"
+msgstr "Fixed: bw_trace_c3() should not produce comments after \"load-async-upload.php\" action [github bobbingwide oik-bwtrace issues 38]"
+
+#. Found in changelog list item.
+msgid "Fixed: Avoid Notice when $GLOBALS['id'] is not just a post ID [github bobbingwide oik-bwtrace issues 39]"
+msgstr "Fixed: Avoid Notice when $GLOBALS['id'] is not just a post ID [github bobbingwide oik-bwtrace issues 39]"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress 4.5.2 and WordPress MultiSite"
+msgstr "Tested: With WordPress 4.5.2 and WordPress MultiSite"
+
+#. Screenshot description.
+msgid "Trace files directory box"
+msgstr "Trace files directory box"
+
+#. Screenshot description.
+msgid "Trace options - Requests sections"
+msgstr "Trace options - Requests sections"
+
+#. Screenshot description.
+msgid "Trace options - Trace records"
+msgstr "Trace options - Trace records"
+
+#. Screenshot description.
+msgid "Daily Trace Summary box"
+msgstr "Daily Trace Summary box"
+
+#. Screenshot description.
+msgid "Action options - Options"
+msgstr "Action options - Options"
+
+#. Screenshot description.
+msgid "Action options - Ad hoc tracing"
+msgstr "Action options - Ad hoc tracing"
+
+#. Screenshot description.
+msgid "Trace information box"
+msgstr "Trace information box"
+
+#. Screenshot description.
+msgid "Daily Trace Summary file"
+msgstr "Daily Trace Summary file"
+
+#. Found in description header.
+msgid "How can I contribute?"
+msgstr "How can I contribute?"
+
+#. Found in description list item.
+msgid "Traces to a defined Trace files directory"
+msgstr "Traces to a defined Trace files directory"
+
+#. Found in description list item.
+msgid "Writes summary trace record for each transaction into Daily Trace summary files"
+msgstr "Writes summary trace record for each transaction into Daily Trace summary files"
+
+#. Found in description list item.
+msgid "Traces REST requests separately, if required"
+msgstr "Traces REST requests separately, if required"
+
+#. Found in description list item.
+msgid "Traces CLI requests separately, if required"
+msgstr "Traces CLI requests separately, if required"
+
+#. Found in description list item.
+msgid "Does not require SAVEQUERIES to be defined"
+msgstr "Does not require SAVEQUERIES to be defined"
+
+#. Found in description list item.
+msgid "Operates as a standalone plugin"
+msgstr "Operates as a standalone plugin"
+
+#. Found in description list item.
+msgid "Easy to code APIs: bw_trace2(), bw_backtrace()."
+msgstr "Easy to code APIs: bw_trace2(), bw_backtrace()."
+
+#. Found in description list item.
+msgid "Trace record count and trace error count"
+msgstr "Trace record count and trace error count"
+
+#. Found in description list item.
+msgid "Hook count"
+msgstr "Hook count"
+
+#. Found in description list item.
+msgid "All trace files are written within a user defined Trace files directory."
+msgstr "All trace files are written within a user defined Trace files directory."
+
+#. Found in description list item.
+msgid "Tracing will not be activated if the Trace files directory is not specified or is not valid. "
+msgstr "Tracing will not be activated if the Trace files directory is not specified or is not valid. "
+
+#. Found in description list item.
+msgid "Supports purging of trace files from the Dashboard using a defined retention period."
+msgstr "Supports purging of trace files from the Dashboard using a defined retention period."
+
+#. Found in description list item.
+msgid "The Daily Trace Summary file base name is now user defined."
+msgstr "The Daily Trace Summary file base name is now user defined."
+
+#. Found in description list item.
+msgid "Separated Trace 'shutdown' status report from Daily Trace summary."
+msgstr "Separated Trace 'shutdown' status report from Daily Trace summary."
+
+#. Found in description list item.
+msgid "Improvements to the [bwtrace] shortcode; moved from the oik plugin."
+msgstr "Improvements to the [bwtrace] shortcode; moved from the oik plugin."
+
+#. Found in description list item.
+msgid "Improved support for tracing REST requests."
+msgstr "Improved support for tracing REST requests."
+
+#. Found in description list item.
+msgid "Added support for WP-CLI; initial prototype of 'wp trace' command."
+msgstr "Added support for WP-CLI; initial prototype of 'wp trace' command."
+
+#. Found in description list item.
+msgid "Supports trace file generation logic for tracing parallel requests."
+msgstr "Supports trace file generation logic for tracing parallel requests."
+
+#. Found in description list item.
+msgid "Improved support for tracing REST requests, with early detection of REST API calls"
+msgstr "Improved support for tracing REST requests, with early detection of REST API calls"
+
+#. Found in description list item.
+msgid "Fixes to logic broken by WordPress 4.7"
+msgstr "Fixes to logic broken by WordPress 4.7"
+
+#. Found in description list item.
+msgid "Tested: With Gutenberg "
+msgstr "Tested: With Gutenberg "
+
+#. Found in description list item.
+msgid "Tested: With PHP 7.2 thru' 7.4"
+msgstr "Tested: With PHP 7.2 thru' 7.4"
+
+#. Found in description list item, changelog list item.
+msgid "Tested: With WordPress 5.3 and WordPress Multi Site"
+msgstr "Tested: With WordPress 5.3 and WordPress Multi Site"
+
+#. Found in description paragraph.
+msgid "Except for HTML comments, oik bwtrace does not alter the output of your web pages."
+msgstr "Except for HTML comments, oik bwtrace does not alter the output of your web pages."
+
+#. Found in description paragraph.
+msgid ""
+"You can also use the oik trace facilities to assist in problem determination in a live site.\n"
+"Output is written to files on the server in a user defined trace files directory. \n"
+"When tracing a live or staging site you should ensure that the trace files directory is not publicly accessible."
+msgstr ""
+"You can also use the oik trace facilities to assist in problem determination in a live site.\n"
+"Output is written to files on the server in a user defined trace files directory. \n"
+"When tracing a live or staging site you should ensure that the trace files directory is not publicly accessible."
+
+#. Found in description paragraph.
+msgid "[github bobbingwide oik-bwtrace]"
+msgstr "[github bobbingwide oik-bwtrace]"
+
+#. Found in installation list item.
+msgid "Don't forget to purge the trace output when you no longer need it"
+msgstr "Don't forget to purge the trace output when you no longer need it"
+
+#. Found in faq header.
+msgid "Where is the documentation?"
+msgstr "Where is the documentation?"
+
+#. Found in faq paragraph.
+msgid "<a href=\"https://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-trace-plugin/\">oik-bwtrace - debug trace for WordPress</a>"
+msgstr "<a href=\"https://www.oik-plugins.com/wordpress-plugins-from-oik-plugins/free-oik-plugins/oik-trace-plugin/\">oik-bwtrace - debug trace for WordPress</a>"
+
+#. Found in changelog list item.
+msgid "Changed: Reintroduced logic to only trace a specific IP,[github bobbingwide oik-bwtrace issues 17]"
+msgstr "Changed: Reintroduced logic to only trace a specific IP,[github bobbingwide oik-bwtrace issues 17]"
+
+#. Found in changelog list item.
+msgid "Changed: Remove test on $_REQUEST['wc-ajax'] now that trace file generation limit logic's available,[github bobbingwide oik-bwtrace issues 49]"
+msgstr "Changed: Remove test on $_REQUEST['wc-ajax'] now that trace file generation limit logic's available,[github bobbingwide oik-bwtrace issues 49]"
+
+#. Found in changelog list item.
+msgid "Changed: Document Hook count in the Daily Trace Summary file,[github bobbingwide oik-bwtrace issues 53]"
+msgstr "Changed: Document Hook count in the Daily Trace Summary file,[github bobbingwide oik-bwtrace issues 53]"
+
+#. Found in changelog list item.
+msgid "Changed: Don't count BW_TRACE_INFO as a Trace error,[github bobbingwide oik-bwtrace issues 73]"
+msgstr "Changed: Don't count BW_TRACE_INFO as a Trace error,[github bobbingwide oik-bwtrace issues 73]"
+
+#. Found in changelog list item.
+msgid "Changed: Support PHP 7.4,[github bobbingwide oik-bwtrace issues 81]"
+msgstr "Changed: Support PHP 7.4,[github bobbingwide oik-bwtrace issues 81]"
+
+#. Found in changelog list item.
+msgid "Changed: Tidy up bw_trace_http_user_agent,[github bobbingwide oik-bwtrace issues 22]"
+msgstr "Changed: Tidy up bw_trace_http_user_agent,[github bobbingwide oik-bwtrace issues 22]"
+
+#. Found in changelog list item.
+msgid "Added: Hook count in daily trace summary and trace records,[github bobbingwide oik-bwtrace issues 53]"
+msgstr "Added: Hook count in daily trace summary and trace records,[github bobbingwide oik-bwtrace issues 53]"
+
+#. Found in changelog list item.
+msgid "Fixed: check for edd_action in bw_trace_oik_to_echo,[github bobbingwide oik-bwtrace issues 41]"
+msgstr "Fixed: check for edd_action in bw_trace_oik_to_echo,[github bobbingwide oik-bwtrace issues 41]"
+
+#. Found in changelog list item.
+msgid "Changed: Eliminate gob() - gobang - calls,[github bobbingwide oik-bwtrace issues 70]"
+msgstr "Changed: Eliminate gob() - gobang - calls,[github bobbingwide oik-bwtrace issues 70]"
+
+#. Found in changelog list item.
+msgid "Changed: Add button to purge daily trace summary files separately from other trace files,[github bobbingwide oik-bwtrace issues 71]"
+msgstr "Changed: Add button to purge daily trace summary files separately from other trace files,[github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Changed: Remove anything to do with bwtron and bwtroff,[github bobbingwide oik-bwtrace issues 71]"
+msgstr "Changed: Remove anything to do with bwtron and bwtroff,[github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Changed: Further changes to fields traced at startup,[github bobbingwide oik-bwtrace issues 72]"
+msgstr "Changed: Further changes to fields traced at startup,[github bobbingwide oik-bwtrace issues 72]"
+
+#. Found in changelog list item.
+msgid "Changed: Add option to purge the trace file if no errors traced,[github bobbingwide oik-bwtrace issues 73]"
+msgstr "Changed: Add option to purge the trace file if no errors traced,[github bobbingwide oik-bwtrace issues 73]"
+
+#. Found in changelog list item.
+msgid "Changed: Change bw_trace2()'s to make them BW_TRACE_ERROR level,[github bobbingwide oik-bwtrace issues 73]"
+msgstr "Changed: Change bw_trace2()'s to make them BW_TRACE_ERROR level,[github bobbingwide oik-bwtrace issues 73]"
+
+#. Found in changelog list item.
+msgid "Changed: Check count( $handlers ) when reporting active output buffering handlers,[github bobbingwide oik-bwtrace issues 74]"
+msgstr "Changed: Check count( $handlers ) when reporting active output buffering handlers,[github bobbingwide oik-bwtrace issues 74]"
+
+#. Found in changelog list item.
+msgid "Fixed: Don't append Trace Summary when Wordfence is downloading .htaccess,[github bobbingwide oik-bwtrace issues 75]"
+msgstr "Fixed: Don't append Trace Summary when Wordfence is downloading .htaccess,[github bobbingwide oik-bwtrace issues 75]"
+
+#. Found in changelog list item.
+msgid "Fixed: Add hex dump support for trace output wth helper function bw_trace_hexdump,[github bobbingwide oik-bwtrace issues 76]"
+msgstr "Fixed: Add hex dump support for trace output wth helper function bw_trace_hexdump,[github bobbingwide oik-bwtrace issues 76]"
+
+#. Found in changelog list item.
+msgid "Fixed: Don't echo trace summary for health check,[github bobbingwide oik-bwtrace issues 77]"
+msgstr "Fixed: Don't echo trace summary for health check,[github bobbingwide oik-bwtrace issues 77]"
+
+#. Found in changelog list item.
+msgid "Changed: Don't write trace status report when request is edd-api,[github bobbingwide oik-bwtrace issues 78]"
+msgstr "Changed: Don't write trace status report when request is edd-api,[github bobbingwide oik-bwtrace issues 78]"
+
+#. Found in changelog list item.
+msgid "Fixed: Add tests for PHP 7.3 end-of-life and zlib.output_compression,[github bobbingwide oik-bwtrace issues 79]"
+msgstr "Fixed: Add tests for PHP 7.3 end-of-life and zlib.output_compression,[github bobbingwide oik-bwtrace issues 79]"
+
+#. Found in changelog list item.
+msgid "Fixed: Tested under PHPUnit 8,[github bobbingwide oik-bwtrace issues 80]"
+msgstr "Fixed: Tested under PHPUnit 8,[github bobbingwide oik-bwtrace issues 80]"
+
+#. Found in changelog list item.
+msgid "Tested: Add PHPUnit test for bw_trace_inspect_current,[github bobbingwide oik-bwtrace issues 63]"
+msgstr "Tested: Add PHPUnit test for bw_trace_inspect_current,[github bobbingwide oik-bwtrace issues 63]"
+
+#. Found in changelog list item.
+msgid "Tested: With PHP 7.3"
+msgstr "Tested: With PHP 7.3"
+
+#. Found in changelog list item.
+msgid "Tested: With PHPUnit 8"
+msgstr "Tested: With PHPUnit 8"
+
+#. Found in changelog list item.
+msgid "Changed: No longer register [bwtron] and [bwtroff] shortcodes,[github bobbingwide oik-bwtrace issues 71]"
+msgstr "Changed: No longer register [bwtron] and [bwtroff] shortcodes,[github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Changed: Ignore any files in tests\\bwtrace"
+msgstr "Changed: Ignore any files in tests\\bwtrace"
+
+#. Found in changelog list item.
+msgid "Changed: Add end of life date for PHP 7.3 and prepare for 7.4,[github bobbingwide oik-bwtrace issues 79]"
+msgstr "Changed: Add end of life date for PHP 7.3 and prepare for 7.4,[github bobbingwide oik-bwtrace issues 79]"
+
+#. Found in changelog list item.
+msgid "Fixed: Don't write trace status report when ...,[github bobbingwide oik-bwtrace issues 78]"
+msgstr "Fixed: Don't write trace status report when ...,[github bobbingwide oik-bwtrace issues 78]"
+
+#. Found in changelog list item.
+msgid "Changed: Update language files,[github bobbingwide oik-bwtrace issues 69]"
+msgstr "Changed: Update language files,[github bobbingwide oik-bwtrace issues 69]"
+
+#. Found in changelog list item.
+msgid "Changed: Simplify [bwtrace] shortcode,[github bobbingwide oik-bwtrace issues 69]"
+msgstr "Changed: Simplify [bwtrace] shortcode,[github bobbingwide oik-bwtrace issues 69]"
+
+#. Found in changelog list item.
+msgid "Changed: Adjust tests for bwtrace shortcode,[github bobbingwide oik-bwtrace issues 69]"
+msgstr "Changed: Adjust tests for bwtrace shortcode,[github bobbingwide oik-bwtrace issues 69]"
+
+#. Found in changelog list item.
+msgid "Changed: Delete deprecated functions from deprecated.php,[github bobbingwide oik-bwtrace issues 69]"
+msgstr "Changed: Delete deprecated functions from deprecated.php,[github bobbingwide oik-bwtrace issues 69]"
+
+#. Found in changelog list item.
+msgid "Changed: Update oik_trace_notes, don't call oik_trace_reset_notes,[github bobbingwide oik-bwtrace issues 71]"
+msgstr "Changed: Update oik_trace_notes, don't call oik_trace_reset_notes,[github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Changed: Start increasing robustness of bw_trace_log"
+msgstr "Changed: Start increasing robustness of bw_trace_log"
+
+#. Found in changelog list item.
+msgid "Changed: Correct class trace_file_selector tests,[github bobbingwide oik-bwtrace issues 16]"
+msgstr "Changed: Correct class trace_file_selector tests,[github bobbingwide oik-bwtrace issues 16]"
+
+#. Found in changelog list item.
+msgid "Tested: Incomplete object class tracing tested elsewhere,[github bobbingwide oik-bwtrace issues 56]"
+msgstr "Tested: Incomplete object class tracing tested elsewhere,[github bobbingwide oik-bwtrace issues 56]"
+
+#. Found in changelog list item.
+msgid "Tested: Update tests for trace options page,[github bobbingwide oik-bwtrace issues 71]"
+msgstr "Tested: Update tests for trace options page,[github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Fixed: Don't write trace summary for site health check,[github bobbingwide oik-bwtrace issues 77]"
+msgstr "Fixed: Don't write trace summary for site health check,[github bobbingwide oik-bwtrace issues 77]"
+
+#. Found in changelog list item.
+msgid "Changed: Update bobbforms library file and adjust tests accordingly"
+msgstr "Changed: Update bobbforms library file and adjust tests accordingly"
+
+#. Found in changelog list item.
+msgid "Fixed: Ensure includes\\oik-actions.php loaded for bwtrace_get_remote_addr call,[github bobbingwide oik-bwtrace issues 71]"
+msgstr "Fixed: Ensure includes\\oik-actions.php loaded for bwtrace_get_remote_addr call,[github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Changed: Improve logic to get the remote IP address [github bobbingwide oik-bwtrace issues 71]"
+msgstr "Changed: Improve logic to get the remote IP address [github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Changed: Check trace levels before tracing $_SERVER [github bobbingwide oik-bwtrace issues 72]"
+msgstr "Changed: Check trace levels before tracing $_SERVER [github bobbingwide oik-bwtrace issues 72]"
+
+#. Found in changelog list item.
+msgid "Changed: Include list of output buffer handlers in bw_trace_print_r [github bobbingwide oik-bwtrace issues 74] "
+msgstr "Changed: Include list of output buffer handlers in bw_trace_print_r [github bobbingwide oik-bwtrace issues 74] "
+
+#. Found in changelog list item.
+msgid "Fixed: Problems noted with v3.0.0-alpha-20180524 [github bobbingwide oik-bwtrace issues 71]"
+msgstr "Fixed: Problems noted with v3.0.0-alpha-20180524 [github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Changed: Reconciled shared libraries; updating version numbers"
+msgstr "Changed: Reconciled shared libraries; updating version numbers"
+
+#. Found in changelog list item.
+msgid "Fixed: Problems noted with v3.0.0-alpha-20180523 [github bobbingwide oik-bwtrace issues 71]"
+msgstr "Fixed: Problems noted with v3.0.0-alpha-20180523 [github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Added: Trace files Purge capability with defined retention period [github bobbingwide oik-bwtrace issues 71]"
+msgstr "Added: Trace files Purge capability with defined retention period [github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Added: Trace files directory required before any tracing can be performed [github bobbingwide oik-bwtrace issues 71]"
+msgstr "Added: Trace files directory required before any tracing can be performed [github bobbingwide oik-bwtrace issues 71]"
+
+#. Found in changelog list item.
+msgid "Changed: Improvements to the Daily Trace Summary report [github bobbingwide oik-bwtrace issues 68]"
+msgstr "Changed: Improvements to the Daily Trace Summary report [github bobbingwide oik-bwtrace issues 68]"
+
+#. Found in changelog list item.
+msgid "Changed: Move shortcodes from oik and add bwtrace option=logs [github bobbingwide oik-bwtrace issues 69]"
+msgstr "Changed: Move shortcodes from oik and add bwtrace option=logs [github bobbingwide oik-bwtrace issues 69]"
+
+#. Found in changelog list item.
+msgid "Fixed: Cater for Linux file name case sensitivity on includes/class-BW-trace-controller.php"
+msgstr "Fixed: Cater for Linux file name case sensitivity on includes/class-BW-trace-controller.php"
+
+#. Found in changelog list item.
+msgid "Fixed: Fix trace file reset when $this-&gt;limit is null [github bobbingwide oik-bwtrace issues 16]"
+msgstr "Fixed: Fix trace file reset when $this-&gt;limit is null [github bobbingwide oik-bwtrace issues 16]"
+
+#. Found in changelog list item.
+msgid "Tested: With Gutenberg 2.9.0"
+msgstr "Tested: With Gutenberg 2.9.0"
+
+#. Found in changelog list item.
+msgid "Tested: With PHP 7.1 and 7.2"
+msgstr "Tested: With PHP 7.1 and 7.2"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress 4.9.6 and 5.0-alpha and WordPress Multisite"
+msgstr "Tested: With WordPress 4.9.6 and 5.0-alpha and WordPress Multisite"
+
+#. Found in changelog list item.
+msgid "Added: WP-CLI support [github bobbingwide oik-bwtrace issues 54]"
+msgstr "Added: WP-CLI support [github bobbingwide oik-bwtrace issues 54]"
+
+#. Found in changelog list item.
+msgid "Added: Support trace limits by request type [github bobbingwide oik-bwtrace issues 16]"
+msgstr "Added: Support trace limits by request type [github bobbingwide oik-bwtrace issues 16]"
+
+#. Found in changelog list item.
+msgid "Changed: Change trace of SAVEQUERIES to verbose [github bobbingwide oik-bwtrace issues 34]"
+msgstr "Changed: Change trace of SAVEQUERIES to verbose [github bobbingwide oik-bwtrace issues 34]"
+
+#. Found in changelog list item.
+msgid "Changed: Improve support for tracing REST requests [github bobbingwide oik-bwtrace issues 67]"
+msgstr "Changed: Improve support for tracing REST requests [github bobbingwide oik-bwtrace issues 67]"
+
+#. Found in changelog list item.
+msgid "Changed: Improved Daily Trace Summary logic [github bobbingwide oik-bwtrace issues 68]"
+msgstr "Changed: Improved Daily Trace Summary logic [github bobbingwide oik-bwtrace issues 68]"
+
+#. Found in changelog list item.
+msgid "Changed: Pre-detect REST API calls [github bobbingwide oik-bwtrace issues 52]"
+msgstr "Changed: Pre-detect REST API calls [github bobbingwide oik-bwtrace issues 52]"
+
+#. Found in changelog list item.
+msgid "Fixed: bw_trace_get_attached_hook_count not working since WordPress 4.7 [github bobbingwide oik-bwtrace issues 66]"
+msgstr "Fixed: bw_trace_get_attached_hook_count not working since WordPress 4.7 [github bobbingwide oik-bwtrace issues 66]"
+
+#. Found in changelog list item.
+msgid "Fixed: bw_trace_inspect_current no longer determines the current priority [github bobbingwide oik-bwtrace issues 63]"
+msgstr "Fixed: bw_trace_inspect_current no longer determines the current priority [github bobbingwide oik-bwtrace issues 63]"
+
+#. Found in changelog list item.
+msgid "Tested: With Gutenberg 2.7.0"
+msgstr "Tested: With Gutenberg 2.7.0"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress 4.9.5 and 5.0-alpha and WordPress Multsite"
+msgstr "Tested: With WordPress 4.9.5 and 5.0-alpha and WordPress Multsite"
+
+#. Found in description list item.
+msgid "Traces browser transactions separately, if required"
+msgstr "Traces browser transactions separately, if required"
+
+#. Found in description paragraph.
+msgid ""
+"New in v3.2.0\n"
+"* Daily trace summary records contains the http response code"
+msgstr ""
+"New in v3.2.0\n"
+"* Daily trace summary records contains the http response code"
+
+#. Found in changelog list item.
+msgid "Changed: Set EOL date for PHP 8.0 to 2023/11/26,[github bobbingwide oik-bwtrace issues 98]"
+msgstr "Changed: Set EOL date for PHP 8.0 to 2023/11/26,[github bobbingwide oik-bwtrace issues 98]"
+
+#. Found in changelog list item.
+msgid "Changed: Support PHP 8.0,[github bobbingwide oik-bwtrace issues 98]"
+msgstr "Changed: Support PHP 8.0,[github bobbingwide oik-bwtrace issues 98]"
+
+#. Found in changelog list item.
+msgid "Changed: Update language files"
+msgstr "Changed: Update language files"
+
+#. Found in changelog list item.
+msgid "Fixed: Avoid deprecated messages from PHP 8.0,[github bobbingwide oik-bwtrace issues 98]"
+msgstr "Fixed: Avoid deprecated messages from PHP 8.0,[github bobbingwide oik-bwtrace issues 98]"
+
+#. Found in changelog list item.
+msgid "Fixed: Don't call attempt_reset when there's no trace file selector instance,[github bobbingwide oik-bwtrace issues 99]"
+msgstr "Fixed: Don't call attempt_reset when there's no trace file selector instance,[github bobbingwide oik-bwtrace issues 99]"
+
+#. Found in changelog list item.
+msgid "Tested: With PHP 8.0"
+msgstr "Tested: With PHP 8.0"
+
+#. Found in changelog list item.
+msgid "Tested: With PHPUnit 9"
+msgstr "Tested: With PHPUnit 9"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress 5.7 and WordPress Multi Site"
+msgstr "Tested: With WordPress 5.7 and WordPress Multi Site"
+
+#. Found in changelog list item.
+msgid "Added: Add http_response_code output to daily trace summary record,[github bobbingwide oik-bwtrace issues 96]"
+msgstr "Added: Add http_response_code output to daily trace summary record,[github bobbingwide oik-bwtrace issues 96]"
+
+#. Found in changelog list item.
+msgid "Changed: Set trace admin block width to 100%"
+msgstr "Changed: Set trace admin block width to 100%"
+
+#. Found in changelog list item.
+msgid "Changed: Updated some shared library files"
+msgstr "Changed: Updated some shared library files"
+
+#. Found in changelog list item.
+msgid "Fixed: Attempt to avoid out of memory tracing large objects,[github bobbingwide oik-bwtrace issues 97]"
+msgstr "Fixed: Attempt to avoid out of memory tracing large objects,[github bobbingwide oik-bwtrace issues 97]"
+
+#. Found in changelog list item.
+msgid "Fixed: In bw_lazy_log() check if the $value is scalar first; avoid calling bw_trace_print_r(),[github bobbingwide oik-bwtrace issues 97]"
+msgstr "Fixed: In bw_lazy_log() check if the $value is scalar first; avoid calling bw_trace_print_r(),[github bobbingwide oik-bwtrace issues 97]"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress 5.6 and WordPress Multi Site "
+msgstr "Tested: With WordPress 5.6 and WordPress Multi Site "
+
+#. Found in changelog list item.
+msgid "Tested: With Gutenberg 9.8.2"
+msgstr "Tested: With Gutenberg 9.8.2"
+
+#. Found in changelog list item.
+msgid "Tested: With PHP 7.4"
+msgstr "Tested: With PHP 7.4"
+
+#. Found in changelog list item.
+msgid "Added: Add saved queries report ordered by longest query time,[github bobbingwide oik-bwtrace issues 93]"
+msgstr "Added: Add saved queries report ordered by longest query time,[github bobbingwide oik-bwtrace issues 93]"
+
+#. Found in changelog list item.
+msgid "Added: Add saved queries report grouped by calling function,[github bobbingwide oik-bwtrace issues 93]"
+msgstr "Added: Add saved queries report grouped by calling function,[github bobbingwide oik-bwtrace issues 93]"
+
+#. Found in changelog list item.
+msgid "Changed: Updated saved queries report to make it easier to load into a spreadsheet,[github bobbingwide oik-bwtrace issues 93]"
+msgstr "Changed: Updated saved queries report to make it easier to load into a spreadsheet,[github bobbingwide oik-bwtrace issues 93]"
+
+#. Found in changelog list item.
+msgid "Fixed: Trace 'shutdown' status report causes Gutenberg's Site Editor (beta) to fail,[github bobbingwide oik-bwtrace issues 92]"
+msgstr "Fixed: Trace 'shutdown' status report causes Gutenberg's Site Editor (beta) to fail,[github bobbingwide oik-bwtrace issues 92]"
+
+#. Found in changelog list item.
+msgid "Fixed: Avoid tracing enormous objects with little value. Use wp_json_encode to see what the $result actually contains,[github bobbingwide oik-bwtrace issues 88]"
+msgstr "Fixed: Avoid tracing enormous objects with little value. Use wp_json_encode to see what the $result actually contains,[github bobbingwide oik-bwtrace issues 88]"
+
+#. Found in changelog list item.
+msgid "Changed: Update shared library for plugin updates,[github bobbingwide oik-bwtrace issues 89]"
+msgstr "Changed: Update shared library for plugin updates,[github bobbingwide oik-bwtrace issues 89]"
+
+#. Found in changelog list item.
+msgid "Fixed: Trace fails if you don't complete a file name but check the Enabled checkbox,[github bobbingwide oik-bwtrace issues 85]"
+msgstr "Fixed: Trace fails if you don't complete a file name but check the Enabled checkbox,[github bobbingwide oik-bwtrace issues 85]"
+
+#. Found in changelog list item.
+msgid "Tested: With WordPress 5.6-beta4 and WordPress Multi Site"
+msgstr "Tested: With WordPress 5.6-beta4 and WordPress Multi Site"
+
+#. Found in changelog list item.
+msgid "Tested: With Gutenberg 9.3.0"
+msgstr "Tested: With Gutenberg 9.3.0"
