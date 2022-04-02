@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2018, 2019
+<?php // (C) Copyright Bobbing Wide 2018, 2019, 2022
 
 /**
  * @package oik-bwtrace
@@ -42,7 +42,8 @@ class BW_trace_controller {
 	public $trace_files_options; // array
 
     public $trace_json_options; // Instance of the trace_json_options class
-	
+
+    public $is_performance_trace; // true when tracing to memory. Becomes false on `shutdown`.
 	/**
 	 * Constructor for tracing
 	 */
@@ -58,11 +59,26 @@ class BW_trace_controller {
 		$this->trace_level = null;
 		$this->load_trace_json_options();
 		$this->load_trace_options();
-		$this->load_trace_files_directory();
+		$this->request_type = $this->query_request_type();
+        $this->set_trace_level( $this->query_trace_level() );
+        $this->load_trace_files_directory();
+		if ( $this->is_performance_trace() ) {
+		    //echo "Performance trace";
+		    // We assume that we got here because
+            // we loaded the options from the JSON file
+            // which implies that the trace files directory is correctly set.
+            add_action( 'shutdown', [ $this, 'shutdown_performance_trace' ], 9 );
+            //$this->trace_files_directory = true; // Fiddle for performance
+
+        } else {
+
+        }
+
 		if ( $this->trace_files_directory ) {
-			$this->request_type = $this->query_request_type();
-			$this->set_trace_level( $this->query_trace_level() );
+
+
 			if ( $this->status() && $this->trace_ip() ) {
+			    //echo "Loading trace file selector";
 				$this->load_trace_file_selector();
 				$this->load_trace_record();
 				$this->set_savequeries();
@@ -94,9 +110,10 @@ class BW_trace_controller {
 	 * If trace options are not defined then tracing should only be performed if controlled programmatically.
 	 */
 	function load_trace_options() {
+	    $this->trace_files_options = get_option( 'bw_trace_files_options' );
 		$this->trace_options = get_option( 'bw_trace_options' );
 		$this->action_options = get_option( 'bw_action_options' );
-		$this->trace_files_options = get_option( 'bw_trace_files_options' );
+
 	}
 	
 	/**
@@ -533,6 +550,35 @@ class BW_trace_controller {
 		}
 		return $trace_hook_count;
 	}
+
+    /**
+     * Sets is_performance_trace.
+     *
+     * @return bool
+     */
+	public function is_performance_trace() {
+	    $performance_trace = isset( $this->trace_files_options['performance_trace'] );
+	    if ( $performance_trace ) {
+            $performance_trace = $this->trace_files_options['performance_trace'] === 'on';
+        }
+	    $this->is_performance_trace = $performance_trace;
+	    return $this->is_performance_trace;
+
+    }
+
+    /**
+     * Write performance trace output at shutdown.
+     */
+    public function shutdown_performance_trace() {
+	    $this->load_trace_files_directory();
+	    $this->trace_file_selector->set_trace_files_directory( $this->trace_files_directory );
+        $this->BW_trace_record->trace_file_selector = $this->trace_file_selector;
+        $this->BW_trace_record->trace_controller = $this;
+        $this->is_performance_trace = false;
+        //echo "Performance trace off";
+        //$this->BW_trace_record->trace_log('shutdown_performance_trace' );
+        bw_trace2();
+    }
 		
 	
 

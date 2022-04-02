@@ -30,7 +30,8 @@ class trace_json_options {
      * Checks if we can use the mu-plugins folder.
      */
     function is_mu_enabled() {
-        return true;
+        $enabled = is_dir( WPMU_PLUGIN_DIR );
+        return $enabled;
     }
 
     /**

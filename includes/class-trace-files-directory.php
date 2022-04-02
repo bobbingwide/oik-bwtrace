@@ -130,6 +130,7 @@ class trace_files_directory {
 		$this->options = array();
 		$this->options[ 'trace_directory' ] = null;
 		$this->options[ 'retain'] = 30;
+		$this->options['performance_trace'] = '0';
 	}
 	
 	/**

@@ -189,14 +189,17 @@ class trace_file_selector {
 	 * Format: path/filename.ext
 	 */			
 	public function get_trace_file_mask() {
-		$file_mask = $this->trace_files_directory->get_fq_trace_files_directory();
-		if ( $file_mask ) {
-			// Ignore the path. @TODO - either ensure it's not set or implement support.
-			//$file_mask .= $this->file_path;
-			$file_mask .= $this->file_name;
-			$file_mask .= ".";
-			$file_mask .= $this->file_extension;
-		}	
+	    $file_mask = null;
+	    if ( $this->trace_files_directory !== true ) {
+            $file_mask = $this->trace_files_directory->get_fq_trace_files_directory();
+            if ($file_mask) {
+                // Ignore the path. @TODO - either ensure it's not set or implement support.
+                //$file_mask .= $this->file_path;
+                $file_mask .= $this->file_name;
+                $file_mask .= ".";
+                $file_mask .= $this->file_extension;
+            }
+        }
 		return $file_mask;
 	}
 	

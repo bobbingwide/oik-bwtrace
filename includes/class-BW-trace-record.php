@@ -38,7 +38,8 @@ class BW_trace_record {
 	public $trace_count;
 	public $trace_error_count;
 	//public $trace_functions;
-	
+
+    public $trace_buffer;
 	
 	/**
 	 * 
@@ -47,7 +48,8 @@ class BW_trace_record {
 		$this->trace_controller = $trace_controller;
 		$this->trace_count = 0;
 		$this->trace_error_count = 0;
-		$this->init_trace_functions(); 
+		$this->init_trace_functions();
+		$this->trace_buffer = null;
 		
 	}
 	
@@ -195,18 +197,30 @@ class BW_trace_record {
 	}	
 
 	/**
-	 * Log a record to a trace file
-	 *
-	 * @param string $line - this can be a very long string
-	 */
-	function trace_log( $line ) {
-		$file = $this->trace_controller->get_trace_file_name();
-		if ( $file ) {
-			bw_write( $file, $line ); 
-		} else {
-			$this->_doing_wrong_thing();
-		}
-	}
+     * Log a record to a trace file
+     *
+     * @param string $line - this can be a very long string
+     */
+    function trace_log( $line ) {
+        //echo "trace log";
+        //print_r( $this->trace_controller );
+        if ( $this->trace_controller->is_performance_trace ) {
+            // Appends the $line to the current trace buffer.
+            $this->trace_buffer .= $line;
+        } else {
+
+            $file = $this->trace_controller->get_trace_file_name();
+            if ($file) {
+                if ( null !== $this->trace_buffer ) {
+                    bw_write($file, $this->trace_buffer);
+                    $this->trace_buffer = null;
+                }
+                bw_write($file, $line);
+            } else {
+                $this->_doing_wrong_thing();
+            }
+        }
+    }
 	
 	/**
 	 * Fails gracefully with a message in the PHP error log
