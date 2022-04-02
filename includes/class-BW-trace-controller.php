@@ -110,11 +110,27 @@ class BW_trace_controller {
 	 * If trace options are not defined then tracing should only be performed if controlled programmatically.
 	 */
 	function load_trace_options() {
-	    $this->trace_files_options = get_option( 'bw_trace_files_options' );
-		$this->trace_options = get_option( 'bw_trace_options' );
-		$this->action_options = get_option( 'bw_action_options' );
-
+	    $this->trace_files_options = $this->get_option( 'bw_trace_files_options' );
+		$this->trace_options = $this->get_option( 'bw_trace_options' );
+		$this->action_options = $this->get_option( 'bw_action_options' );
 	}
+
+    /**
+     * Since we don't yet know if performance tracing is enabled we try to get the options from the JSON files first.
+     *
+     * @param $option_name
+     * @return false|mixed|void
+     */
+	function get_option( $option_name ) {
+	    $option = null;
+	    //if ( $this->is_performance_trace ) {
+	    $option = $this->trace_json_options->get_option( $option_name );
+        //}
+	    if ( null === $option ) {
+	        $option = get_option( $option_name );
+        }
+	    return $option;
+    }
 	
 	/**
 	 * Loads the trace files directory object

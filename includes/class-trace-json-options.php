@@ -77,6 +77,18 @@ class trace_json_options {
         return $json_file;
     }
 
+    function get_option( $option_name ) {
+        $option = null;
+        if ( $this->is_mu_enabled() ) {
+            $filename = $this->get_json_file_name($option_name);
+            if (file_exists($filename)) {
+                $json = file_get_contents($filename);
+                $option = json_decode($json, true );
+            }
+        }
+        return $option;
+    }
+
 
 
 }
