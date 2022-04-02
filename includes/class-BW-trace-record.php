@@ -190,7 +190,14 @@ class BW_trace_record {
 		$ref .= bw_trace_file_count();
 		$ref .= $text_label;
 		$ref .= " ";
-		$ref .= bw_trace_print_r( $text );
+		/** Only print text in a performance trace if it's scalar */
+        $print_r_text = true;
+		if ( $this->trace_controller->is_performance_trace ) {
+            //$print_r_text = is_scalar($text);
+        }
+        if ( $print_r_text ) {
+            $ref .= bw_trace_print_r($text);
+        }
 		$ref .= bw_trace_bwechos();
 		$ref .= "\n";
 		return $ref ;
