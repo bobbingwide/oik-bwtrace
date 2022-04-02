@@ -481,6 +481,7 @@ function bw_trace_plugins_loaded() {
 	global $bw_trace_plugins_loaded;
 	//global $bw_trace_plugins_loaded_unkeyed;
 	$bw_trace_plugins_loaded = [ 'REQUEST_TIME_FLOAT' =>$_SERVER['REQUEST_TIME_FLOAT'], 'WP_START_TIMESTAMP' => WP_START_TIMESTAMP ];
+	$bw_trace_plugins_loaded['BW_TRACE_START_TIMESTAMP'] = BW_TRACE_START_TIMESTAMP;
 	//$bw_trace_plugins_loaded_unkeyed = [];
 	//$bw_trace_plugins_loaded_unkeyed = ['REQUEST_TIME_FLOAT', $_SERVER['REQUEST_TIME_FLOAT'] ];
 	//$bw_trace_plugins_loaded_unkeyed = [ 'WP_START_TIMESTAMP', WP_START_TIMESTAMP ];

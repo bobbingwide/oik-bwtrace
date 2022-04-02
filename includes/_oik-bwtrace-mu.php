@@ -1,15 +1,15 @@
-<?php // (C) Copyright Bobbing Wide 2015
+<?php // (C) Copyright Bobbing Wide 2015, 2022
 
 /*
 Plugin Name: _oik-bwtrace-MU 
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-bwtrace
 Description: Debug trace for WordPress - Must Use version
-Version: 2.0.3
+Version: 3.4.0
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
 
-    Copyright 2015 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2015, 2022 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -48,6 +48,11 @@ License: GPL2
  * ` 
  *  
  */
+
+if ( ! defined( 'BW_TRACE_START_TIMESTAMP' ) ) {
+    define( 'BW_TRACE_START_TIMESTAMP', microtime( true ) );
+}
+
 if ( defined( 'WP_PLUGIN_DIR' ) ) {
 	$file = WP_PLUGIN_DIR .  '/oik-bwtrace/oik-bwtrace.php';
 } else {
@@ -57,8 +62,3 @@ if ( defined( 'WP_PLUGIN_DIR' ) ) {
 if ( file_exists( $file ) ) {
 	require_once( $file );
 }
-
-  
- 
- 
- 
