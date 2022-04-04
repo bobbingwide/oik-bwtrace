@@ -6,7 +6,7 @@ Requires at least: 5.0
 Tested up to: 5.9.2
 Gutenberg compatible: Yes
 Requires PHP: 5.6
-Stable tag: 3.3.1
+Stable tag: 3.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,10 @@ The output for action tracing can include trace records showing:
 * Information about deprecated logic
 * Information related to Errors, Warnings and Notices
 
+New in v3.4.0
+
+* Experimental Performance trace option
+
 New in v3.3.0
 
 * Optionally traces plugin load times
@@ -160,6 +164,9 @@ Use the contact form on the oik-plugins website.
 9. Daily Trace Summary file
  
 == Upgrade Notice ==
+= 3.4.0 = 
+Update for the experimental performance trace option.
+
 = 3.3.1 =
 Update for minor improvements.
 
@@ -311,6 +318,15 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 3.4.0 = 
+* Added: Experiment with only tracing scalar data when performance tracing #109
+* Added: Load options from JSON files if available #109
+* Added: Support tracing to memory when performance_trace is 'on' #109
+* Added: Add BW_TRACE_START_TIMESTAMP timing point #109
+* Fixed: Update languages. Adjust tests for newly translated strings #87 #109
+* Added: Add class trace_json_options and Enable performance trace checkbox #109
+* Changed: Update bw_action do page tests #87
+
 = 3.3.1 = 
 * Changed: Correct plugin load time heading #87
 * Changed: Reconcile shared library file change

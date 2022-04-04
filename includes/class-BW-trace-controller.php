@@ -587,13 +587,15 @@ class BW_trace_controller {
      */
     public function shutdown_performance_trace() {
 	    $this->load_trace_files_directory();
-	    $this->trace_file_selector->set_trace_files_directory( $this->trace_files_directory );
-        $this->BW_trace_record->trace_file_selector = $this->trace_file_selector;
-        $this->BW_trace_record->trace_controller = $this;
-        $this->is_performance_trace = false;
-        //echo "Performance trace off";
-        //$this->BW_trace_record->trace_log('shutdown_performance_trace' );
-        bw_trace2();
+	    if ( $this->trace_file_selector ) {
+            $this->trace_file_selector->set_trace_files_directory($this->trace_files_directory);
+            $this->BW_trace_record->trace_file_selector = $this->trace_file_selector;
+            $this->BW_trace_record->trace_controller = $this;
+            $this->is_performance_trace = false;
+            //echo "Performance trace off";
+            //$this->BW_trace_record->trace_log('shutdown_performance_trace' );
+            bw_trace2();
+        }
     }
 		
 	
