@@ -203,13 +203,13 @@ class trace_files_directory {
 	public function get_abspath() {
 		if ( !defined('ABSPATH') ) {
 			$abspath = dirname( dirname( dirname ( dirname( dirname( __FILE__ ))))) . '/';
-			$abspath = str_replace( "\\", "/", $abspath );
-			if ( ':' === substr( $abspath, 1, 1 ) ) {
-				$abspath = ucfirst( $abspath );
-			}
 		} else { 
 			$abspath = ABSPATH;
 		}
+		$abspath = str_replace( "\\", "/", $abspath );
+		if ( ':' === substr( $abspath, 1, 1 ) ) {
+            $abspath = ucfirst( $abspath );
+        }
 		return $abspath;
 	}
 	
