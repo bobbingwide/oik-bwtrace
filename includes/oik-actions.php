@@ -797,5 +797,21 @@ function bw_trace_purge_if_no_errors() {
 
 }
 
+function bw_trace_url_link() {
+    global $bw_trace;
+    if ( $bw_trace && bw_trace_ok_to_echo() ) {
+        $url = $bw_trace->get_trace_file_url();
+        if ( $url ) {
+            $extras = kv('target', '_blank');
+            if (is_admin()) {
+                $extras .= kv('style', 'border:0px solid white; position:relative; z-index: 10000; left: 35px;');
+            }
+            $link = retlink("bw_trace wp-ui-notification", $url, __("Trace file", 'oik-bwtrace'), null, null, $extras);
+            echo $link;
+        }
+    }
+    //echo $url;
+}
+
 
 } /* end of first if defined() */
