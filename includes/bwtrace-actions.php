@@ -67,6 +67,7 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_action( "shutdown", "trace_functions", "includes/oik-actions.php", "bw_trace_functions_traced" );
 	bw_trace_add_action( "shutdown", "trace_status_report", "includes/oik-actions.php", "bw_trace_status_report" );
 	bw_trace_add_action( 'shutdown', 'trace_purge_if_no_errors', 'includes/oik-actions.php', 'bw_trace_purge_if_no_errors' );
+	bw_trace_add_action( 'shutdown', 'trace_status_report', 'includes/oik-actions.php', 'bw_trace_url_link' );
 
 
 
