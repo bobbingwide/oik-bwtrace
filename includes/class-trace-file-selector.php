@@ -290,13 +290,14 @@ class trace_file_selector {
 	 * @return string trace file URL 
 	 */
 	public function get_trace_file_url() {
+	    $trace_file_url = null;
 		if ( $this->trace_file_name ) {
-			$file_name = str_replace( $this->trace_files_directory->get_abspath(), "", $this->trace_file_name );
-			$trace_file_url = get_site_url( null, $file_name );
-			
-		} else {
-			$trace_file_url = null;
-		}
+            $abspath = $this->trace_files_directory->get_abspath();
+            if ( 0 === strpos($this->trace_file_name, $abspath)) {
+                $file_name = str_replace( $abspath, "", $this->trace_file_name );
+                $trace_file_url = get_site_url(null, $file_name);
+            }
+        }
 		return $trace_file_url;
 	}
 	
