@@ -285,8 +285,6 @@ class trace_file_selector {
 	/**
 	 * Gets the trace file URL 
 	 *
-	 * @TODO Support $file parameter
-	 * @param string|null $file name to use
 	 * @return string trace file URL 
 	 */
 	public function get_trace_file_url() {
@@ -295,7 +293,7 @@ class trace_file_selector {
             $abspath = $this->trace_files_directory->get_abspath();
             if ( 0 === strpos($this->trace_file_name, $abspath)) {
                 $file_name = str_replace( $abspath, "", $this->trace_file_name );
-                $trace_file_url = get_site_url(null, $file_name);
+                $trace_file_url = network_site_url( $file_name );
             }
         }
 		return $trace_file_url;

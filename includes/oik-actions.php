@@ -828,7 +828,7 @@ function bw_trace_daily_trace_summary_file_link() {
         $extras = kv('target', '_blank');
         if (is_admin()) {
             $extras .= kv('style', 'border:0px solid white; position:relative; z-index: 10000; left: 35px;');
-        } 
+        }
         $link = retlink("bw_trace wp-ui-notification", $url, __("Summary file", 'oik-bwtrace'), null, null, $extras);
         echo '<br />';
         echo $link;

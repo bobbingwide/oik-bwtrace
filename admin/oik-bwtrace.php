@@ -439,7 +439,7 @@ function bw_trace_validate_directory( $array, $key ) {
 }
 
 /**
- * Return the trace file URL
+ * Return the trace file URL.
  *
  * May not return the correct URL for WordPress MultiSite
  *
@@ -447,10 +447,6 @@ function bw_trace_validate_directory( $array, $key ) {
  * @return string the trace file URL
  */  
 function bw_trace_url( $option='bw_trace_options', $ajax=false ) {
-  //$options = get_option( $option ); 
-	//$file = bw_trace_file_name( $options, $ajax );
-  //$bw_trace_url = get_site_url( NULL, $file );
-	
 	global $bw_trace;
 	$bw_trace_url = null;
 	if ( $bw_trace ) {

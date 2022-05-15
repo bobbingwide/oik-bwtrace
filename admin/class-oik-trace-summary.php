@@ -237,7 +237,7 @@ function bw_trace_vt_file() {
         $abspath = $bw_trace->trace_files_directory->get_abspath();
         if ( 0 === strpos( $vt_file, $abspath)) {
             $file_name = str_replace( $abspath, "", $vt_file );
-            $trace_file_url = get_site_url(null, $file_name);
+            $trace_file_url = network_site_url( $file_name );
         }
         return $trace_file_url;
     }
