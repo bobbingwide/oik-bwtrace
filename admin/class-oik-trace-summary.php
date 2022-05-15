@@ -1,6 +1,6 @@
 <?php 
 /**
- * Copyright: (C) Copyright Bobbing Wide 2018
+ * Copyright: (C) Copyright Bobbing Wide 2018-2022
  * Class: OIK_trace_summary
  *
  * Daily trace summary report
@@ -224,6 +224,23 @@ function bw_trace_vt_file() {
 			bw_trace_status_report();
 		}
 	}
+
+	/**
+     * Gets the daily trace summary file URL
+     *
+     * @return string trace file URL
+     */
+	public function get_daily_trace_summary_file_url() {
+        $trace_file_url = null;
+        global $bw_trace;
+        $vt_file = $this->bw_trace_vt_file();
+        $abspath = $bw_trace->trace_files_directory->get_abspath();
+        if ( 0 === strpos( $vt_file, $abspath)) {
+            $file_name = str_replace( $abspath, "", $vt_file );
+            $trace_file_url = get_site_url(null, $file_name);
+        }
+        return $trace_file_url;
+    }
 	
 	
 	

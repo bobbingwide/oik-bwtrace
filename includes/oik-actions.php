@@ -800,17 +800,40 @@ function bw_trace_purge_if_no_errors() {
 function bw_trace_url_link() {
     global $bw_trace;
     if ( $bw_trace && bw_trace_ok_to_echo() ) {
-        $url = $bw_trace->get_trace_file_url();
-        if ( $url ) {
-            $extras = kv('target', '_blank');
-            if (is_admin()) {
-                $extras .= kv('style', 'border:0px solid white; position:relative; z-index: 10000; left: 35px;');
-            }
-            $link = retlink("bw_trace wp-ui-notification", $url, __("Trace file", 'oik-bwtrace'), null, null, $extras);
-            echo $link;
-        }
+        bw_trace_trace_file_link();
+        bw_trace_daily_trace_summary_file_link();
     }
     //echo $url;
+}
+
+function bw_trace_trace_file_link() {
+    global $bw_trace;
+    $url = $bw_trace->get_trace_file_url();
+    if ( $url ) {
+        $extras = kv('target', '_blank');
+        if (is_admin()) {
+            $extras .= kv('style', 'border:0px solid white; position:relative; z-index: 10000; left: 35px;');
+        }
+        $link = retlink("bw_trace wp-ui-notification", $url, __("Trace file", 'oik-bwtrace'), null, null, $extras);
+        echo $link;
+    }
+}
+
+function bw_trace_daily_trace_summary_file_link() {
+    // $bw_trace;
+    global $bw_trace_summary;
+    //print_r( $bw_trace_summary );
+    if ( $bw_trace_summary && $bw_trace_summary->bw_summary_options['trace_status_report'] ) {
+        $url = $bw_trace_summary->get_daily_trace_summary_file_url();
+        $extras = kv('target', '_blank');
+        if (is_admin()) {
+            $extras .= kv('style', 'border:0px solid white; position:relative; z-index: 10000; left: 35px;');
+        } 
+        $link = retlink("bw_trace wp-ui-notification", $url, __("Summary file", 'oik-bwtrace'), null, null, $extras);
+        echo '<br />';
+        echo $link;
+
+    }
 }
 
 
