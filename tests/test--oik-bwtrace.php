@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2017,2019
+<?php // (C) Copyright Bobbing Wide 2017,2019,2022
 
 /**
  * @package oik-bwtrace 
@@ -115,6 +115,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	function update_bw_trace_options() {
 		global $bw_trace_options;
 		update_option( "bw_trace_options", $bw_trace_options );
+		//echo "Update_bw_trace_options";
 		//print_r( $bw_trace_options );
 	}
 	
@@ -209,6 +210,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		$this->bw_trace_files_options = array();
 		$this->bw_trace_files_options['trace_directory'] = str_replace( "\\", "/", __DIR__ ) . '/bwtrace';
 		$this->bw_trace_files_options['retain'] = 1;
+		$this->bw_trace_files_options['performance_trace'] = 0;
 		
 	} 
 	
@@ -249,11 +251,13 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 	function test_bw_trace_plugin_startup_tracing_on() {
 		global $bw_trace_options;
 		global $bw_action_options;
-	
+        oik_require( 'admin/oik-bwtrace.php', 'oik-bwtrace');
+        bw_trace_options_sync();
 		$this->save_bw_trace_options(); 
 		$this->init_bw_trace_options();
 		$bw_trace_options['trace_cli'] = 'on';
-		
+
+
 		$this->init_bw_trace_files_options();
 		$this->update_bw_trace_options();
 		$this->update_bw_trace_files_options();
@@ -263,12 +267,15 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		
 		global $bw_trace;
 		//print_r( $bw_trace );
+
 		
 		bw_trace_plugin_startup();
 		//print_r( $bw_trace );
+
+
 		
 		$tracing = bw_trace_status();
-		$this->assertTrue( $tracing );
+		$this->assertTrue( $tracing, "CLI tracing should be on" );
 
 		$this->bw_trace2_issue56();
 		$this->bw_lazy_backtrace_issue56();
@@ -276,6 +283,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		
 		$this->restore_bw_trace_options();
 		$this->restore_bw_action_options();
+        $this->restore_bw_trace_files_options();
 		
 		//if ( $bw_trace_options['trace'] == 0 ) {
 		//	bw_trace_off();
@@ -296,6 +304,8 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		}
 		global $bw_trace_options;
 		global $bw_action_options;
+        oik_require( 'admin/oik-bwtrace.php', 'oik-bwtrace');
+        bw_trace_options_sync();
 	
 		$this->save_bw_trace_options(); 
 
@@ -303,6 +313,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 			if ( $bw_trace_options['trace_cli'] == "on" ) {
 				$bw_trace_options['trace_cli']='0';
 				bw_trace_off();
+				echo "Turned tracing off!";
 			}
 		}
 		$this->init_bw_trace_options();
@@ -321,7 +332,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
 		
 		$tracing = bw_trace_status();
 		
-		$this->assertFalse( $tracing );
+		$this->assertFalse( $tracing, "CLI tracing should be off" );
 		
 		$this->restore_bw_trace_options();
 		$this->restore_bw_action_options();
