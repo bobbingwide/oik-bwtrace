@@ -799,10 +799,14 @@ function bw_trace_purge_if_no_errors() {
 
 function bw_trace_url_link() {
     global $bw_trace;
+    if ( PHP_SAPI === "cli" ) {
+        return;
+    }
     if ( $bw_trace && bw_trace_ok_to_echo() ) {
         bw_trace_trace_file_link();
         bw_trace_daily_trace_summary_file_link();
     }
+
     //echo $url;
 }
 

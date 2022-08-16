@@ -118,8 +118,10 @@ function oik_action_options() {
   bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' output buffer", "oik-bwtrace" ), $options, 'trace_output_buffer' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' trace functions count", "oik-bwtrace" ), $options, 'trace_functions' );
   bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' status report", "oik-bwtrace" ), $options, 'trace_status_report' );
-	
-	BW_::bw_textarea_arr( "bw_action_options", __( "Other hooks to trace", "oik-bwtrace" ), $options, "hooks", 80 );
+  bw_checkbox_arr( "bw_action_options", __( "Trace 'shutdown' display trace file links", "oik-bwtrace" ), $options, 'trace_url_links' );
+
+
+    BW_::bw_textarea_arr( "bw_action_options", __( "Other hooks to trace", "oik-bwtrace" ), $options, "hooks", 80 );
 	BW_::bw_textarea_arr( "bw_action_options", __( "Filter results to trace", "oik-bwtrace" ), $options, "results", 80 );
 	BW_::bw_textarea_arr( "bw_action_options", __( "Trace the global post object", "oik-bwtrace" ), $options, "post_hooks", 80 );
 	BW_::bw_textarea_arr( "bw_action_options", __( "Trace attached hook functions", "oik-bwtrace" ), $options, "hook_funcs", 80 );
