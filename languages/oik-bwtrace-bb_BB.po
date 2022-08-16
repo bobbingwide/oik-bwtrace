@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 3.3.1\n"
+"Project-Id-Version: oik bwtrace 3.4.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2022-04-01 11:48:06+00:00\n"
+"POT-Creation-Date: 2022-08-16 12:55:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: bb_BB\n"
@@ -45,8 +45,8 @@ msgstr "Dialy tarce smuamry flie"
 msgid "Log transactions to daily trace summary file"
 msgstr "LOg tarsncaitnos tO dialy tarce smuamry flie"
 
-#: admin/class-oik-trace-summary.php:42 admin/oik-bwtrace.php:131
-#: admin/oik-bwtrace.php:232 includes/class-trace-logs.php:125
+#: admin/class-oik-trace-summary.php:42 admin/oik-bwtrace.php:133
+#: admin/oik-bwtrace.php:234 includes/class-trace-logs.php:125
 msgid "Save changes"
 msgstr "Svae cahgnes"
 
@@ -62,15 +62,15 @@ msgstr "OIk atcoin otpoins"
 msgid "action options"
 msgstr "atcoin otpoins"
 
-#: admin/oik-bwtrace.php:88 admin/oik-bwtrace.php:142
+#: admin/oik-bwtrace.php:88 admin/oik-bwtrace.php:144
 msgid "Options"
 msgstr "Otpoins"
 
-#: admin/oik-bwtrace.php:89 admin/oik-bwtrace.php:143
+#: admin/oik-bwtrace.php:89 admin/oik-bwtrace.php:145
 msgid "Daily Trace Summary"
 msgstr "Dialy Tarce Smuamry"
 
-#: admin/oik-bwtrace.php:90 admin/oik-bwtrace.php:144
+#: admin/oik-bwtrace.php:90 admin/oik-bwtrace.php:146
 msgid "Information"
 msgstr "Ifnroamiton"
 
@@ -122,219 +122,224 @@ msgstr "Tarce 'suhdtwon' tarce fnutcoins cuont"
 msgid "Trace 'shutdown' status report"
 msgstr "Tarce 'suhdtwon' satuts rperot"
 
-#: admin/oik-bwtrace.php:122
+#: admin/oik-bwtrace.php:121
+msgid "Trace 'shutdown' display trace file links"
+msgstr "Tarce 'suhdtwon' dsilpay tarce flie lniks"
+
+#: admin/oik-bwtrace.php:124
 msgid "Other hooks to trace"
 msgstr "Ohter hooks tO tarce"
 
-#: admin/oik-bwtrace.php:123
+#: admin/oik-bwtrace.php:125
 msgid "Filter results to trace"
 msgstr "Flietr rseluts tO tarce"
 
-#: admin/oik-bwtrace.php:124
+#: admin/oik-bwtrace.php:126
 msgid "Trace the global post object"
 msgstr "Tarce thE golabl psot ojbcet"
 
-#: admin/oik-bwtrace.php:125
+#: admin/oik-bwtrace.php:127
 msgid "Trace attached hook functions"
 msgstr "Tarce attcaehd hook fnutcoins"
 
-#: admin/oik-bwtrace.php:126
+#: admin/oik-bwtrace.php:128
 msgid "Hooks to debug backtrace"
 msgstr "Hooks tO dbeug bcatkarce"
 
-#: admin/oik-bwtrace.php:127
+#: admin/oik-bwtrace.php:129
 msgid "'String watch' for this string"
 msgstr "'Srtnig wtach' fOr tihs srtnig"
 
-#: admin/oik-bwtrace.php:128
+#: admin/oik-bwtrace.php:130
 msgid "Action timing points"
 msgstr "Atcoin tminig piotns"
 
-#: admin/oik-bwtrace.php:140
+#: admin/oik-bwtrace.php:142
 msgid "trace options"
 msgstr "tarce otpoins"
 
-#: admin/oik-bwtrace.php:141
+#: admin/oik-bwtrace.php:143
 msgid "Trace files"
 msgstr "Tarce flies"
 
-#: admin/oik-bwtrace.php:145
+#: admin/oik-bwtrace.php:147
 msgid "Notes about oik trace"
 msgstr "Ntoes aobut OIk tarce"
 
-#: admin/oik-bwtrace.php:177
+#: admin/oik-bwtrace.php:179
 msgid "General browser requests"
 msgstr "Gnereal borswer rqeeutss"
 
-#: admin/oik-bwtrace.php:178 includes/class-trace-command.php:305
+#: admin/oik-bwtrace.php:180 includes/class-trace-command.php:305
+#: includes/oik-actions.php:821
 msgid "Trace file"
 msgstr "Tarce flie"
 
-#: admin/oik-bwtrace.php:179 includes/class-trace-command.php:306
+#: admin/oik-bwtrace.php:181 includes/class-trace-command.php:306
 msgid "Trace enabled"
 msgstr "Tarce eanlbed"
 
-#: admin/oik-bwtrace.php:180 includes/class-trace-command.php:307
+#: admin/oik-bwtrace.php:182 includes/class-trace-command.php:307
 msgid "Reset trace file every transaction"
 msgstr "Rseet tarce flie eevry tarsncaiton"
 
-#: admin/oik-bwtrace.php:181 includes/class-trace-command.php:308
+#: admin/oik-bwtrace.php:183 includes/class-trace-command.php:308
 msgid "Trace file generation limit"
 msgstr "Tarce flie gneretaoin lmiit"
 
-#: admin/oik-bwtrace.php:183
+#: admin/oik-bwtrace.php:185
 msgid "AJAX requests"
 msgstr "AAJX rqeeutss"
 
-#: admin/oik-bwtrace.php:184 includes/class-trace-command.php:311
+#: admin/oik-bwtrace.php:186 includes/class-trace-command.php:311
 msgid "AJAX trace file"
 msgstr "AAJX tarce flie"
 
-#: admin/oik-bwtrace.php:185 includes/class-trace-command.php:312
+#: admin/oik-bwtrace.php:187 includes/class-trace-command.php:312
 msgid "AJAX trace enabled"
 msgstr "AAJX tarce eanlbed"
 
-#: admin/oik-bwtrace.php:186
+#: admin/oik-bwtrace.php:188
 msgid "Reset AJAX trace file every AJAX transaction"
 msgstr "Rseet AAJX tarce flie eevry AAJX tarsncaiton"
 
-#: admin/oik-bwtrace.php:187 includes/class-trace-command.php:314
+#: admin/oik-bwtrace.php:189 includes/class-trace-command.php:314
 msgid "AJAX trace file generation limit"
 msgstr "AAJX tarce flie gneretaoin lmiit"
 
-#: admin/oik-bwtrace.php:189 includes/class-trace-command.php:316
+#: admin/oik-bwtrace.php:191 includes/class-trace-command.php:316
 msgid "REST requests"
 msgstr "RSET rqeeutss"
 
-#: admin/oik-bwtrace.php:190 includes/class-trace-command.php:317
+#: admin/oik-bwtrace.php:192 includes/class-trace-command.php:317
 msgid "REST trace file"
 msgstr "RSET tarce flie"
 
-#: admin/oik-bwtrace.php:191 includes/class-trace-command.php:318
+#: admin/oik-bwtrace.php:193 includes/class-trace-command.php:318
 msgid "REST trace enabled"
 msgstr "RSET tarce eanlbed"
 
-#: admin/oik-bwtrace.php:192 includes/class-trace-command.php:319
+#: admin/oik-bwtrace.php:194 includes/class-trace-command.php:319
 msgid "Reset REST trace file every REST transaction"
 msgstr "Rseet RSET tarce flie eevry RSET tarsncaiton"
 
-#: admin/oik-bwtrace.php:193 includes/class-trace-command.php:320
+#: admin/oik-bwtrace.php:195 includes/class-trace-command.php:320
 msgid "REST trace file generation limit"
 msgstr "RSET tarce flie gneretaoin lmiit"
 
-#: admin/oik-bwtrace.php:196 includes/class-trace-command.php:323
+#: admin/oik-bwtrace.php:198 includes/class-trace-command.php:323
 msgid "Batch requests"
 msgstr "Btach rqeeutss"
 
-#: admin/oik-bwtrace.php:197 includes/class-trace-command.php:324
+#: admin/oik-bwtrace.php:199 includes/class-trace-command.php:324
 msgid "Batch trace file"
 msgstr "Btach tarce flie"
 
-#: admin/oik-bwtrace.php:198 includes/class-trace-command.php:325
+#: admin/oik-bwtrace.php:200 includes/class-trace-command.php:325
 msgid "Batch trace enabled"
 msgstr "Btach tarce eanlbed"
 
-#: admin/oik-bwtrace.php:199 includes/class-trace-command.php:326
+#: admin/oik-bwtrace.php:201 includes/class-trace-command.php:326
 msgid "Reset batch trace file each invocation"
 msgstr "Rseet btach tarce flie ecah ivncotaoin"
 
-#: admin/oik-bwtrace.php:200 includes/class-trace-command.php:327
+#: admin/oik-bwtrace.php:202 includes/class-trace-command.php:327
 msgid "Batch trace file generation limit"
 msgstr "Btach tarce flie gneretaoin lmiit"
 
-#: admin/oik-bwtrace.php:203 includes/class-trace-command.php:352
+#: admin/oik-bwtrace.php:205 includes/class-trace-command.php:352
 msgid "Trace records"
 msgstr "Tarce rcerods"
 
-#: admin/oik-bwtrace.php:207 includes/class-trace-command.php:354
+#: admin/oik-bwtrace.php:209 includes/class-trace-command.php:354
 msgid "Trace level"
 msgstr "Tarce lveel"
 
-#: admin/oik-bwtrace.php:208 includes/class-trace-command.php:355
+#: admin/oik-bwtrace.php:210 includes/class-trace-command.php:355
 msgid "Fully qualified file names"
 msgstr "Fluly qauilifed flie nmaes"
 
-#: admin/oik-bwtrace.php:209 includes/class-trace-command.php:356
+#: admin/oik-bwtrace.php:211 includes/class-trace-command.php:356
 msgid "Include trace record count"
 msgstr "Icnulde tarce rcerod cuont"
 
-#: admin/oik-bwtrace.php:210 includes/class-trace-command.php:357
+#: admin/oik-bwtrace.php:212 includes/class-trace-command.php:357
 msgid "Include timestamp"
 msgstr "Icnulde tmiseatmp"
 
-#: admin/oik-bwtrace.php:211 includes/class-trace-command.php:358
+#: admin/oik-bwtrace.php:213 includes/class-trace-command.php:358
 msgid "Include current filter"
 msgstr "Icnulde cruernt flietr"
 
-#: admin/oik-bwtrace.php:212 includes/class-trace-command.php:359
+#: admin/oik-bwtrace.php:214 includes/class-trace-command.php:359
 msgid "Include number of queries"
 msgstr "Icnulde nmuebr Of qeuires"
 
-#: admin/oik-bwtrace.php:213 includes/class-trace-command.php:360
+#: admin/oik-bwtrace.php:215 includes/class-trace-command.php:360
 msgid "Include post ID"
 msgstr "Icnulde psot ID"
 
-#: admin/oik-bwtrace.php:216 includes/class-trace-command.php:362
+#: admin/oik-bwtrace.php:218 includes/class-trace-command.php:362
 msgid "Include memory/peak usage ( limit %1$s )"
 msgstr "Icnulde mmeroy/paek uasge ( lmiit %1$s )"
 
-#: admin/oik-bwtrace.php:217 includes/class-trace-command.php:363
+#: admin/oik-bwtrace.php:219 includes/class-trace-command.php:363
 msgid "Include files loaded count"
 msgstr "Icnulde flies laoedd cuont"
 
-#: admin/oik-bwtrace.php:223
+#: admin/oik-bwtrace.php:225
 msgid "Current IP: %1$s"
 msgstr "Cruernt IP: %1$s"
 
-#: admin/oik-bwtrace.php:225 includes/class-trace-command.php:364
+#: admin/oik-bwtrace.php:227 includes/class-trace-command.php:364
 msgid "Trace specific IP"
 msgstr "Tarce sepicifc IP"
 
-#: admin/oik-bwtrace.php:242
+#: admin/oik-bwtrace.php:244
 msgid ""
 "The tracing output produced by oik-bwtrace can be used for problem "
 "determination."
 msgstr "ThE taricng otuupt porudecd by OIk-btwarce cAn bE uesd fOr porlbem dtereimaniton."
 
-#: admin/oik-bwtrace.php:243
+#: admin/oik-bwtrace.php:245
 msgid ""
 "The oik-bwtrace plugin should <b>not</b> need to be activated on a live site."
 msgstr "ThE OIk-btwarce pulign sohlud <b>not</b> need tO bE atcvitaed On A lvie stie."
 
-#: admin/oik-bwtrace.php:244
+#: admin/oik-bwtrace.php:246
 msgid "If you do need to activate it, only do so for a short period of time."
 msgstr "If yOU dO need tO atcvitae It, olny dO sO fOr A sohrt preoid Of tmie."
 
-#: admin/oik-bwtrace.php:246
+#: admin/oik-bwtrace.php:248
 msgid ""
 "You will need to specify the trace files directory and trace file names."
 msgstr "YOU wlil need tO sepicfy thE tarce flies driceotry And tarce flie nmaes."
 
-#: admin/oik-bwtrace.php:247
+#: admin/oik-bwtrace.php:249
 msgid "When you want to trace processing check 'Trace enabled'"
 msgstr "Wehn yOU wnat tO tarce porecssnig cehck 'Tarce eanlbed'"
 
-#: admin/oik-bwtrace.php:248
+#: admin/oik-bwtrace.php:250
 msgid ""
 "Specifying a different file name and limit for each transaction can help you "
 "to trace multiple concurrent requests."
 msgstr "Sepicyfnig A dfiefernt flie nmae And lmiit fOr ecah tarsncaiton cAn hlep yOU tO tarce mluitlpe cnoucrrnet rqeeutss."
 
-#: admin/oik-bwtrace.php:261
+#: admin/oik-bwtrace.php:263
 msgid ""
 "Use the [bwtrace] shortcode in a widget to provide an instant trace reset "
 "and page reload."
 msgstr "UsE thE [bwtrace] sohtrocde In A wdiegt tO porivde An isnatnt tarce rseet And pgae rleaod."
 
-#: admin/oik-bwtrace.php:267
+#: admin/oik-bwtrace.php:269
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr "Atcvitae thE OIk bsae pulign tO eanlbe thE [bwtrace] sohtrocde"
 
-#: admin/oik-bwtrace.php:358
+#: admin/oik-bwtrace.php:360
 msgid "Trace file name set to default: bwtrace.log"
 msgstr "Tarce flie nmae sEt tO dfeualt: btwarce.lOg"
 
-#: admin/oik-bwtrace.php:429
+#: admin/oik-bwtrace.php:431
 msgid "Invalid Trace files directory."
 msgstr "Ivnlaid Tarce flies driceotry."
 
@@ -394,11 +399,15 @@ msgstr "Pruigng Old dialy smuamry tarce flies"
 msgid "Trace reset"
 msgstr "Tarce rseet"
 
+#: includes/oik-actions.php:836
+msgid "Summary file"
+msgstr "Smuamry flie"
+
 #: libs/bobbforms.php:509
 msgid "None"
 msgstr "Nnoe"
 
-#: libs/class-BW-.php:108 libs/oik-admin.php:69
+#: libs/class-BW-.php:109 libs/oik-admin.php:69
 msgid "Toggle panel: %s"
 msgstr "Tgolge pnael: %s"
 
