@@ -319,7 +319,10 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		
 	
 	/**
-	 * Replace the values in the oik_trace_info table with consistent values
+	 * Replace the values in the oik_trace_info table with consistent values.
+     *
+     * for case 2 we used to produce the line number.
+     * this is now suppressed.
 	 */
 	function replace_oik_trace_info( $html_array ) {
 		$found_oik_trace_info = false; 
@@ -338,7 +341,7 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 						break;
 					
 						case 2:
-							$html_array[$index] = "<td>$index</td>";
+							$html_array[$index] = "<td></td>";
 							break;
 						
 						case 3:

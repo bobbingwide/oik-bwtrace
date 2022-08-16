@@ -197,6 +197,7 @@ class Tests_oik_bwtrace extends BW_UnitTestCase {
     $bw_action_options['trace_output_buffer'] = 'on';
     $bw_action_options['trace_functions'] = 'on';
     $bw_action_options['trace_status_report'] = 'on';
+    $bw_action_options['trace_url_links'] = 'on';
     $bw_action_options['hooks'] = '';
     $bw_action_options['results'] = '';
     $bw_action_options['post_hooks'] = '';
