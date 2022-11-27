@@ -1,6 +1,6 @@
 <?php // (C) Copyright BobbingWide 2017-2022
 if ( !defined( "CLASS_BW__INCLUDED" ) ) {
-define( "CLASS_BW__INCLUDED", "3.2.2" );
+define( "CLASS_BW__INCLUDED", "3.3.1" );
 
 /**
  * More HTML output library functions
@@ -170,8 +170,12 @@ class BW_ {
 		if ( $value === null ) {
 			$value = bw_array_get( $_REQUEST, $name, null );
 		}
-		$itext = itext( $name, $len, $value, $class, $extras, $args ); 
-		bw_tablerow( array( $lab, $itext ) );
+		$itext = itext( $name, $len, $value, $class, $extras, $args );
+        if ( self::is_table() ) {
+            bw_tablerow(array($lab, $itext));
+        } else {
+            bw_gridrow(array($lab, $itext), $class);
+        }
 		return;
 	}
 
@@ -207,8 +211,12 @@ class BW_ {
 		if ( $value === null ) {
 			$value = bw_array_get( $_REQUEST, $name, null );
 		}
-		$itext = iemail( $name, $len, $value, $class, $extras ); 
-		bw_tablerow( array( $lab, $itext ) );
+		$itext = iemail( $name, $len, $value, $class, $extras );
+        if ( self::is_table() ) {
+            bw_tablerow(array($lab, $itext));
+        } else {
+            bw_gridrow(array($lab, $itext), $class);
+        }
 		return;
 	}
 
@@ -251,8 +259,13 @@ class BW_ {
 		if ( null !== $spellcheck ) {
 			$spellcheck = kv( "spellcheck", $spellcheck );
 		}
-		$itext = iarea( $name, $len, $value, $rows, $spellcheck ); 
-		bw_tablerow( array( $lab, $itext) );
+		$itext = iarea( $name, $len, $value, $rows, $spellcheck );
+        if ( self::is_table() ) {
+            bw_tablerow(array($lab, $itext));
+        } else {
+            $class = bw_array_get( $args, '#class', null );
+            bw_gridrow(array($lab, $itext), $class);
+        }
 		return;
 	}
 
@@ -317,7 +330,11 @@ class BW_ {
 			$iradios .= iradio( $name, $id, $value, $class, $extra );
 		}   
 		$lab = BW_::label( $name, $text );
-		bw_tablerow( array( $lab, $iradios ) );
+        if ( self::is_table() ) {
+            bw_tablerow(array($lab, $iradios));
+        } else {
+            bw_gridrow(array($lab, $iradios), $class);
+        }
 }
 
 	/** 
@@ -330,8 +347,13 @@ class BW_ {
 	 */
 	static function bw_select( $name, $text, $value, $args ) {
 		$lab = BW_::label( $name, $text );
-		$iselect = iselect( $name, $value, $args ); 
-		bw_tablerow( array( $lab, $iselect ) );
+		$iselect = iselect( $name, $value, $args );
+        if ( self::is_table() ) {
+            bw_tablerow(array($lab, $iselect));
+        } else {
+            $class = bw_array_get( $args, '#class', null );
+            bw_gridrow(array($lab, $iselect), $class);
+        }
 		return;
 	}
 
@@ -385,7 +407,22 @@ class BW_ {
 		if ( $text ) {
 			e( $text ); 
 		}
-	}   
+	}
+
+   /*
+   * Determines display format.
+    *
+    * @since 3.3.0
+    * @return bool - true for bw_tablerow, false for bw_gridrow
+   */
+    static function is_table() {
+        if ( function_exists( 'bw_is_table'))  {
+            $is_table = bw_is_table();
+        } else {
+            $is_table = true;
+        }
+        return $is_table;
+    }
 
 
 
