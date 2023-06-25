@@ -724,9 +724,13 @@ function bw_trace_get_hook_type( $hook ) {
  * * the request was implemented as a REST API !
  * * the request is WordPress Health Check wp-admin/?health-check-test-wp_version_check=1
  * * the request is an export from Visual-Form-Builder ( VFB )
- * * ... and other situations we don't yet know about
+ * * the request returns something other than Content-Type text/html
  */
 function bw_trace_ok_to_echo() {
+    static $ok = null;
+    if ( null !== $ok) {
+        return $ok;
+    }
 	$ok = true;
   if ( defined('DOING_AJAX') && DOING_AJAX ) {
 		$ok = false;
@@ -778,6 +782,10 @@ function bw_trace_ok_to_echo() {
         $short = bw_array_get( $_REQUEST, 'customize_changeset_uuid');
     }
 
+    if ( !$short) {
+        $short = bw_trace_check_content_type_header();
+    }
+
     if ( $short ) {
       $ok = false;
     } else {
@@ -785,6 +793,31 @@ function bw_trace_ok_to_echo() {
 		}
 	}
 	return( $ok );
+}
+
+/**
+ * Checks the Content-Tye header
+ *
+ * If there's a Content-Type header and it's not text/html
+ * then we return true.
+ *
+ * This should work for content such as application/zip, text/xml
+ *
+ * @return bool true when Content-Type header is not for text/html.
+ */
+function bw_trace_check_content_type_header() {
+    $short = false;
+    $headers_list = headers_list();
+    bw_trace2( $headers_list, 'headers_list', false, BW_TRACE_DEBUG );
+    if ( count( $headers_list) ) {
+        foreach ( $headers_list as $header ) {
+            if ( 0 === strpos( $header, 'Content-Type') ) {
+                $pos = strpos( $header, 'text/html');
+                $short = ( $pos === false );
+            }
+        }
+    }
+    return $short;
 }
 
 function bw_trace_purge_if_no_errors() {
