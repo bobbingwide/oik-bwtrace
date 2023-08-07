@@ -978,9 +978,11 @@ function bw_lazy_backtrace() {
             } elseif ( is_array( $targ ) ) {
               $function .= $sep."array";
             } elseif ( is_scalar( $targ ) ) {
-              $function .= $sep.$targ ;
-						} else {
-							$function .= $sep."unsupported" ;
+	            $function.=$sep . $targ;
+            } elseif ( is_null( $targ) ) {
+				$function.=$sep.'null';
+			} else {
+				$function .= $sep."unsupported" ;
             }  
             $sep = ',';
           }
