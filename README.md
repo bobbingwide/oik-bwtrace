@@ -4,10 +4,10 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 * Requires at least: 5.0
-* Tested up to: 6.0.1
+* Tested up to: 6.3
 * Gutenberg compatible: Yes
 * Requires PHP: 5.6
-* Stable tag: 3.4.0
+* Stable tag: 3.4.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,23 +136,15 @@ https://github.com/bobbingwide/oik-bwtrace
 9. Daily Trace Summary file
 
 ## Upgrade Notice 
-# 3.4.0 
-Update for the experimental performance trace and front end trace file links options.
+# 3.4.1 
+Upgrade for improved detection of when not to write the trace summary output. Tested with WordPress 6.3
 
 ## Changelog 
-# 3.4.0 
-* Changed: Previous change history moved to changelog.txt
-* Added: Added display trace file links option #110
-* Changed: Reconcile shared libraries
-* Fixed: Avoid Fatal at shutdown for heartbeat requests not being traced #109
-* Added: Experiment with only tracing scalar data when performance tracing #109
-* Added: Load options from JSON files if available #109
-* Added: Support tracing to memory when performance_trace is 'on' #109
-* Added: Add BW_TRACE_START_TIMESTAMP timing point #109
-* Fixed: Update languages. Adjust tests for newly translated strings #87 #109
-* Added: Add class trace_json_options and Enable performance trace checkbox #109
-* Changed: Update bw_action do page tests #87
-* Tested: With WordPress 6.0.1 and WordPress Multi Site
+# 3.4.1 
+* Changed: Improve bw_backtrace output for parameters which are null #112
+* Changed: Add bw_trace_check_content_type_header(). Use static $ok in bw_trace_ok_to_echo() #107 #78
+* Changed: Update shared libraries used by oik v4.9.0
+* Tested: With WordPress 6.3 and WordPress Multi Site
 * Tested: With PHPUnit 9
 * Tested: With PHP 8.0
 
@@ -160,5 +152,3 @@ Update for the experimental performance trace and front end trace file links opt
 If you want to read more about the oik plugins then please visit the
 [oik plugin](https://www.oik-plugins.com/oik)
 **"the oik plugin - for often included key-information"**
-
-
