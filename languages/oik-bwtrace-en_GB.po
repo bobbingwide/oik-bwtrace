@@ -1,16 +1,16 @@
-# Copyright (C) 2022 oik bwtrace
+# Copyright (C) 2023 oik bwtrace
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
 "Project-Id-Version: oik bwtrace 3.4.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2022-08-16 12:55:20+00:00\n"
+"POT-Creation-Date: 2023-08-07 17:42:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: en_GB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 #: admin/class-oik-trace-info.php:25
@@ -171,7 +171,7 @@ msgid "General browser requests"
 msgstr "General browser requests"
 
 #: admin/oik-bwtrace.php:180 includes/class-trace-command.php:305
-#: includes/oik-actions.php:821
+#: includes/oik-actions.php:854
 msgid "Trace file"
 msgstr "Trace file"
 
@@ -343,27 +343,27 @@ msgstr "Trace file name set to default: bwtrace.log"
 msgid "Invalid Trace files directory."
 msgstr "Invalid Trace files directory."
 
-#: includes/bwtrace.php:1080
+#: includes/bwtrace.php:1082
 msgid "Debug level"
 msgstr "Debug level"
 
-#: includes/bwtrace.php:1081
+#: includes/bwtrace.php:1083
 msgid "Information level - standard"
 msgstr "Information level - standard"
 
-#: includes/bwtrace.php:1082
+#: includes/bwtrace.php:1084
 msgid "Notice level"
 msgstr "Notice level"
 
-#: includes/bwtrace.php:1083
+#: includes/bwtrace.php:1085
 msgid "Warning level"
 msgstr "Warning level"
 
-#: includes/bwtrace.php:1084
+#: includes/bwtrace.php:1086
 msgid "Error level"
 msgstr "Error level"
 
-#: includes/bwtrace.php:1085
+#: includes/bwtrace.php:1087
 msgid "Verbose level - noisier than Debug"
 msgstr "Verbose level - noisier than Debug"
 
@@ -399,11 +399,11 @@ msgstr "Purging old daily summary trace files"
 msgid "Trace reset"
 msgstr "Trace reset"
 
-#: includes/oik-actions.php:836
+#: includes/oik-actions.php:869
 msgid "Summary file"
 msgstr "Summary file"
 
-#: libs/bobbforms.php:509
+#: libs/bobbforms.php:526
 msgid "None"
 msgstr "None"
 
