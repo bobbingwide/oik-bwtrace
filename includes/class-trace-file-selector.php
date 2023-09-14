@@ -126,7 +126,7 @@ class trace_file_selector {
 		//if ( !$file_path ) {
 		//	$file_path = $this->get_abspath();
 		//}
-		$this->file_path = trailingslashit( $file_path );
+		$this->file_path = ( null === $file_path ) ? $file_path : trailingslashit( $file_path );
 	}
 	
 	/**

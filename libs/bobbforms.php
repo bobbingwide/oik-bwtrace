@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2022
+<?php // (C) Copyright Bobbing Wide 2009-2023
 if ( !defined( "BOBBFORMS_INCLUDED" ) ) {
-define( "BOBBFORMS_INCLUDED", "3.4.1" );
+define( "BOBBFORMS_INCLUDED", "3.4.2" );
 
 /**
  * Library: bobbforms
@@ -516,7 +516,7 @@ function iselect( $name, $value, $args ) {
 	//bw_trace2();
 	$multiple = bw_array_get( $args, "#multiple", false );
 	if ( $multiple ) {
-		$iselect = "<select name=\"${name}[]\" multiple size=\"$multiple\">" ;
+		$iselect = "<select name=\"{$name}[]\" multiple size=\"$multiple\">" ;
 	} else {
 		$iselect = "<select name=\"$name\">" ;
 	}
