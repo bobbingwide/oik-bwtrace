@@ -75,7 +75,9 @@ class trace_file_selector {
 	 * @param integer|null $limit
 	 */
 	public function set_limit( $limit=null ) {
-		$limit = trim( $limit );
+		if ( null !== $limit ) {
+			$limit=trim( $limit );
+		}
 		$this->limit = $limit;
 	}
 	
