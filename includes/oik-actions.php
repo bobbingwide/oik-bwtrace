@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2016,2019,2020,2021,2022
+<?php // (C) Copyright Bobbing Wide 2012-2016,2019,2020,2021,2022,2023
 if ( !defined( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED' ) ) {
 define( 'OIK_OIK_BWTRACE_INCLUDES_INCLUDED', true );
 
@@ -796,7 +796,7 @@ function bw_trace_ok_to_echo() {
 }
 
 /**
- * Checks the Content-Tye header
+ * Checks the Content-Type header
  *
  * If there's a Content-Type header and it's not text/html
  * then we return true.
