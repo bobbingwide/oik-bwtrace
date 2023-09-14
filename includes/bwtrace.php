@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2021
+<?php // (C) Copyright Bobbing Wide 2011-2021, 2023
 if ( !defined( 'OIK_BWTRACE_INCLUDES_INCLUDED' ) )  {
 define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  
@@ -340,7 +340,7 @@ function bw_trace_bwechos() {
 			$ret .= "0";
 		}
     $ret .= " $bwechos ";
-    $ret .= strlen( $bwecho ); 
+	$ret .= (null === $bwecho ) ? 0 : strlen( $bwecho );
     $ret .= $bwecho;  
     $saved = $bwechos; 
   } else {
