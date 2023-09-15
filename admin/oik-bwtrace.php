@@ -1,7 +1,7 @@
 <?php 
 /*
 
-    Copyright 2012-2018 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2018, 2023 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -304,7 +304,7 @@ function oik_trace_summary() {
  */
 function bw_trace_options_validate($input) {
 	bw_trace2();
-	$input['ip']=trim( bw_array_get( $input, 'ip', null ) );
+	$input['ip']=trim( bw_array_get( $input, 'ip', '' ) );
 	bw_trace_file_name_validate( $input,'trace', 'file', '' );
 	bw_trace_file_name_validate( $input,'trace_ajax', 'file_ajax', 'AJAX' );
 	bw_trace_file_name_validate( $input,'trace_rest', 'file_rest', 'REST' );
@@ -329,7 +329,9 @@ function bw_trace_options_validate($input) {
  */
 
 function bw_trace_validate_filename( $filename, $file_field ) {
-	$filename = trim( $filename );
+	if ( null !== $filename ) {
+		$filename=trim( $filename );
+	}
 	if ( !empty( $filename ) ) {
 		$file_path = pathinfo( $filename, PATHINFO_DIRNAME );
 		if ( '.' !== $file_path ) {
