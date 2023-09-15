@@ -8,6 +8,10 @@
 class Tests_oik_bwtrace extends BW_UnitTestCase {
 
 	public $bw_trace_on = null;
+	public $bw_trace_options;
+	public $bw_trace_files_options;
+	public $bw_action_options;
+
 
 	function setUp() : void {
 		parent::setUp();
