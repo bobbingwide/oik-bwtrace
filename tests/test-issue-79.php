@@ -26,11 +26,15 @@ class Tests_issue_79 extends BW_UnitTestCase {
 			case '4':
 				$expected = 'End of life for your version of PHP is: 2022-11-28';
 				break;
-
 			case '0':
 				$expected = 'End of life for your version of PHP is: 2023-11-26';
 				break;
-
+			case '1':
+				$expected = 'End of life for your version of PHP is: 2024-11-25';
+				break;
+			case '2':
+				$expected = 'End of life for your version of PHP is: 2025-12-08';
+				break;
 			default:
 				echo 'Not catered for' . PHP_EOL;
 		}
