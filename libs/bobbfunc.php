@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2021
+<?php // (C) Copyright Bobbing Wide 2009-2023
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.4.2" );
+define( "BOBBFUNC_INCLUDED", "3.4.3" );
 
 /**
  * HTML output library functions
@@ -872,7 +872,7 @@ function bw_funcname( $prefix, $key, $value=NULL ) {
  * @uses plugin_dir_url() to find the plugin base directory then appends the plugin folder and file name
  */
 function oik_url( $file=null, $plugin='oik' ) {
-  $url = plugin_dir_url( null );
+  $url = plugin_dir_url( '' );
   $url .= "$plugin/$file" ;
   return( $url ); 
 }
