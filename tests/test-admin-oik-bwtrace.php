@@ -155,6 +155,9 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 	 * - Information
 	 * - Notes about oik trace
 	 * - Trace options and reset button
+	 *
+	 * @TODO Alter test so that it will complete regardless of the setting of Enable performance trace.
+	 * It currently requires the checkbox to be unchecked.
 	 */
 	function test_bw_trace_options_do_page() {
 	
@@ -373,7 +376,9 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 	
 	function replace_trace_url( $html ) {
 		$trace_url = bw_trace_url();
-		$html = str_replace( $trace_url, "https://qw/src/bwphpunit.loh", $html );
+		if ( null !== $trace_url ) {
+			$html=str_replace( $trace_url, "https://qw/src/bwphpunit.loh", $html );
+		}
 		return $html;
 	}
 		
