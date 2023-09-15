@@ -686,7 +686,7 @@ function bw_trace_determine_request() {
  * @return string a slightly sanitized value for HTTP_USER_AGENT
  */
 function bw_trace_http_user_agent() {
-	$http_user_agent = bw_array_get( $_SERVER, "HTTP_USER_AGENT", null );
+	$http_user_agent = bw_array_get( $_SERVER, "HTTP_USER_AGENT", '' );
 	$http_user_agent = str_replace( ",", ";", $http_user_agent );
 	return $http_user_agent;
 }
