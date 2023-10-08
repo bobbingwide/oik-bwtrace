@@ -485,6 +485,11 @@ function bw_this_plugin_first( $plugin, $network_wide ) {
   }                
 }
 
+/**
+ * Adds hooks to synchronise changes to trace options with the .json files.
+ *
+ * @return void
+ */
 
 function bw_trace_options_sync() {
     //bw_trace2();
