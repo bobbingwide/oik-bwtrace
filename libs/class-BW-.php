@@ -1,6 +1,6 @@
-<?php // (C) Copyright BobbingWide 2017-2022
+<?php // (C) Copyright BobbingWide 2017-2023
 if ( !defined( "CLASS_BW__INCLUDED" ) ) {
-define( "CLASS_BW__INCLUDED", "3.3.1" );
+define( "CLASS_BW__INCLUDED", "3.3.2" );
 
 /**
  * More HTML output library functions
@@ -249,7 +249,7 @@ class BW_ {
 	static function bw_textarea( $name, $len, $text, $value, $rows=10, $args=null ) {
 		$lab = self::label( $name, $text );
 		if ( $value === null ) {
-			$value = bw_array_get( $_REQUEST, $name, null );
+			$value = bw_array_get( $_REQUEST, $name, '' );
 			bw_trace2( $value, "bw_textarea value" );
 			$value = wp_strip_all_tags( $value );
 			$value = stripslashes( $value );

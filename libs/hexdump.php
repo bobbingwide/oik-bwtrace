@@ -1,8 +1,9 @@
 <?php
 if ( !defined( "HEXDUMP_INCLUDED" ) ) {
-	define( "HEXDUMP_INCLUDED", "1.0.0" );
+	define( "HEXDUMP_INCLUDED", "1.0.1" );
 
 	/**
+	 * @copyright (C) Bobbing Wide 2013-2023
 	 * Hexadecimal dumping functions
 	 *
 	 * Library: hexdump
@@ -22,7 +23,7 @@ if ( !defined( "HEXDUMP_INCLUDED" ) ) {
 	 */
 	function oik_hexdump( $string ) {
 		$hexdump = null;
-		$count   = strlen( $string );
+		$count   = ( null === $string) ? 0 : strlen( $string );
 		$hexdump .= $count;
 		$hexdump .= PHP_EOL;
 		$lineo   = "";
