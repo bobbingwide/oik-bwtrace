@@ -31,6 +31,9 @@ See also:
 * [bw_backtrace()](https://www.oik-plugins.com/oik_api/bw_backtrace)
 
 == Upgrade Notice ==
+= 3.4.2 =
+Now supports PHP 8.1 and PHP 8.2. 
+
 = 3.4.1 =
 Upgrade for improved detection of when not to write the trace summary output. Tested with WordPress 6.3
 
@@ -188,6 +191,14 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 3.4.2 =
+* Changed: Restore performance trace .json files after PHPUnit tests #109
+* Changed: Several changes to support PHP 8.2 #113
+* Tested: With WordPress 6.3.1 and WordPress Multisite
+* Tested: With WordPress 6.4-beta2 and WordPress Multisite
+* Tested: With PHPUnit 9.6
+* Tested: With PHP 8.0, 8.1 and 8.2
+
 = 3.4.1 =
 * Changed: Improve bw_backtrace output for parameters which are null #112
 * Changed: Add bw_trace_check_content_type_header(). Use static $ok in bw_trace_ok_to_echo() #107 #78
