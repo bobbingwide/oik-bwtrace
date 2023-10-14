@@ -129,7 +129,7 @@ class BW_trace_controller {
 	    if ( null === $option ) {
 	        $option = get_option( $option_name );
 			if ( null !== $option ) {
-				$this->trace_json_options->sync_to_json( $option, $option, $option_name );
+				$this->trace_json_options->maybe_trace_sync_to_json( $option, $option, $option_name );
 			}
         }
 	    return $option;
