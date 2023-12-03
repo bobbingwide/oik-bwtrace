@@ -4,10 +4,10 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 * Requires at least: 5.0
-* Tested up to: 6.4-beta3
+* Tested up to: 6.4.1
 * Gutenberg compatible: Yes
 * Requires PHP: 5.6
-* Stable tag: 3.4.3
+* Stable tag: 3.4.4
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,13 +137,12 @@ https://github.com/bobbingwide/oik-bwtrace
 
 ## Upgrade Notice 
 # 3.4.3 
-Fixes a problem when mu-plugins folder is not present.
+Fixes a problem with PHP 8.2
 
 ## Changelog 
 # 3.4.3 
-* Fixed: Caters for mu-plugins folder not being present #109
-* Tested: With WordPress 6.3.1 and WordPress Multisite
-* Tested: With WordPress 6.4-beta3 and WordPress Multisite
+* Fixed: Declare properties #113
+* Tested: With WordPress 6.4.1 and WordPress Multisite
 * Tested: With PHPUnit 9.6
 * Tested: With PHP 8.0, 8.1 and 8.2
 
