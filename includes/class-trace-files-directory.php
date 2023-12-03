@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2018
+<?php // (C) Copyright Bobbing Wide 2018, 2023
 
 /**
  * @package oik-bwtrace
@@ -56,6 +56,8 @@ class trace_files_directory {
 	 * Prefix for a fully qualified file name.
 	 */
 	private $fq_prefix;
+	private $message;
+
 	
 	function __construct() {
 		$this->valid = false;
@@ -272,7 +274,7 @@ class trace_files_directory {
 	function validate_fq_prefix( $directory ) {
 		$valid = false;
 		$fq_prefix = $this->get_fq_prefix();
-		if ( 0 === strpos( $directory, $fq_prefix ) ) {
+		if ( $directory && 0 === strpos( $directory, $fq_prefix ) ) {
 			$valid = true;	
 		} else {
 			$this->message( "Directory must be fully qualified and start with: ",  $fq_prefix );
