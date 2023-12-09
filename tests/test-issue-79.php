@@ -14,20 +14,24 @@ class Tests_issue_79 extends BW_UnitTestCase {
 	}
 
 	/**
-	 * Need to check that PHP end-of-life is returned for PHP 7.3
+	 *
 	 *
 	 */
 	function test_php_end_of_life() {
 		$phpversion = explode( '.', phpversion() );
 		switch ( $phpversion[1] ) {
 			case '3':
-				$expected = 'End of life for your version of PHP is: 2021-12-06';
+				if ( '8' === $phpversion[0]) {
+					$expected = 'End of life for your version of PHP is: 2026-11-23';
+				} else {
+					$expected='End of life for your version of PHP was: 2021-12-06';
+				}
 				break;
 			case '4':
 				$expected = 'End of life for your version of PHP is: 2022-11-28';
 				break;
 			case '0':
-				$expected = 'End of life for your version of PHP is: 2023-11-26';
+				$expected = 'End of life for your version of PHP was: 2023-11-26';
 				break;
 			case '1':
 				$expected = 'End of life for your version of PHP is: 2024-11-25';
