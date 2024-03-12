@@ -1,7 +1,7 @@
 === oik-bwtrace ===
 Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
-Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
+Tags: debug, trace, backtrace, ad hoc tracing
 Requires at least: 5.0
 Tested up to: 6.5-RC1
 Gutenberg compatible: Yes
