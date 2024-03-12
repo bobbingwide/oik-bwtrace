@@ -3,7 +3,7 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, actions, filters, ad hoc tracing, hook tracing, filter tracing, string watch
 Requires at least: 5.0
-Tested up to: 6.4.2
+Tested up to: 6.5-RC1
 Gutenberg compatible: Yes
 Requires PHP: 5.6
 Stable tag: 3.4.5
@@ -135,13 +135,14 @@ Use the contact form on the oik-plugins website.
 9. Daily Trace Summary file
  
 == Upgrade Notice ==
-= 3.4.5 =
-Update for support for PHP 8.3
+= 3.4.6 =
+Reconciles the bobbfunc shared library which was changed for a security fix to the oik plugin.
 
 == Changelog ==
-= 3.4.5 =
-* Changed: Support PHP 8.3 #116
-* Tested: With WordPress 6.4.2 and WordPress Multisite
+= 3.4.6 =
+* Changed: Reconcile bobbfunc shared library.
+* Tested: With WordPress 6.4.3 and WordPress Multisite
+* Tested: With WordPress 6.5-RC1 and WordPress Multisite
 * Tested: With PHPUnit 9.6
 * Tested: With PHP 8.3
 
