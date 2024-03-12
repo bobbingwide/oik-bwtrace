@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2023
+<?php // (C) Copyright Bobbing Wide 2009-2024
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.4.3" );
+define( "BOBBFUNC_INCLUDED", "3.5.0" );
 
 /**
  * HTML output library functions
@@ -259,7 +259,7 @@ function retlink( $class, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL
   $link = "<a" ;
   $link .= kv( "class", $class ); 
   $link .= kv( "id", $id ); 
-  $link .= kv( "href", $url ); 
+  $link .= kv( "href", esc_url( $url ) );
   if ( !is_null( $alt ) ) {
 		if ( $alt != $linktori ) {
 			$link .= atitle( $alt );
