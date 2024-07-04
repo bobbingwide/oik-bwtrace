@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2009-2024
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.5.0" );
+define( "BOBBFUNC_INCLUDED", "3.6.0" );
 
 /**
  * HTML output library functions
@@ -164,7 +164,9 @@ function retimage( $class, $jpg, $title=NULL, $width=NULL, $height=NULL, $extras
  * Create a keyword value pair
  *
  * If the value is not null returns the keyword value pair in format ' $keyword="$value"'
- *  
+ *
+ * Note. Neither the $value nor $keyword is escaped in this function.
+ * For improved security you may need to call an esc_* function on these parameters if they can be supplied by the end user.
  * 
  * @param string $keyword - the keyword name e.g. class
  * @param string $value - the value(s) e.g. "bw_class w50pc"
@@ -172,7 +174,7 @@ function retimage( $class, $jpg, $title=NULL, $width=NULL, $height=NULL, $extras
  */   
 function kv( $keyword, $value=null ) {
   if ( $value != null ) {
-    $kv = ' '.$keyword . '="' . $value .'"';
+        $kv = ' '.$keyword . '="' . $value .'"';
   } else {
     $kv = '';
   }  
@@ -256,9 +258,10 @@ function retlink( $class, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL
   if ( is_null( $linktori ) )	{
     $linktori = $url;
 	}
+  $url = $url ? $url : '#';
   $link = "<a" ;
-  $link .= kv( "class", $class ); 
-  $link .= kv( "id", $id ); 
+  $link .= kv( "class", esc_attr( $class ) );
+  $link .= kv( "id", esc_attr( $id ) );
   $link .= kv( "href", esc_url( $url ) );
   if ( !is_null( $alt ) ) {
 		if ( $alt != $linktori ) {
