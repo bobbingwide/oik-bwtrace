@@ -3,10 +3,10 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, ad hoc tracing
 Requires at least: 5.0
-Tested up to: 6.5-RC1
+Tested up to: 6.6-RC2
 Gutenberg compatible: Yes
 Requires PHP: 5.6
-Stable tag: 3.4.6
+Stable tag: 3.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,14 +135,13 @@ Use the contact form on the oik-plugins website.
 9. Daily Trace Summary file
  
 == Upgrade Notice ==
-= 3.4.6 =
+= 3.4.7 =
 Reconciles the bobbfunc shared library which was changed for a security fix to the oik plugin.
 
 == Changelog ==
-= 3.4.6 =
+= 3.4.7 =
 * Changed: Reconcile bobbfunc shared library.
-* Tested: With WordPress 6.4.3 and WordPress Multisite
-* Tested: With WordPress 6.5-RC1 and WordPress Multisite
+* Tested: With WordPress 6.6-RC2 and WordPress Multisite
 * Tested: With PHPUnit 9.6
 * Tested: With PHP 8.3
 

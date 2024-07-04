@@ -31,6 +31,9 @@ See also:
 * [bw_backtrace()](https://www.oik-plugins.com/oik_api/bw_backtrace)
 
 == Upgrade Notice ==
+= 3.4.6 =
+Reconciles the bobbfunc shared library which was changed for a security fix to the oik plugin.
+
 = 3.4.5 =
 Update for support for PHP 8.3
 
@@ -200,6 +203,13 @@ This version is a standalone version from www.oik-plugins.com
 This version matches the child plugin oik-bwtrace in oik v1.17
 
 == Changelog ==
+= 3.4.6 =
+* Changed: Reconcile bobbfunc shared library.
+* Tested: With WordPress 6.4.3 and WordPress Multisite
+* Tested: With WordPress 6.5-RC1 and WordPress Multisite
+* Tested: With PHPUnit 9.6
+* Tested: With PHP 8.3
+
 = 3.4.5 =
 * Changed: Support PHP 8.3 #116
 * Tested: With WordPress 6.4.2 and WordPress Multisite
