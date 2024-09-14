@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2016,2017,2019,2021
+<?php // (C) Copyright Bobbing Wide 2016,2017,2019,2021, 2024
 /**
  * Class: OIK_trace_info
  *
@@ -220,16 +220,17 @@ class OIK_trace_info {
 											, "5.3" => "2014-08-14"
 											, "5.4" => "2015-09-03"
 											, "5.5" => "2016-07-21"
-											, "5.6" => "2018-12-31" // Minimum for legacy
+											, "5.6" => "2018-12-31"
 											, "7.0" => "2018-12-03"
 											, "7.1" => "2019-12-01"
-											, "7.2" => "2020-11-30"
+											, "7.2" => "2020-11-30" // minimum
 											, '7.3' => '2021-12-06'
-											, '7.4' => '2022-11-28' // Recommended
+											, '7.4' => '2022-11-28' // recommended
 											, '8.0' => '2023-11-26'
 											, '8.1' => '2024-11-25'
-											, '8.2' => '2025-12-08'
+											, '8.2' => '2025-12-08' // hosting team recommendation
 											, '8.3' => '2026-11-23'
+											, '8.4' => '2028-12-31'
 											); 
 			$eol = $php_eol[ PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ]; 
 			if ( $eol < date( "Y-m-d" ) ) {
@@ -242,4 +243,4 @@ class OIK_trace_info {
 		}
 		return( $message ); 
 	}
-} 
+}
