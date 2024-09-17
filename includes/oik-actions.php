@@ -642,19 +642,20 @@ function bw_trace_vt( $value, $text ) {
 }
 
 /**
- * Determine what to log as the request
+ * Determines what to log as the request.
  * 
  * $SERVER | DOING_AJAX | What to log 
  * ------- | ---------- | ---------- 
- *  yes    |  No        | REQUEST_URI,,
- *  no     |  n/a       | parms,,
+ *  yes    |  No        | REQUEST_URI,
+ *  no     |  n/a       | parms,
  *  yes    |  Yes       | REQUEST_URI,action 
  *
- * If the request contains commas we need to wrap it in quotes or escape them.
- * Otherwise a CSV routine may not deal with it correctly.
+ * If the request contains commas we need to wrap it in quotes or escape them,
+ * otherwise a CSV routine may not deal with it correctly.
  * Note: We expect double quotes to have been encoded as %22.
  *
- * @TODO What if the AJAX action contains commas and/or quotes?
+ * We also need to handle the case when the AJAX action
+ * also contains commas and/or quotes.
  * 
  * @return string the request string
  */
@@ -675,7 +676,13 @@ function bw_trace_determine_request() {
 	}				
   $request .= ",";
   if ( defined( 'DOING_AJAX') && DOING_AJAX ) {
-    $request .=  bw_array_get( $_REQUEST, 'action', null );
+	  $action = bw_array_get( $_REQUEST, 'action', '' );
+	  if ( false !== strpos( $action, ",")) {
+		  $action = '"' . urlencode( $action ) . '"';
+	  } else {
+		  $action = urlencode( $action );
+	  }
+	  $request .= $action;
   }
   return( $request );
 } 
