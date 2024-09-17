@@ -258,25 +258,34 @@ function bw_get_num_queries() {
 }
 
 /**
- * Return the global post_id and, if different global id, for tracing
+ * Return the global post ID and, if different global id, for tracing
  *
  * @return string $post->ID and, if different "<>"$id
  * @global post post
  * @global post_id id
  */
 function bw_get_post_id() {
+	$post_id = 0;
+	$id = 0;
   if ( isset( $GLOBALS['post'] )) {
-    $post_id = $GLOBALS['post']->ID;
+	  if ( !is_wp_error( $GLOBALS['post']->ID  ) ){
+	    $post_id=$GLOBALS['post']->ID;
+      } else {
+		  print_r( $GLOBALS['post']);
+	  }
   } else {
     $post_id = 0;
   }
   if ( isset( $GLOBALS['id'] ) ) {
-    $id = $GLOBALS['id'];
-    if ( $id <> $post_id ) { 
+	  if ( !is_wp_error( $GLOBALS['id'] ) ) {
+		  $id=$GLOBALS['id'];
+	  }
+  }
+  if ( $id <> $post_id ) {
 			if ( is_scalar( $id ) ) {
 				$post_id .= "<>" . $id; 
 			}
-    }
+
   }
   return( $post_id ) ;
 }
