@@ -57,6 +57,7 @@ function bw_trace_add_action( $action, $option, $file, $function, $count=1 ) {
  * So it shouldn't be where it currently is. 
  */
 function bw_trace_add_selected_actions() {
+	oik_require_lib( 'bobbfunc');
 	bw_trace_add_action( "wp", "trace_wp_action", "includes/oik-actions.php", "bw_trace_wp" );
 	bw_trace_add_action( "wp", "trace_wp_rewrite", "includes/oik-actions.php", "bw_trace_wp_rewrite" );
 	//bw_trace_add_action( 'shutdown', 'trace_plugin_loaded', 'includes/oik-actions.php', 'bw_trace_plugin_loaded_report' );
