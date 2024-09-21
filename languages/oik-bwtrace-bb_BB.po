@@ -1,16 +1,16 @@
-# Copyright (C) 2023 oik bwtrace
+# Copyright (C) 2024 oik bwtrace
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 3.4.0\n"
+"Project-Id-Version: oik bwtrace 3.5.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2023-08-07 17:42:44+00:00\n"
+"POT-Creation-Date: 2024-09-21 09:40:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: bb_BB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 #: admin/class-oik-trace-info.php:25
@@ -171,7 +171,7 @@ msgid "General browser requests"
 msgstr "Gnereal borswer rqeeutss"
 
 #: admin/oik-bwtrace.php:180 includes/class-trace-command.php:305
-#: includes/oik-actions.php:854
+#: includes/oik-actions.php:861
 msgid "Trace file"
 msgstr "Tarce flie"
 
@@ -180,32 +180,32 @@ msgid "Trace enabled"
 msgstr "Tarce eanlbed"
 
 #: admin/oik-bwtrace.php:182 includes/class-trace-command.php:307
-msgid "Reset trace file every transaction"
-msgstr "Rseet tarce flie eevry tarsncaiton"
+msgid "Reset trace file for every transaction"
+msgstr "Rseet tarce flie fOr eevry tarsncaiton"
 
 #: admin/oik-bwtrace.php:183 includes/class-trace-command.php:308
 msgid "Trace file generation limit"
 msgstr "Tarce flie gneretaoin lmiit"
 
 #: admin/oik-bwtrace.php:185
-msgid "AJAX requests"
-msgstr "AAJX rqeeutss"
+msgid "Ajax requests"
+msgstr "Aajx rqeeutss"
 
 #: admin/oik-bwtrace.php:186 includes/class-trace-command.php:311
-msgid "AJAX trace file"
-msgstr "AAJX tarce flie"
+msgid "Ajax trace file"
+msgstr "Aajx tarce flie"
 
 #: admin/oik-bwtrace.php:187 includes/class-trace-command.php:312
-msgid "AJAX trace enabled"
-msgstr "AAJX tarce eanlbed"
+msgid "Ajax trace enabled"
+msgstr "Aajx tarce eanlbed"
 
-#: admin/oik-bwtrace.php:188
-msgid "Reset AJAX trace file every AJAX transaction"
-msgstr "Rseet AAJX tarce flie eevry AAJX tarsncaiton"
+#: admin/oik-bwtrace.php:188 includes/class-trace-command.php:313
+msgid "Reset Ajax trace file for every Ajax transaction"
+msgstr "Rseet Aajx tarce flie fOr eevry Aajx tarsncaiton"
 
 #: admin/oik-bwtrace.php:189 includes/class-trace-command.php:314
-msgid "AJAX trace file generation limit"
-msgstr "AAJX tarce flie gneretaoin lmiit"
+msgid "Ajax trace file generation limit"
+msgstr "Aajx tarce flie gneretaoin lmiit"
 
 #: admin/oik-bwtrace.php:191 includes/class-trace-command.php:316
 msgid "REST requests"
@@ -220,8 +220,8 @@ msgid "REST trace enabled"
 msgstr "RSET tarce eanlbed"
 
 #: admin/oik-bwtrace.php:194 includes/class-trace-command.php:319
-msgid "Reset REST trace file every REST transaction"
-msgstr "Rseet RSET tarce flie eevry RSET tarsncaiton"
+msgid "Reset REST trace file for every REST transaction"
+msgstr "Rseet RSET tarce flie fOr eevry RSET tarsncaiton"
 
 #: admin/oik-bwtrace.php:195 includes/class-trace-command.php:320
 msgid "REST trace file generation limit"
@@ -240,8 +240,8 @@ msgid "Batch trace enabled"
 msgstr "Btach tarce eanlbed"
 
 #: admin/oik-bwtrace.php:201 includes/class-trace-command.php:326
-msgid "Reset batch trace file each invocation"
-msgstr "Rseet btach tarce flie ecah ivncotaoin"
+msgid "Reset batch trace file on each invocation"
+msgstr "Rseet btach tarce flie On ecah ivncotaoin"
 
 #: admin/oik-bwtrace.php:202 includes/class-trace-command.php:327
 msgid "Batch trace file generation limit"
@@ -279,9 +279,9 @@ msgstr "Icnulde nmuebr Of qeuires"
 msgid "Include post ID"
 msgstr "Icnulde psot ID"
 
-#: admin/oik-bwtrace.php:218 includes/class-trace-command.php:362
-msgid "Include memory/peak usage ( limit %1$s )"
-msgstr "Icnulde mmeroy/paek uasge ( lmiit %1$s )"
+#: admin/oik-bwtrace.php:218
+msgid "Include memory/peak usage (limit %1$s)"
+msgstr "Icnulde mmeroy/paek uasge (lmiit %1$s)"
 
 #: admin/oik-bwtrace.php:219 includes/class-trace-command.php:363
 msgid "Include files loaded count"
@@ -335,49 +335,49 @@ msgstr "UsE thE [bwtrace] sohtrocde In A wdiegt tO porivde An isnatnt tarce rsee
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr "Atcvitae thE OIk bsae pulign tO eanlbe thE [bwtrace] sohtrocde"
 
-#: admin/oik-bwtrace.php:360
+#: admin/oik-bwtrace.php:362
 msgid "Trace file name set to default: bwtrace.log"
 msgstr "Tarce flie nmae sEt tO dfeualt: btwarce.lOg"
 
-#: admin/oik-bwtrace.php:431
+#: admin/oik-bwtrace.php:433
 msgid "Invalid Trace files directory."
 msgstr "Ivnlaid Tarce flies driceotry."
 
-#: includes/bwtrace.php:1082
+#: includes/bwtrace.php:1091
 msgid "Debug level"
 msgstr "Dbeug lveel"
 
-#: includes/bwtrace.php:1083
-msgid "Information level - standard"
-msgstr "Ifnroamiton lveel - satdnrad"
+#: includes/bwtrace.php:1092
+msgid "Information level &ndash; standard"
+msgstr "Ifnroamiton lveel &ndash; satdnrad"
 
-#: includes/bwtrace.php:1084
+#: includes/bwtrace.php:1093
 msgid "Notice level"
 msgstr "Ntocie lveel"
 
-#: includes/bwtrace.php:1085
+#: includes/bwtrace.php:1094
 msgid "Warning level"
 msgstr "Wrainng lveel"
 
-#: includes/bwtrace.php:1086
+#: includes/bwtrace.php:1095
 msgid "Error level"
 msgstr "Error lveel"
 
-#: includes/bwtrace.php:1087
-msgid "Verbose level - noisier than Debug"
-msgstr "Vreobse lveel - nioiser tahn Dbeug"
+#: includes/bwtrace.php:1096
+msgid "Verbose level &ndash; noisier than Debug"
+msgstr "Vreobse lveel &ndash; nioiser tahn Dbeug"
 
-#: includes/class-trace-command.php:313
-msgid "Reset AJAX trace file every transaction"
-msgstr "Rseet AAJX tarce flie eevry tarsncaiton"
+#: includes/class-trace-command.php:362
+msgid "Include memory/peak usage ( limit %1$s )"
+msgstr "Icnulde mmeroy/paek uasge ( lmiit %1$s )"
 
 #: includes/class-trace-logs.php:119
 msgid "Trace files directory"
 msgstr "Tarce flies driceotry"
 
 #: includes/class-trace-logs.php:120
-msgid "Retention period ( days )"
-msgstr "Rteneiton preoid ( dyas )"
+msgid "Retention period (days)"
+msgstr "Rteneiton preoid (dyas)"
 
 #: includes/class-trace-logs.php:121
 msgid "Enable performance trace"
@@ -399,7 +399,7 @@ msgstr "Pruigng Old dialy smuamry tarce flies"
 msgid "Trace reset"
 msgstr "Tarce rseet"
 
-#: includes/oik-actions.php:869
+#: includes/oik-actions.php:876
 msgid "Summary file"
 msgstr "Smuamry flie"
 

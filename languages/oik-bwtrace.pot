@@ -1,14 +1,14 @@
-# Copyright (C) 2023 oik bwtrace
+# Copyright (C) 2024 oik bwtrace
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 3.4.0\n"
+"Project-Id-Version: oik bwtrace 3.5.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2023-08-07 17:42:44+00:00\n"
+"POT-Creation-Date: 2024-09-21 09:40:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -170,7 +170,7 @@ msgid "General browser requests"
 msgstr ""
 
 #: admin/oik-bwtrace.php:180 includes/class-trace-command.php:305
-#: includes/oik-actions.php:854
+#: includes/oik-actions.php:861
 msgid "Trace file"
 msgstr ""
 
@@ -179,7 +179,7 @@ msgid "Trace enabled"
 msgstr ""
 
 #: admin/oik-bwtrace.php:182 includes/class-trace-command.php:307
-msgid "Reset trace file every transaction"
+msgid "Reset trace file for every transaction"
 msgstr ""
 
 #: admin/oik-bwtrace.php:183 includes/class-trace-command.php:308
@@ -187,23 +187,23 @@ msgid "Trace file generation limit"
 msgstr ""
 
 #: admin/oik-bwtrace.php:185
-msgid "AJAX requests"
+msgid "Ajax requests"
 msgstr ""
 
 #: admin/oik-bwtrace.php:186 includes/class-trace-command.php:311
-msgid "AJAX trace file"
+msgid "Ajax trace file"
 msgstr ""
 
 #: admin/oik-bwtrace.php:187 includes/class-trace-command.php:312
-msgid "AJAX trace enabled"
+msgid "Ajax trace enabled"
 msgstr ""
 
-#: admin/oik-bwtrace.php:188
-msgid "Reset AJAX trace file every AJAX transaction"
+#: admin/oik-bwtrace.php:188 includes/class-trace-command.php:313
+msgid "Reset Ajax trace file for every Ajax transaction"
 msgstr ""
 
 #: admin/oik-bwtrace.php:189 includes/class-trace-command.php:314
-msgid "AJAX trace file generation limit"
+msgid "Ajax trace file generation limit"
 msgstr ""
 
 #: admin/oik-bwtrace.php:191 includes/class-trace-command.php:316
@@ -219,7 +219,7 @@ msgid "REST trace enabled"
 msgstr ""
 
 #: admin/oik-bwtrace.php:194 includes/class-trace-command.php:319
-msgid "Reset REST trace file every REST transaction"
+msgid "Reset REST trace file for every REST transaction"
 msgstr ""
 
 #: admin/oik-bwtrace.php:195 includes/class-trace-command.php:320
@@ -239,7 +239,7 @@ msgid "Batch trace enabled"
 msgstr ""
 
 #: admin/oik-bwtrace.php:201 includes/class-trace-command.php:326
-msgid "Reset batch trace file each invocation"
+msgid "Reset batch trace file on each invocation"
 msgstr ""
 
 #: admin/oik-bwtrace.php:202 includes/class-trace-command.php:327
@@ -278,8 +278,8 @@ msgstr ""
 msgid "Include post ID"
 msgstr ""
 
-#: admin/oik-bwtrace.php:218 includes/class-trace-command.php:362
-msgid "Include memory/peak usage ( limit %1$s )"
+#: admin/oik-bwtrace.php:218
+msgid "Include memory/peak usage (limit %1$s)"
 msgstr ""
 
 #: admin/oik-bwtrace.php:219 includes/class-trace-command.php:363
@@ -334,40 +334,40 @@ msgstr ""
 msgid "Activate the oik base plugin to enable the [bwtrace] shortcode"
 msgstr ""
 
-#: admin/oik-bwtrace.php:360
+#: admin/oik-bwtrace.php:362
 msgid "Trace file name set to default: bwtrace.log"
 msgstr ""
 
-#: admin/oik-bwtrace.php:431
+#: admin/oik-bwtrace.php:433
 msgid "Invalid Trace files directory."
 msgstr ""
 
-#: includes/bwtrace.php:1082
+#: includes/bwtrace.php:1091
 msgid "Debug level"
 msgstr ""
 
-#: includes/bwtrace.php:1083
-msgid "Information level - standard"
+#: includes/bwtrace.php:1092
+msgid "Information level &ndash; standard"
 msgstr ""
 
-#: includes/bwtrace.php:1084
+#: includes/bwtrace.php:1093
 msgid "Notice level"
 msgstr ""
 
-#: includes/bwtrace.php:1085
+#: includes/bwtrace.php:1094
 msgid "Warning level"
 msgstr ""
 
-#: includes/bwtrace.php:1086
+#: includes/bwtrace.php:1095
 msgid "Error level"
 msgstr ""
 
-#: includes/bwtrace.php:1087
-msgid "Verbose level - noisier than Debug"
+#: includes/bwtrace.php:1096
+msgid "Verbose level &ndash; noisier than Debug"
 msgstr ""
 
-#: includes/class-trace-command.php:313
-msgid "Reset AJAX trace file every transaction"
+#: includes/class-trace-command.php:362
+msgid "Include memory/peak usage ( limit %1$s )"
 msgstr ""
 
 #: includes/class-trace-logs.php:119
@@ -375,7 +375,7 @@ msgid "Trace files directory"
 msgstr ""
 
 #: includes/class-trace-logs.php:120
-msgid "Retention period ( days )"
+msgid "Retention period (days)"
 msgstr ""
 
 #: includes/class-trace-logs.php:121
@@ -398,7 +398,7 @@ msgstr ""
 msgid "Trace reset"
 msgstr ""
 
-#: includes/oik-actions.php:869
+#: includes/oik-actions.php:876
 msgid "Summary file"
 msgstr ""
 
