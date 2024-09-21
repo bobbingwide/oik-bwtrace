@@ -3,15 +3,16 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, ad hoc tracing
 Requires at least: 5.0
-Tested up to: 6.6-RC2
+Tested up to: 6.6.2
 Gutenberg compatible: Yes
 Requires PHP: 5.6
-Stable tag: 3.4.7
+Stable tag: 3.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+Debug trace for WordPress, including ad hoc action hook and filter tracing.
+
 == Description ==
-Debug trace for WordPress, including ad hoc action hook and filter tracing. 
 
 * The primary purpose of debug trace is to help in the development of PHP code: plugins or themes.
 * The primary purpose of action trace is to help you understand the sequence of events in the server.
@@ -19,15 +20,12 @@ Debug trace for WordPress, including ad hoc action hook and filter tracing.
 * The primary purpose of 'string watch' is to track the source of some output.
 * This plugin provides the admin interface to trace functions and methods and action and filter tracing.
 
-
 oik bwtrace does not alter the output of your web pages though there are options
 which cause some output to be written to the browser during 'shutdown' processing.
-
 
 You can also use the oik trace facilities to assist in problem determination in a live site.
 Output is written to files on the server in a user defined trace files directory. 
 When tracing a live or staging site you should ensure that the trace files directory is not publicly accessible.
-
 
 Features:
 
@@ -67,7 +65,6 @@ Ad hoc tracing allows you to:
 * set the priority for the trace hook
 * debug backtrace hook invocation
 * perform 'string watch' to watch for a particular string
- 
 
 The trace record output can include:
 
@@ -135,13 +132,17 @@ Use the contact form on the oik-plugins website.
 9. Daily Trace Summary file
  
 == Upgrade Notice ==
-= 3.4.7 =
-Reconciles the bobbfunc shared library which was changed for a security fix to the oik plugin.
+= 3.5.0 =
+Update for initial support for reporing PHP 8.4's planned end of life 
 
 == Changelog ==
-= 3.4.7 =
-* Changed: Reconcile bobbfunc shared library.
-* Tested: With WordPress 6.6-RC2 and WordPress Multisite
+= 3.5.0 =
+* Changed: Adjust some US English strings to avoid need for translation to UK English #60
+* Fixed: Cater for AJAX actions containing commas and/or quotes #90
+* Fixed: Avoid Notice by checking globals are not WP Errors before comparing #115
+* Fixed: Ensure bobbfunc shared library is loaded before 'shutdown' #117
+* Changed: Add support for reporting PHP 8.4 EOL #116
+* Tested: With WordPress 6.6.2 and WordPress Multisite
 * Tested: With PHPUnit 9.6
 * Tested: With PHP 8.3
 
