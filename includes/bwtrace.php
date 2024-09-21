@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2011-2021, 2023
+<?php // (C) Copyright Bobbing Wide 2011-2021, 2023, 2024
 if ( !defined( 'OIK_BWTRACE_INCLUDES_INCLUDED' ) )  {
 define( 'OIK_BWTRACE_INCLUDES_INCLUDED', true );
  
@@ -1089,11 +1089,11 @@ function bw_lazy_trace2( $value=null, $text=null, $show_args=true, $level=null )
  */
 function bw_list_trace_levels() {
 	$levels = array( BW_TRACE_DEBUG => __( "Debug level", "oik-bwtrace" )
-								 , BW_TRACE_INFO => __( "Information level - standard", "oik-bwtrace" )
+								 , BW_TRACE_INFO => __( "Information level &ndash; standard", "oik-bwtrace" )
 								 , BW_TRACE_NOTICE => __( "Notice level", "oik-bwtrace" )
 								 , BW_TRACE_WARNING => __( "Warning level" , "oik-bwtrace" )
 								 , BW_TRACE_ERROR => __( "Error level", "oik-bwtrace" )
-								 , BW_TRACE_VERBOSE => __( "Verbose level - noisier than Debug", "oik-bwtrace" )
+								 , BW_TRACE_VERBOSE => __( "Verbose level &ndash; noisier than Debug", "oik-bwtrace" )
 								 );
 	return( $levels );
 }

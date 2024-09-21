@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * @copyright (C) Copyright Bobbing Wide 2018-2019
+ * @copyright (C) Copyright Bobbing Wide 2018-2019, 2024
  * @package oik-bwtrace
  * 
  * Trace logs: Summary and purging
@@ -117,7 +117,7 @@ class trace_logs {
 		
 		
 		BW_::bw_textfield_arr( "bw_trace_files_options", __( "Trace files directory", "oik-bwtrace" ), $options, 'trace_directory', 60 );
-		BW_::bw_textfield_arr( "bw_trace_files_options", __( "Retention period ( days )", "oik-bwtrace" ), $options, 'retain', 4 );
+		BW_::bw_textfield_arr( "bw_trace_files_options", __( "Retention period (days)", "oik-bwtrace" ), $options, 'retain', 4 );
         bw_checkbox_arr( "bw_trace_files_options", __( "Enable performance trace", "oik-bwtrace" ), $options, 'performance_trace' );
 
 

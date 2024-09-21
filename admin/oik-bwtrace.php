@@ -1,7 +1,7 @@
 <?php 
 /*
 
-    Copyright 2012-2018, 2023 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2018, 2023, 2024  Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -179,26 +179,26 @@ function oik_trace_options() {
 	bw_tablerow( array( __( "General browser requests", "oik-bwtrace" ) ), "tr", "th" );
   BW_::bw_textfield_arr( "bw_trace_options", __( "Trace file", "oik-bwtrace" ), $options, 'file', 60 );
   bw_checkbox_arr( "bw_trace_options", __( "Trace enabled", "oik-bwtrace" ), $options, 'trace' );
-  bw_checkbox_arr( "bw_trace_options", __( "Reset trace file every transaction", "oik-bwtrace" ), $options, 'reset' );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset trace file for every transaction", "oik-bwtrace" ), $options, 'reset' );
 	BW_::bw_textfield_arr( "bw_trace_options", __( "Trace file generation limit", "oik-bwtrace" ), $options, 'limit', 5 ); 
 	
-	bw_tablerow( array( __( "AJAX requests", "oik-bwtrace" ) ), "tr", "th" );
-  BW_::bw_textfield_arr( "bw_trace_options", __( "AJAX trace file", "oik-bwtrace" ), $options, 'file_ajax', 60 );
-  bw_checkbox_arr( "bw_trace_options", __( "AJAX trace enabled", "oik-bwtrace" ), $options, 'trace_ajax' );
-  bw_checkbox_arr( "bw_trace_options", __( "Reset AJAX trace file every AJAX transaction", "oik-bwtrace" ), $options, 'reset_ajax' );
-	BW_::bw_textfield_arr( "bw_trace_options", __( "AJAX trace file generation limit", "oik-bwtrace" ), $options, 'limit_ajax', 5 ); 
+	bw_tablerow( array( __( "Ajax requests", "oik-bwtrace" ) ), "tr", "th" );
+  BW_::bw_textfield_arr( "bw_trace_options", __( "Ajax trace file", "oik-bwtrace" ), $options, 'file_ajax', 60 );
+  bw_checkbox_arr( "bw_trace_options", __( "Ajax trace enabled", "oik-bwtrace" ), $options, 'trace_ajax' );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset Ajax trace file for every Ajax transaction", "oik-bwtrace" ), $options, 'reset_ajax' );
+	BW_::bw_textfield_arr( "bw_trace_options", __( "Ajax trace file generation limit", "oik-bwtrace" ), $options, 'limit_ajax', 5 );
 	
 	bw_tablerow( array( __( "REST requests", "oik-bwtrace" ) ), "tr", "th" );
   BW_::bw_textfield_arr( "bw_trace_options", __( "REST trace file", "oik-bwtrace" ), $options, 'file_rest', 60 );
   bw_checkbox_arr( "bw_trace_options", __( "REST trace enabled", "oik-bwtrace" ), $options, 'trace_rest' );
-  bw_checkbox_arr( "bw_trace_options", __( "Reset REST trace file every REST transaction", "oik-bwtrace" ), $options, 'reset_rest' );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset REST trace file for every REST transaction", "oik-bwtrace" ), $options, 'reset_rest' );
 	BW_::bw_textfield_arr( "bw_trace_options", __( "REST trace file generation limit", "oik-bwtrace" ), $options, 'limit_rest', 5 ); 
 	
 	
 	bw_tablerow( array( __( "Batch requests", "oik-bwtrace" ) ), "tr", "th" );
   BW_::bw_textfield_arr( "bw_trace_options", __( "Batch trace file", "oik-bwtrace" ), $options, 'file_cli', 60 );
   bw_checkbox_arr( "bw_trace_options", __( "Batch trace enabled", "oik-bwtrace" ), $options, 'trace_cli' );
-  bw_checkbox_arr( "bw_trace_options", __( "Reset batch trace file each invocation", "oik-bwtrace" ), $options, 'reset_cli' );
+  bw_checkbox_arr( "bw_trace_options", __( "Reset batch trace file on each invocation", "oik-bwtrace" ), $options, 'reset_cli' );
 	BW_::bw_textfield_arr( "bw_trace_options", __( "Batch trace file generation limit", "oik-bwtrace" ), $options, 'limit_cli', 5 ); 
 	
 	// Does this need includes/bwtrace.php?
@@ -215,7 +215,7 @@ function oik_trace_options() {
   bw_checkbox_arr( "bw_trace_options", __( "Include post ID", "oik-bwtrace" ), $options, "post_id" );
 	$memory_limit = ini_get( "memory_limit" );
 	bw_trace( $memory_limit, "memory_limit", false, BW_TRACE_DEBUG );
-  bw_checkbox_arr( "bw_trace_options", sprintf( __( 'Include memory/peak usage ( limit %1$s )', "oik-bwtrace" ), $memory_limit ), $options, 'memory' );
+  bw_checkbox_arr( "bw_trace_options", sprintf( __( 'Include memory/peak usage (limit %1$s)', "oik-bwtrace" ), $memory_limit ), $options, 'memory' );
   bw_checkbox_arr( "bw_trace_options", __( "Include files loaded count", "oik-bwtrace" ), $options, 'files' );
 	
   //$current_ip = bw_array_get( $_SERVER, "REMOTE_ADDR", null );

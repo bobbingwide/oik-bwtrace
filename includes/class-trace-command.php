@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) Copyright Bobbing Wide 2018, 2021
+ * @copyright (C) Copyright Bobbing Wide 2018, 2021, 2024
  * @package oik-bwtrace
  */
  
@@ -304,26 +304,26 @@ class trace_command extends WP_CLI_Command {
 		WP_CLI::log( "General browser requests" );
 		$this->display_option( __( "Trace file", "oik-bwtrace" ), "file" );
 		$this->display_option( __( "Trace enabled", "oik-bwtrace" ), "trace" );
-		$this->display_option( __( "Reset trace file every transaction", "oik-bwtrace" ), "reset" );
+		$this->display_option( __( "Reset trace file for every transaction", "oik-bwtrace" ), "reset" );
 		$this->display_option( __( "Trace file generation limit", "oik-bwtrace" ), "limit" );
 		
-		WP_CLI::log( "AJAX requests" );
-		$this->display_option( __( "AJAX trace file", "oik-bwtrace" ), "file_ajax" );
-		$this->display_option( __( "AJAX trace enabled", "oik-bwtrace" ), "trace_ajax" );
-		$this->display_option( __( "Reset AJAX trace file every transaction", "oik-bwtrace" ), "reset_ajax" );
-		$this->display_option( __( "AJAX trace file generation limit", "oik-bwtrace" ), "limit_ajax" );
+		WP_CLI::log( "Ajax requests" );
+		$this->display_option( __( "Ajax trace file", "oik-bwtrace" ), "file_ajax" );
+		$this->display_option( __( "Ajax trace enabled", "oik-bwtrace" ), "trace_ajax" );
+		$this->display_option( __( "Reset Ajax trace file for every Ajax transaction", "oik-bwtrace" ), "reset_ajax" );
+		$this->display_option( __( "Ajax trace file generation limit", "oik-bwtrace" ), "limit_ajax" );
 		
 		WP_CLI::log( __( "REST requests", "oik-bwtrace" ) );
 		$this->display_option( __( "REST trace file", "oik-bwtrace" ), 'file_rest' );
 		$this->display_option( __( "REST trace enabled", "oik-bwtrace" ), 'trace_rest' );
-		$this->display_option( __( "Reset REST trace file every REST transaction", "oik-bwtrace" ), 'reset_rest' );
+		$this->display_option( __( "Reset REST trace file for every REST transaction", "oik-bwtrace" ), 'reset_rest' );
 		$this->display_option( __( "REST trace file generation limit", "oik-bwtrace" ), 'limit_rest' ); 
 		
 		
 		WP_CLI::log( __( "Batch requests", "oik-bwtrace" ) );
 		$this->display_option( __( "Batch trace file", "oik-bwtrace" ), 'file_cli' );
 		$this->display_option( __( "Batch trace enabled", "oik-bwtrace" ), 'trace_cli' );
-		$this->display_option( __( "Reset batch trace file each invocation", "oik-bwtrace" ), 'reset_cli' );
+		$this->display_option( __( "Reset batch trace file on each invocation", "oik-bwtrace" ), 'reset_cli' );
 		$this->display_option( __( "Batch trace file generation limit", "oik-bwtrace" ), 'limit_cli' );
 		 
 		$this->set_args( $args );
