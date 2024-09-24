@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2009-2024
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "3.6.0" );
+define( "BOBBFUNC_INCLUDED", "4.0.0" );
 
 /**
  * HTML output library functions
@@ -21,7 +21,7 @@ define( "BOBBFUNC_INCLUDED", "3.6.0" );
  *
  * @TODO Consider moving this function to the oik_plugins library.
  *
- * In the mean time, if 'oik_plugins' can't be loaded
+ * In the meantime, if 'oik_plugins' can't be loaded
  * we'll assume the version is the same as this library version.
  * 
  * @return string $version e.g. 3.0.0-alpha, 3.0.0-beta.mmdd, 3.0.0-RCn, 3.0.0, 3.0.1
@@ -390,9 +390,11 @@ function sediv( $class=NULL, $id=NULL, $extra=NULL ) {
 
 /**
  * End a paragraph (p) tag
+ *
+ * Renamed from ep() in 4.0.0, which breaks backward compatibility.
  */
-function ep() {
-  bw_echo( '</p>' );
+function bw_ep() {
+	bw_echo( '</p>' );
 }
 
 /** 
