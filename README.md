@@ -7,7 +7,7 @@
 * Tested up to: 6.6.2
 * Gutenberg compatible: Yes
 * Requires PHP: 5.6
-* Stable tag: 3.5.0
+* Stable tag: 4.0.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,16 +133,13 @@ https://github.com/bobbingwide/oik-bwtrace
 9. Daily Trace Summary file
 
 ## Upgrade Notice 
-# 3.5.0 
-Update for initial support for reporing PHP 8.4's planned end of life
+# 4.0.0 
+Resolved function name conflict with ep(). Potentially this is a breaking change, hence the new major version.
 
 ## Changelog 
-# 3.5.0 
-* Changed: Adjust some US English strings to avoid need for translation to UK English #60
-* Fixed: Cater for AJAX actions containing commas and/or quotes #90
-* Fixed: Avoid Notice by checking globals are not WP Errors before comparing #115
-* Fixed: Ensure bobbfunc shared library is loaded before 'shutdown' #117
-* Changed: Add support for reporting PHP 8.4 EOL #116
+# 4.0.0 
+* Changed: Update main and must use plugin versions to 4.0.0 #118
+* Changed: Rename bobbfunc's ep() to bw_ep() to avoid function name conflict #118
 * Tested: With WordPress 6.6.2 and WordPress Multisite
 * Tested: With PHPUnit 9.6
 * Tested: With PHP 8.3
