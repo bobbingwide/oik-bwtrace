@@ -84,7 +84,7 @@ class OIK_trace_summary {
 	 * @return string | null
 	 */
 	private function get_option_value( $name ) {
-		$value = bw_array_get( $this->bw_summary_options, $name, null );
+		$value = bw_array_get( $this->bw_summary_options, $name, '' );
 		return $value;
 	}
 	
@@ -93,14 +93,11 @@ class OIK_trace_summary {
 	 */
 	function get_summary_file_prefix() {
 		$file_prefix = $this->get_option_value( 'summary_file' );
-		$file_prefix = trim( $file_prefix );
+		$file_prefix=trim( $file_prefix );
 		if ( empty( $file_prefix ) ) {
 			$file_prefix = "bwtrace.vt";
-			
 		}
-		
 		return $file_prefix;
-		
 	}
 	
 	
