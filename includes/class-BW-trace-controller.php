@@ -452,7 +452,7 @@ class BW_trace_controller {
 	 */
 	
 	function trace_startup() {
-		$levels = bw_list_trace_levels();
+		$levels = bw_list_trace_levels(false );
 		$bw_trace_level = $this->get_trace_level();
 		$trace_level_text = bw_array_get( $levels, $bw_trace_level, "Unknown" );
 		bw_trace2( $bw_trace_level, "Trace level: $trace_level_text", false );
