@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 3.5.0\n"
+"Project-Id-Version: oik bwtrace 4.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2024-09-21 09:40:21+00:00\n"
+"POT-Creation-Date: 2024-11-13 10:57:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,7 +29,7 @@ msgid "WordPress version"
 msgstr ""
 
 #: admin/class-oik-trace-info.php:59
-msgid "Set to off for better detection of Notice: Undefined messages"
+msgid "Set to \"off\" for better detection of Notice: Undefined messages"
 msgstr ""
 
 #: admin/class-oik-trace-info.php:67
@@ -170,7 +170,7 @@ msgid "General browser requests"
 msgstr ""
 
 #: admin/oik-bwtrace.php:180 includes/class-trace-command.php:305
-#: includes/oik-actions.php:861
+#: includes/oik-actions.php:865
 msgid "Trace file"
 msgstr ""
 
@@ -342,27 +342,27 @@ msgstr ""
 msgid "Invalid Trace files directory."
 msgstr ""
 
-#: includes/bwtrace.php:1091
+#: includes/bwtrace.php:1097
 msgid "Debug level"
 msgstr ""
 
-#: includes/bwtrace.php:1092
+#: includes/bwtrace.php:1098
 msgid "Information level &ndash; standard"
 msgstr ""
 
-#: includes/bwtrace.php:1093
+#: includes/bwtrace.php:1099
 msgid "Notice level"
 msgstr ""
 
-#: includes/bwtrace.php:1094
+#: includes/bwtrace.php:1100
 msgid "Warning level"
 msgstr ""
 
-#: includes/bwtrace.php:1095
+#: includes/bwtrace.php:1101
 msgid "Error level"
 msgstr ""
 
-#: includes/bwtrace.php:1096
+#: includes/bwtrace.php:1102
 msgid "Verbose level &ndash; noisier than Debug"
 msgstr ""
 
@@ -398,7 +398,7 @@ msgstr ""
 msgid "Trace reset"
 msgstr ""
 
-#: includes/oik-actions.php:876
+#: includes/oik-actions.php:880
 msgid "Summary file"
 msgstr ""
 

@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the oik bwtrace package.
 msgid ""
 msgstr ""
-"Project-Id-Version: oik bwtrace 3.5.0\n"
+"Project-Id-Version: oik bwtrace 4.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-bwtrace\n"
-"POT-Creation-Date: 2024-09-21 09:40:21+00:00\n"
+"POT-Creation-Date: 2024-11-13 10:57:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
 "Language: en_GB\n"
@@ -30,8 +30,8 @@ msgid "WordPress version"
 msgstr "WordPress version"
 
 #: admin/class-oik-trace-info.php:59
-msgid "Set to off for better detection of Notice: Undefined messages"
-msgstr "Set to off for better detection of Notice: Undefined messages"
+msgid "Set to \"off\" for better detection of Notice: Undefined messages"
+msgstr "Set to \"off\" for better detection of Notice: Undefined messages"
 
 #: admin/class-oik-trace-info.php:67
 msgid "Multisite"
@@ -171,7 +171,7 @@ msgid "General browser requests"
 msgstr "General browser requests"
 
 #: admin/oik-bwtrace.php:180 includes/class-trace-command.php:305
-#: includes/oik-actions.php:861
+#: includes/oik-actions.php:865
 msgid "Trace file"
 msgstr "Trace file"
 
@@ -343,27 +343,27 @@ msgstr "Trace file name set to default: bwtrace.log"
 msgid "Invalid Trace files directory."
 msgstr "Invalid Trace files directory."
 
-#: includes/bwtrace.php:1091
+#: includes/bwtrace.php:1097
 msgid "Debug level"
 msgstr "Debug level"
 
-#: includes/bwtrace.php:1092
+#: includes/bwtrace.php:1098
 msgid "Information level &ndash; standard"
 msgstr "Information level &ndash; standard"
 
-#: includes/bwtrace.php:1093
+#: includes/bwtrace.php:1099
 msgid "Notice level"
 msgstr "Notice level"
 
-#: includes/bwtrace.php:1094
+#: includes/bwtrace.php:1100
 msgid "Warning level"
 msgstr "Warning level"
 
-#: includes/bwtrace.php:1095
+#: includes/bwtrace.php:1101
 msgid "Error level"
 msgstr "Error level"
 
-#: includes/bwtrace.php:1096
+#: includes/bwtrace.php:1102
 msgid "Verbose level &ndash; noisier than Debug"
 msgstr "Verbose level &ndash; noisier than Debug"
 
@@ -399,7 +399,7 @@ msgstr "Purging old daily summary trace files"
 msgid "Trace reset"
 msgstr "Trace reset"
 
-#: includes/oik-actions.php:876
+#: includes/oik-actions.php:880
 msgid "Summary file"
 msgstr "Summary file"
 
