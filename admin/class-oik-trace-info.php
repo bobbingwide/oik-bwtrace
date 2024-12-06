@@ -56,7 +56,7 @@ class OIK_trace_info {
 		$this->display_ini( "display_errors", "string", $this->as_url( "http://php.net/manual/en/errorfunc.configuration.php#ini.display-errors" ) );
 		$this->display_ini( "log_errors", "bool", $this->as_url( "http://php.net/manual/en/errorfunc.configuration.php#ini.log-errors" ) );
 		$this->display_ini( "error_log", "string", $this->as_url( "http://php.net/manual/en/errorfunc.configuration.php#ini.error-log" ) );
-		$this->display_ini( "output_buffering", "string", __( "Set to off for better detection of Notice: Undefined messages", "oik-bwtrace" ) );
+		$this->display_ini( "output_buffering", "string", __( "Set to \"off\" for better detection of Notice: Undefined messages", "oik-bwtrace" ) );
 		
 		//ini_set( "implicit_flush", true );
 		$this->display_ini( "implicit_flush", "bool", $this->as_url( "http://php.net/manual/en/outcontrol.configuration.php#ini.implicit-flush" ) );
