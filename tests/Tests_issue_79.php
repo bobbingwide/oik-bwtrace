@@ -28,7 +28,11 @@ class Tests_issue_79 extends BW_UnitTestCase {
 				}
 				break;
 			case '4':
-				$expected = 'End of life for your version of PHP is: 2022-11-28';
+				if ( '8' === $phpversion[0]) {
+					$expected='End of life for your version of PHP is: 2028-12-31';
+				} else {
+					$expected='End of life for your version of PHP is: 2022-11-28';
+				}
 				break;
 			case '0':
 				$expected = 'End of life for your version of PHP was: 2023-11-26';

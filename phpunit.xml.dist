@@ -1,15 +1,9 @@
-<phpunit
-	bootstrap="../../plugins/oik-batch/oik-wp.php"
-	backupGlobals="false"
-	colors="false"
-	convertErrorsToExceptions="true"
-	convertNoticesToExceptions="true"
-	convertWarningsToExceptions="true"
-	>
-	<!-- for PHPUnit 4.8.0 or 5.5.2 -->
-	<testsuites>
-		<testsuite name="oik-bwtrace">
-			<directory prefix="test-" suffix=".php">tests/</directory>
-		</testsuite>
-	</testsuites>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="../../plugins/oik-batch/oik-wp.php" backupGlobals="false" colors="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache">
+  <!-- for PHPUnit 4.8.0 or 5.5.2 -->
+  <testsuites>
+    <testsuite name="oik-bwtrace">
+      <directory prefix="Tests_" suffix=".php">tests/</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

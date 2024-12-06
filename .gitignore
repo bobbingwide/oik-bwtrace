@@ -2,3 +2,5 @@
 flh0grep.*
 tests/bwtrace/
 .phpunit.result.cache
+
+.phpunit.cache/

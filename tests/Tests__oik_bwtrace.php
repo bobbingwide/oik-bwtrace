@@ -6,7 +6,7 @@
  * 
  * Tests for logic in oik-bwtrace.php
  */
-class Tests_oik_bwtrace extends BW_UnitTestCase {
+class Tests__oik_bwtrace extends BW_UnitTestCase {
 
 	public $bw_trace_on = null;
 	public $bw_trace_options;
