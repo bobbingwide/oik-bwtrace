@@ -188,6 +188,7 @@ class BW_trace_record {
 		$ref .= bw_trace_post_id();
 		$ref .= bw_get_memory_usage();
 		$ref .= bw_trace_file_count();
+		$ref .= bw_trace_locale();
 		$ref .= $text_label;
 		$ref .= " ";
 		/** Only print text in a performance trace if it's scalar */
