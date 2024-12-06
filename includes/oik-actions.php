@@ -470,7 +470,7 @@ function bw_trace_query_plugins() {
  * Show some really basic stuff about the PHP version, and number of functions and classes implemented
  * 
  * This is in addition to other stuff produced by oik-bwtrace
- * Not need to show number of db_queries as this is already (optionally) included in the trace record
+ * No need to show number of db_queries as this is already (optionally) included in the trace record
  * BUT we could sum the time spent in the DB
  * AND we could sum the time spent tracing
  * which 'could' give us the execution time doing other things
@@ -531,6 +531,14 @@ function bw_trace_status_report() {
 	$func( $hook_count , 'Hook count', false );
 	$remote_addr = bwtrace_get_remote_addr();
 	$func( $remote_addr, "Remote addr", false );
+	$theme_data = wp_get_theme();
+	$theme = $theme_data->get( 'Name');
+	$theme .= ' ';
+	$theme .= $theme_data->get( 'Version');
+	$theme .= ' ';
+	$theme .= $theme_data->get( 'Template');
+	bw_trace2( $theme, "theme", false );
+	$func( $theme,  'Theme' );
 	$elapsed = bw_trace_timer_stop( false, 6 );
 	// Do this regardless 
 	if ( $bw_trace_on ) { 
@@ -839,12 +847,16 @@ function bw_trace_purge_if_no_errors() {
 
 function bw_trace_url_link() {
     global $bw_trace;
+
     if ( PHP_SAPI === "cli" ) {
         return;
     }
     if ( $bw_trace && bw_trace_ok_to_echo() ) {
+	bw_trace2( 'OKtoecho', 'OK!', false);
         bw_trace_trace_file_link();
         bw_trace_daily_trace_summary_file_link();
+    } else {
+		bw_trace2('notOKtoecho', 'OK?', false );
     }
 
     //echo $url;
@@ -867,7 +879,7 @@ function bw_trace_daily_trace_summary_file_link() {
     // $bw_trace;
     global $bw_trace_summary;
     //print_r( $bw_trace_summary );
-    if ( $bw_trace_summary && $bw_trace_summary->bw_summary_options['trace_status_report'] ) {
+    if ( $bw_trace_summary && $bw_trace_summary->bw_summary_options && $bw_trace_summary->bw_summary_options['trace_status_report'] ) {
         $url = $bw_trace_summary->get_daily_trace_summary_file_url();
         $extras = kv('target', '_blank');
         if (is_admin()) {
