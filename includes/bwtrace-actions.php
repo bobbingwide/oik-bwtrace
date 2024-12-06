@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2015-2018
+<?php // (C) Copyright Bobbing Wide 2015-2018, 2024
  
 /**
  * Load the global bw_action_options
@@ -120,6 +120,7 @@ function bw_trace_add_selected_actions() {
 	bw_trace_add_trace_rest();
 	bw_trace_http_raw_post_data();
 	bw_trace_plugins_loaded();
+	bw_trace_add_determine_locale_filter();
 }
 
 /**
@@ -252,7 +253,7 @@ function bw_trace_errno( $errno ) {
  , E_USER_ERROR => "User Error"
  , E_USER_WARNING => "User Warning"
  , E_USER_NOTICE => "User Notice"
- , E_STRICT => "Runtime Notice"
+ //, E_STRICT => "Runtime Notice" - deprecated as of PHP 8.4 - apparently it's not used
  , E_RECOVERABLE_ERROR => "Catchable Fatal Error"
  , E_DEPRECATED => "Deprecated"
  , E_USER_DEPRECATED => "User Deprecated"
@@ -495,7 +496,6 @@ function bw_trace_plugins_loaded() {
 	// This hook caters for network activated plugins as well.
 	add_action( 'muplugins_loaded', 'bw_trace_time_plugin_loaded',-9999);
 }
-
 /**
  * Records the time the plugin was loaded.
  *
