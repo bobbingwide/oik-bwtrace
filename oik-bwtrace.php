@@ -120,6 +120,7 @@ function bw_trace_plugin_startup() {
 			add_action( "plugins_loaded", "bw_trace_count_plugins_loaded" );
 			add_action( "muplugins_loaded", "bw_trace_count_plugins_loaded" );
 		}
+		bw_trace_add_determine_locale_filter();
 	} 
 	 
 	if ( $tracing ) {
@@ -128,6 +129,29 @@ function bw_trace_plugin_startup() {
 	add_action( "wp_loaded", "oik_bwtrace_plugins_loaded", 9 );
 	add_filter( "oik_query_libs", "oik_bwtrace_query_libs", 12 );
 	//add_filter( "get_the_generator_xhtml", "oik_bwtrace_get_the_generator", 10, 2 );
+}
+
+/**
+ * Enables tracing of the locale used for translation.
+ *
+ * @return void
+ */
+function bw_trace_add_determine_locale_filter() {
+	add_filter( 'determine_locale', 'bw_trace_determine_locale', 9999 );
+}
+
+/**
+ * Saves/gets the determined_locale.
+ *
+ * @param $locale - pass a value of null to retrieve the latest value set.
+ * @return mixed|null
+ */
+function bw_trace_determine_locale( $locale=null ) {
+	static $determined_locale=null;
+	if ( $locale !== null ) {
+		$determined_locale=$locale;
+	}
+	return $determined_locale;
 }
 
 /**
