@@ -436,6 +436,31 @@ function bw_trace_file_count() {
 }
 
 /**
+ * Trace the locale(s).
+ *
+ * Returns a string showing the current locale and determined_locale.
+ * Note: the period helps you know if the locale was set before the determined locale.
+ *
+ * $locale | $determined_locale | returned value
+ * -------- | ------------- | -----------
+ * null | null | ' '
+ * null | cy_LA | '.cy_LA '
+ * cy_LA | null | 'cy_LA '
+ * cy_LA | cy_LA | 'cy_LA '
+ * cy_LA | di_FF | 'cy_LA.di_FF '
+ *
+ * @return string
+ */
+function bw_trace_locale() {
+	global $locale;
+	$determined_locale = bw_trace_determine_locale();
+	if ( $locale != $determined_locale) {
+		return $locale . '.' . $determined_locale . ' ' ;
+	}
+	return $locale . ' ';
+}
+
+/**
  *
  * Link https://www.php.net/manual/en/function.ini-get.php
  * @param $val
