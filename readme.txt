@@ -3,10 +3,10 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: debug, trace, backtrace, ad hoc tracing
 Requires at least: 5.0
-Tested up to: 6.6.2
+Tested up to: 6.8
 Gutenberg compatible: Yes
 Requires PHP: 5.6
-Stable tag: 4.0.0
+Stable tag: 4.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,16 +132,23 @@ Use the contact form on the oik-plugins website.
 9. Daily Trace Summary file
  
 == Upgrade Notice ==
-= 4.0.0 =
-Resolved function name conflict with ep(). Potentially this is a breaking change, hence the new major version.
+= 4.1.0 =
+Updated to support PHP 8.4.
 
 == Changelog ==
-= 4.0.0 =
-* Changed: Update main and must use plugin versions to 4.0.0 #118
-* Changed: Rename bobbfunc's ep() to bw_ep() to avoid function name conflict #118
-* Tested: With WordPress 6.6.2 and WordPress Multisite
-* Tested: With PHPUnit 9.6
-* Tested: With PHP 8.3
+= 4.1.0 =
+* Changed: Migrate PHPUnit tests to PHPUnit 10 & 11 #116
+* Changed: Add bw_trace_determine_locale() hook for 'determine_locale' filter #120
+* Changed: Add Theme info to trace status report #121.
+* Changed: Call bw_trace_locale() #120
+* Changed: Add bw_trace_locale() #120
+* Changed: Support PHP 8.4 #116
+* Changed: Add locale info to trace records #120
+* Changed: Don't perform translations too early #120
+* Fixed: Avoid message when trace summary file prefix isn't set #116
+* Tested: With WordPress 6.8 and WordPress Multisite
+* Tested: With PHPUnit 10
+* Tested: With PHP 8.3 and PHP 8.4
 
 == Further reading ==
 If you want to read more about the oik plugins then please visit the
