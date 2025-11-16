@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2024
+<?php // (C) Copyright Bobbing Wide 2009-2025
 if ( !defined( "BOBBFUNC_INCLUDED" ) ) {
-define( "BOBBFUNC_INCLUDED", "4.0.0" );
+define( "BOBBFUNC_INCLUDED", "4.1.0" );
 
 /**
  * HTML output library functions
@@ -130,16 +130,25 @@ function bw_do_shortcode( $content ) {
 }
 
 /**
- * Return an image tag
- * 
+ * Returns an image tag.
+ *
+ * Notes:
+ * - This function does not handle an id= attribute
+ * - For a11y we no longer set the title attribute.
+ *   - Screen readers prefer the alt attribute.
+ *   - WAVE produces an alert when both title and alt are set.
+ * - If you really want to set the title then use the $extras parameter.
+ *
+ * Note: This function does not handle an id= attribute
+ *
  * @param string $class  CSS classes for this image
  * @param string $jpg file name of the image (src=)
- * @param string $title value for the title= and alt= attributes
+ * @param string $title value for alt= attribute.
  * @param string $width width of the image
  * @param string $height height of the image
+ * @param string $extras other attribute keyword value pairs you may need
+ *
  * @return string HTML of the img tag
- 
- * Note: This function does not handle an id= attribute
  */
 function retimage( $class, $jpg, $title=NULL, $width=NULL, $height=NULL, $extras=null ) {
   $img = '<img class="' .  $class . '" ';  
@@ -150,7 +159,7 @@ function retimage( $class, $jpg, $title=NULL, $width=NULL, $height=NULL, $extras
     $img .= 'height="' . $height . '" ';
   if ( !is_null( $title ) ) {
     $title = strip_tags( $title );
-    $img .= 'title="' . $title . '" ';
+    //$img .= 'title="' . $title . '" ';
     $img .= 'alt="' . $title . '" ';
   } 
   if ( $extras ) { 
@@ -241,7 +250,7 @@ function alink( $class, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL )
 }
 
 /**
- * Return a well formed link
+ * Returns a well-formed link.
  *
  * Parameters as for `alink()`
  *
@@ -255,6 +264,9 @@ function alink( $class, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL )
  * 
  */
 function retlink( $class, $url, $linktori=NULL, $alt=NULL, $id=NULL, $extra=NULL  ) {
+	if ( !$url ) {
+		return '';
+	}
   if ( is_null( $linktori ) )	{
     $linktori = $url;
 	}
