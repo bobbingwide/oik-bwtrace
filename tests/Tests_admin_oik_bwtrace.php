@@ -76,7 +76,11 @@ class Tests_admin_oik_bwtrace extends BW_UnitTestCase {
 		$this->assertArrayEqualsFile( $html );
 		$this->switch_to_locale( 'en_GB' );
 	}
-	
+
+	/**
+	 * For this test to work the Time plugin loading checkbox needs to be set. Herb 2025/11/16
+	 * @return void
+	 */
 	function test_bw_action_options_do_page() {
 		//$this->setExpectedDeprecated( "bw_translate" );
 		$_SERVER['REQUEST_URI'] = "/";
