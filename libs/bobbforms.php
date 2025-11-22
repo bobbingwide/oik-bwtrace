@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2023
+<?php // (C) Copyright Bobbing Wide 2009-2025
 if ( !defined( "BOBBFORMS_INCLUDED" ) ) {
-define( "BOBBFORMS_INCLUDED", "3.4.2" );
+define( "BOBBFORMS_INCLUDED", "3.4.3" );
 
 /**
  * Library: bobbforms
@@ -123,6 +123,7 @@ function iarea( $name, $len, $value, $rows=10, $extras=null ) {
 	$it .= kv( "rows", $rows);
 	$it .= kv( "cols", $len );
 	$it .= kv( "name", $name );
+	$it .= kv( "id", $name );
 	$it .= $extras;
 	$it .= ">";
 	$it .= $value;
@@ -516,9 +517,9 @@ function iselect( $name, $value, $args ) {
 	//bw_trace2();
 	$multiple = bw_array_get( $args, "#multiple", false );
 	if ( $multiple ) {
-		$iselect = "<select name=\"{$name}[]\" multiple size=\"$multiple\">" ;
+		$iselect = "<select name=\"{$name}[]\" id=\"{$name}\" multiple size=\"$multiple\">" ;
 	} else {
-		$iselect = "<select name=\"$name\">" ;
+		$iselect = "<select name=\"$name\" id=\"{$name}\">" ;
 	}
 	$options = bw_as_array( $args['#options'] );
 	$optional = bw_array_get( $args, "#optional", false );
