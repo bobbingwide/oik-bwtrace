@@ -1,6 +1,6 @@
-<?php // (C) Copyright BobbingWide 2017-2023
+<?php // (C) Copyright BobbingWide 2017-2025
 if ( !defined( "CLASS_BW__INCLUDED" ) ) {
-define( "CLASS_BW__INCLUDED", "3.3.2" );
+define( "CLASS_BW__INCLUDED", "3.3.3" );
 
 /**
  * More HTML output library functions
@@ -69,8 +69,8 @@ class BW_ {
 	static function oik_menu_header( $title="Overview", $class="w70pc" ) {
 		oik_enqueue_scripts();
 		e( wp_nonce_field( "closedpostboxes", "closedpostboxesnonce", false, false ) );
-		sdiv( "wrap" ); 
-		h2( $title ); 
+		sdiv( "wrap" );
+		h1( $title );
 		scolumn( $class );
 	}
 
@@ -91,8 +91,13 @@ class BW_ {
 			}
 		}  
 		sdiv( "postbox $class", $id );
+		sdiv( "postbox-header");
+		h2( $title, "hndle" );
+		sdiv( "handle-actions hide-if-no-js");
+
 		self::oik_handlediv( $title );
-		h3( $title, "hndle" );
+		ediv("handle-actions hide-if-no-js");
+		ediv( 'postbox-header' );
 		sdiv( "inside" );
 		call_user_func( $callback );
 		ediv( "inside" );
