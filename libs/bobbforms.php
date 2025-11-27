@@ -1,6 +1,6 @@
 <?php // (C) Copyright Bobbing Wide 2009-2025
 if ( !defined( "BOBBFORMS_INCLUDED" ) ) {
-define( "BOBBFORMS_INCLUDED", "3.4.3" );
+define( "BOBBFORMS_INCLUDED", "3.4.4" );
 
 /**
  * Library: bobbforms
@@ -585,7 +585,11 @@ function icheckbox( $name, $value=NULL, $disabled=false ) {
 	} 
 	if ( $disabled ) {
 		$it .= kv( "disabled", "disabled" );
-	}   
+	}
+	/**
+	 * Attempt to please the WAVE a11y tool.
+	 */
+	$it .= kv("aria-label", $name);
 	$it.= "/>"; 
 	return $it;
 }
