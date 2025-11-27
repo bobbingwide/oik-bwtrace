@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2011-2017
+<?php // (C) Copyright Bobbing Wide 2011-2017, 2025
 if ( !defined( "OIK_ADMIN_INCLUDED" ) ) {
-define( "OIK_ADMIN_INCLUDED", "3.2.0" );
+define( "OIK_ADMIN_INCLUDED", "3.3.0" );
 
 /**
  *
@@ -52,8 +52,13 @@ function bw_load_plugin( $set="bw_buttons", $option="oik-button-shortcodes", $pl
 			$id = $callback;
 		}  
 		sdiv( "postbox $class", $id );
+		sdiv("postbox-header");
+		h2( $title, "hndle" );
+		sdiv( "handle-actions hide-if-no-js");
+
 		oik_handlediv( $title );
-		h3( $title, "hndle" );
+		ediv("handle-actions hide-if-no-js");
+		ediv( 'postbox-header' );
 		sdiv( "inside" );
 		call_user_func( $callback );
 		ediv( "inside" );
@@ -66,6 +71,7 @@ function bw_load_plugin( $set="bw_buttons", $option="oik-button-shortcodes", $pl
 	 * @param string $title - translated title
 	 */
 	function oik_handlediv( $title ) {
+		/* translators: %s: panel title */
 		$title = sprintf( __( 'Toggle panel: %s' ), $title );
 		e( '<button type="button" class="handlediv" aria-expanded="true">' );
 		e( '<span class="screen-reader-text">' . $title . '</span>' );
@@ -111,7 +117,7 @@ function oik_menu_header( $title="Overview", $class="w70pc" ) {
 	oik_enqueue_scripts();
 	e( wp_nonce_field( "closedpostboxes", "closedpostboxesnonce", false, false ) );
 	sdiv( "wrap" ); 
-	h2( bw_translate( $title ) ); 
+	h1( bw_translate( $title ) );
 	scolumn( $class );
 }
 
@@ -188,6 +194,7 @@ function oik_enqueue_scripts() {
 	//wp_enqueue_script( 'jquery-ui-selectable' );
 	//wp_enqueue_script( 'wp-pointer' ); 
 	//wp_enqueue_script( 'utils' );
+	wp_enqueue_script( 'disable_postbox_save' );
 }
 
 } /* end !defined() */
