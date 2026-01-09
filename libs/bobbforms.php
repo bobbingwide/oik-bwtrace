@@ -1,6 +1,6 @@
-<?php // (C) Copyright Bobbing Wide 2009-2025
+<?php // (C) Copyright Bobbing Wide 2009-2026
 if ( !defined( "BOBBFORMS_INCLUDED" ) ) {
-define( "BOBBFORMS_INCLUDED", "3.4.4" );
+define( "BOBBFORMS_INCLUDED", "3.4.5" );
 
 /**
  * Library: bobbforms
@@ -733,8 +733,9 @@ function bw_textarea_cb_arr( $name, $text, $array, $index, $len, $rows=5 ) {
 if ( !function_exists( "bw_form_start" ) ) { 
 	function bw_form_start( $option, $settings, $action="options.php" ) {
 		bw_form( $action );
-		$options = get_option( $option );   
-		stag( 'table', "form-table" );
+		$options = get_option( $option );
+		bw_table_or_grid_start( null, 'form-table');
+		//stag( 'table', "form-table" );
 		bw_flush();
 		settings_fields( $settings );
 		return( $options );
@@ -814,10 +815,10 @@ if ( !function_exists( "bw_verify_nonce" ) ) {
  * @since v3.4.0
  * @param null $table
  */
-function bw_table_or_grid_start( $table=null ) {
-    bw_is_table( $table );
+function bw_table_or_grid_start( $table=null, $class=null ) {
+    $table = bw_is_table( $table );
     if ( $table ) {
-        stag( 'table');
+        stag( 'table', null);
     } else {
         sdiv( 'bw_grid');
     }
